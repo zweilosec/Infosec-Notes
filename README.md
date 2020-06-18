@@ -8,31 +8,29 @@ description: >-
 
 Notes from various sources for Penetration testing, OSCP, Capture the Flag challenges, and Vulnhub/ Hack the Box machines and challenges.
 
-## [Linux](notes.md#linux)
+## [Linux](Linux.md)
 
-* \*\*\*\*[**Enumeration**](notes.md#enumeration)\*\*\*\*
-* \*\*\*\*[**Upgrading Shells**](notes.md#upgrade-shells)\*\*\*\*
-* \*\*\*\*[**TMUX**](notes.md#tmux)\*\*\*\*
-* \*\*\*\*[**Privilege Escalation**](notes.md#privilege-escalation)\*\*\*\*
-* \*\*\*\*[**Miscellaneous**](notes.md#misc-linux)\*\*\*\*
+* \*\*\*\*[**Enumeration**](Linux.md#enumeration)\*\*\*\*
+* \*\*\*\*[**Upgrading Shells**](Linux.md#upgrade-shells)\*\*\*\*
+* \*\*\*\*[**TMUX**](Linux.md.md#tmux)\*\*\*\*
+* \*\*\*\*[**Privilege Escalation**](Linux.md#privilege-escalation)\*\*\*\*
+* \*\*\*\*[**Miscellaneous**](Linux.md#misc-linux)\*\*\*\*
 
-## [Windows](notes.md#windows)
+## [Windows](Windows.md)
 
-* \*\*\*\*[**Enumeration**](notes.md#enumeration-1)\*\*\*\*
-* \*\*\*\*[**Unsorted \(WIP!\)**](notes.md#unsorted)\*\*\*\*
+* \*\*\*\*[**Enumeration**](Windows.md#enumeration-1)\*\*\*\*
+* \*\*\*\*[**Unsorted \(WIP!\)**](Windows.md#unsorted)\*\*\*\*
 
-## [OS Agnostic](notes.md#miscelaneous)
+## [OS Agnostic](OS_Agnostic.md)
 
-* \*\*\*\*[**Encryption/Decryption**](notes.md#encryption-decryption)\*\*\*\*
-* \*\*\*\*[**Binary Exploitation**](notes.md#binary-exploitation)\*\*\*\*
-* \*\*\*\*[**HTTP/Web**](notes.md#http)\*\*\*\*
-* \*\*\*\*[**SQL**](notes.md#sql)\*\*\*\*
-* \*\*\*\*[**DNS**](notes.md#dns)\*\*\*\*
-* \*\*\*\*[**Steganography**](notes.md#steganography)\*\*\*\*
-* \*\*\*\*[**SSH**](notes.md#ssh)\*\*\*\*
-* \*\*\*\*[**Unsorted/Misc.**](notes.md#unsorted-1)\*\*\*\*
+* \*\*\*\*[**Encryption/Decryption**](OS_Agnostic.md#encryption-decryption)\*\*\*\*
+* \*\*\*\*[**Binary Exploitation**](OS_Agnostic.md#binary-exploitation)\*\*\*\*
+* \*\*\*\*[**HTTP/Web**](OS_Agnostic.md#http)\*\*\*\*
+* \*\*\*\*[**SQL**](OS_Agnostic.md#sql)\*\*\*\*
+* \*\*\*\*[**DNS**](OS_Agnostic.md#dns)\*\*\*\*
+* \*\*\*\*[**Steganography**](OS_Agnostic.md#steganography)\*\*\*\*
+* \*\*\*\*[**SSH**](OS_Agnostic.md#ssh)\*\*\*\*
+* \*\*\*\*[**Unsorted/Misc.**](OS_Agnostic.md#unsorted-1)\*\*\*\*
 
-### [CTF Write-ups \(outside sources\)](notes.md#write-ups)
-
-### [CTF Tools and Cheatsheets \(outside sources\)](notes.md#ctf-tools-and-cheatsheets)
+### [CTF Tools and Cheatsheets \(outside sources\)](Tools-Cheatsheets.md)
 
