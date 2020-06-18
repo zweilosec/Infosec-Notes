@@ -6,7 +6,7 @@ description: >-
 
 # Hacker's Rest
 
-Notes from various sources for Penetration testing, Capture the Flag challenges, and Vulnhub/ Hack the Box attempts.
+Notes from various sources for Penetration testing, OSCP, Capture the Flag challenges, and Vulnhub/ Hack the Box machines and challenges.
 
 ## [Linux](notes.md#linux)
 
