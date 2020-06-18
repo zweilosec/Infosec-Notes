@@ -36,3 +36,6 @@ Notes from various sources for Penetration testing, OSCP, Capture the Flag chall
 
 ### [CTF Tools and Cheatsheets \(outside sources\)](notes.md#ctf-tools-and-cheatsheets)
 
+  
+If you like this content and would like to see more, please consider supporting me through Patreon at [https://www.patreon.com/zweilosec](https://www.patreon.com/zweilosec).
+
