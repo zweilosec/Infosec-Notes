@@ -1,4 +1,4 @@
-# CTF Notes
+# OSCP Prep Notes
 
 ## Linux
 
