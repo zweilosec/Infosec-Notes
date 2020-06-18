@@ -425,3 +425,6 @@ ip6tables - iptables for ipv6
 * [https://nikolaskama.me/infosec-cheat-sheets/](https://nikolaskama.me/infosec-cheat-sheets/)
 * [https://www.peerlyst.com/posts/the-complete-list-of-infosec-related-cheat-sheets-claus-cramon](https://www.peerlyst.com/posts/the-complete-list-of-infosec-related-cheat-sheets-claus-cramon)
 
+  
+If you like this content and would like to see more, please consider supporting me through Patreon at [https://www.patreon.com/zweilosec](https://www.patreon.com/zweilosec).
+
