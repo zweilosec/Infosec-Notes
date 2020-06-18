@@ -1,4 +1,10 @@
-# Table of Contents
+---
+description: >-
+  A collection of notes for Penetration Testers and Ethical Hackers.  My journey
+  to OSCP and beyond.
+---
+
+# Hacker's Rest
 
 Notes from various sources for Penetration testing, Capture the Flag challenges, and Vulnhub/ Hack the Box attempts.
 
