@@ -18,7 +18,7 @@ Notes from various sources for Penetration testing, OSCP, Capture the Flag chall
 
 ## [Windows](Windows.md)
 
-* \*\*\*\*[**Enumeration**](Windows.md#enumeration-1)\*\*\*\*
+* \*\*\*\*[**Enumeration**](Windows.md#enumeration)\*\*\*\*
 * \*\*\*\*[**Unsorted \(WIP!\)**](Windows.md#unsorted)\*\*\*\*
 
 ## [OS Agnostic](OS_Agnostic.md)
