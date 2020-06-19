@@ -8,6 +8,10 @@ description: >-
 
 Notes from various sources for Penetration testing, OSCP, Capture the Flag challenges, and Vulnhub/ Hack the Box machines and challenges.
 
+**Warning** - These notes are very raw and largely unformatted right now.  If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at:
+
+{% embed url="https://github.com/zweilosec/CTF-Notes/" %}
+
 ## [Linux](linux.md)
 
 * [**Enumeration**](linux.md#enumeration)
@@ -33,4 +37,6 @@ Notes from various sources for Penetration testing, OSCP, Capture the Flag chall
 * [**Unsorted/Misc.**](os_agnostic.md#unsorted)
 
 ### [CTF Tools and Cheatsheets \(outside sources\)](tools-cheatsheets.md)
+
+If you like this content and would like to see more, please consider supporting me through Patreon at [https://www.patreon.com/zweilosec](https://www.patreon.com/zweilosec).
 
