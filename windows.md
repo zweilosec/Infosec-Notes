@@ -1,14 +1,14 @@
-## Windows
+# Windows
 
 living off the land binaries: [LOLBAS](https://lolbas-project.github.io/)
 
-### Enumeration
+## Enumeration
 
 Windows Privilege Escalation Enumeration Script: [WinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 Little bit o' everything: [PowerSploit](https://github.com/PowerShellMafia/PowerSploit/)
 
-### Unsorted
+## Unsorted
 
 Powershell full path: `C:\Windows\SysNative\WindowsPowershell\v1.0\powershell.exe`
 
@@ -46,3 +46,4 @@ Powershell privilege escalation:
 check what updates are installed: `type WindowsUpdate.log`
 
 net use share from linux \[like SimpleHTTPServer for Samba\]: `impacket-smbserver <sharename> '<dir_to_share>'`
+

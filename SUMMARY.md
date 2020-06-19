@@ -1,7 +1,8 @@
 # Table of contents
 
 * [Hacker's Rest](README.md)
-* [Linux](Linux.md)
-* [Windows](Windows.md)
-* [OS Agnostic](OS_Agnostic.md)
-* [Tools & Cheatsheets](Tools-Cheatsheets.md)
+* [Linux](linux.md)
+* [Windows](windows.md)
+* [OS Agnostic](os_agnostic.md)
+* [Tools & Cheatsheets](tools-cheatsheets.md)
+

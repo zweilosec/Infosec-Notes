@@ -1,7 +1,6 @@
+# OS Agnostic
 
-## OS Agnostic
-
-### Encryption/Decryption
+## Encryption/Decryption
 
 [CyberChef](https://gchq.github.io/CyberChef/): Website for encryption/decryption of many different types at same time
 
@@ -41,7 +40,7 @@ openssl passwd -l [or 1?] -salt <any_salt_value> <password>
 
 Many password lists to download at [skullsecurity](https://wiki.skullsecurity.org/Passwords)
 
-### Binary Exploitation
+## Binary Exploitation
 
 gdb plugin for exploits/creates patterns for ROP determination: peda.py/pwndbg \[gdb: pattern create \#\#\#\]
 
@@ -58,7 +57,7 @@ simple binary exploitation [Ippsec:HacktheBox - Sneaky](https://www.youtube.com/
 
 [protostar ctf](https://exploit-exercises.com/protostar/) for getting into binary exploitation
 
-### HTTP
+## HTTP
 
 in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
 
@@ -81,7 +80,7 @@ gobuster -u <url> -l -w <wordlist> -x php -t 20
 
 hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](https://www.youtube.com/watch?v=TJVghYBByIA)
 
-### SQL
+## SQL
 
 blind sql injection UNIoN queries: [Ippsec:HacktheBox - Charon](https://www.youtube.com/watch?v=_csbKuOlmdE) use `CONCAT("x","x")`
 
@@ -89,7 +88,7 @@ get shell in mysql: `\! /bin/sh`
 
 [SQL Injection Cheatsheet](https://www.netsparker.com/blog/web-security/sql-injection-cheat-sheet/)
 
-### DNS
+## DNS
 
 DNS reverse lookup recon: `dnsrecon -r <ip/subnet[127.0.0.0/24]> -n <ip_to_check>`
 
@@ -99,11 +98,11 @@ add DNS server: `/etc/resolv.conf {nameserver <ip>}`
 
 add Hosts: `/etc/hosts`
 
-### Steganography
+## Steganography
 
 extract files from stego'd files: `binwalk -Me <filename>`
 
-### SSH
+## SSH
 
 generate ssh key for reomote access:
 
@@ -135,7 +134,7 @@ If connection is dropped upon connect:
   ssh 127.0.0.1 "bash --noprofile --norc"
   ```
 
-### Unsorted
+## Unsorted
 
 shortcut for all ports: `nmap -p-`
 
@@ -191,3 +190,4 @@ ff02::2 Multicast ROUTER nodes
 ```
 
 ip6tables - iptables for ipv6
+
