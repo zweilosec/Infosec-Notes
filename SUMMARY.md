@@ -1,6 +1,7 @@
 # Table of contents
 
 * [Hacker's Rest](README.md)
-* [Test](hackers-rest.md)
-* [OSCP Prep Notes](notes.md)
-
+* [Linux](Linux.md)
+* [Windows](Windows.md)
+* [OS Agnostic](OS_Agnostic.md)
+* [Tools & Cheatsheets](Tools-Cheatsheets.md)
