@@ -11,6 +11,7 @@ find files user has access to:
 ```bash
 find / -user <username> -ls 2>/dev/null
 ```
+`which awk perl python ruby gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null` - Check if each of these useful programs are installed on the machine
 
 [Linux Privilege Checker](https://github.com/sleventyeleven/linuxprivchecker/blob/master/linuxprivchecker.py)
 
