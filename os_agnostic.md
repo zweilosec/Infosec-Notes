@@ -12,6 +12,8 @@ decrypt rsa private key: `openssl rsautl -decrypt -inkey <key_file> < <pass.cryp
 
 * [Ippsec:HacktheBox - Charon](https://www.youtube.com/watch?v=_csbKuOlmdE)
 
+`hydra -e nsr` - additional checks, "n" for null password, "s" try login as pass, "r" try the reverse login as pass
+
 crack password with known format:
 
 ```bash
