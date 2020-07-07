@@ -1,4 +1,8 @@
-# Linux
+---
+description: 'Sorted Linux notes, need to separate to different pages and reorganize'
+---
+
+# Linux Notes
 
 ## Linux
 

@@ -1,3 +1,9 @@
+---
+description: >-
+  This is a gitbook template...I want to see how the code for it works to see if
+  I can use this for other projects...
+---
+
 # Test
 
 {% api-method method="get" host="https://api.cakes.com" path="/v1/cakes/:id" %}

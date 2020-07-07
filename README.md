@@ -32,21 +32,21 @@ The following sub-pages of these notes will explore some of the common offensive
 * [**Privilege Escalation**](linux-1/linux.md#privilege-escalation)
 * [**Miscellaneous**](linux-1/linux.md#misc-linux)
 
-## [Windows](windows.md)
+## [Windows](windows-1/windows.md)
 
-* [**Enumeration**](windows.md#enumeration)
-* [**Unsorted \(WIP!\)**](windows.md#unsorted)
+* [**Enumeration**](windows-1/windows.md#enumeration)
+* [**Unsorted \(WIP!\)**](windows-1/windows.md#unsorted)
 
-## [OS Agnostic](os_agnostic.md)
+## [OS Agnostic](os-agnostic/os_agnostic.md)
 
-* [**Encryption/Decryption**](os_agnostic.md#encryption-decryption)
-* [**Binary Exploitation**](os_agnostic.md#binary-exploitation)
-* [**HTTP/Web**](os_agnostic.md#http)
-* [**SQL**](os_agnostic.md#sql)
-* [**DNS**](os_agnostic.md#dns)
-* [**Steganography**](os_agnostic.md#steganography)
-* [**SSH**](os_agnostic.md#ssh)
-* [**Unsorted/Misc.**](os_agnostic.md#unsorted)
+* [**Encryption/Decryption**](os-agnostic/os_agnostic.md#encryption-decryption)
+* [**Binary Exploitation**](os-agnostic/os_agnostic.md#binary-exploitation)
+* [**HTTP/Web**](os-agnostic/os_agnostic.md#http)
+* [**SQL**](os-agnostic/os_agnostic.md#sql)
+* [**DNS**](os-agnostic/os_agnostic.md#dns)
+* [**Steganography**](os-agnostic/os_agnostic.md#steganography)
+* [**SSH**](os-agnostic/os_agnostic.md#ssh)
+* [**Unsorted/Misc.**](os-agnostic/os_agnostic.md#unsorted)
 
 ### [CTF Tools and Cheatsheets \(outside sources\)](tools-cheatsheets.md)
 
