@@ -6,35 +6,23 @@ description: >-
 
 # Hacker's Rest
 
-These are my publicly accessible notes from various sources for Penetration testing, red-teaming, OSCP, Capture the Flag challenges, and Vulnhub/ Hack the Box machines and CTF challenges.
+These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and Vulnhub/ Hack the Box machines challenges.
 
-{% hint style="warning" %} Warning - These notes are very raw and largely unformatted right now.   They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes.  Cleaning up and formatting comes later.
+{% hint style="warning" %}
+Warning - These notes are very raw and largely unformatted right now. They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes. Cleaning up and formatting comes later.
 
-Do not take everything or anything in these notes for granted.
+* Do not assume anything from these notes.
+* Do not expect the notes to be exhaustive, or to cover the techniques or the output they produce in full.
+* Expect mistakes in the notes.
+* Feel free to ask questions!
+* Always consult additional resources. If possible I will try to link to outside resources.  _If I have shared something of yours and you want credit, please let me know!_
+{% endhint %}
 
-Do not expect the notes to be exhaustive or covering the techniques or the artifacts they produce in full.
+If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at:
 
-Expect mistakes in the notes.
+{% embed url="https://github.com/zweilosec/CTF-Notes/" caption="" %}
 
-Always consult additional resources.{% endhint %}
-
-If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at: 
-
-{% embed url="https://github.com/zweilosec/CTF-Notes/" %}
-
-The following sub-pages of this page will explore some of the common offensive security techniques involving gaining code execution, lateral movement, persistence and more.
-
-Most of these techniques are discovered by other security researchers and I do not claim their ownership. I try to reference the sources I use the best I can, but if you think I've missed something, please get in touch and I will fix it immediately.
-
-## The Goal <a id="the-goal"></a>
-
-The goal of this project is simple - read other researchers work, execute some common/uncommon attacking techniques in a lab environment and:
-
-* understand how the attacks can be performed
-* write code to further understand the tools and techniques
-* see what most common artifacts the techniques leave behind
-* try out industry tools and become more profficient in using them
-* take notes for future reference
+The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-like challenges such as cryptography, reverse engineering, steganography and more.
 
 ## [Linux](linux.md)
 
