@@ -67,26 +67,7 @@ simple binary exploitation [Ippsec:HacktheBox - Sneaky](https://www.youtube.com/
 
 ## HTTP
 
-in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
 
-vulnerability testing for webdav \(or other file upload vulns!\): `davtest`
-
-bypassing filetype filters with http MOVE command to rename allowed filetype [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
-
-Wordpress enumeration: `wpscan -u <url> [--disable-tls-checks]`
-
-pull Google cached webpage if not loading: `cache:https://<somewebsite>`
-
-virtual host routing: substitute ip for hostname to get different results
-
-gobuster:
-
-```bash
-gobuster -u <url> -l -w <wordlist> -x php -t 20
-[-l include length, -x append .php to searches, -t threads]
-```
-
-hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](https://www.youtube.com/watch?v=TJVghYBByIA)
 
 ## SQL
 
