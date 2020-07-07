@@ -24,13 +24,13 @@ If you would like to give suggestions or even commit changes to these pages feel
 
 The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-like challenges such as cryptography, reverse engineering, steganography and more.
 
-## [Linux](linux.md)
+## [Linux](linux-1/linux.md)
 
-* [**Enumeration**](linux.md#enumeration)
-* [**Upgrading Shells**](linux.md#upgrade-shells)
-* [**TMUX**](linux.md#tmux)
-* [**Privilege Escalation**](linux.md#privilege-escalation)
-* [**Miscellaneous**](linux.md#misc-linux)
+* [**Enumeration**](linux-1/linux.md#enumeration)
+* [**Upgrading Shells**](linux-1/linux.md#upgrade-shells)
+* [**TMUX**](linux-1/linux.md#tmux)
+* [**Privilege Escalation**](linux-1/linux.md#privilege-escalation)
+* [**Miscellaneous**](linux-1/linux.md#misc-linux)
 
 ## [Windows](windows.md)
 
