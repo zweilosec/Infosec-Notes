@@ -8,7 +8,15 @@ description: >-
 
 These are my publicly accessible notes from various sources for Penetration testing, red-teaming, OSCP, Capture the Flag challenges, and Vulnhub/ Hack the Box machines and CTF challenges.
 
-{% hint style="warning" %}
+{% hint style="warning" %} Warning - These notes are very raw and largely unformatted right now.   They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes.  Cleaning up and formatting comes later.
+
+Do not take everything or anything in these notes for granted.
+
+Do not expect the notes to be exhaustive or covering the techniques or the artifacts they produce in full.
+
+Expect mistakes in the notes.
+
+Always consult additional resources.{% endhint %}
 
 If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at: 
 
