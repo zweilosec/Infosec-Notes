@@ -15,212 +15,120 @@ description: >-
 {% hint style="danger" %}
 Text between these will show up in a warning box. Looks nice! 
 
-Can click on the icon to change it to something appropriate.
+_Can click on the icon to change it to something appropriate \( Changes style, I think. Gitbook only?\)._
 {% endhint %}
 
-## MISC
+[https://8gwifi.org/PemParserFunctions.jsp](https://8gwifi.org/PemParserFunctions.jsp) &lt;--extract information from various digital certificates
 
-### Check encoding of a text file
+locate all files that symlink to this\_file: `find -L / -samefile path/to/<this_file>`
 
-`vi -c 'let $enc = &fileencoding | execute "!echo Encoding: $enc" | q' <file_to_check>` check encoding of a text file \(needed especially when doing crypto with python, or cracking passwords with rockyou.txt\) [https://vim.fandom.com/wiki/Bash\_file\_encoding\_alias](https://vim.fandom.com/wiki/Bash_file_encoding_alias) \(make an alias for the above command\)
+PHP [https://www.php.net/manual/en/features.commandline.webserver.php](https://www.php.net/manual/en/features.commandline.webserver.php) When starting php -S on a mac \(in my case macOS Sierra\) to host a local server, I had trouble with connecting from legacy Java. As it turned out, if you started the php server with `php -S localhost:80` the server will be started with ipv6 support only! To access it via ipv4, you need to change the start up command like so: `php -S 127.0.0.1:80` which starts server in ipv4 mode only.
 
-## Web
-
-## WAF Bypass
-
-## Reverse Engineering
-
-find location of a string to manipulate and its offset `strings -t d <file> | grep <string to locate in ELF>`
-
-## Windows
-
-[https://resources.infosecinstitute.com/exploiting-nfs-share/](https://resources.infosecinstitute.com/exploiting-nfs-share/)
+It’s not mentioned directly, and may not be obvious, but you can also use this to create a virtual host. This, of course, requires the help of your hosts file. Here are the steps:
 
 ```text
-showmount -e <ip>
-<list of mounts>
-mkdir /tmp/<foldername?
-mount -t nfs <ip>:/<mount-folder> /tmp/<foldername>
+1    /etc/hosts
+    127.0.0.1    www.example.com
+2    cd [root folder]
+    php -S www.example.com:8000
+3    Browser:
+    http://www.example.com:8000/index.php
 ```
 
-## Linux
+In order to set project specific configuration options, simply add a php.ini file to your project, and then run the built-in server with this flag: `php -S localhost:8000 -c php.ini`
 
-`apt-file search <binary name>` or `apt search <keyword>` to try to find packages on repositories
+Example \#6 Accessing the CLI Web Server From Remote Machines You can make the web server accessible on port 8000 to any interface with: `$ php -S 0.0.0.0:8000`
 
-----------------------------------Added-below [https://www.maketecheasier.com/schedule-commands-linux-with-at/](https://www.maketecheasier.com/schedule-commands-linux-with-at/)
-
-[https://github.com/Hackplayers/PsCabesha-tools/tree/master/Privesc](https://github.com/Hackplayers/PsCabesha-tools/tree/master/Privesc)
-
-sudo rm --force $\(which stegcracker\) &lt;-- remove all instances of a certain program. Could be used with `find` instead of `which`. dangerous with --force!!
-
-dd if=/dev/random of=/dev/sda1 bs=4M
-
-[https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/)
+Example \#2 Starting with a specific document root directory
 
 ```text
-ssh server1 << HERE
- command1
- command2
-HERE
+$ cd ~/public_html
+$ php -S localhost:8000 -t foo/
+Listening on localhost:8000
+Document root is /home/me/public_html/foo
 ```
 
-[https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents](https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents) script to copy contents of file directly to clipboard
+SSH Keys
 
 ```text
-#! /bin/bash
-xclip -selection clipboard -i $@
+AWS will NOT accept this file.
+You have to strip off the -----BEGIN PUBLIC KEY----- and -----END PUBLIC KEY----- from the file. Save it and import and it should work in AWS.
 ```
 
-add $PATH to: ~/.profile, then source ~/.profile
+and if you need to convert this format to ssh-rsa AAAAB3NzaC1y.... run : `ssh-keygen -f PublicKey.pub -i -mPKCS8`
 
-[https://stackoverflow.com/questions/305035/how-to-use-ssh-to-run-a-shell-script-on-a-remote-machine](https://stackoverflow.com/questions/305035/how-to-use-ssh-to-run-a-shell-script-on-a-remote-machine)
+For those interested in the details - you can see what's inside the public key file \(generated as explained above\), by doing this:- \`\`\`openssl rsa -noout -text -inform PEM -in key.pub -pubin or for the private key file, this:- openssl rsa -noout -text -in key.private which outputs as text on the console the actual components of the key \(modulus, exponents, primes, ...\)
 
-## Sockets
+````` extract public key from private key:```openssl rsa -in privkey.pem -pubout -out key.pub\`
 
-[https://pequalsnp-team.github.io/cheatsheet/socket-basics-py-js-rb](https://pequalsnp-team.github.io/cheatsheet/socket-basics-py-js-rb)
+Powershell wget [http://blog.stackexchange.com/](http://blog.stackexchange.com/) -OutFile out.html wget is an alias for Invoke-WebRequest
 
-## Cryptography
+Windows enumeration: whoami /all net use z: \\ tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
 
-[https://pequalsnp-team.github.io/cheatsheet/crypto-101](https://pequalsnp-team.github.io/cheatsheet/crypto-101)
+./winpeas.exe cmd
 
-checks to see if output is mostly ascii, if so then prints as a possible valid output
+aquatone ?? - pulls up series of websites and takes screenshots
+
+Ciphers [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking) &lt;-- useful site which can help identiry type of cipher. [https://www.dcode.fr](https://www.dcode.fr) &lt;-- one of the best sites I have found with many decoders for many types of ciphers. github Cyber Chef &lt;-- very useful for chained ciphers which require different steps to solve, can be limited. can decrypt certificates Fernet \(symmetric encryption\) - looks like base64 but decodes to garbage, in two parts. first part \(32 bytes\) is the key. Uses 128-bit AES in CBC mode and PKCS7 padding, with HMAC using SHA256 for authentication. IV is created from os.random\(\).
+
+> decode fernet @ [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode) &lt;-- Will also give the IV and timestamp \(could be useful!\) more info about this @ [https://cryptography.io/en/latest/fernet](https://cryptography.io/en/latest/fernet) python from cryptography.fernet import Fernet key = Fernet.generate\_key\(\) f = Fernet\(key\) token = f.encrypt\(b"this is my key"\) print\('the key is ' + key + '/nThe cipher text is ' + token\) ==========decrypt from cryptography.fernet import Fernet key = 'input key here' f = Fernet\(key\) token = 'cipher text here' print\(f.decrypt\(token\)\)
+
+esoteric inferno encryption Malbolge programming language &lt;--text from base64 looks like random text, but not complete garbage \(!unprintable\) ^[https://en.wikipedia.org/wiki/Malbolge](https://en.wikipedia.org/wiki/Malbolge) // [https://www.tutorialspoint.com/execute\_malbolge\_online.php](https://www.tutorialspoint.com/execute_malbolge_online.php)
+
+shortcut for all ports: `nmap -p-`
+
+Firefox Browser plugins:Tampermonkey \(userscript manager\); Cookie Manager+;
+
+signing APK files: [IppSec:HHC2016 - Debug](https://www.youtube.com/watch?v=fcemTQaosOQ)
+
+view hex of file only: `xxd -p`
+
+reverse from hex: `xxd -r -p > <filename>`
+
+vim:
+
+* Learn vim: `vimtutor`
+* [https://www.youtube.com/watch?v=OnUiHLYZgaA](https://www.youtube.com/watch?v=OnUiHLYZgaA)
+* vim plugins: fuzzy finder plugin ctrlp /// surround.vim
+
+msfvenom custom exploit making:\[Ippsec:HacktheBox - Granny & Grandpa\]
+
+```bash
+msfvenom -p <payload> LHOST=<lhost> etc... -f <filetype [use --help-formats first]>
+```
+
+injecting IPs when '.' is disallowed: convert dotted\_decimal to decimal value -[ip2dh](https://github.com/4ndr34z/MyScripts/blob/master/ip2dh.py)
+
+[AndroidAssetStudio](https://romannurik.github.io/AndroidAssetStudio/index.html)
+
+port knocking: [Ippsec:HackTheBox - Nineveh](https://www.youtube.com/watch?v=K9DKULxSBK4)
+
+* iptables knockd
+
+  ```bash
+  for i in <port> <port> <port>; do nmap -Pn -p $i --host_timeout 201 --max_retries 0 <ip>; done
+  ```
+
+  recursively download all files in hosted folder: `wget -r <ip:port>`
+
+[Hurricane Electric ISP](http://he.net/): Ippsec uses with IPv6 as a psuedo-VPN in [HTB:Sneaky](https://www.youtube.com/watch?v=1UGxjqTnuyo)
+
+IPv6 primer [Ippsec:HacktheBox - Sneaky](https://www.youtube.com/watch?v=1UGxjqTnuyo)
 
 ```text
-char_count = sum(map(lambda x : 1 if x in string.ascii_letters else 0, dec))
-    if char_count / len(dec) >= .6:
-        print(dec)
+fe80::/10 - febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Link Local 169.254.x.x APIPA 
+(built from MAC address on Linux, 7th bit flips, adds ff:fe in the center)
+
+fc00::/7 - fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Local Unicast 10.x.x.x, 172.16.x.x, 192.168.x.x 
+
+2000::/3 - Global Unicast routable 
+
+ff02::1 - Multicast All Nodes 
+
+ff02::2 Multicast ROUTER nodes
 ```
 
-## Password cracking
+ip6tables - iptables for ipv6
 
-[https://md5decrypt.net/en/Password-cracking-wordlist-download/](https://md5decrypt.net/en/Password-cracking-wordlist-download/)
-
-## steganography
-
-StegCracker - [https://pypi.org/project/stegcracker/](https://pypi.org/project/stegcracker/) - bruteforce tool for finding `steghide`n passwords and extract \(works well using rockyou.txt as default wordlist\)
-
-[http://bigwww.epfl.ch/demo/ip/demos/FFT/](http://bigwww.epfl.ch/demo/ip/demos/FFT/) - fast fourier transfor online tool. Test this for stego images that cant be found with other stuff
-
-[https://0xrick.github.io/lists/stego/](https://0xrick.github.io/lists/stego/) [https://github.com/DominicBreuker/stego-toolkit/blob/master/README.md\#tools](https://github.com/DominicBreuker/stego-toolkit/blob/master/README.md#tools) [https://pequalsnp-team.github.io/cheatsheet/steganography-101](https://pequalsnp-team.github.io/cheatsheet/steganography-101)
-
-[https://georgeom.net/StegOnline/checklist](https://georgeom.net/StegOnline/checklist) 1. File
-
-Just to be sure what file you are facing with, check its type with type filename.
-
-1. Strings
-
-View all strings in the file with strings -n 7 -t x filename.png.
-
-We use -n 7 for strings of length 7+, and -t x to view- their position in the file.
-
-Alternatively, you can view strings on this site once an image has been uploaded.
-
-Custom Example
-
-1. Exif
-
-Check all image metadata. I would recommend Jeffrey's Image Metadata Viewer for in-depth analysis.
-
-Custom Example
-
-1. Binwalk
-
-We use binwalk to check image's for hidden embedded files.
-
-My preferred syntax is binwalk -Me filename.png. -Me is used to recursively extract any files.
-
-Custom Example
-
-1. pngcheck
-
-We can use pngcheck to look for optional/correct broken chunks. This is vital if the image appears corrupt.
-
-Run pngcheck -vtp7f filename.png to view all info.
-
-v is for verbose, t and 7 display tEXt chunks, p displays contents of some other optional chunks and f forces continuation after major errors are encountered. Related write-ups:
-
-```text
-PlaidCTF 2015
-SECCON Quals 2015
-```
-
-1. Explore Colour & Bit Planes
-
-Images can be hidden inside of the colour/bit planes. Upload your image to this site here. On the image menu page, explore all options in the top panel \(i.e. Full Red, Inverse, LSB etc\).
-
-Go to "Browse Bit Planes", and browse through all available planes.
-
-If there appears to be some static at the top of any planes, try extracting the data from them in the "Extract Files/Data" menu. Related write-ups:
-
-```text
-MicroCTF 2017
-CSAW Quals 2016
-ASIS Cyber Security Contest Quals 2014
-Cybersocks Regional 2016
-```
-
-1. Extract LSB Data
-
-As mentioned in step 5, there could be some static in bit planes. If so, navigate to the "Extract Files/Data" page, and select the relevant bits.
-
-Custom Example
-
-1. Check RGB Values
-
-ASCII Characters/other data can be hidden in the RGB\(A\) values of an image.
-
-Upload your image here, and preview the RGBA values. Try converting them to text, and see if any flag is found. It might be worth looking at just the R/G/B/A values on their own. Related write-ups:
-
-```text
-MMA-CTF-2015
-```
-
-1. Found a password? \(Or not\)
-
-If you've found a password, the goto application to check should be steghide. Bear in mind that steghide can be used without a password, too.
-
-You can extract data by running steghide extract -sf filename.png.
-
-It might also be worth checking some other tools:
-
-```text
-OpenStego
-Stegpy
-Outguess
-jphide
-```
-
-Related write-ups:
-
-```text
-Pragyan CTF 2017
-Xiomara 2019
-CSAW Quals 2015
-BlackAlps Y-NOT-CTF (JFK Challenge)
-```
-
-1. Browse Colour Palette
-
-If the PNG is in type 3, you should look through the colour palette.
-
-This site has a feature for randomizing the colour palette, which may reveal the flag. You can also browse through each colour in the palette, if the flag is the same colour.
-
-It may also be worth looking at the palette indexes themselves, as a string may be visible from there. Related write-ups:
-
-```text
-Plain CTF 2014
-```
-
-1. Pixel Value Differencing \(PVD/MPVD\)
-
-It would be rare to have a case of PVD where you're not explicitly told that this is the steganographic method, as it's very niche.
-
-However, this is a method where the differences between pixel pairs are measured slightly adjusted in order to hide data.
-
-A full paper on this process can be found here. A PVD feature to this site would be appreciated! Related write-ups:
-
-```text
-TJCTF 2019
-MMA-CTF 2015
-```
+## 
 

@@ -12,6 +12,19 @@ Windows Privilege Escalation Enumeration Script: [WinPEAS](https://github.com/ca
 
 Little bit o' everything: [PowerSploit](https://github.com/PowerShellMafia/PowerSploit/)
 
+## Shares
+
+### Mounting NFS Shares Remotely
+
+{% embed url="https://resources.infosecinstitute.com/exploiting-nfs-share/" %}
+
+```text
+showmount -e <ip>
+<list of mounts>
+mkdir /tmp/<foldername?
+mount -t nfs <ip>:/<mount-folder> /tmp/<foldername>
+```
+
 ## Unsorted
 
 Powershell full path: `C:\Windows\SysNative\WindowsPowershell\v1.0\powershell.exe`

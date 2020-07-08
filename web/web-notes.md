@@ -50,7 +50,7 @@ Can use \\ instead of ' as well
 
 It is still understood by most programs and languages, and avoids `.` character in filtered HTTP requests: `127.0.0.1 = 2130706433`
 
-### LFI / RFI using wrappers
+### LFI / RFI by Bypassing Filters Using Wrappers
 
 From [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/73aa26ba6891981ec2254907b9bbd4afdc745e1d/File%20Inclusion/README.md#lfi--rfi-using-wrappers)   `php://filter/` has multiple ways to bypass PHP input filters ;These can be chained with `|` or `/` : zip, data, expect, input, phar; many more different wrappers to try!
 
@@ -76,6 +76,10 @@ system("rm $file");
 ```
 
 The following request is an example of that will successful attack on the previous PHP code, and will output the results of the `id` command: `http://127.0.0.1/delete.php?filename=bob.txt;id`.  Look for exposed `$_GET['filename']` type variables that take input from the user, or can be injected into from the URL.  This combined with `system("<command>")` will allow for command injection.
+
+Local File Inclusion \(LFI\) / Remote File Inclusion \(RFI\)
+
+Common and/or useful files to check for when exploiting Local File Inclusion \(for both Linux and Windows\): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
 
 ## To sort
 

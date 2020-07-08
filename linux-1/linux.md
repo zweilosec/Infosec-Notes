@@ -16,7 +16,7 @@ find files user has access to:
 find / -user <username> -ls 2>/dev/null
 ```
 
-`which awk perl python ruby gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null` - Check if each of these useful programs are installed on the machine
+`which awk perl python ruby gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null` - Check if each of these useful programs are installed on the machine \(only shows the ones currently installed\). 
 
 [Linux Privilege Checker](https://github.com/sleventyeleven/linuxprivchecker/blob/master/linuxprivchecker.py)
 
@@ -36,9 +36,9 @@ searchsploit <name_of_program>
 searchsploit -x <name/number of exploit>
 ```
 
-enumerate running processes: `pspy`
+enumerate running processes: `pspy (TODO: find github and link it)`
 
-`ps -U root -u root ux` View all processes started by a certain user \(root in this case\)
+`ps -U root -u root ux` View all processes started by a certain user \(`root` in this case\)
 
 enumeration multi-tool: [Sparta](https://sparta.secforce.com/) \(does nmap, hydra, nikto, sqlscan, ssl...\)
 
@@ -47,8 +47,6 @@ Semi-automated enumeration all-in-one \(use this!\): [nmapAutomator](https://git
 Unix hardening tool that can be used for enumeration: [Bastille](http://bastille-linux.sourceforge.net/)
 
 enumerate info about current processes running from: `/proc/self/status`
-
-common Local File Inclusion locations: [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
 
 ### Upgrade shells:
 
@@ -105,8 +103,6 @@ tmux plugins:
 ### Privilege Escalation
 
 [https://payatu.com/guide-linux-privilege-escalation](https://payatu.com/guide-linux-privilege-escalation)
-
-execute `sudo` command as another user: `sudo -u <username> [command]`
 
 list user's sudo permissions: `sudo -l`
 
@@ -208,4 +204,8 @@ for appending (instead of PATH="$PATH:~/opt/bin") and
 PATH="~/opt/bin${PATH:+:${PATH}}"
 for prepending (instead of PATH="~/opt/bin:$PATH")
 ```
+
+### Check encoding of a text file
+
+`vi -c 'let $enc = &fileencoding | execute "!echo Encoding: $enc" | q' <file_to_check>` check encoding of a text file \(needed especially when doing crypto with python, or cracking passwords with rockyou.txt\) [https://vim.fandom.com/wiki/Bash\_file\_encoding\_alias](https://vim.fandom.com/wiki/Bash_file_encoding_alias) \(make an alias for the above command\)
 
