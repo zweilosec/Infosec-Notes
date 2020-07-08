@@ -8,7 +8,27 @@ DNS zone transfer: `dig axfr <hostname> @<ip>` or `host -l <domain> <nameserver>
 
 add DNS server - Linux: `/etc/resolv.conf {nameserver <ip>}`
 
-add to Hosts - Linux: `/etc/hosts`
+#### Add to hosts file for... TODO: add more
 
-add to Hosts - Windows: `C:\Windows\System32\drivers\etc\hosts`
+{% tabs %}
+{% tab title="Linux" %}
+`/etc/hosts`
+
+```text
+example here
+```
+{% endtab %}
+
+{% tab title="Windows" %}
+`C:\Windows\System32\drivers\etc\hosts`
+
+```text
+example here
+```
+{% endtab %}
+{% endtabs %}
+
+
+
+
 
