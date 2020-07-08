@@ -106,3 +106,5 @@ gobuster -u <url> -l -w <wordlist> -x php -t 20
 
 hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](https://www.youtube.com/watch?v=TJVghYBByIA)
 
+web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
+
