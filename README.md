@@ -20,7 +20,7 @@ Warning - These notes are very raw and largely unformatted right now. They are b
 
 If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at:
 
-{% embed url="https://github.com/zweilosec/CTF-Notes/" caption="" %}
+{% embed url="https://github.com/zweilosec/Infosec-Notes" %}
 
 The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-like challenges such as cryptography, reverse engineering, steganography and more.
 
