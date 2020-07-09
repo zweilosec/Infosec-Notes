@@ -4,6 +4,22 @@ description: Commands and programs that all Windows users need to know (but many
 
 # Windows Basics
 
+## Sysinternals
+
+#### This. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
+
+If you don't know about Mark Russinovich's amazing tools go and check them out.  Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
+
+...add highlights about best tools...psexec, accesschk, etc.
+
+Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
+
+## SMB
+
+Mount a remote CIFS/SMB share `net use z: \\<ip>\sharename`. Adding `/persistent:yes` will make this survive reboots. A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
+
+Remove a previously mounted share: `"net use z: /delete"`
+
 ### CMD.EXE
 
 * View all the file associations your computer knows: `assoc` You’ll see the file extension and the program it’s associated with. 
@@ -15,13 +31,18 @@ description: Commands and programs that all Windows users need to know (but many
   * Includes: Current IP address, Subnet mask, Default gateway IP, Domain name
 * Get a list of all active TCP connections: `netstat` 
   * There are many useful options such as...TODO: add more 
-* Test network connectivity: `ping`.  
+* Test network connectivity: `ping <hostname or ip>`.  
   * You can use the `ping` command to test whether your computer can access another computer, a server, or even a website. 
   * Also provides the transit time for the packets in milliseconds.
-
-`tracert` The command stands for “Trace Route”, which sends packets out to a remote destination \(server or website\), and provides you with all of the following information: Number of hops \(intermediate servers\) before getting to the destination Time it takes to get to each hop The IP and sometimes the name of each hop TRACERT can reveal how the routes of your internet requests change depending where you’re accessing the web. It also helps with troubleshooting a router or switch on a local network that may be problematic.
-
-There’s a windows CMD command called POWERCFG \(power configuration\) that can help. Run the command prompt as an administrator and type powercfg – energy to get a full power efficiency report.
+* Trace route to remote host: `tracert <hostname or ip>` 
+  * Sends packets out to a remote destination \(server or website\)
+  * Provides you with all of the following information: 
+    * Number of hops \(intermediate servers\) before getting to the destination; 
+    * Time it takes to get to each hop; 
+    * The IP and sometimes the hostname of each hop
+  * It can be used to reveal how the routes of your internet requests change depending where you’re accessing the web, and helps with troubleshooting a router or switch on a local network that may be problematic.
+* Configure power options: `powercfg`\(power configuration\) 
+  * to get a full power efficiency report `powercfg – energy` .
 
 Typing shutdown /i from the command prompt will initiate a shutdown, but it’ll upon a GUI to give the user an option on whether to restart or do a full shutdown. If you don’t want to have any GUI pop up, you can just issue a shutdown /s command. There is a long list of other parameters you can use to do a log off, hibernate, restart, and more. Just type shutdown without any arguments to see them all.
 

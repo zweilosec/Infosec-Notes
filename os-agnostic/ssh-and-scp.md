@@ -14,6 +14,12 @@ chmod 600 <filename>;
 ssh -i <filename> <remotehost>
 ```
 
+{% hint style="danger" %}
+**Note**: AWS will _NOT_ accept this file. You have to strip off the `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` from the file. Save it and import and it should work in AWS.
+{% endhint %}
+
+and if you need to convert this format to ssh-rsa run : `ssh-keygen -f PublicKey.pub -i -mPKCS8`
+
 To generate a public key from the private key:
 
 ```bash
@@ -28,6 +34,10 @@ ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
 Prior to using a new SSH key file it is necessary to change the permissions: `chmod 600 <keyfile>`
 
 Using an SSH key to login to a remote computer: `ssh -i <keyfile> <username>@<IP>`
+
+For those interested in the details inside the key file \(generated as explained above\): `openssl rsa -noout -text -inform PEM -in key.pub -pubin`; or for the private key file: `openssl rsa -noout -text -in key.private` which outputs as text on the console the actual components of the key \(modulus, exponents, primes, etc.\)
+
+ To extract the public key from a private key: `openssl rsa -in privkey.pem -pubout -out key.pub`\`
 
 ### Troubleshooting SSH
 

@@ -8,6 +8,8 @@ DNS zone transfer: `dig axfr <hostname> @<ip>` or `host -l <domain> <nameserver>
 
 add DNS server - Linux: `/etc/resolv.conf {nameserver <ip>}`
 
+Network mapping of attack surfaces and external asset discovery using open source information gathering and active reconnaissance techniques: [https://github.com/OWASP/Amass](https://github.com/OWASP/Amass)
+
 #### Add to hosts file for... TODO: add more
 
 {% tabs %}
