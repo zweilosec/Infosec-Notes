@@ -16,6 +16,8 @@ decrypt rsa private key: `openssl rsautl -decrypt -inkey <key_file> < <pass.cryp
 
 ### Password Cracking
 
+John the ripper: `john --wordlist=/usr/share/wordlists/rockyou.txt <hash_file>`
+
 [Jumbo John](https://github.com/magnumripper/JohnTheRipper) = Better than original `john`
 
 [Hashes.org](https://hashes.org/): large database of pre-cracked hashes

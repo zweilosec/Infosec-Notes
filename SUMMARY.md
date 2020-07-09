@@ -7,15 +7,20 @@
 
 * [Linux Basics](linux-1/linux-basics.md)
 * [Programs & Configs Setup](linux-1/programs-and-configs-setup.md)
-* [Linux Notes](linux-1/linux.md)
+* [Linux Notes](linux-1/linux/README.md)
+  * [Enumeration](linux-1/linux/enumeration.md)
+  * [Privilege Escalation](linux-1/linux/privilege-escalation.md)
+* [Vim](linux-1/vim.md)
 * [Test](linux-1/test.md)
 
 ## Windows <a id="windows-1"></a>
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [Programs & Configs Setup](windows-1/programs-and-configs-setup.md)
-* [Windows Notes](windows-1/windows.md)
-* [Active Directory](windows-1/active-directory.md)
+* [Windows Notes](windows-1/windows/README.md)
+  * [Enumeration](windows-1/windows/enumeration.md)
+  * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
+  * [Active Directory](windows-1/windows/active-directory.md)
 * [PowerShell](windows-1/powershell.md)
 
 ## Web

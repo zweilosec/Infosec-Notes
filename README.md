@@ -24,18 +24,18 @@ If you would like to give suggestions or even commit changes to these pages feel
 
 The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-like challenges such as cryptography, reverse engineering, steganography and more.
 
-## [Linux](linux-1/linux.md)
+## [Linux](linux-1/linux/)
 
-* [**Enumeration**](linux-1/linux.md#enumeration)
-* [**Upgrading Shells**](linux-1/linux.md#upgrade-shells)
-* [**TMUX**](linux-1/linux.md#tmux)
-* [**Privilege Escalation**](linux-1/linux.md#privilege-escalation)
-* [**Miscellaneous**](linux-1/linux.md#misc-linux)
+* [**Enumeration**](linux-1/linux/#enumeration)
+* [**Upgrading Shells**](linux-1/linux/#upgrade-shells)
+* [**TMUX**](linux-1/linux/#tmux)
+* [**Privilege Escalation**](linux-1/linux/#privilege-escalation)
+* [**Miscellaneous**](linux-1/linux/#misc-linux)
 
-## [Windows](windows-1/windows.md)
+## [Windows](windows-1/windows/)
 
-* [**Enumeration**](windows-1/windows.md#enumeration)
-* [**Unsorted \(WIP!\)**](windows-1/windows.md#unsorted)
+* [**Enumeration**](windows-1/windows/#enumeration)
+* [**Unsorted \(WIP!\)**](windows-1/windows/#unsorted)
 
 ## [OS Agnostic](os-agnostic/os_agnostic.md)
 
