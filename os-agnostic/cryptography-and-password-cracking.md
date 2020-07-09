@@ -95,3 +95,9 @@ def is_plaintext(ptext):
       return True
 ```
 
+## Digital Certificates
+
+X.509
+
+[https://8gwifi.org/PemParserFunctions.jsp](https://8gwifi.org/PemParserFunctions.jsp) -- extract information from various digital certificates
+

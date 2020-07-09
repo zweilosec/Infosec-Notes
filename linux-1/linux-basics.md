@@ -14,9 +14,15 @@ Move between "words" on a command line: `ctrl + [arrow_keys]`
 
 ## Filesystem Basics
 
+List hidden files: `ls -a`
+
+List files with attributes \(filesize, permissions, etc.\): `ls -la`
+
 List files, sorted by Size: `ls -lS`
 
 `sudo rm --force $(which <file_name>)` Remove all instances of a certain file. Could be used with `find` instead of `which`. dangerous with --force!!
+
+Locate all files that symlink to a file: `find -L / -samefile </path/to/file>`
 
 ## Networking
 
