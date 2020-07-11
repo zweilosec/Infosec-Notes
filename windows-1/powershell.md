@@ -2,6 +2,10 @@
 
 PowerShell.exe full path: `C:\Windows\SysNative\WindowsPowershell\v1.0\powershell.exe`
 
+Show all current environment variables in PowerShell: `dir env:` \(in CMD just type `set`\)
+
+Get tons of computer info in PowerShell: `Get-ComputerInfo`
+
 Fully PowerShell version of `wget`. Retrieve file and execute remote code after downloading:
 
 ```text

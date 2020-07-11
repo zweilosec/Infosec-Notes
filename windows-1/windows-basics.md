@@ -8,7 +8,7 @@ description: Commands and programs that all Windows users need to know (but many
 
 #### This. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
 
-If you don't know about Mark Russinovich's amazing tools go and check them out.  Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
+If you don't know about Mark Russinovich's amazing tools then go and check them out.  Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
 
 ...add highlights about best tools...psexec, accesschk, etc.
 
@@ -27,7 +27,7 @@ Remove a previously mounted share: `"net use z: /delete"`
 <table>
   <thead>
     <tr>
-      <th style="text-align:center">Program name /options</th>
+      <th style="text-align:center">Program name</th>
       <th style="text-align:left">Description</th>
     </tr>
   </thead>
@@ -41,6 +41,23 @@ Remove a previously mounted share: `"net use z: /delete"`
           </li>
         </ul>
       </td>
+    </tr>
+    <tr>
+      <td style="text-align:center">attrib</td>
+      <td style="text-align:left">
+        <p>Change file attributes.</p>
+        <ul>
+          <li>Example: <code>ATTRIB +R +H C:\temp\file.txt</code> sets file.txt as a hidden,
+            read-only file.</li>
+          <li>There is no response when it&#x2019;s successful, so, unless you see an
+            error message the command should have worked.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center">bitsadmin</td>
+      <td style="text-align:left">Initiate upload or download jobs over the network or internet and monitor
+        the current state of those file transfers</td>
     </tr>
     <tr>
       <td style="text-align:center">chkdsk</td>
@@ -57,6 +74,10 @@ Remove a previously mounted share: `"net use z: /delete"`
       </td>
     </tr>
     <tr>
+      <td style="text-align:center">color</td>
+      <td style="text-align:left">Change the background color of the command prompt window</td>
+    </tr>
+    <tr>
       <td style="text-align:center">fc</td>
       <td style="text-align:left">
         <p>Performs either an ascii or a binary file comparison and lists all of
@@ -70,9 +91,36 @@ Remove a previously mounted share: `"net use z: /delete"`
       </td>
     </tr>
     <tr>
+      <td style="text-align:center">findstr</td>
+      <td style="text-align:left">
+        <p>Search for strings inside of text files</p>
+        <ul>
+          <li>Supports multiple search strings</li>
+          <li>Can take as input a file containing file names or directories to search</li>
+          <li>Supports regular expressions</li>
+          <li><code>grep</code> for Windows, essentially</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
       <td style="text-align:center">ipconfig /all</td>
       <td style="text-align:left">Get detailed information about your current network adapters. Includes:
         IP address, Subnet mask, Default gateway IP, Domain name</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">net</td>
+      <td style="text-align:left">many many...pick some of the most useful</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">net use</td>
+      <td style="text-align:left">
+        <p></p>
+        <p>Map a network drive.</p>
+        <ul>
+          <li>The <code>/persistent:yes</code> switch tells your computer that you want
+            this drive remapped every time you log back into your computer.</li>
+        </ul>
+      </td>
     </tr>
     <tr>
       <td style="text-align:center">netstat</td>
@@ -95,18 +143,6 @@ Remove a previously mounted share: `"net use z: /delete"`
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">tracert</td>
-      <td style="text-align:left">
-        <p>Trace route to remote host.</p>
-        <p>Provides you with all of the following information:</p>
-        <ul>
-          <li>Number of hops (intermediate servers) before getting to the destination;</li>
-          <li>Time it takes to get to each hop;</li>
-          <li>The IP and sometimes the hostname of each hop</li>
-        </ul>
-      </td>
-    </tr>
-    <tr>
       <td style="text-align:center">powercfg</td>
       <td style="text-align:left">
         <p>Configure power options</p>
@@ -117,26 +153,32 @@ Remove a previously mounted share: `"net use z: /delete"`
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">shutdown</td>
-      <td style="text-align:left">
-        <p>Shut down or restart the computer from the command line</p>
-        <ul>
-          <li><code>shutdown /i</code> will initiate a shutdown, but it will open a GUI
-            window to give the user an option whether to restart or do a full shutdown.</li>
-          <li>If you don&#x2019;t want to have a GUI window, you can use <code>shutdown /s</code> .</li>
-          <li>There is a long list of other parameters you can use such as log off,
-            hibernate, restart, and more. Just type <code>shutdown</code> without any
-            arguments to see them all.</li>
-        </ul>
-      </td>
+      <td style="text-align:center">prompt</td>
+      <td style="text-align:left">Change the command prompt from <code>C:&gt;</code> to something else</td>
     </tr>
     <tr>
-      <td style="text-align:center">systeminfo</td>
+      <td style="text-align:center">regedit</td>
+      <td style="text-align:left">Edit keys in the Windows registry</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">robocopy</td>
+      <td style="text-align:left">A powerful file copy utility</td>
+    </tr>
+    <tr>
+      <td style="text-align:center">schtasks</td>
       <td style="text-align:left">
-        <p>Get an overview of important system information</p>
+        <p>Schedule tasks (similar to Unix cron).</p>
         <ul>
-          <li>Good for finding out processor details, the exact version of your Windows
-            OS, installed updates, and more</li>
+          <li>Example: <code>SCHTASKS /Create /SC HOURLY /MO 12 /TR &lt;task_name&gt; /TN c:\temp\script.bat</code>
+          </li>
+          <li><code>/sc</code> accepts arguments like minute, hourly, daily, and monthly</li>
+          <li><code>/mo</code> specifies the frequency</li>
+          <li><code>/tr</code> name of the task</li>
+          <li>TODO: add more</li>
+          <li>If you typed the command correctly, you&#x2019;ll see the response: <code>SUCCESS: The scheduled task &#x201C;&lt;task_name&gt;&#x201D; has successfully been created</code>
+          </li>
+          <li>Running this command with no parameters with display all currently scheduled
+            tasks</li>
         </ul>
       </td>
     </tr>
@@ -165,59 +207,49 @@ Remove a previously mounted share: `"net use z: /delete"`
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">net</td>
-      <td style="text-align:left">many many...pick some of the most useful</td>
-    </tr>
-    <tr>
-      <td style="text-align:center">net use</td>
+      <td style="text-align:center">shutdown</td>
       <td style="text-align:left">
-        <p></p>
-        <p>Map a network drive.</p>
+        <p>Shut down or restart the computer from the command line</p>
         <ul>
-          <li>The <code>/persistent:yes</code> switch tells your computer that you want
-            this drive remapped every time you log back into your computer.</li>
+          <li><code>shutdown /i</code> will initiate a shutdown, but it will open a GUI
+            window to give the user an option whether to restart or do a full shutdown.</li>
+          <li>If you don&#x2019;t want to have a GUI window, you can use <code>shutdown /s</code> .</li>
+          <li>There is a long list of other parameters you can use such as log off,
+            hibernate, restart, and more. Just type <code>shutdown</code> without any
+            arguments to see them all.</li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">schtasks</td>
+      <td style="text-align:center">systeminfo</td>
       <td style="text-align:left">
-        <p>Schedule tasks (similar to Unix cron).</p>
+        <p>Get an overview of important system information</p>
         <ul>
-          <li>Example: <code>SCHTASKS /Create /SC HOURLY /MO 12 /TR &lt;task_name&gt; /TN c:\temp\script.bat</code>
-          </li>
-          <li><code>/sc</code> accepts arguments like minute, hourly, daily, and monthly</li>
-          <li><code>/mo</code> specifies the frequency</li>
-          <li><code>/tr</code> name of the task</li>
-          <li>TODO: add more</li>
-          <li>If you typed the command correctly, you&#x2019;ll see the response: <code>SUCCESS: The scheduled task &#x201C;&lt;task_name&gt;&#x201D; has successfully been created</code>
-          </li>
-          <li>Running this command with no parameters with display all currently scheduled
-            tasks</li>
+          <li>Good for finding out processor details, the exact version of your Windows
+            OS, installed updates, and more</li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td style="text-align:center"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:center">title</td>
+      <td style="text-align:left">Change the title of the command prompt window.</td>
     </tr>
     <tr>
-      <td style="text-align:center"></td>
-      <td style="text-align:left"></td>
+      <td style="text-align:center">tracert</td>
+      <td style="text-align:left">
+        <p>Trace route to remote host.</p>
+        <p>Provides you with all of the following information:</p>
+        <ul>
+          <li>Number of hops (intermediate servers) before getting to the destination;</li>
+          <li>Time it takes to get to each hop;</li>
+          <li>The IP and sometimes the hostname of each hop</li>
+        </ul>
+      </td>
     </tr>
   </tbody>
 </table>
 
-* 
-In Windows, you can change file attributes by right clicking on a file and finding the right property to change. However, instead of hunting around for the file attribute, you can use the ATTRIB command to set the file attributes. For example, if you type: ATTRIB +R +H C:\temp\File1.bat, it’ll set File1.bat as a hidden, read-only file. There is no response when it’s successful, so unless you see an error message, the command worked.
-
-Other Windows CMD Commands
-
-BITSADMIN: Initiate upload or download jobs over the network or internet and monitor the current state of those file transfers. COLOR: Change the background color of the command prompt window. COMP: Compare the contents of any two files to see the differences. FIND/FINDSTR: Search for strings inside of any ASCII files. PROMPT: Change the command prompt from C:&gt; to something else. TITLE: Change the title of the command prompt window. REGEDIT: Edit keys in the Windows registry \(use with caution\). ROBOCOPY: A powerful file copy utility built right into Windows.
-
 ## Powershell
 
-Show all current environment variables in PowerShell: `dir env:` \(in CMD just type `set`\)
-
-Get tons of computer info in PowerShell: `Get-ComputerInfo`
+PowerShell is a large and important enough topic that it has its [own page](powershell.md).  
 

