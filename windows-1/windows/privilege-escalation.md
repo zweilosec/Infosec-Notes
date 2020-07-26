@@ -48,7 +48,7 @@
         the console. <code>IEX</code> is an alias for <code>Invoke-Expression</code>.</td>
     </tr>
     <tr>
-      <td style="text-align:left"><code>IEX {&lt;code_here&gt;}</code>
+      <td style="text-align:left"><code>IEX { &lt;code_here&gt; }</code>
       </td>
       <td style="text-align:left">Essentially creates a one-time use function from your code.</td>
     </tr>
@@ -58,8 +58,24 @@
       <td style="text-align:left">The operator (<code>&amp;</code>) is an alias for <code>Invoke-Expression</code> and
         is equivelent to the example above.</td>
     </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>$text = Get-Content C:\temp\AnyFile.txt -Raw</code>
+        </p>
+        <p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code>
+        </p>
+        <p>&lt;code&gt;&lt;/code&gt;</p>
+        <p><code>&amp; $script</code>
+        </p>
+      </td>
+      <td style="text-align:left">Using the .NET object <code>System.Management.Automation.ScriptBlock</code> we
+        can compile and text content to a script block. Then, using (<code>&amp;</code>)
+        we can easily execute this compiled and formatted text file.</td>
+    </tr>
   </tbody>
 </table>
+
+
 
 ## References
 

