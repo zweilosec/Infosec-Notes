@@ -249,6 +249,45 @@ Remove a previously mounted share: `"net use z: /delete"`
   </tbody>
 </table>
 
+## File manipulation
+
+### Change file attributes
+
+{% tabs %}
+{% tab title="PowerShell" %}
+Set a file as **Hidden**.  This can also be used to change other file property flags such as Archive and ReadOnly.
+
+```text
+$file = (Get-ChildItem <file>) #can shorten command with gci or ls
+$file.attributes #Show the files attributes
+Normal
+
+#Flip the bit of the Hidden attribute
+$file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
+$file.attributes
+Hidden
+
+#To remove the 'Hidden' attribute
+$file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
+$file.attributes
+Normal
+```
+{% endtab %}
+
+{% tab title="" %}
+Set a file as **Hidden** \(`-h`\).  This can also be used to change other file property flags such as \(`a`\) Archive and \(`r`\) ReadOnly. Flags must be added separately \(`-h -a -r` not `-har`\).
+
+```text
+attrib <C:\path\filename> #show the file attributes
+
+attrib +h <C:\path\filename>
+
+#to remove the hidden property
+attrib -h <C:\path\filename>
+```
+{% endtab %}
+{% endtabs %}
+
 ## Powershell
 
 PowerShell is a large and important enough topic that it has its [own page](powershell.md).  

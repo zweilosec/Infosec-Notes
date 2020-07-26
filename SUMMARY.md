@@ -22,6 +22,7 @@
   * [Enumeration](windows-1/windows/enumeration.md)
   * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
   * [Active Directory](windows-1/windows/active-directory.md)
+  * [Persistence](windows-1/windows/persistence.md)
 * [PowerShell](windows-1/powershell.md)
 
 ## Web
