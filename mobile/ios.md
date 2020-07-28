@@ -1,10 +1,4 @@
----
-description: >-
-  TODO: Rename this to something more interesting or appropriate, pull out stuff
-  to its own section.
----
-
-# OS Agnostic
+# iOS
 
 {% hint style="success" %}
 Hack Responsibly.
@@ -13,12 +7,4 @@ Always ensure you have **explicit** permission to access any computer system **b
 {% endhint %}
 
 Nothing here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
-
-
-
-## 
-
-
-
-
 

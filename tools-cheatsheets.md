@@ -4,6 +4,12 @@ description: A collection of outside resources on various InfoSec-related subjec
 
 # Tools & Cheatsheets
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+{% endhint %}
+
 ## OSCP Cheatsheets
 
 * [https://github.com/s0wr0b1ndef/OSCP-Biggest-Reference-Bank/blob/master/Cheatsheet\_PenTesting.txt](https://github.com/s0wr0b1ndef/OSCP-Biggest-Reference-Bank/blob/master/Cheatsheet_PenTesting.txt)

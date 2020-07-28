@@ -1,5 +1,11 @@
 # Steganography
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+{% endhint %}
+
 `StegCracker` - [https://pypi.org/project/stegcracker/](https://pypi.org/project/stegcracker/) - bruteforce tool for finding `steghide` passwords and extract \(works well, uses `rockyou.txt` as default wordlist\)
 
 extract files from stego'd files: `binwalk -Me <filename>`

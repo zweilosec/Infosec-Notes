@@ -7,7 +7,7 @@
 
 * [Linux Basics](linux-1/linux-basics.md)
 * [Programs & Configs Setup](linux-1/programs-and-configs-setup.md)
-* [Linux Notes](linux-1/linux/README.md)
+* [Red Team Notes](linux-1/linux/README.md)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Privilege Escalation](linux-1/linux/privilege-escalation.md)
   * [Persistance](linux-1/linux/persistance.md)
@@ -18,7 +18,7 @@
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [Programs & Configs Setup](windows-1/programs-and-configs-setup.md)
-* [Windows Notes](windows-1/windows/README.md)
+* [Red Team Notes](windows-1/windows/README.md)
   * [Enumeration](windows-1/windows/enumeration.md)
   * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
   * [Active Directory](windows-1/windows/active-directory.md)
@@ -29,6 +29,11 @@
 
 * [DNS](web/dns.md)
 * [Web Notes](web/web-notes.md)
+
+## Mobile
+
+* [iOS](mobile/ios.md)
+* [Android](mobile/android.md)
 
 ## OS Agnostic
 

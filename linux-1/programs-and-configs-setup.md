@@ -7,8 +7,6 @@ description: >-
 
 # Programs & Configs Setup
 
-
-
 ### TMUX
 
 tmux can keep alive sessions if you lose ssh sessions etc, can split panes and more:

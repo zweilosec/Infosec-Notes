@@ -24,6 +24,14 @@ If you would like to give suggestions or even commit changes to these pages feel
 
 The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-like challenges such as cryptography, reverse engineering, steganography and more.
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+{% endhint %}
+
+
+
 ## [Linux](linux-1/linux/)
 
 * [**Enumeration**](linux-1/linux/#enumeration)
