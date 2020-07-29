@@ -17,6 +17,8 @@ Be aware sometimes these commands require elevated privileges to be run, or may 
 {% tabs %}
 {% tab title="PowerShell" %}
 `[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
+
+add more...
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -36,13 +38,12 @@ Be aware sometimes these commands require elevated privileges to be run, or may 
 {% endtab %}
 {% endtabs %}
 
-### Using WMI Query Language \(WQL\)
+#### Using WMI Query Language \(WQL\)
 
 WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
 
 ```text
-The following WQL query returns only local user accounts from a domain
-joined computer.
+The following WQL query returns only local user accounts.
 
     $q = "Select * from Win32_UserAccount where LocalAccount = True"
 
@@ -68,9 +69,9 @@ LAPS allows you to manage the local Administrator password \(which is randomized
 
 ### Get OS Version information
 
-`systeminfo | findstr /B /C:"OS Name" /C:"OS Version"` 
+`systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"` 
 
-`[System.Environment]::OSVersion.Version`
+`[System.Environment]::OSVersion`
 
 ### Get basic Windows information
 

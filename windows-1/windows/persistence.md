@@ -424,7 +424,92 @@ Enter-PSSession -ComputerName <Any_Domain_Computer> -Credential <Domain>\Adminis
 
 ### Clear Windows Event Logs
 
+Generates Windows event 1102 when you clear logs!
+
 [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil)
+
+```text
+@echo off
+
+FOR /F "tokens=1,2*" %%V IN ('bcdedit') DO SET adminTest=%%V
+IF (%adminTest%)==(Access) goto noAdmin
+for /F "tokens=*" %%G in ('wevtutil.exe el') DO (call :do_clear "%%G")
+echo.
+echo All Event Logs have been cleared!
+goto theEnd
+
+:do_clear
+echo clearing %1
+wevtutil.exe cl %1
+goto :eof
+
+:noAdmin
+echo Current user permissions to execute this .BAT file are inadequate.
+echo This .BAT file must be run with administrative privileges.
+echo Exit now, right click on this .BAT file, and select "Run as administrator".  
+pause >nul
+
+:theEnd
+Exit
+```
+
+#### Legacy Windows Log format
+
+The `Clear-EventLog` cmdlet deletes all of the entries from the specified event logs on the local computer or on remote computers. To use `Clear-EventLog`, you must be a member of the Administrators group on the affected computer.
+
+```text
+Get-EventLog -List
+
+Max(K)   Retain   OverflowAction      Entries  Log
+------   ------   --------------      -------  ---
+15,168        0   OverwriteAsNeeded   20,792   Application
+15,168        0   OverwriteAsNeeded   12,559   System
+15,360        0   OverwriteAsNeeded   11,173   Windows PowerShell
+```
+
+ `-List` Displays the list of event logs on the computer.
+
+#### To list logs on other systems
+
+```text
+Get-EventLog -LogName System -ComputerName Server01, Server02, Server03
+```
+
+ If the **ComputerName** parameter isn't specified, `Get-EventLog` defaults to the local computer. The parameter also accepts a dot \(`.`\) to specify the local computer. The **ComputerName** parameter doesn't rely on Windows PowerShell remoting, so you can use this even if your computer is not configured to run remote commands.
+
+ The `Remove-EventLog` cmdlet deletes an event log file from a local or remote computer and unregisters all its event sources for the log. You can also use this cmdlet to unregister event sources without deleting any event logs.
+
+{% hint style="info" %}
+**`Get-EventLog`** uses a Win32 API that is deprecated so the results may not be accurate. Use the **`Get-WinEvent`** cmdlet instead on systems running Windows Vista+.
+{% endhint %}
+
+#### List updated log formats in Windows Vista+
+
+```text
+Get-WinEvent -ListLog *
+```
+
+Warning! information overload! Lists each individual windows event rather than the log files
+
+#### To clear all logs at once
+
+{% tabs %}
+{% tab title="PowerShell" %}
+Lists all of the non-empty logfiles, then clears each one.
+
+```text
+Get-WinEvent -ListLog * | where {$_.RecordCount} | ForEach-Object -Process { [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName) }
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+List all event logs with `wevutil.exe el` then clear each one with `wevutil.exe cl`.  
+
+```text
+for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
+```
+{% endtab %}
+{% endtabs %}
 
 can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
 
@@ -442,4 +527,5 @@ can disable logging prior to doing things that would alert defenders, or can cle
 * [Persistence – Registry Run Keys - @netbiosX](https://pentestlab.blog/2019/10/01/persistence-registry-run-keys/)
 * [https://pureinfotech.com/enable-disable-firewall-windows-10/](https://pureinfotech.com/enable-disable-firewall-windows-10/) - [Mauro Huc](https://pureinfotech.com/author/mauhuc/) [@pureinfotech](https://twitter.com/@pureinfotech)
 * [http://vcloud-lab.com/entries/powershell/microsoft-powershell-remotely-write-edit-modify-new-registry-key-and-data-value](http://vcloud-lab.com/entries/powershell/microsoft-powershell-remotely-write-edit-modify-new-registry-key-and-data-value) - [@KunalAdapi](https://twitter.com/kunalUdapi)
+* [https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html](https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html) - [Shawn Brink](https://www.tenforums.com/members/brink.html?s=c4719816f0e7a9450a073c5aeafb6024)
 
