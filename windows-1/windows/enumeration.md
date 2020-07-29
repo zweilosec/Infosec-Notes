@@ -19,6 +19,16 @@ Be aware sometimes these commands require elevated privileges to be run, or may 
 `[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
 
 add more...
+
+better...still not the same as whoami /all
+
+```text
+$tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIdentifier($_.Value)).Translate([System.Security.Principal.NTAccount])).Value};Label=”Group Name”},
+@{Expression={$_.Value};Label=”Group SID”},
+@{Expression={$_.Type};Label=”Group Type”}
+
+([Security.Principal.WindowsIdentity]::GetCurrent()).Claims | Format-Table $tableLayout -AutoSize
+```
 {% endtab %}
 
 {% tab title="cmd.exe" %}

