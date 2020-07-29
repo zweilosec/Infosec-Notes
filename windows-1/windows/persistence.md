@@ -422,6 +422,12 @@ Invoke-Mimikatz -Command '"privilege::debug" "misc::skeleton"' -ComputerName <FQ
 Enter-PSSession -ComputerName <Any_Domain_Computer> -Credential <Domain>\Administrator
 ```
 
+### Clear Windows Event Logs
+
+[https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil)
+
+can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
+
 ## References
 
 * [https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)
