@@ -6,7 +6,7 @@ description: >-
 
 # Hacker's Rest
 
-These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and Vulnhub/ Hack the Box machines challenges.
+These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.gitbook.io/htb-writeups/).
 
 {% hint style="warning" %}
 Warning - These notes are very raw and largely unformatted right now. They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes. Cleaning up and formatting comes later.
@@ -22,7 +22,7 @@ If you would like to give suggestions or even commit changes to these pages feel
 
 {% embed url="https://github.com/zweilosec/Infosec-Notes" %}
 
-The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-like challenges such as cryptography, reverse engineering, steganography and more.
+The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-type challenges such as cryptography, reverse engineering, steganography and more.
 
 {% hint style="success" %}
 Hack Responsibly.
@@ -30,33 +30,53 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+## Linux
+
+* [Linux Basics](linux-1/linux-basics.md)
+* [Programs & Configuration Setup](linux-1/programs-and-configs-setup.md)
+* [Red Team Notes](linux-1/linux/)
+  * [Enumeration](linux-1/linux/enumeration.md)
+  * [Privilege Escalation](linux-1/linux/privilege-escalation.md)
+  * [Persistence](linux-1/linux/persistance.md)
+* [Vim](linux-1/vim.md)
+
+## Windows
+
+* [Windows Basics](windows-1/windows-basics.md)
+* [Programs & Configuration Setup](windows-1/programs-and-configs-setup.md)
+* [Red Team Notes](windows-1/windows/)
+  * [Enumeration](windows-1/windows/enumeration.md)
+  * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
+  * [Persistence](windows-1/windows/persistence.md)
+  * [Active Directory](windows-1/windows/active-directory.md)
+  * [PowerShell](windows-1/powershell.md)
+
+## Web
+
+* [DNS](web/dns.md)
+* [Web Apps](web/web-notes.md)
+
+## Mobile
+
+* [iOS](mobile/ios.md)
+* [Android](mobile/android.md)
+
+## OS Agnostic
+
+* [Cryptography & Password Cracking](os-agnostic/cryptography-and-password-cracking.md)
+* [OSINT](os-agnostic/osint.md)
+* [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
+* [Scripting](os-agnostic/scripting.md)
+* [SQL](os-agnostic/sql.md)
+* [SSH & SCP](os-agnostic/ssh-and-scp.md)
+* [Steganography](os-agnostic/steganography.md)
+* [Unsorted Notes](os-agnostic/untitled.md)
+* 
+## CTF Tools and Cheatsheets 
+
+[List of outside sources](tools-cheatsheets.md)
 
 
-## [Linux](linux-1/linux/)
-
-* [**Enumeration**](linux-1/linux/#enumeration)
-* [**Upgrading Shells**](linux-1/linux/#upgrade-shells)
-* [**TMUX**](linux-1/linux/#tmux)
-* [**Privilege Escalation**](linux-1/linux/#privilege-escalation)
-* [**Miscellaneous**](linux-1/linux/#misc-linux)
-
-## [Windows](windows-1/windows/)
-
-* [**Enumeration**](windows-1/windows/#enumeration)
-* [**Unsorted \(WIP!\)**](windows-1/windows/#unsorted)
-
-## [OS Agnostic](os-agnostic/os_agnostic.md)
-
-* [**Encryption/Decryption**](os-agnostic/os_agnostic.md#encryption-decryption)
-* [**Binary Exploitation**](os-agnostic/os_agnostic.md#binary-exploitation)
-* [**HTTP/Web**](os-agnostic/os_agnostic.md#http)
-* [**SQL**](os-agnostic/os_agnostic.md#sql)
-* [**DNS**](os-agnostic/os_agnostic.md#dns)
-* [**Steganography**](os-agnostic/os_agnostic.md#steganography)
-* [**SSH**](os-agnostic/os_agnostic.md#ssh)
-* [**Unsorted/Misc.**](os-agnostic/os_agnostic.md#unsorted)
-
-### [CTF Tools and Cheatsheets \(outside sources\)](tools-cheatsheets.md)
 
 If you like this content and would like to see more, please consider supporting me through Patreon at [https://www.patreon.com/zweilosec](https://www.patreon.com/zweilosec).
 

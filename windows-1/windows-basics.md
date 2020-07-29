@@ -274,7 +274,7 @@ Normal
 ```
 {% endtab %}
 
-{% tab title="" %}
+{% tab title="cmd.exe" %}
 Set a file as **Hidden** \(`-h`\).  This can also be used to change other file property flags such as \(`a`\) Archive and \(`r`\) ReadOnly. Flags must be added separately \(`-h -a -r` not `-har`\).
 
 ```text

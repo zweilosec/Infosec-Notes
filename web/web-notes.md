@@ -12,6 +12,20 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+## Web Application Enumeration
+
+[w3af](http://w3af.org/) is an open source python-based Web Application Attack and Audit Framework. 
+
+> The project’s goal is to create a framework to help you secure your web applications by finding and exploiting all web application vulnerabilities.
+
+It can also be abused by attackers to find and enumerate weaknesses in web applications and can be downloaded and run with the following commands:
+
+```bash
+git clone --depth 1 https://github.com/andresriancho/w3af.git
+    cd w3af
+    ./w3af_gui
+```
+
 ## Payloads and Bypass Methods for Web Filtering
 
 {% embed url="https://github.com/swisskyrepo/PayloadsAllTheThings" caption="swisskyrepo / PayloadsAllTheThings" %}

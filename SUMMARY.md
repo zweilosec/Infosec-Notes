@@ -2,6 +2,7 @@
 
 * [Hacker's Rest](README.md)
 * [Tools & Cheatsheets](tools-cheatsheets.md)
+* [Hacking Methodology](hacking-methodology.md)
 
 ## Linux <a id="linux-1"></a>
 
@@ -17,13 +18,13 @@
 ## Windows <a id="windows-1"></a>
 
 * [Windows Basics](windows-1/windows-basics.md)
+* [PowerShell](windows-1/powershell.md)
 * [Programs & Configs Setup](windows-1/programs-and-configs-setup.md)
 * [Red Team Notes](windows-1/windows/README.md)
   * [Enumeration](windows-1/windows/enumeration.md)
   * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
-  * [Active Directory](windows-1/windows/active-directory.md)
   * [Persistence](windows-1/windows/persistence.md)
-* [PowerShell](windows-1/powershell.md)
+  * [Active Directory](windows-1/windows/active-directory.md)
 
 ## Web
 
@@ -38,6 +39,7 @@
 ## OS Agnostic
 
 * [Cryptography & Password Cracking](os-agnostic/cryptography-and-password-cracking.md)
+* [OSINT](os-agnostic/osint.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
 * [Scripting](os-agnostic/scripting.md)
 * [SQL](os-agnostic/sql.md)

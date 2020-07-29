@@ -7,3 +7,23 @@ description: >-
 
 # Programs & Configs Setup
 
+## Hardening the OS
+
+### Disable unused services
+
+Disable WinRM, RDP, etc if not used
+
+### Reduce Privacy Disclosures
+
+disable location, telemetry, etc
+
+## Recommended Programs
+
+{% embed url="https://ninite.com" %}
+
+notepad++
+
+Visual Studio Code
+
+Tor Browser - based on Firefox.  Be careful of settings and extensions used as these can break the protection provided by the VPN.  
+
