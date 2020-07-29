@@ -27,7 +27,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Set a file as **Hidden**.  This can also be used to change other file property flags such as Archive and ReadOnly.
+Set a file as **Hidden**.  This can also be used to change other file property flags such as **Archive** and **ReadOnly**.
 
 ```text
 $file = (Get-ChildItem <file>) #can shorten command with gci or ls
@@ -118,8 +118,6 @@ start /b $env:USERPROFILE\AppData\Local\Temp\backdoor.bat
 
 ### Scheduled Tasks
 
-add cmd.exe
-
 {% tabs %}
 {% tab title="PowerShell" %}
 These commands will allow your backdoor to be run when the specified user logs into the machine.  
@@ -135,13 +133,25 @@ Register-ScheduledTask <taskname> -InputObject $task
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-These commands will allow your backdoor to be run when the specified user logs into the machine.  
+This command will allow your backdoor to be run at a specified time. 
+
+```text
+C:\Windows\system32\schtasks.exe"  /Create /F /RU System /SC DAILY /ST 10:39 /TN Updater /TR "C:\backdoor.exe"
+```
+
+* `/Create` – creates a new task 
+* `/F` - forcefully creates the task and suppresses warnings if the task exists 
+* `/RU` - Specifies the user context under which the task runs - System 
+* `/SC` – Frequency of schedule – Daily 
+* `/ST` – Time the task starts – 10:51 
+* `/TN` – Name of the task – Updater 
+* `/TR` – Path and filename of the executable to run - C:\backdoor.exe
 {% endtab %}
 {% endtabs %}
 
 ### BITS Jobs
 
-add powershell
+add powershell version
 
 ```text
 bitsadmin /create backdoor

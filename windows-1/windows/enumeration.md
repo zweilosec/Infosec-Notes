@@ -6,31 +6,71 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-## Enumeration
-
 Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO.
 
-\(./winpeas.exe\)\[[https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)\] \#My favorite Windows enumeration script, automates most common enumeration methods
+[https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) = My favorite Windows enumeration script, automates most common enumeration methods
 
 ## User Enumeration
 
-#### Get list of current user information:
+### Get current user information:
 
-`whoami /all` Includes: Username, SID, Groups \(including their descriptions!\), and user privileges. `Get-WmiObject -class Win32_UserAccount [-filter "LocalAccount=True"]` \#filter does not work on my work computer...but without it dumps all accounts on the whole domain!
+{% tabs %}
+{% tab title="PowerShell" %}
+`[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
+{% endtab %}
 
-\(cmd.exe\) net users %username% \#Me net users \#All local users net localgroup \#Groups net localgroup Administrators \#Who is inside Administrators group whoami /all \#Check the privileges
+{% tab title="cmd.exe" %}
+`whoami /all` Includes: Username, SID, Groups \(including their descriptions!\), and user privileges. 
+{% endtab %}
+{% endtabs %}
 
-\(Powershell\) Get-WmiObject -Class Win32\_UserAccount
+### Get list of users
+
+{% tabs %}
+{% tab title="PowerShell" %}
+`Get-WmiObject -class Win32_UserAccount` \#if run on a domain connected machine dumps all accounts on the whole domain!
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`net user %username%` \#Me `net users` \#All local users `net localgroup` \#Groups `net localgroup Administrators` \#Who is inside Administrators group 
+{% endtab %}
+{% endtabs %}
+
+### Using WMI Query Language \(WQL\)
+
+WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
+
+```text
+The following WQL query returns only local user accounts from a domain
+joined computer.
+
+    $q = "Select * from Win32_UserAccount where LocalAccount = True"
+
+    Get-CimInstance -Query $q
+
+To find domain accounts, use a value of False, as shown in the following
+example.
+
+    $q = "Select * from Win32_UserAccount where LocalAccount = False"
+    
+    Get-CimInstance -Query $q
+```
+
+{% hint style="info" %}
+WQL uses the backslash \(`\`\) as its escape character. This is different from Windows PowerShell, which uses the backtick character \(`````\).
+{% endhint %}
 
 ### LAPS
 
-LAPS allows you to manage the local Administrator password \(which is randomised, unique, and changed regularly\) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorised users using ACLs. Passwords are protected in transit from the client to the server using Kerberos v5 and AES. `reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled` When using LAPS, 2 new attributes appear in the computer objects of the domain: ms-msc-AdmPwd and ms-mcs-AdmPwdExpirationTime. These attributes contains the plain-text admin password and the expiration time. Then, in a domain environment, it could be interesting to check which users can read these attributes...
+LAPS allows you to manage the local Administrator password \(which is randomized, unique, and changed regularly\) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorized users using ACLs. Passwords are protected in transit from the client to the server using Kerberos v5 and AES. `reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled` When using LAPS, 2 new attributes appear in the computer objects of the domain: ms-msc-AdmPwd and ms-mcs-AdmPwdExpirationTime. These attributes contains the plain-text admin password and the expiration time. Then, in a domain environment, it could be interesting to check which users can read these attributes...
 
 ## OS Information
 
 ### Get OS Version information
 
-`systeminfo | findstr /B /C:"OS Name" /C:"OS Version"` `[System.Environment]::OSVersion.Version`
+`systeminfo | findstr /B /C:"OS Name" /C:"OS Version"` 
+
+`[System.Environment]::OSVersion.Version`
 
 ### Get basic Windows information
 
@@ -38,13 +78,17 @@ Also lists the patches that have been installed. `systeminfo` `Get-ComputerInfo`
 
 ### Get installed patches
 
-`wmic qfe get Caption,Description,HotFixID,InstalledOn` `Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hotfixid}` `Get-Hotfix` `-description "Security update"` \#List only "Security Updates"
+`wmic qfe get Caption,Description,HotFixID,InstalledOn` 
+
+`Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hotfixid} Get-Hotfix -description "Security update"` \#List only "Security Updates"
 
 ### Drivers
 
 #### Get a list of installed drivers
 
-`driverquery` `Get-WindowsDriver -Online -All` `-Online` Specifies that the action is to be taken on the operating system that is currently running on the local computer.
+`driverquery` 
+
+`Get-WindowsDriver -Online -All -Online` Specifies that the action is to be taken on the operating system that is currently running on the local computer.
 
 #### Default log path
 
@@ -56,7 +100,9 @@ Also lists the patches that have been installed. `systeminfo` `Get-ComputerInfo`
 
 ### List Environment Variables
 
-`set` `Get-ChildItem env:`
+`set` 
+
+`Get-ChildItem env:`
 
 ### Check Audit \(logging\) Settings
 
@@ -80,13 +126,27 @@ Get the contents of the clipboard `Get-Clipboard`
 
 #### List the installed software
 
-`dir /a "C:\Program Files"` `dir /a "C:\Program Files (x86)"` `reg query HKEY_LOCAL_MACHINE\SOFTWARE`
+`dir /a "C:\Program Files"` 
 
-`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'` `Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
+`dir /a "C:\Program Files (x86)"` 
+
+`reg query HKEY_LOCAL_MACHINE\SOFTWARE`
+
+`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'` 
+
+`Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
 
 ### Services
 
-Get a list of services: `net start` `wmic service list brief` `sc query` `Get-Process`
+Get a list of services: 
+
+`net start` 
+
+`wmic service list brief` 
+
+`sc query` 
+
+`Get-Process`
 
 #### Get detailed information for a specific service
 
