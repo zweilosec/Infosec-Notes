@@ -24,11 +24,41 @@ List files, sorted by Size: `ls -lS`
 
 Locate all files that symlink to a file: `find -L / -samefile </path/to/file>`
 
+## System Information
+
+List OS, hostname, kernel build number, CPU architecture: `uname -a`
+
+List running processes \(current user\): `ps`
+
+Similar to Windows Task Manager, lists running processes with details of hardware usage: `top`
+
+
+
 ## Networking
 
 Get networking information \(IP, Subnet mask, MAC, etc.\) `ip a` or `sudo ifconfig` \(like `ipconfig` on windows\)
 
+Set IP address: `ifconfig <interface> <ip>/<CIDR>`
+
+Change MTU size: `ifconfig <interface> mtu <size>`
+
+Change MAC address: `ifconfig <interface> hw ether <new_MAC>`
+
+### Managing connections
+
 nc listener: `nc -lvnp <port>`
+
+list open network connections: `lsof -i`
+
+### Shared folders
+
+Connect to Windows SMB share folder: `smb://<ip>/<share_name>`
+
+### DNS
+
+Look up DNS information for a website: `dig @<server> <name> <type>`
+
+Reverse look up a domain from an IP: `dig -x <IP>`
 
 ## Installing and Managing Programs
 
@@ -40,7 +70,19 @@ Search for packages \(unknown name\) to install from repositories: `apt-file sea
 
 Convert rpm to Debian packages: `alien <file.rpm>`
 
-## User Privileges
+## Users and Groups
+
+adduser
+
+addgroup
+
+id
+
+w
+
+last -a
+
+### User Privileges
 
 Execute commands with elevated privileges `sudo`
 
