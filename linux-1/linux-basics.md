@@ -4,25 +4,99 @@ description: Commands and programs that all Linux users need to know (but many d
 
 # Linux Basics
 
+TODO: Add screenshots/code examples for each command
+
 ## Command-line Basics
 
-Search through command history: `ctrl + r`
+Get help with a command: `man <command>`
 
-Cycle through previously used arguments: `alt + .`
+View history of commands that have been typed into the terminal: `history`
+
+Repeat a specific command from history command: `!<number>`
+
+Search through command history: `Ctrl + r` then cycle with Up or Down arrows. (Do not need to type `history` command first)
+
+Cycle through previously used command arguments: `alt + .`
 
 Move between "words" on a command line: `ctrl + [arrow_keys]`
 
+Clear all text off the terminal window: `clear`
+
+Print string to terminal: `echo <text_to_show>`
+- Can be used to display environment variables such as `$USER`, `$HOME`, `$PATH`
+
+Copy text: Select with mouse then `Ctrl + Shift + c`
+
+Paste text: `Ctrl + Shift + v`
+
+Print text from file to printer: `lp <filename>`
+
+Change directories: `cd <directory>`
+
+Move up one directory: `cd ..`
+
+Change directory to current user's home directory: `cd ~`
+
+Exit terminal session: `exit`
+
 ## Filesystem Basics
 
+Everything in Linux is a file, even directories.  Directories have some special restrictions, but for the most part can be treated like files.
+
+### Listing and viewing Directories and Files
+
 List hidden files: `ls -a`
+- Hidden files in Linux begin with a `.` these files can still be accessed normally, but the `.` must be added to the name.
 
 List files with attributes \(filesize, permissions, etc.\): `ls -la`
 
 List files, sorted by Size: `ls -lS`
 
-`sudo rm --force $(which <file_name>)` Remove all instances of a certain file. Could be used with `find` instead of `which`. dangerous with --force!!
+List files in current folder and subfolders (Recursive) - `ls -R`
 
 Locate all files that symlink to a file: `find -L / -samefile </path/to/file>`
+
+List the size, used space, and available space on the mounted filesystems of your computer: `df`
+
+Print the contents of a file to the command line: `cat <file>`
+
+Combine the contents of two text files: `cat <file1> <file2> > <newfilename>`
+
+Compare two files and show differences: `diff`
+
+Search for string inside a file: `grep <string> <file>`
+
+### File and Directory Creation, Modification, and Deletion
+
+To create a new file `touch <filename>`
+or
+```
+cat > <filename>
+ Type your file contents
+Press `Ctrl+d` to return to your terminal.
+```
+Create a new directory: `mkdir [/path/to/]<dirname>`
+
+
+
+Remove a file from the filesystem: `rm <filename>`
+
+Remove a directory from the filesystem: `rmdir <dirname>`
+
+Remove all instances of a certain file. `sudo rm --force $(which <file_name>)` (Could be used with `find` or `locate` instead of `which`. Dangerous with --force!!)
+
+Copy a file/directory to another location (or name): `cp <file> [/path/to/]<filename>`
+
+Move a file/directory to another location (or rename): `mv <file> [/path/to/]<filename>`
+
+### File Permissions
+
+chmod
+-ugo
+-rwx
+-7777
+
+chown
 
 ## System Information
 
@@ -46,7 +120,13 @@ Change MAC address: `ifconfig <interface> hw ether <new_MAC>`
 
 ### Managing connections
 
+nc
+
 nc listener: `nc -lvnp <port>`
+
+curl
+
+wget
 
 list open network connections: `lsof -i`
 
@@ -70,9 +150,13 @@ Search for packages \(unknown name\) to install from repositories: `apt-file sea
 
 Convert rpm to Debian packages: `alien <file.rpm>`
 
+
+
 ## Users and Groups
 
-adduser
+groups
+
+Add a new user: `adduser`
 
 addgroup
 
