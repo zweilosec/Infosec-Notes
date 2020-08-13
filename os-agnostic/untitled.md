@@ -91,12 +91,6 @@ view hex of file only: `xxd -p`
 
 reverse from hex: `xxd -r -p > <filename>`
 
-vim:
-
-* Learn vim: `vimtutor`
-* [https://www.youtube.com/watch?v=OnUiHLYZgaA](https://www.youtube.com/watch?v=OnUiHLYZgaA)
-* vim plugins: fuzzy finder plugin ctrlp /// surround.vim
-
 msfvenom custom exploit making:\[Ippsec:HacktheBox - Granny & Grandpa\]
 
 ```bash

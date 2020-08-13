@@ -14,7 +14,7 @@ View history of commands that have been typed into the terminal: `history`
 
 Repeat a specific command from history command: `!<number>`
 
-Search through command history: `Ctrl + r` then cycle with Up or Down arrows. (Do not need to type `history` command first)
+Search through command history: `Ctrl + r` then cycle with Up or Down arrows. \(Do not need to type `history` command first\)
 
 Cycle through previously used command arguments: `alt + .`
 
@@ -23,7 +23,8 @@ Move between "words" on a command line: `ctrl + [arrow_keys]`
 Clear all text off the terminal window: `clear`
 
 Print string to terminal: `echo <text_to_show>`
-- Can be used to display environment variables such as `$USER`, `$HOME`, `$PATH`
+
+* Can be used to display environment variables such as `$USER`, `$HOME`, `$PATH`
 
 Copy text: Select with mouse then `Ctrl + Shift + c`
 
@@ -41,18 +42,19 @@ Exit terminal session: `exit`
 
 ## Filesystem Basics
 
-Everything in Linux is a file, even directories.  Directories have some special restrictions, but for the most part can be treated like files.
+Everything in Linux is a file, even directories. Directories have some special restrictions, but for the most part can be treated like files.
 
 ### Listing and viewing Directories and Files
 
 List hidden files: `ls -a`
-- Hidden files in Linux begin with a `.` these files can still be accessed normally, but the `.` must be added to the name.
+
+* Hidden files in Linux begin with a `.` these files can still be accessed normally, but the `.` must be added to the name.
 
 List files with attributes \(filesize, permissions, etc.\): `ls -la`
 
 List files, sorted by Size: `ls -lS`
 
-List files in current folder and subfolders (Recursive) - `ls -R`
+List files in current folder and subfolders \(Recursive\) - `ls -R`
 
 Locate all files that symlink to a file: `find -L / -samefile </path/to/file>`
 
@@ -68,33 +70,29 @@ Search for string inside a file: `grep <string> <file>`
 
 ### File and Directory Creation, Modification, and Deletion
 
-To create a new file `touch <filename>`
-or
-```
+To create a new file `touch <filename>` or
+
+```text
 cat > <filename>
  Type your file contents
 Press `Ctrl+d` to return to your terminal.
 ```
+
 Create a new directory: `mkdir [/path/to/]<dirname>`
-
-
 
 Remove a file from the filesystem: `rm <filename>`
 
 Remove a directory from the filesystem: `rmdir <dirname>`
 
-Remove all instances of a certain file. `sudo rm --force $(which <file_name>)` (Could be used with `find` or `locate` instead of `which`. Dangerous with --force!!)
+Remove all instances of a certain file. `sudo rm --force $(which <file_name>)` \(Could be used with `find` or `locate` instead of `which`. Dangerous with --force!!\)
 
-Copy a file/directory to another location (or name): `cp <file> [/path/to/]<filename>`
+Copy a file/directory to another location \(or name\): `cp <file> [/path/to/]<filename>`
 
-Move a file/directory to another location (or rename): `mv <file> [/path/to/]<filename>`
+Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<filename>`
 
 ### File Permissions
 
-chmod
--ugo
--rwx
--7777
+chmod -ugo -rwx -7777
 
 chown
 
@@ -105,8 +103,6 @@ List OS, hostname, kernel build number, CPU architecture: `uname -a`
 List running processes \(current user\): `ps`
 
 Similar to Windows Task Manager, lists running processes with details of hardware usage: `top`
-
-
 
 ## Networking
 
@@ -150,8 +146,6 @@ Search for packages \(unknown name\) to install from repositories: `apt-file sea
 
 Convert rpm to Debian packages: `alien <file.rpm>`
 
-
-
 ## Users and Groups
 
 groups
@@ -176,7 +170,7 @@ Execute `sudo` command using another user's privileges: `sudo -u <username> [com
 
 Add new $PATHs to `.profile` rather than `.bashrc`, then `source ~/.profile` to use new PATHs
 
-Makes `pwd` part of path so dont need `./`  _NOT RECOMMENDED for home use!_  `export PATH='pwd':$PATH`
+Makes `pwd` part of path so dont need `./` _NOT RECOMMENDED for home use!_ `export PATH='pwd':$PATH`
 
 The bullet-proof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is: \(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)\)
 
