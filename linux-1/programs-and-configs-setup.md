@@ -5,7 +5,6 @@ description: >-
   else...can't think of a good title right now > focus on hardening?
 ---
 # OS Hardening
-https://forums.kali.org/showthread.php?28027-Hardening-Kali-Linux-Tips-and-Tricks
 
 ## System update
 The first thing to do after the first boot is to update the system. In most Debian-based flavors of Linux, you achieve this by executing the commands below:
