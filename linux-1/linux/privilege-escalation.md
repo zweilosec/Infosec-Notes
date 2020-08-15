@@ -6,7 +6,7 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: Add contents links at the top of each page, and references section at the bottom...
+TODO: Add contents links at the top of each page, and references section at the bottom...Add code examples and perhaps screenshots for each example
 
 ## Tools
 
