@@ -28,6 +28,14 @@
   * [Persistence](windows-1/windows/persistence.md)
   * [Active Directory](windows-1/windows/active-directory.md)
 
+## MacOS
+
+* [Red Team Notes](macos/red-team-notes/README.md)
+  * [Privilege Escalation](macos/red-team-notes/privilege-escalation.md)
+  * [Enumeration](macos/red-team-notes/enumeration.md)
+  * [Getting Access](macos/red-team-notes/getting-access.md)
+  * [Persistence](macos/red-team-notes/persistence.md)
+
 ## Web
 
 * [DNS](web/dns.md)
