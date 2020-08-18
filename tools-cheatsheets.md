@@ -16,7 +16,10 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [https://github.com/so87/OSCP-PwK/blob/master/Penetration%20Testing%20Tools.pdf](https://github.com/so87/OSCP-PwK/blob/master/Penetration%20Testing%20Tools.pdf)
 * [https://securism.wordpress.com/oscp-notes-information-gathering/](https://securism.wordpress.com/oscp-notes-information-gathering/)
 * [https://github.com/Elinpf/OSCP-survival-guide](https://github.com/Elinpf/OSCP-survival-guide)
-* 
+* [https://oscp.infosecsanyam.in/cheatsheet-short](https://oscp.infosecsanyam.in/cheatsheet-short)
+* [https://github.com/slyth11907/Cheatsheets](https://github.com/slyth11907/Cheatsheets)
+* [https://oscp.infosecsanyam.in/one-page-methodology](https://oscp.infosecsanyam.in/one-page-methodology)
+
 ## CTF Cheatsheats
 
 * [https://github.com/Ganapati/RsaCtfTool](https://github.com/Ganapati/RsaCtfTool) &lt;-- RSA cracking tools //"un-cipher" data from weak public key and try to recover private key

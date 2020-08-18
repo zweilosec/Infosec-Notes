@@ -30,6 +30,8 @@
 
 ## MacOS
 
+* [MacOS Basics](macos/macos-basics.md)
+* [Hardening & Configuration](macos/hardening-and-configuration.md)
 * [Red Team Notes](macos/red-team-notes/README.md)
   * [Privilege Escalation](macos/red-team-notes/privilege-escalation.md)
   * [Enumeration](macos/red-team-notes/enumeration.md)
