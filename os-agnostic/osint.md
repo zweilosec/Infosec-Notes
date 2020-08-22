@@ -1,5 +1,19 @@
 # OSINT
 
+## Google Account Enumeration
+
+{% embed url="https://medium.com/week-in-osint/getting-a-grasp-on-googleids-77a8ab707e43" %}
+
+This writeup from Sector035 gives a detailed walk through of how to get a wealth of information from a Google account such as a @gmail.com email address.  
+
+{% hint style="danger" %}
+Some of the steps for doing this require you to actually sign in to a Google account, and to add the target as a contact.  A burner account or sock puppet are recommended if you are doing this for a real engagement.
+{% endhint %}
+
+[https://developers.google.com/identity/sign-in/web/people](https://developers.google.com/identity/sign-in/web/people) [https://developers.google.com/people/api/rest/v1/people/get](https://developers.google.com/people/api/rest/v1/people/get)
+
+## Misc tools
+
 [RiskIQ’s Community Edition](https://www.riskiq.com/products/community-edition/) - 
 
 > Threat Hunter
