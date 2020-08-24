@@ -73,7 +73,8 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
 * [Unsorted Notes](os-agnostic/untitled.md)
-* 
+* [WiFi Hacking](os-agnostic/wifi.md)
+
 ## CTF Tools and Cheatsheets 
 
 [List of outside sources](tools-cheatsheets.md)
