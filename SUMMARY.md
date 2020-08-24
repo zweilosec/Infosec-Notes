@@ -58,5 +58,6 @@
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
 * [Unsorted](os-agnostic/untitled.md)
+* [WiFi](os-agnostic/wifi.md)
 * [OS Agnostic](os-agnostic/os_agnostic.md)
 
