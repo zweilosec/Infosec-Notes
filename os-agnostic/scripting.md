@@ -6,6 +6,8 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+TODO: Separate Bash and Python scripting pages...and add more
+
 ## Bash
 
 ### Check for root privileges
@@ -38,6 +40,14 @@ if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root." 1>&2
    exit 1
 fi
+```
+
+### MISC
+
+[https://www.techbrown.com/most-useful-bash-scripts-linux-sysadmin/](https://www.techbrown.com/most-useful-bash-scripts-linux-sysadmin/)
+
+```text
+wget https://raw.githubusercontent.com/sathisharthar/Admin-Scripts/master/sysinop
 ```
 
 ## Python
