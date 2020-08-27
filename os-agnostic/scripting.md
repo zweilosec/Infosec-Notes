@@ -16,7 +16,7 @@ When user account created a user ID is assigned to each user. BASH shell stores 
 
 You can easily add a simple check at the start of a script to make sure it is being run with root privileges.
 
-### Old way to check for root privileges
+#### Old way to check for root privileges
 
 ```text
 #!/bin/bash
@@ -29,7 +29,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 ```
 
-### New way: Using EUID
+#### New way: Using EUID
 
 ```text
 #!/bin/bash
