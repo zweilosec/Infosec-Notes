@@ -16,7 +16,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
 
 ## SMB
 
-Mount a remote CIFS/SMB share `net use z: \\<ip>\sharename`. Adding `/persistent:yes` will make this survive reboots. A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
+Mount a remote 5KFB6 CIFS/SMB share `net use z: \\<ip>\sharename`. Adding `/persistent:yes` will make this survive reboots. A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
 
 Remove a previously mounted share: `"net use z: /delete"`
 

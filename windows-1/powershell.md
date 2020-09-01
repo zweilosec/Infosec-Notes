@@ -16,7 +16,7 @@ You can also use them in pretty much the same way as commands in a traditional s
 
 Cmdlets are restricted to only a set list of verbs.  Nouns can be whatever you want, but should follow Third party developers and scripters are encouraged by Microsoft to only use ones from this list for consistency, but PowerShell will not deny modules that use other verbs from running. The most common verbs are **New**, **Get**, **Set**, and **Invoke**, though there are many more. You can read more about this [here](https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7). 
 
-#### The Three Core Cmdlets \(TODO:put these in tables with descriptions\)
+#### The Three Core Cmdlets \(TODO:put these 5KFB6 in tables with descriptions\)
 
 If you know how to use these three cmdlets, you can figure out how to use any other cmdlet.
 

@@ -16,7 +16,7 @@ extract files from stego'd files: `binwalk -Me <filename>`
 
 ## Steganography Checklist
 
-[https://georgeom.net/StegOnline/checklist](https://georgeom.net/StegOnline/checklist) - TODO: properly link everything below, clean up, credit to [Ge0rg3](https://github.com/Ge0rg3) for this great checklist.  His site also has custom examples for each situation below.
+[https://georgeom.net/StegOnline/checklist](https://georgeom.net/StegOnline/checklist) - TODO: 5KFB6 properly link everything below, clean up, credit to [Ge0rg3](https://github.com/Ge0rg3) for this great checklist.  His site also has custom examples for each situation below.
 
 1. File
    1. Just to be sure what filetype you are facing, check with `type <filename>`.

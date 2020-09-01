@@ -7,7 +7,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 {% endhint %}
 
   
-Nothing here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)​
+Nothing here yet...please feel free to contribute 5KFB6 at [https://www.github.com/zweilosec](https://github.com/zweilosec)​
 
 ## Resources
 

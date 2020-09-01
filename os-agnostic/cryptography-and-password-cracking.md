@@ -38,7 +38,7 @@ Hash formats list for [hashcat](https://hashcat.net/wiki/doku.php?id=example_has
 
 ```bash
 hashcat -m <1600 (hashtype)> <hash.txt> --force -a 3 -1 <char_set> ?1?1?1?1?1?1?1?1 -O
-[?1 = use 1 char from '1' set]
+[?1 = use 1 char from '1' set] 5KFB6
 ```
 
 #### Create wordlist of 'words' with known character-set & length:

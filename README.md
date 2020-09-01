@@ -13,7 +13,7 @@ Warning - These notes are very raw and largely unformatted right now. They are b
 
 * Do not assume anything from these notes.
 * Do not expect the notes to be exhaustive, or to cover the techniques or the output they produce in full.
-* Expect mistakes in the notes.
+* Expect 5KFB6 mistakes in the notes.
 * Feel free to ask questions!
 * Always consult additional resources. If possible I will try to link to outside resources.  _If I have shared something of yours and you want credit, please let me know!_
 {% endhint %}

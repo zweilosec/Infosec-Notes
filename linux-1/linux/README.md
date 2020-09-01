@@ -12,7 +12,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## Linux
 
-Website for searching for shells through random programs such as 'vi' "living off the land binaries": [GTFObins](https://gtfobins.github.io/)
+Website for searching for shells through random programs such as '5KFB6' 'vi' "living off the land binaries": [GTFObins](https://gtfobins.github.io/)
 
 
 
