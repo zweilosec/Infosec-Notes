@@ -40,9 +40,59 @@ Change directory to current user's home directory: `cd ~`
 
 Exit terminal session: `exit`
 
+### Special Symbols
+
+| `Symbol` | Purpose |
+| :--- | :--- |
+| `|` | Send the output of one command to another. |
+| `>` | Redirect output to a file. |
+| `<` | Redirect input from a file. |
+| `>>` | Append output to an existing file. |
+| `/` | Separator used in path names. |
+| `\` | Used to escape characters and to send multi-line commands. |
+| `.` | Current directory. |
+| `..` | Parent directory. |
+| `&` | Process command in the background \(and give control of the terminal back. |
+| `&&` | Run the next command only if the previous completed successfully. |
+| `*` | Match any number of characters in file name. |
+| `?` | Match any single character in file name. |
+| `[ ]` | Match any one of the enclosed characters in file name. |
+| `;` | Run commands in sequence, regardless if the previous succeeded. |
+| `( )` | Group commands. |
+| `!!` | Repeat the previous command. |
+
+### Recover an unresponsive terminal
+
+1. Press the **RETURN/ENTER** key.
+
+   You may have typed a command but forgotten to press **RETURN** to tell the shell that you’re done typing and it should now interpret the command.
+
+2. If you can type commands, but nothing happens when you press **RETURN**, try typing **CTRL-J**. If this works, your terminal needs to be reset to fix the **RETURN** key. Some systems have a **reset** command that you can run by typing **CTRL-J** **reset** **CTRL-J**. If this doesn’t work, you may need to log out and log back in or turn your terminal off and on again.
+3. If your shell has job control type **CTRL-Z**.
+
+   This suspends a program that may be running and gives you another shell prompt. Now you can enter the **jobs** command to find the program’s name, then restart the program with **fg** or terminate it with **kill**.
+
+4. Use your interrupt key \(typically **DELETE** or **CTRL-C\)**.
+
+   This interrupts a program that may be running. \(Unless a program is run in the background as the shell will wait for it to finish before giving a new prompt. A long-running program may thus appear to hang the terminal.\) If this doesn’t work the first time, try it once more, though doing it more than twice usually won’t help.
+
+5. Type **CTRL-Q**.
+
+   If output has been stopped with **CTRL-S**, this will restart it. \(Note that some systems will automatically issue **CTRL-S** if they need to pause output; this character may not have been typed by the user from the keyboard.\)
+
+6. Check that the **SCROLL LOCK** key is not toggled on.
+
+   This key stops the screen display from scrolling upward. If pressing it once does not work, make sure you’ve pressed it an even number of times as this leaves the key in the same state it was when you started.
+
+7. Type **CTRL-D** at the beginning of a new line.
+
+   Some programs \(like **mail**\) expect text from the user. A program may be waiting for an end-of-input character from you to tell it that you’ve finished entering text. However, typing **CTRL-D** may cause you to log out, so you should only try this as a last resort.
+
+8. If you’re using a windowing system, close \(or terminate\) the terminal window and open a new one. 
+
 ## Filesystem Basics
 
-Everything in Linux is a file, even directories. Directories have some special restrictions, but for the most part can be treated like files.
+Everything in Linux is are files, even directories and devices. Directories have some special restrictions, but for the most part can be treated like files.
 
 ### Listing and viewing Directories and Files
 
