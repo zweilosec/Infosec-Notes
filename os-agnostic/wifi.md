@@ -12,3 +12,11 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 Nothing here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+
+
+## Choosing a wireless module
+
+You must choose a wireless module that has a chipset that is capable of being put in monitor mode.  The site below has a fairly comprehensive list of adapters that support this.  
+
+[https://miloserdov.org/?p=2196](https://miloserdov.org/?p=2196)
+
