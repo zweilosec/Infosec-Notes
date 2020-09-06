@@ -238,3 +238,36 @@ Add script to run at startup: `update-rc.d </path/to/the/script> defaults` \(nee
 
 Delete script from default autorun: `update-rc.d -f </path/to/the/script> remove`
 
+## Make a Linux live boot USB
+
+On Windows:
+
+1. Download and run [Rufus](https://rufus.ie/). 
+2. Select the USB device and ISO you want to use, giving the volume a name if you wish.
+3. If you want to use persistence, 
+   1. Click "Show advanced drive options".
+   2. Select the amount of storage to use for persistence.
+4. Click "Start" and wait for it to finish.
+
+For Kali live persistent boot USBs you will need the additional step of adding a `persistence.conf` by following the instructions below.
+
+1. Verify your USB devices persistent storage partition with the command `fdisk -l`.
+2. After locating your partition \(in this example it is `/dev/sdb3`\), label it `persistence`.
+
+   ```text
+   e2label /dev/sdb3 persistence
+   ```
+
+3. Create a mount point, mount the new partition there, and then create the configuration file to enable persistence. Finally, unmount the partition.
+
+   ```text
+   mkdir -p /mnt/my_usb
+   mount /dev/sdb3 /mnt/my_usb
+   echo "/ union" > /mnt/my_usb/persistence.conf
+   umount /dev/sdb3
+   ```
+
+## References
+
+* [https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/](https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/)
+
