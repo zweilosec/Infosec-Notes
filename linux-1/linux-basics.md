@@ -267,6 +267,34 @@ For Kali live persistent boot USBs you will need the additional step of adding a
    umount /dev/sdb3
    ```
 
+## Fork Bomb
+
+A fork bomb is a type of denial-of-service attack against Unix-based systems, which makes use of the fork operation \(or equivalent functionality\) whereby a running process spawns another running process indefinitely. This attack works by creating a large number of processes very quickly in order to saturate the available resources of the operating system.
+
+Once this code is executed, within seconds the target system will freeze and will have to hard rebooted. 
+
+A common succinct bash fork bomb looks like:
+
+```text
+:(){:|:&};:
+```
+
+Which can be explained as:
+
+| Function | Description |
+| :--- | :--- |
+| `:()` | define a function named `:` . Whenever we call `:`, execute the commands inside the `{ }` |
+| `:|:` | load a copy of the **`:`** function into memory and pipe its output to another copy of the **`:`** function, which has to also be loaded into memory separately. |
+| `&` | Disowns the other functions. If the first **`:`** is killed, all of the functions that it started should NOT also be killed. |
+| `;` | Ends the function definition and tells the interpreter to run what is next as a command |
+| `:` | Call function `:` initiating a chain-reaction: each call of `:` will start two more |
+
+It can also be written as:
+
+```text
+forkbomb() { forkbomb | forkbomb & } ; forkbomb
+```
+
 ## References
 
 * [https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/](https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/)
