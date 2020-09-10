@@ -57,11 +57,11 @@
 * [SQL](os-agnostic/sql.md)
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
-* [Unsorted](os-agnostic/untitled.md)
 * [Wireless](os-agnostic/wifi.md)
 * [OS Agnostic](os-agnostic/os_agnostic.md)
+* [Network Hardware](os-agnostic/network-hardware.md)
 
 ---
 
-* [Network Hardware](network-hardware.md)
+* [Unsorted](untitled.md)
 
