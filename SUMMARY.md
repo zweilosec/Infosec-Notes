@@ -50,7 +50,8 @@
 
 ## OS Agnostic
 
-* [Cryptography & Password Cracking](os-agnostic/cryptography-and-password-cracking.md)
+* [Cryptography & Encryption](os-agnostic/cryptography-and-encryption.md)
+* [Password Cracking](os-agnostic/password-cracking.md)
 * [OSINT](os-agnostic/osint.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
 * [Scripting](os-agnostic/scripting.md)
