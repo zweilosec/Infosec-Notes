@@ -51,16 +51,16 @@
 ## OS Agnostic
 
 * [Cryptography & Encryption](os-agnostic/cryptography-and-encryption.md)
-* [Password Cracking](os-agnostic/password-cracking.md)
+* [Network Hardware](os-agnostic/network-hardware.md)
+* [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
+* [Password Cracking](os-agnostic/password-cracking.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
 * [Scripting](os-agnostic/scripting.md)
 * [SQL](os-agnostic/sql.md)
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
 * [Wireless](os-agnostic/wifi.md)
-* [OS Agnostic](os-agnostic/os_agnostic.md)
-* [Network Hardware](os-agnostic/network-hardware.md)
 
 ---
 

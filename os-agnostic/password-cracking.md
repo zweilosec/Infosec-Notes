@@ -6,7 +6,15 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-### Getting the Hashes
+## Headings:
+
+This page is getting to be long, so here are shortcuts to the major sections.  I may break these into separate pages later.
+
+* [Getting the hashes](password-cracking.md#getting-the-hashes)
+* [Wordlist manipulation](password-cracking.md#wordlist-manipulation)
+* [Password cracking](password-cracking.md#password-cracking)
+
+## Getting the Hashes
 
 ### Extract md5 hashes
 
@@ -114,7 +122,7 @@ AMEX `# grep -E -o "3[47][0-9]{2}[ -]?[0-9]{6}[ -]?[0-9]{5}" *.txt > amex.txt`
 
 `# egrep -a -o "\bISBN(?:-1[03])?:? (?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]\b" *.txt > isbn.txt`
 
-## WordList Manipulation
+## Wordlist Manipulation
 
 ### Remove the space character with sed
 
