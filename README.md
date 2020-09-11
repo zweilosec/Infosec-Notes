@@ -6,7 +6,7 @@ description: >-
 
 # Hacker's Rest
 
-\#TODO: Change all code examples to use variables \(i.e. $host\_ip\) rather than fill-in-the-blank format \(i.e. &lt;host\_ip&gt;\). This will help greatly with copying code directly into scripts.
+\#TODO: Change all code examples to use variables \(e.g. $host\_ip\) rather than fill-in-the-blank format \(e.g. &lt;host\_ip&gt;\). This will help greatly with copying code directly into scripts.
 
 These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.gitbook.io/htb-writeups/).
 
