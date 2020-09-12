@@ -347,39 +347,46 @@ I have found that I can squeeze some more power out of my hash cracking by addin
 
 These will force Hashcat to use the CUDA GPU interface which is buggy but provides more performance \(–force\) , will Optimize for 32 characters or less passwords \(-O\) and will set the workload to "Insane" \(-w 4\) which is supposed to make your computer effectively unusable during the cracking process. Finally "--opencl-device-types 1,2 " will force HashCat to use BOTH the GPU and the CPU to handle the cracking.
 
-### Using hashcat and a dictionary <a id="using-hashcat-and-a-dictionary"></a>
+### Using a dictionary <a id="using-hashcat-and-a-dictionary"></a>
 
-Create a .hash file with all the hashes you want to crack puthasheshere.hash: $1$O3JMY.Tw$AdLnLjQ/5jXF9.MTp3gHv/
+Hashcat example: cracking Linux md5crypt passwords \(identified by $1$\) using a wordlist:
 
-Hashcat example cracking Linux md5crypt passwords $1$ using rockyou:
+`hashcat --force -m 500 -a 0 -o $out_cracked_passes $hash_file $pass_list`
 
-`hashcat --force -m 500 -a 0 -o found1.txt --remove puthasheshere.hash /usr/share/wordlists/rockyou.txt`
-
-Hashcat example cracking Wordpress passwords using rockyou: `hashcat --force -m 400 -a 0 -o found1.txt --remove wphash.hash /usr/share/wordlists/rockyou.txt`
+Hashcat example cracking WordPress passwords using a wordlist: `hashcat --force -m 400 -a 0 -o $out_cracked_passes $hash_file $pass_list`
 
 Sample Hashes [http://openwall.info/wiki/john/sample-hashes](http://openwall.info/wiki/john/sample-hashes)​
 
-### HashCat One Rule to Rule them All <a id="hashcat-one-rule-to-rule-them-all"></a>
+### One Rule to Rule Them All <a id="hashcat-one-rule-to-rule-them-all"></a>
 
-Not So Secure has built a custom rule that I have had luck with in the past: [https://www.notsosecure.com/one-rule-to-rule-them-all/](https://www.notsosecure.com/one-rule-to-rule-them-all/) The rule can be downloaded from their Github site: [https://github.com/NotSoSecure/password\_cracking\_rules](https://github.com/NotSoSecure/password_cracking_rules)​
+@NotSoSecure has built a custom rule that combines many of the most popular Hashcat rules: [https://www.notsosecure.com/one-rule-to-rule-them-all/](https://www.notsosecure.com/one-rule-to-rule-them-all/) 
 
-I typically drop OneRuleToRuleThemAll.rule into the rules subfolder and run it like this from my windows box \(based on the notsosecure article\):
+The rule can be downloaded from GitHub: [https://github.com/NotSoSecure/password\_cracking\_rules](https://github.com/NotSoSecure/password_cracking_rules)​
 
-```text
-hashcat64.exe --force -m300 --status -w3 -o found.txt --remove --potfile-disable -r rules\OneRuleToRuleThemAll.rule hash.txt rockyou.txt
-```
-
-### Using hashcat bruteforcing <a id="using-hashcat-bruteforcing"></a>
+Put the `OneRuleToRuleThemAll.rule` file into the `/usr/share/hashcat/rules/` folder and run it:
 
 ```text
-predefined charsets?l = abcdefghijklmnopqrstuvwxyz?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ?d = 0123456789?s = «space»!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~?a = ?l?u?d?s?b = 0x00 - 0xff
+hashcat --force -m300 --status -w3 -o $out_cracked_passes -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule $hash $pass_list
 ```
 
-?l?d?u is the same as: ?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+### Using Hashcat for brute-forcing <a id="using-hashcat-bruteforcing"></a>
 
-Brute force all passwords length 1-8 with possible characters A-Z a-z 0-9 `hashcat64 -m 500 hashes.txt -a 3 ?1?1?1?1?1?1?1?1 --increment -1 ?l?d?u`
+Predefined character sets:
 
-### Cracking Linux Hashes - /etc/shadow file <a id="cracking-linux-hashes-etc-shadow-file"></a>
+```text
+?l = abcdefghijklmnopqrstuvwxyz
+?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+?d = 0123456789
+?s = «space»!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+?a = ?l?u?d?s
+?b = 0x00 - 0xff
+```
+
+?u?l?d is the same as: ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+
+Brute-force all passwords of length 1-8 with these possible characters: A-Z a-z 0-9 `hashcat -m 500 $hash_file -a 3 --increment -1 ?l?d?u ?1?1?1?1?1?1?1?1`
+
+### Cracking Linux Hashes from `/etc/shadow` file <a id="cracking-linux-hashes-etc-shadow-file"></a>
 
 | ID | Description | Type |
 | :--- | :--- | :--- |
@@ -451,14 +458,14 @@ Brute force all passwords length 1-8 with possible characters A-Z a-z 0-9 `hashc
 
 ### Cracking NTLM hashes <a id="cracking-ntlm-hashes"></a>
 
-After grabbing or dumping the NTDS.dit and SYSTEM registry hive or dumping LSASS memory from a Windows box, you will often end up with NTLM hashes.
+After grabbing or dumping the `NTDS.dit` and `SYSTEM` registry hive or dumping LSASS memory from a Windows machine:
 
 | Path | Description |
 | :--- | :--- |
 | C:\Windows\NTDS\ntds.dit | Active Directory database |
 | C:\Windows\System32\config\SYSTEM | Registry hive containing the key used to encrypt hashes |
 
-And using Impacket to dump the hashes
+Using `Impacket` to dump the hashes:
 
 ```text
 impacket-secretsdump -system SYSTEM -ntds ntds.dit -hashes lmhash:nthash LOCAL -outputfile ntlm-extract
@@ -467,10 +474,8 @@ impacket-secretsdump -system SYSTEM -ntds ntds.dit -hashes lmhash:nthash LOCAL -
 You can crack the NTLM hash dump usign the following hashcat syntax:
 
 ```text
-hashcat64 -m 1000 -a 0 -w 4 --force --opencl-device-types 1,2 -O d:\hashsample.hash "d:\WORDLISTS\realuniq.lst" -r OneRuleToRuleThemAll.rule
+hashcat -m 1000 -a 0 -w 4 --force --opencl-device-types 1,2 -O $hash_file $pass_list -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule
 ```
-
-_Benchmark using a Nvidia 2060 GTX:_ Speed: 7000 MH/s Recovery Rate: 12.47% Elapsed Time: 2 Hours 35 Minutes
 
 ### Cracking Hashes from Kerboroasting - KRB5TGS <a id="cracking-hashes-from-kerboroasting-krb-5-tgs"></a>
 
