@@ -18,29 +18,45 @@ This page is getting to be long, so here are shortcuts to the major sections.  I
 
 ### Extract md5 hashes
 
-`# egrep -oE '(^|[^a-fA-F0-9])[a-fA-F0-9]{32}([^a-fA-F0-9]|$)' *.txt | egrep -o '[a-fA-F0-9]{32}' > md5-hashes.txt`
+Using egrep:
 
-An alternative could be with sed
+```bash
+egrep -oE '(^|[^a-fA-F0-9])[a-fA-F0-9]{32}([^a-fA-F0-9]|$)' $hash_directory/* | egrep -o '[a-fA-F0-9]{32}' > $out_hash_file
+```
 
-`# sed -rn 's/.*[^a-fA-F0-9]([a-fA-F0-9]{32})[^a-fA-F0-9].*/1/p' *.txt > md5-hashes`
+Alternatively with sed:
 
-> **Note:** The above regexes can be used for SHA1, SHA256 and other unsalted hashes represented in hex. The only thing you have to do is change the '{32}' to the corresponding length for your desired hash-type.
+```bash
+sed -rn 's/.*[^a-fA-F0-9]([a-fA-F0-9]{32})[^a-fA-F0-9].*/1/p' $hash_directory/* > $out_hash_file
+```
 
-### Extract valid MySQL-Old hashes
+{% hint style="info" %}
+The two regular expressions above can be used for SHA1, SHA256 and other unsalted hashes represented in hex. The only thing you need to do is change the value**`{32}`**to the corresponding length for your desired hash type.
+{% endhint %}
 
-`# grep -e "[0-7][0-9a-f]{7}[0-7][0-9a-f]{7}" *.txt > mysql-old-hashes.txt`
+### Extract MySQL-Old hashes
+
+```bash
+grep -e "[0-7][0-9a-f]{7}[0-7][0-9a-f]{7}" $hash_directory/* > $out_hash_file
+```
 
 ### Extract blowfish hashes
 
-`# grep -e "$2a\$\08\$(.){75}" *.txt > blowfish-hashes.txt`
+```bash
+grep -e "$2a\$\08\$(.){75}" $hash_directory/* > $out_hash_file
+```
 
 ### Extract Joomla hashes
 
-`# egrep -o "([0-9a-zA-Z]{32}):(w{16,32})" *.txt > joomla.txt`
+```bash
+egrep -o "([0-9a-zA-Z]{32}):(w{16,32})" $hash_directory/* > $out_hash_file
+```
 
 ### Extract VBulletin hashes
 
-`# egrep -o "([0-9a-zA-Z]{32}):(S{3,32})" *.txt > vbulletin.txt`
+```bash
+egrep -o "([0-9a-zA-Z]{32}):(S{3,32})" $hash_directory/* > $out_hash_file
+```
 
 ### Extraxt phpBB3-MD5
 
@@ -145,36 +161,42 @@ AMEX `# grep -E -o "3[47][0-9]{2}[ -]?[0-9]{6}[ -]?[0-9]{5}" *.txt > amex.txt`
 
 ### Remove blank lines with sed
 
-`# sed -i '/^$/d' List.txt`
+```bash
+sed -i '/^$/d' $text_file
+```
 
-### Remove defined character with sed
+### Remove a specific character with sed
 
-`# sed -i "s/'//" file.txt`
+```bash
+sed -i "s/$char//" $text_file
+```
 
-### Delete a string with sed
+### Delete all instances of a string with sed
 
-`# echo 'This is a foo test' | sed -e 's/<foo>//g'`
+```bash
+cat $text_file | sed -e "s/$string//g" > $out_text_file
+```
 
 ### Replace characters with tr
 
 `# tr '@' '#' < emails.txt` OR `# sed 's/@/#' file.txt`
 
-### Print specific columns with awk
+### Print specific columns with awk or cut
 
 `# awk -F "," '{print $3}' infile.csv > outfile.csv` OR `# cut -d "," -f 3 infile.csv > outfile.csv`
 
-> **Note:** if you want to isolate all columns after column 3 use `# cut -d "," -f 3- infile.csv > outfile.csv`
+> **Note:** if you want to isolate all columns after column 3 put a `-` \(dash\) after the number: `# cut -d "," -f 3- infile.csv > outfile.csv`
 
 ### Generate Random Passwords with /dev/urandom
 
 ```text
-# tr -dc 'a-zA-Z0-9._!@#$%^&*()' < /dev/urandom | fold -w 8 | head -n 500000 > wordlist.txt
-# tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' < /dev/urandom | fold -w 12 | head -n 4
-# base64 /dev/urandom | tr -d '[^:alnum:]' | cut -c1-10 | head -2
-# tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 10 | head -n 4
-# tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' < /dev/urandom | fold -w 12 | head -n 4 | grep -i '[!@#$%^&*()_+{}|:<>?=]'
-# tr -dc '[:print:]' < /dev/urandom | fold -w 10| head -n 10
-# tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
+tr -dc 'a-zA-Z0-9._!@#$%^&*()' < /dev/urandom | fold -w 8 | head -n 500000 > wordlist.txt
+tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' < /dev/urandom | fold -w 12 | head -n 4
+base64 /dev/urandom | tr -d '[^:alnum:]' | cut -c1-10 | head -2
+tr -dc 'a-zA-Z0-9' < /dev/urandom | fold -w 10 | head -n 4
+tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' < /dev/urandom | fold -w 12 | head -n 4 | grep -i '[!@#$%^&*()_+{}|:<>?=]'
+tr -dc '[:print:]' < /dev/urandom | fold -w 10| head -n 10
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 ```
 
 ### Remove Parenthesis with tr
@@ -233,15 +255,11 @@ AMEX `# grep -E -o "3[47][0-9]{2}[ -]?[0-9]{6}[ -]?[0-9]{5}" *.txt > amex.txt`
 
 https://github.com/frizb/
 
-An amazing index of brute-force commands
-
-```text
-https://book.hacktricks.xyz/brute-force
-```
+An amazing index of brute-force commands: [https://book.hacktricks.xyz/brute-force](https://book.hacktricks.xyz/brute-force)
 
 ## Hydra <a id="hydra"></a>
 
-Below are a few scriptable examples of common protocols to brute force logins.
+Below are a few scriptable examples to brute force logins of common protocols.
 
 | Command | Description |
 | :--- | :--- |
@@ -330,10 +348,6 @@ hashcat --outfile > $hash_file
 * http://rainbowtables.it64.com/
 * http://www.md5online.org
 
-  ```text
-  https://crackstation.net/http://www.cmd5.org/https://hashkiller.co.uk/md5-decrypter.aspxhttps://www.onlinehashcrack.com/http://rainbowtables.it64.com/http://www.md5online.org/
-  ```
-
 ## Hashcat Cheatsheet <a id="hashcat-cheatsheet"></a>
 
 Hashcat Cheatsheet for OSCP [https://hashcat.net/wiki/doku.php?id=hashcat](https://hashcat.net/wiki/doku.php?id=hashcat)​
@@ -373,7 +387,7 @@ The rule can be downloaded from GitHub: [https://github.com/NotSoSecure/password
 Put the `OneRuleToRuleThemAll.rule` file into the `/usr/share/hashcat/rules/` folder and run it:
 
 ```text
-hashcat --force -m300 --status -w3 -o $out_cracked_passes -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule $hash $pass_list
+hashcat -D1,2 -O --force -m300 --status -w3 -o $out_cracked_passes -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule $hash $pass_list
 ```
 
 ### Using Hashcat for brute-forcing <a id="using-hashcat-bruteforcing"></a>
