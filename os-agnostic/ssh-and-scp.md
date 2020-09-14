@@ -94,7 +94,7 @@ ssh -i <filename> <remotehost>
 
 and if you need to convert this format to ssh-rsa run : `ssh-keygen -f PublicKey.pub -i -mPKCS8`
 
-To generate a public key from the private key:
+### Generate a public key from the private key:
 
 ```bash
 ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
