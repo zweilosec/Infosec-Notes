@@ -36,7 +36,6 @@ Host jumpBox-1
     User jumper
     IdentityFile /home/kali/.ssh/to_jumpbox-1.key
     
-
 Host jumpBox-2
     HostName 192.168.221.32
     User jumpboxAdmin
