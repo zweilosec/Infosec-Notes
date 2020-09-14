@@ -31,25 +31,36 @@ Host *
     ServerAliveInterval 60
     TCPKeepAlive no
 
-Host jumpbox-1
+Host jumpBox-1
     HostName jumpbox-1.com
     User jumper
     IdentityFile /home/kali/.ssh/to_jumpbox-1.key
+    
 
-Host jumpbox-2
+Host jumpBox-2
     HostName 192.168.221.32
     User jumpboxAdmin
     IdentityFile /home/kali/.ssh/to_jumpbox-2.key
+    ProxyJump jumpBox-1
 
 Host raspPi-1
     HostName sup.er.long.complex.aws.dns.name.com
     User piUser
     IdentityFile /home/kali/.ssh/to_raspPi-1.key
+    ProxyJump jumpBox-2
 ```
 
 In the case of the SSH server side, replace `ServerAliveInterval` with `ClientAliveInterval` and put it in the file `/etc/ssh/sshd_config`. 
 
 The above configuration shows an example of allowing a user to use a simplified command such as`ssh jumpbox-1` in place of having to type out `user@hostName -i /path/to/keyfile` and supplies the relevant information automatically. This reduces the need for remembering usernames, IPs, or long and complex DNS names.
+
+### ProxyJump <a id="proxyjump"></a>
+
+By having SSH keys for each of our jump boxes and the target device on our local machine, we can simplify the process of logging in through each machine quite a bit. The `ProxyJump` directive signifies which machine you need to jump through to get to the next machine in the proxy chain.
+
+This simple change allows a user to simply give the command `ssh raspPi-1`, wait a bit for all of the connections to be made, and pop a shell on the `raspPi-1` device. 
+
+### Keep Alive
 
 If you want to set the keep alive [for the server](https://www.freebsd.org/cgi/man.cgi?sshd_config%285%29), add this to `/etc/ssh/sshd_config`:
 
