@@ -37,19 +37,19 @@ Host jumpBox-1
     IdentityFile /home/kali/.ssh/to_jumpbox-1.key
     
 Host jumpBox-2
-    HostName 192.168.221.32
+    HostName sup.er.long.complex.aws.dns.name.com
     User jumpboxAdmin
     IdentityFile /home/kali/.ssh/to_jumpbox-2.key
     ProxyJump jumpBox-1
 
 Host raspPi-1
-    HostName sup.er.long.complex.aws.dns.name.com
+    HostName 192.168.221.32
     User piUser
     IdentityFile /home/kali/.ssh/to_raspPi-1.key
     ProxyJump jumpBox-2
 ```
 
-In the case of the SSH server side, replace `ServerAliveInterval` with `ClientAliveInterval` and put it in the file `/etc/ssh/sshd_config`. 
+In the case of the SSH server side, replace `ServerAliveInterval` with `ClientAliveInterval` and put it in the file `/etc/ssh/sshd_config`.  This is especially useful for reverse tunnels.
 
 The above configuration shows an example of allowing a user to use a simplified command such as`ssh jumpbox-1` in place of having to type out `user@hostName -i /path/to/keyfile` and supplies the relevant information automatically. This reduces the need for remembering usernames, IPs, or long and complex DNS names.
 
