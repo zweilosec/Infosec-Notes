@@ -259,10 +259,6 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 
 For a comprehensive list of auto-executed files you can use AutoRuns from SysInternals [https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns): `autorunsc.exe -m -nobanner -a * -ct /accepteula`
 
-
-
-[Skip to content](https://github.com/madhuakula/wincmdfu#start-of-content)![](https://github.githubassets.com/images/search-key-slash.svg)[Pull requests](https://github.com/pulls)[Issues](https://github.com/issues)[Marketplace](https://github.com/marketplace)[Explore](https://github.com/explore) ![@zweilosec](https://avatars0.githubusercontent.com/u/61819873?s=60&v=4) 
-
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
 * TODO: Everything below copied from the above...in the process of verification, cleanup, and assimilation.
