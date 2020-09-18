@@ -303,6 +303,8 @@ To add kali's repository to another distro use the line: `deb http://http.kali.o
 
 [chroot jail](https://www.geeksforgeeks.org/linux-virtualization-using-chroot-jail/)
 
+
+
  **lynis** - open source security auditing tool. Comes with Kali
 
 ```text
@@ -310,7 +312,17 @@ lynis --update
 lynis audit system
 ```
 
+### Bastille
 
+`bastille --assess` runs [Bastille](http://bastille-linux.sourceforge.net/) in [assessment](http://bastille-linux.sourceforge.net/assessment.htm) mode. The utility will perform an assessment of the current system’s security configuration, grading it according to its relative level of security according to a set of weights you supply. You can use Bastille’s set of default weights for each area being tested or supply your own. This option is only available for the Red Hat and SUSE Linux distributions.
+
+`bastille -x` runs Bastille in its default GUI mode using Perl-Tk to provide the user interface, while `bastille -c` runs the program in console mode.
+
+`bastille --log` logs any changes that Bastille would make to the system without actually applying the changes.
+
+Once Bastille has completed its changes, it creates a TODO list in `/var/log/Bastille/TODO` that describes other actions you should perform on the system to further enhance its security.
+
+If you’re not happy with the changes Bastille makes to your computer, you can run `bastille -r` to reverse its changes. This operation is not guaranteed to work perfectly if it has been a long time since you applied your original Bastille changes, or if you have done a lot of extra security configuration in the meantime.
 
 ### Tmux
 
