@@ -324,6 +324,15 @@ Once Bastille has completed its changes, it creates a TODO list in `/var/log/Bas
 
 If you’re not happy with the changes Bastille makes to your computer, you can run `bastille -r` to reverse its changes. This operation is not guaranteed to work perfectly if it has been a long time since you applied your original Bastille changes, or if you have done a lot of extra security configuration in the meantime.
 
+When using ssh and scp you can deploy Bastille using the commands:
+
+```text
+scp /etc/Bastille/config root@$targetHost:/etc/Bastille
+ssh root@$targetHost "bastille -b"
+```
+
+where _`$targetHost`_ is the hostname or IP address of the computer you want to connect to. These commands copy the Bastille configuration file to the remote computer and then run Bastille on the remote computer in batch mode, which reads the configuration file to determine the changes Bastille should make and applies them to your system. Obviously Bastille needs to be installed on each of the remote computers first.
+
 ### Tmux
 
 Tmux can keep alive sessions if you lose ssh sessions etc, can split panes and more:
