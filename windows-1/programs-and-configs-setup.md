@@ -5,7 +5,7 @@ description: >-
   else...can't think of a good title right now
 ---
 
-# Programs & Configs Setup
+# Hardening & Setup
 
 ## Hardening the OS
 

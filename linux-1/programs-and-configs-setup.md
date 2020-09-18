@@ -5,7 +5,7 @@ description: >-
   else...can't think of a good title right now
 ---
 
-# Programs & Configs Setup
+# Hardening & Setup
 
 ## System update
 
@@ -15,7 +15,7 @@ The first thing to do after the first boot is to update the system. In most Debi
 sudo apt update && sudo apt upgrade -y
 ```
 
-## Check the installed packages
+## Manage installed packages
 
 List all packages installed on your Linux OS and remove the unnecessary ones. Besides installing updates, the next best way to harden a system is to remove or disable applications and services that are vulnerable to attack or are not needed. Here’s an example of how to list the packages installed on Kali Linux: `apt-cache pkgnames`
 
@@ -28,13 +28,36 @@ Remember that disabling unnecessary services will reduce the attack surface, so 
 * TALK server
 * Any other running services that are not needed
 
+`yum` for RedHat based systems. `apt` for debian based systems.
+
+```text
+# yum erase xinetd ypserv tftp-server telnet-server rsh-server
+# apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
+```
+
+### **Disable Unnecessary Services**
+
+If you don't want to completely uninstall a service, you can simply disable it until it is needed.  A lot of services and daemons are started during system boot and disabling those that are not being used can help with system hardening and can improve boot time. Since most modern distributions use `systemd` instead of init scripts, you can use `systemctl` to list running services.
+
+```text
+sudo systemctl list-unit-files --type=service
+sudo systemctl list-dependencies graphical.target
+```
+
+These commands will display such service and daemons. You can disable a specific service by using the below commands.
+
+```text
+sudo systemctl disable service
+sudo systemctl disable httpd.service
+```
+
 ## Check for open ports
 
 Identifying open connections to the internet is critical to understanding your attack surface. In Kali Linux, use the following commands to identify open ports:
 
 ```text
-netstat
-ss
+netstat -tulpn
+ss -tulpn
 lsof -i
 
 ...add more info
@@ -95,7 +118,69 @@ The boot directory contains important files related to the Linux kernel, so you 
 
 [https://kali.training/topic/monitoring-and-logging/](https://kali.training/topic/monitoring-and-logging/) TODO: add more info tripwire [https://kali.training/topic/exercise-7-3-securing-the-kali-file-system/](https://kali.training/topic/exercise-7-3-securing-the-kali-file-system/) checksecurity chkrootkit/rkhunter
 
-### Monitoring Logs with `logcheck`
+### **Lock Login Attempts after Failure**
+
+Admins should make sure that users can’t log into their server after a certain number of failed attempts. This increases the overall security of the system by mitigating password attacks. You can use the Linux `faillog` command to see the failed login attempts.
+
+```text
+# faillog
+# faillog -m 3
+# faillog -l 1800
+```
+
+The first command will display the failed login attempts for users from the `/var/log/faillog` database. The second command sets the maximum number of allowed failed login attempts to 3. The third one sets a lock of 1800 seconds or 30 minutes after the allowed number of failed login attempts.
+
+```text
+# faillog -r -u <username>
+```
+
+Use this command to unlock a user once they’re prohibited from login. The max number of failed login attempts for the root user should be high or else brute force attacks may leave you locked.
+
+### Fail2Ban
+
+[Fail2Ban](https://www.fail2ban.org/) is one of the most popular IPS solutions for Unix-like systems. It is written using Python and is available on all POSIX-compliant platforms. It will look for obtrusive network requests all the time and block them as soon as possible. Install Fail2Ban using the below command.
+
+```text
+apt install -y fail2ban
+yum install -y fail2ban
+```
+
+[DenyHosts](https://github.com/denyhosts/denyhosts) is another popular IPS solution for Linux hardening. It will protect your ssh servers from intrusive brute force attempts. Use the following commands to install in on your Debian or Centos servers.
+
+```text
+apt install -y denyhosts
+yum install -y denyhosts
+```
+
+### Monitoring Logs 
+
+ **Logs to review**
+
+| Log File | Description |
+| :--- | :--- |
+| /var/log/message | whole system logs or current activity logs |
+| /var/log/auth.log | Authentication logs |
+| /var/log/kern.log | Kernel logs |
+| /var/log/cron.log | Crond logs \(cron job\) |
+| /var/log/maillog | Mail server logs |
+| /var/log/boot.log | System boot log |
+| /var/log/mysqld.log | MySQL database server log file |
+| /var/log/secure | Authentication log |
+| **/var/run/utmp** | complete picture of users logins: at which terminals, logouts, system events and current status of the system, system boot time \(used by uptime\) etc. |
+| **/var/log/wtmp** | gives historical data of utmp |
+| **/var/log/btmp** | records failed login attempts |
+
+If you want to read the contents of the binary files `wtmp`, `utmp` or `btmp`, use the command:
+
+```text
+sudo utmpdump /var/run/utmp
+sudo utmpdump /var/log/wtmp
+sudo utmpdump /var/log/btmp
+```
+
+`who`, `w`, and `last <username>` will also give you information about users logged into your machine.
+
+### with `logcheck`
 
 TODO:Rewrite this...brevity and clarity
 
@@ -103,7 +188,23 @@ The logcheck program monitors log files every hour by default and sends unusual 
 
 ## Enable SELinux
 
-Security Enhanced Linux is a Kernel security mechanism for supporting access control security policy. The SELinux has three configuration modes:
+Security Enhanced Linux is a Kernel security mechanism for supporting access control security policy. 
+
+#### **Enable SELinux** <a id="7-enable-selinux"></a>
+
+[SELinux](https://en.wikipedia.org/wiki/Security-Enhanced_Linux), short for Security Enhanced Linux, is a security mechanism that implements various methods for access control at the kernel level. It was developed by Red Hat but has been added to many [modern Linux distributions.](https://ubuntupit.com/best-linux-distro-top-recommendation-to-boost-up-your-linux-experience/) You can check whether SELinux is enabled in your system or not by using the below command.
+
+```text
+sudo getenforce
+```
+
+If it returns `enforcing` , your system is protected by SELinux. If the result says `permissive` your system has SELinux but it’s not enforced. It will return `disabled` for systems where SELinux is completely disabled. You can enforce SELinux by using the below command.
+
+```text
+sudo setenforce 1
+```
+
+SELinux has three configuration modes:
 
 * Disabled: Turned-off
 * Permissive: Prints warnings
@@ -171,34 +272,50 @@ chmod 600 /etc/gshadow
 chown root:root /etc/gshadow
 ```
 
+
+
 ## Misc
 
-Use strong passwords Set up `fail2ban`, which will make it much harder to brute-force passwords over the network by filtering IP addresses that exceed a limit of failed login attempts. `apt install fail2ban` VPN NAT Firewall Rules `iptables` and `ip6tables` or GUI `fwbuilder` \([https://kali.training/topic/firewall-or-packet-filtering/](https://kali.training/topic/firewall-or-packet-filtering/)\) Check for default credentials in `README.Debian` files of each respective installed package, as well as `docs.kali.org` and `tools.kali.or`g to see if isntalled services need special care to be secured.
+* Use strong passwords 
+* Set up `fail2ban`, which will make it much harder to brute-force passwords over the network by filtering IP addresses that exceed a limit of failed login attempts. `apt install fail2ban` 
+* VPN
+* NAT
+* Firewall Rules `iptables` and `ip6tables` or GUI `fwbuilder` \([https://kali.training/topic/firewall-or-packet-filtering/](https://kali.training/topic/firewall-or-packet-filtering/)\) 
+* Check for default credentials in `README.Debian` files of each respective installed package, as well as `docs.kali.org` and `tools.kali.org` to see if installed services need special care to be secured.
+
+### Add kali repository to other distros
+
+ Any extra repositories needs to be placed into their own file in the directory `/etc/apt/sources.list.d/` with files named as such: `/etc/apt/sources.list.d/repo-name.list` \(replacing `repo-name` with the mirror name\).  This may break things over time so be careful.
+
+```text
+deb   http://http.kali.org/kali   kali-rolling   main non-free contrib
+<Archive>   <Mirror>                <Branch>         <Component>
+```
+
+To add kali's repository to another distro use the line: `deb http://http.kali.org/kali kali-rolling main non-free contrib`\`
 
 ## Useful Programs & Configs Setup
 
-### TMUX
+[FireJail](https://firejail.wordpress.com/)
 
-tmux can keep alive sessions if you lose ssh sessions etc, can split panes and more:
+[TOR Browser](https://www.torproject.org/)
+
+[gufw](https://costales.github.io/projects/gufw/)
+
+[chroot jail](https://www.geeksforgeeks.org/linux-virtualization-using-chroot-jail/)
+
+ **lynis** - open source security auditing tool. Comes with Kali
 
 ```text
-tmux new -s <session_name> 
-ctrl-b = prefix key (enables addnl commands) 
-+[%] vertical pane  
-+["] horizontal pane 
-+[alt-space] switch pane between horizontal or vertical
-+[arrow_keys] move between panes 
-+[z] zoom in/out on pane 
-+[?] help for tmux 
-+[t] timer
+lynis --update
+lynis audit system
 ```
 
-tmux plugins:
 
-* tmux logging plugin \(get this!!\) can save log of tmux windows
-* [better mouse mode](https://github.com/NHDaly/tmux-better-mouse-mode)
 
 ### Tmux
+
+Tmux can keep alive sessions if you lose ssh sessions etc, can split panes and more:
 
 Config from [ippsec](https://www.youtube.com/watch?v=Lqehvpe_djs).
 
@@ -247,6 +364,11 @@ Kill session by tag:`tmux kill-session -t X`
 
 Kill pane: `prefix + &`
 
+#### tmux plugins:
+
+* tmux logging plugin \(get this!!\) can save log of tmux windows
+* [better mouse mode](https://github.com/NHDaly/tmux-better-mouse-mode)
+
 ### iptables based wireless access point
 
 Here’s a cool and interesting use of iptables. You can turn any computer with a wireless interface into a wireless access point with hostapd. This solution comes from [https://seravo.fi/2014/create-wireless-access-point-hostapd](https://seravo.fi/2014/create-wireless-access-point-hostapd):
@@ -267,4 +389,6 @@ echo '1' > /proc/sys/net/ipv4/ip_forward
 * [https://www.tecmint.com/linux-server-hardening-security-tips/](https://www.tecmint.com/linux-server-hardening-security-tips/)  - TODO: pull more info from this source
 * [https://www.ssh.com/ssh/sshd\_config/](https://www.ssh.com/ssh/sshd_config/)
 * [https://www.pluralsight.com/blog/it-ops/linux-hardening-secure-server-checklist](https://www.pluralsight.com/blog/it-ops/linux-hardening-secure-server-checklist)
+* [https://www.ubuntupit.com/best-linux-hardening-security-tips-a-comprehensive-checklist/](https://www.ubuntupit.com/best-linux-hardening-security-tips-a-comprehensive-checklist/)
+* [https://www.thegeekdiary.com/what-is-the-purpose-of-utmp-wtmp-and-btmp-files-in-linux/](https://www.thegeekdiary.com/what-is-the-purpose-of-utmp-wtmp-and-btmp-files-in-linux/)
 
