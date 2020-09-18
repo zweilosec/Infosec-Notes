@@ -7,7 +7,7 @@
 ## Linux <a id="linux-1"></a>
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Hardening & Setup](linux-1/programs-and-configs-setup.md)
+* [Hardening & Setup](linux-1/hardening-and-setup.md)
 * [Red Team Notes](linux-1/linux/README.md)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Getting Access](linux-1/linux/getting-access.md)
@@ -20,7 +20,7 @@
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [PowerShell](windows-1/powershell.md)
-* [Hardening & Setup](windows-1/programs-and-configs-setup.md)
+* [Hardening & Setup](windows-1/hardening-and-setup.md)
 * [Red Team Notes](windows-1/windows/README.md)
   * [Enumeration](windows-1/windows/enumeration.md)
   * [Getting Access](windows-1/windows/getting-access.md)

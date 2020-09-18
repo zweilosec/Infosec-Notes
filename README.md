@@ -35,7 +35,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Linux
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Programs & Configuration Setup](linux-1/programs-and-configs-setup.md)
+* [Programs & Configuration Setup](linux-1/hardening-and-setup.md)
 * [Red Team Notes](linux-1/linux/)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Getting Access](linux-1/linux/getting-access.md)
@@ -46,7 +46,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Windows
 
 * [Windows Basics](windows-1/windows-basics.md)
-* [Programs & Configuration Setup](windows-1/programs-and-configs-setup.md)
+* [Programs & Configuration Setup](windows-1/hardening-and-setup.md)
 * [Red Team Notes](windows-1/windows/)
   * [Enumeration](windows-1/windows/enumeration.md)
   * [Getting Access](windows-1/windows/getting-access.md)
