@@ -253,6 +253,8 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 
 ## Password Cracking
 
+Password recovery programs: [https://www.passcape.com/products](https://www.passcape.com/products) \(TODO:Test these!\)
+
 https://github.com/frizb/
 
 An amazing index of brute-force commands: [https://book.hacktricks.xyz/brute-force](https://book.hacktricks.xyz/brute-force)
