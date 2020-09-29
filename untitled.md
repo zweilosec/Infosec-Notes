@@ -466,6 +466,16 @@ find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o /path/to/sor
 
 ### -----
 
+## Faster filtering with the silver searcher
+
+https://github.com/ggreer/the\_silver\_searcher
+
+For faster searching, use all the above grep regular expressions with the command `ag`.
+
+
+
+### -----
+
 take the name of each file in a directory and try to connect to a site with that filename. \(searching for web shells in Traceback- HTB\)
 
 ```text

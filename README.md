@@ -77,11 +77,11 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## OS Agnostic
 
-* [Cryptography & Encryption](os-agnostic/password-cracking.md)
+* [Cryptography & Encryption](os-agnostic/password-cracking/)
 * [Network Hardware](os-agnostic/network-hardware.md)
 * [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
-* [Password Cracking](os-agnostic/password-cracking.md)
+* [Password Cracking](os-agnostic/password-cracking/)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
 * [Scripting](os-agnostic/scripting.md)
 * [SQL](os-agnostic/sql.md)
