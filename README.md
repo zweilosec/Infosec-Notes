@@ -15,7 +15,7 @@ Warning - These notes are very raw and largely unformatted right now. They are b
 
 * Do not assume anything from these notes.
 * Do not expect the notes to be exhaustive, or to cover the techniques or the output they produce in full.
-* Expect 5KFB6 mistakes in the notes.
+* Expect mistakes in the notes.
 * Feel free to ask questions!
 * Always consult additional resources. If possible I will try to link to outside resources.  _If I have shared something of yours and you want credit, please let me know!_
 {% endhint %}
@@ -35,7 +35,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Linux
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Programs & Configuration Setup](linux-1/hardening-and-setup.md)
+* [Hardening & Configuration Guide ](linux-1/hardening-and-setup.md)
 * [Red Team Notes](linux-1/linux/)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Getting Access](linux-1/linux/getting-access.md)
@@ -46,7 +46,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Windows
 
 * [Windows Basics](windows-1/windows-basics.md)
-* [Programs & Configuration Setup](windows-1/hardening-and-setup.md)
+* [Hardening & Configuration Guide](windows-1/hardening-and-setup.md)  
 * [Red Team Notes](windows-1/windows/)
   * [Enumeration](windows-1/windows/enumeration.md)
   * [Getting Access](windows-1/windows/getting-access.md)
@@ -54,6 +54,16 @@ Always ensure you have **explicit** permission to access any computer system **b
   * [Persistence](windows-1/windows/persistence.md)
   * [Active Directory](windows-1/windows/active-directory.md)
   * [PowerShell](windows-1/powershell.md)
+
+## MacOS
+
+* [MacOS Basics](macos/macos-basics.md)
+* [Hardening & Configuration Guide](macos/hardening-and-configuration.md)
+* [Red Team Notes](macos/red-team-notes/)
+  * [Enumeration](macos/red-team-notes/enumeration.md)
+  * [Getting Access](macos/red-team-notes/getting-access.md)
+  * [Privilege Escalation](macos/red-team-notes/privilege-escalation.md)
+  * [Persistence](macos/red-team-notes/persistence.md)
 
 ## Web
 
@@ -67,15 +77,21 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## OS Agnostic
 
-* [Cryptography & Password Cracking](os-agnostic/password-cracking.md)
+* [Cryptography & Encryption](os-agnostic/password-cracking.md)
+* [Network Hardware](os-agnostic/network-hardware.md)
+* [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
+* [Password Cracking](os-agnostic/password-cracking.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
 * [Scripting](os-agnostic/scripting.md)
 * [SQL](os-agnostic/sql.md)
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
+* [Wireless](os-agnostic/wifi.md)
+
+## Unsorted
+
 * [Unsorted Notes](untitled.md)
-* [WiFi Hacking](os-agnostic/wifi.md)
 
 ## CTF Tools and Cheatsheets 
 
