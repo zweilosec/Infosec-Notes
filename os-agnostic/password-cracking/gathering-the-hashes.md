@@ -1,4 +1,4 @@
-# Gathering the hashes
+# Gathering the Hashes
 
 {% hint style="success" %}
 Hack Responsibly.
@@ -6,7 +6,7 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-## Getting the hashes from text files
+## Extracting hashes from text files
 
 ### Extract md5 hashes
 

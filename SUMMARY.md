@@ -55,7 +55,7 @@
 * [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/README.md)
-  * [Gathering the hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
+  * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
   * [Wordlist Manipulation](os-agnostic/password-cracking/wordlist-manipulation.md)
   * [Cracking the Hashes](os-agnostic/password-cracking/cracking-the-hashes.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
