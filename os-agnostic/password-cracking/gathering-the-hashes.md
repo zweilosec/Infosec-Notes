@@ -16,7 +16,7 @@ Using egrep:
 egrep -oE '(^|[^a-fA-F0-9])[a-fA-F0-9]{32}([^a-fA-F0-9]|$)' $hash_directory/* | egrep -o '[a-fA-F0-9]{32}' > $out_hash_file
 ```
 
-Alternatively with sed:
+Alternatively, with sed:
 
 ```bash
 sed -rn 's/.*[^a-fA-F0-9]([a-fA-F0-9]{32})[^a-fA-F0-9].*/1/p' $hash_directory/* > $out_hash_file
