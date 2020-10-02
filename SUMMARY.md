@@ -7,7 +7,8 @@
 ## Linux <a id="linux-1"></a>
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Hardening & Setup](linux-1/hardening-and-setup.md)
+* [Hardening & Setup](linux-1/hardening-and-setup/README.md)
+  * [TMUX/Screen Cheatsheet](linux-1/hardening-and-setup/tmux-screen-cheatsheet.md)
 * [Red Team Notes](linux-1/linux/README.md)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Getting Access](linux-1/linux/getting-access.md)

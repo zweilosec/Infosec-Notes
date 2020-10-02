@@ -35,7 +35,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Linux
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Hardening & Configuration Guide ](linux-1/hardening-and-setup.md)
+* [Hardening & Configuration Guide ](linux-1/hardening-and-setup/)
 * [Red Team Notes](linux-1/linux/)
   * [Enumeration](linux-1/linux/enumeration.md)
   * [Getting Access](linux-1/linux/getting-access.md)
