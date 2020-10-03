@@ -4,7 +4,7 @@ TMUX and screen are extremely useful tools for maintaining sessions through reve
 
 They both have a very handy function where each window can be split either vertically or horizontally in to separate panes.  I am not sure what the actual limit to the number of panes may be, but I regularly split my windows into four panes comfortably.
 
-Screen is fairly ubiquitous in most Linux distributions, however TMUX is a program that will likely have to be installed on the machine you are connecting to.  Screen is fairly old and does not get feature updates anymore \(as far as I am aware\), while TMUX is newer and has many plugins which can be used to extend its functionality. 
+Screen is fairly ubiquitous in most Linux distributions, however TMUX is a program that will likely have to be installed on the machine you are connecting to.  Screen is fairly old and does not get feature updates anymore \(as far as I am aware\), while TMUX is newer and has many plugins which can be used to extend its functionality.  Learning both will ensure you are ready no matter which may be present on the system you log into.
 
 {% hint style="info" %}
 **`^`** is shorthand for the **`CTRL`** key, so **`^b`** == **`CTRL + b`**. 
@@ -116,7 +116,7 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
 | :--- | :--- | :--- |
 | Rename window | `^b , <new_name>` OR `^b :rename-window <new_name>` | `^a A <new_name>` |
 | List windows | `^b w` | `^a w` |
-| List windows \(with selection menu\) | ------ | `^a "` |
+| List windows \(with selection menu\) | ----- | `^a "` |
 | Go to window $num | `^b $num` | `^a $num` |
 | Go to previously active window | `^b l` | `^a l` |
 | Go to next window | `^b n` | `^a n` |
@@ -124,13 +124,76 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
 
 ## MISC \(to sort\)
 
-| Action | TMUX | Screen |
-| :--- | :--- | :--- |
-| See key bindings | `^b ?` | `^a ?` |
-| Enter "scroll mode" | `^b [` | `^a [` |
-| Scroll up in "scroll mode" | page up and up arrow | `^b` for page up or `k` for one line |
-| Scroll down in "scroll mode" | page down and down arrow | `^f` for page down or `j` for one line |
-| Exit "scroll mode" | `q` | `ESC` |
-| Create another shell | `^b c` | `^a c` |
-| Exit current shell | `^d` | `^d` |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Action</th>
+      <th style="text-align:left">TMUX</th>
+      <th style="text-align:left">Screen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">See key bindings</td>
+      <td style="text-align:left"><code>^b ?</code>
+      </td>
+      <td style="text-align:left"><code>^a ?</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Enter &quot;scroll mode&quot;</td>
+      <td style="text-align:left"><code>^b [</code>
+      </td>
+      <td style="text-align:left"><code>^a [</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Scroll up in &quot;scroll mode&quot;</td>
+      <td style="text-align:left">
+        <p><code>[page up]</code>
+        </p>
+        <p><code>[up arrow]</code>
+        </p>
+      </td>
+      <td style="text-align:left">
+        <p><code>^b</code> for page up</p>
+        <p><code>k</code> for one line</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Scroll down in &quot;scroll mode&quot;</td>
+      <td style="text-align:left">
+        <p><code>[page down]</code>
+        </p>
+        <p><code>[down arrow]</code>
+        </p>
+      </td>
+      <td style="text-align:left">
+        <p><code>^f</code> for page down</p>
+        <p><code>j</code> for one line</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Exit &quot;scroll mode&quot;</td>
+      <td style="text-align:left"><code>q</code>
+      </td>
+      <td style="text-align:left"><code>ESC</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Create another shell</td>
+      <td style="text-align:left"><code>^b c</code>
+      </td>
+      <td style="text-align:left"><code>^a c</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Exit current shell</td>
+      <td style="text-align:left"><code>^d</code>
+      </td>
+      <td style="text-align:left"><code>^d</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
