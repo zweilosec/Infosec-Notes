@@ -80,11 +80,25 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
         <p><code>^b :detach</code>
         </p>
       </td>
-      <td style="text-align:left"><code>^a ^d</code>  <code>^a :detach</code>
+      <td style="text-align:left">
+        <p><code>^a d</code>
+        </p>
+        <p><code>^a ^d</code>  <code>^a :detach</code>
+        </p>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">list sessions</td>
+      <td style="text-align:left">Detach and log out</td>
+      <td style="text-align:left"></td>
+      <td style="text-align:left">
+        <p><code>^a f</code>
+        </p>
+        <p><code>^a ^f</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">List sessions</td>
       <td style="text-align:left">
         <p><code>^b s</code>
         </p>
@@ -101,28 +115,93 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
 
 | Action | TMUX | Screen |
 | :--- | :--- | :--- |
-| Split pane horizontally | `^b "` | \`^a |
-| Split pane vertically | `^b %` | `^a S` |
+| Split pane horizontally | `^b "` | `^a S` |
+| Split pane vertically | `^b %` | `^a |` |
 | Switch to another pane | `^b o` | `^a tab` |
-| Kill the current pane | `^b x` OR \(logout/`^D`\) | `^a X` |
-| Close all panes except the current one | `^b !` | ----- |
+| Kill the current pane | `^b x`  | `^a X` |
+| Close all panes except the current one | `^b !` | `^a Q` |
 | Swap location of panes | `^b ^o` | N/A |
 | Show time | `^b t` | ----- |
 | Show numeric identifier for all panes | `^b q` | ----- |
 
 ## Window Management
 
-| Action | TMUX | Screen |
-| :--- | :--- | :--- |
-| Rename window | `^b , <new_name>` OR `^b :rename-window <new_name>` | `^a A <new_name>` |
-| List windows | `^b w` | `^a w` |
-| List windows \(with selection menu\) | ----- | `^a "` |
-| Go to window $num | `^b $num` | `^a $num` |
-| Go to previously active window | `^b l` | `^a l` |
-| Go to next window | `^b n` | `^a n` |
-| Go to previous window | `^b p` | `^a p` |
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Action</th>
+      <th style="text-align:left">TMUX</th>
+      <th style="text-align:left">Screen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Rename window</td>
+      <td style="text-align:left">
+        <p><code>^b , &lt;new_name&gt;</code>
+        </p>
+        <p><code>^b :rename-window &lt;new_name&gt;</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>^a A &lt;new_name&gt;</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Create new window</td>
+      <td style="text-align:left"><code>^b c</code>
+      </td>
+      <td style="text-align:left">
+        <p><code>^a c</code>
+        </p>
+        <p><code>^a ^c</code>
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">List windows</td>
+      <td style="text-align:left"><code>^b w</code>
+      </td>
+      <td style="text-align:left"><code>^a w</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">List windows (with selection menu)</td>
+      <td style="text-align:left">-----</td>
+      <td style="text-align:left"><code>^a &quot;</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Go to window $num</td>
+      <td style="text-align:left"><code>^b $num</code>
+      </td>
+      <td style="text-align:left"><code>^a $num</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Go to previously active window</td>
+      <td style="text-align:left"><code>^b l</code>
+      </td>
+      <td style="text-align:left"><code>^a ^a</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Go to next window</td>
+      <td style="text-align:left"><code>^b n</code>
+      </td>
+      <td style="text-align:left"><code>^a n</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Go to previous window</td>
+      <td style="text-align:left"><code>^b p</code>
+      </td>
+      <td style="text-align:left"><code>^a p</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-## MISC \(to sort\)
+## MISC
 
 <table>
   <thead>
@@ -181,13 +260,6 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">Create another shell</td>
-      <td style="text-align:left"><code>^b c</code>
-      </td>
-      <td style="text-align:left"><code>^a c</code>
-      </td>
-    </tr>
-    <tr>
       <td style="text-align:left">Exit current shell</td>
       <td style="text-align:left"><code>^d</code>
       </td>
@@ -196,4 +268,48 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
     </tr>
   </tbody>
 </table>
+
+
+
+### Tmux
+
+Config from [ippsec](https://www.youtube.com/watch?v=Lqehvpe_djs).
+
+```text
+#set prefix
+set -g prefix C-a
+bind C-a send-prefix
+unbind C-b
+
+set -g history-limit 100000
+set -g allow-rename off
+
+bind-key j command-prompt -p "Join pane from:" "join-pane -s '%%'"
+bind-key s command-prompt -p "Send pane to:" "joian-pane -t '%%'"
+
+set-window-option -g mode-keys vi
+
+run-shell /opt/tmux-logging/logging.tmux
+```
+
+First press the prefix `ctrl + b`\(default, Ippsec changes it to Ctrl+a\) then release the buttons and press the combination you want.
+
+Create new named session: `tmux new -s [Name]`
+
+Join panes: `prefix + s #`
+
+Zoom in/out to panes: `prefix + z`
+
+Make sub-terminal its own window: `prefix + !`
+
+Enter vim mode: `prefix + ]` -&gt; Search with `?` in vi mode then press `space` to start copying. Press `prefix + ]` to paste
+
+Kill session by tag:`tmux kill-session -t X`
+
+Kill pane: `prefix + &`
+
+#### tmux plugins:
+
+* tmux logging plugin \(get this!!\) can save log of tmux windows
+* [better mouse mode](https://github.com/NHDaly/tmux-better-mouse-mode)
 
