@@ -16,18 +16,86 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
 
 ## Session Management
 
-| Action | TMUX | Screen |
-| :--- | :--- | :--- |
-| Start a new session | `tmux` OR `tmux new` OR `tmux new-session` | `screen` |
-| Re-attach a \(local\) detached session | `tmux attach` OR `tmux attach-session` | `screen -r` |
-| Re-attach an attached session \(detaching it from elsewhere\) | `tmux attach -d` OR `tmux attach-session -d` | `screen -dr` |
-| Re-attach an attached session \(keeping it attached elsewhere\) | `tmux attach` OR `tmux attach-session` | `screen -x` |
-| Detach from currently attached session | `^b d` OR `^b :detach` | `^a ^d` OR `^a :detach` |
-| list sessions | `^b s` OR `tmux ls` OR `tmux list-sessions` | `screen -ls` |
-
-|  |
-| :--- |
-
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Action</th>
+      <th style="text-align:left">TMUX</th>
+      <th style="text-align:left">Screen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left">Start a new session</td>
+      <td style="text-align:left">
+        <p><code>tmux</code>
+        </p>
+        <p><code>tmux new</code>
+        </p>
+        <p><code>tmux new-session</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>screen</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Re-attach a (local) detached session</td>
+      <td style="text-align:left">
+        <p><code>tmux attach</code>
+        </p>
+        <p><code>tmux attach-session</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>screen -r</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Re-attach an attached session (detaching it from elsewhere)</td>
+      <td style="text-align:left">
+        <p><code>tmux attach -d</code>
+        </p>
+        <p><code>tmux attach-session -d</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>screen -dr</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Re-attach an attached session (keeping it attached elsewhere)</td>
+      <td
+      style="text-align:left">
+        <p><code>tmux attach</code>
+        </p>
+        <p><code>tmux attach-session</code>
+        </p>
+        </td>
+        <td style="text-align:left"><code>screen -x</code>
+        </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Detach from currently attached session</td>
+      <td style="text-align:left">
+        <p><code>^b d</code>
+        </p>
+        <p><code>^b :detach</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>^a ^d</code>  <code>^a :detach</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left">list sessions</td>
+      <td style="text-align:left">
+        <p><code>^b s</code>
+        </p>
+        <p><code>tmux ls</code>  <code>tmux list-sessions</code>
+        </p>
+      </td>
+      <td style="text-align:left"><code>screen -ls</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## Pane Management
 
