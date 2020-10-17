@@ -253,7 +253,9 @@ PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this
 
 add a new key to registry  `New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name <key_name>` then set its properties with  `New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name <key_name> -Value "<key_value>"`To edit a value that is already set use `Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name <key_name> -Value "<new_value>"`
 
-### 
+### List environment variables
+
+`dir env:`
 
 ## Resources
 
