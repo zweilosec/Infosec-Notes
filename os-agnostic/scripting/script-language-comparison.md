@@ -448,9 +448,9 @@ TODO: this
     <tr>
       <td style="text-align:left">If / ElseIf / Else</td>
       <td style="text-align:left">
-        <p><code>a = 33</code>
+        <p><code>a = 42</code>
         </p>
-        <p><code>b = 200</code>
+        <p><code>b = 420</code>
         </p>
         <p><code>if b &gt; a:</code>
         </p>
@@ -486,9 +486,9 @@ TODO: this
     <tr>
       <td style="text-align:left">If / ElseIf / Else</td>
       <td style="text-align:left">
-        <p><code>$a = 33</code>
+        <p><code>$a = 42</code>
         </p>
-        <p><code>$b = 200</code>
+        <p><code>$b = 420</code>
         </p>
         <p><code>if ($b -gt $a)</code>
         </p>
