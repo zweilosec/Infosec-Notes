@@ -83,7 +83,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation.md)
-* [Scripting](os-agnostic/scripting.md)
+* [Scripting](os-agnostic/scripting/)
 * [SQL](os-agnostic/sql.md)
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
