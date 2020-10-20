@@ -32,6 +32,10 @@ TODO: Add examples for Bash and Windows Batch scripting
         </p>
       </td>
     </tr>
+    <tr>
+      <td style="text-align:left">Retrieving Variable Contents</td>
+      <td style="text-align:left"></td>
+    </tr>
   </tbody>
 </table>
 {% endtab %}
@@ -41,6 +45,7 @@ TODO: Add examples for Bash and Windows Batch scripting
 | :--- | :--- |
 | Standard Variable | `$var = "Hello"` |
 | Global Variable | `$global:var = "Hello"` |
+| Retrieving Variable Contents |  |
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -50,6 +55,7 @@ TODO: this
 | :--- | :--- |
 | Standard Variable |  |
 | Global Variable |  |
+| Retrieving Variable Contents |  |
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -59,6 +65,7 @@ TODO: this
 | :--- | :--- |
 | Standard Variable |  |
 | Global Variable |  |
+| Retrieving Variable Contents |  |
 {% endtab %}
 {% endtabs %}
 
