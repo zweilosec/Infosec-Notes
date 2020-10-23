@@ -1,5 +1,9 @@
 # PowerShell
 
+## PowerShell Syntax
+
+For PowerShell syntax examples see my scripting page [here](../os-agnostic/scripting/script-language-comparison.md).
+
 ## PowerShell Commands
 
 In PowerShell, there are three main types of commands: cmdlets, functions, and aliases.  
