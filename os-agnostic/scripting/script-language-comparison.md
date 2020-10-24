@@ -1566,8 +1566,224 @@ TODO: this
 | While |  |
 | Break |  |
 | Continue |  |
+
+### Loops
+
+In the decision making chapter, we have seen statements which have been executed one after the other in a sequential manner. Additionally, implementations can also be done in Batch Script to alter the flow of control in a program’s logic. They are then classified into flow of control statements.
+
+### `While` Statement Implementation
+
+There is no direct while statement available in Batch Script but we can do an implementation of this loop very easily by using the if statement and labels.
+
+There is no direct while statement available in Batch Script but we can do an implementation of this loop very easily by using the if statement and labels.
+
+The first part of the while implementation is to set the counters which will be used to control the evaluation of the ‘if’ condition. We then define our label which will be used to embody the entire code for the while loop implementation. The ‘if’ condition evaluates an expression. If the expression evaluates to true, the code block is executed. If the condition evaluates to false then the loop is exited. When the code block is executed, it will return back to the label statement for execution again.
+
+Following is the syntax of the general implementation of the while statement.
+
+#### Syntax
+
+```text
+Set counters
+:label
+If (expression) (
+   Do_something
+   Increment counter
+   Go back to :label
+)
+```
+
+* The entire code for the while implementation is placed inside of a label.
+* The counter variables must be set or initialized before the while loop implementation starts.
+* The expression for the while condition is done using the ‘if’ statement. If the expression evaluates to true then the relevant code inside the ‘if’ loop is executed.
+* A counter needs to be properly incremented inside of ‘if’ statement so that the while implementation can terminate at some point in time.
+* Finally, we will go back to our label so that we can evaluate our ‘if’ statement again.
+
+Following is an example of a while loop statement.
+
+#### Example
+
+```text
+@echo off
+SET /A "index = 1"
+SET /A "count = 5"
+:while
+if %index% leq %count% (
+   echo The value of index is %index%
+   SET /A "index = index + 1"
+   goto :while
+)
+```
+
+In the above example, we are first initializing the value of an index integer variable to 1. Then our condition in the ‘if’ loop is that we are evaluating the condition of the expression to be that index should it be less than the value of the count variable. Till the value of index is less than 5, we will print the value of index and then increment the value of index.
+
+### `For` Statement - `List Implementations`
+
+The "FOR" construct offers looping capabilities for batch files. Following is the common construct of the ‘for’ statement for working with a list of values.
+
+#### Syntax
+
+```text
+FOR %%variable IN list DO do_something
+```
+
+The classic ‘for’ statement consists of the following parts −
+
+* Variable declaration – This step is executed only once for the entire loop and used to declare any variables which will be used within the loop. In Batch Script, the variable declaration is done with the %% at the beginning of the variable name.
+* List – This will be the list of values for which the ‘for’ statement should be executed.
+* The do\_something code block is what needs to be executed for each iteration for the list of values.
+
+Following is an example of how the ‘goto’ statement can be used.
+
+#### Example
+
+```text
+@echo off 
+FOR %%F IN (1 2 3 4 5) DO echo %%F
+```
+
+The key thing to note about the above program is −
+
+* The variable declaration is done with the %% sign at the beginning of the variable name.
+* The list of values is defined after the IN clause.
+* The do\_something code is defined after the echo command. Thus for each value in the list, the echo command will be executed.
+
+### Looping through Ranges
+
+The ‘for’ statement also has the ability to move through a range of values. Following is the general form of the statement.
+
+### Syntax
+
+```text
+FOR /L %%variable IN (lowerlimit,Increment,Upperlimit) DO do_something
+```
+
+Where
+
+* The /L switch is used to denote that the loop is used for iterating through ranges.
+* Variable declaration – This step is executed only once for the entire loop and used to declare any variables which will be used within the loop. In Batch Script, the variable declaration is done with the %% at the beginning of the variable name.
+* The IN list contains of 3 values. The lowerlimit, the increment, and the upperlimit. So, the loop would start with the lowerlimit and move to the upperlimit value, iterating each time by the Increment value.
+* The do\_something code block is what needs to be executed for each iteration.
+
+Following is an example of how the looping through ranges can be carried out.
+
+#### Example
+
+```text
+@ECHO OFF 
+FOR /L %%X IN (0,1,5) DO ECHO %%X
+```
+
+### Classic for Loop Implementation
+
+Following is the classic ‘for’ statement which is available in most programming languages.
+
+#### Syntax
+
+```text
+for(variable declaration;expression;Increment) {
+   statement #1
+   statement #2
+   …
+}
+```
+
+The Batch Script language does not have a direct ‘for’ statement which is similar to the above syntax, but one can still do an implementation of the classic ‘for’ loop statement using if statements and labels.
+
+Let’s look at the general syntax implementation of the classic for loop in batch scripting.
+
+```text
+Set counter
+:label
+
+If (expression) exit loop
+Do_something
+Increment counter
+Go back to :label
+```
+
+* The entire code for the ‘for’ implementation is placed inside of a label.
+* The counters variables must be set or initialized before the ‘for’ loop implementation starts.
+* The expression for the ‘for’ loop is done using the ‘if’ statement. If the expression evaluates to be true then an exit is executed to come out of the loop.
+* A counter needs to be properly incremented inside of the ‘if’ statement so that the ‘for’ implementation can continue if the expression evaluation is false.
+* Finally, we will go back to our label so that we can evaluate our ‘if’ statement again.
+
+Following is an example of how to carry out the implementation of the classic ‘for’ loop statement.
+
+#### Example
+
+```text
+@echo off 
+SET /A i = 1 
+:loop 
+
+IF %i%==5 GOTO END 
+echo The value of i is %i% 
+SET /a i=%i%+1 
+GOTO :LOOP 
+:END
+```
+
+### Looping through Command Line Arguments
+
+The ‘for’ statement can also be used for checking command line arguments. The following example shows how the ‘for’ statement can be used to loop through the command line arguments.
+
+#### Example
+
+```text
+@ECHO OFF 
+:Loop 
+
+IF "%1"=="" GOTO completed 
+FOR %%F IN (%1) DO echo %%F 
+SHIFT 
+GOTO Loop 
+:completed
+```
+
+#### Output
+
+Let’s assume that our above code is stored in a file called Test.bat. The above command will produce the following output if the batch file passes the command line arguments of 1,2 and 3 as Test.bat 1 2 3.
+
+```text
+1 
+2 
+3
+```
+
+### `Break` Statement Implementation
+
+The break statement is used to alter the flow of control inside loops within any programming language. The break statement is normally used in looping constructs and is used to cause immediate termination of the innermost enclosing loop.
+
+The break statement is used to alter the flow of control inside loops within any programming language. The break statement is normally used in looping constructs and is used to cause immediate termination of the innermost enclosing loop.
+
+The Batch Script language does not have a direct ‘for’ statement which does a break but this can be implemented by using labels. The following diagram shows the diagrammatic explanation of the break statement implementation in Batch Script.
+
+#### Example
+
+```text
+@echo off 
+SET /A "index=1" 
+SET /A "count=5" 
+:while 
+if %index% leq %count% ( 
+   if %index%==2 goto :Increment 
+      echo The value of index is %index% 
+:Increment 
+   SET /A "index=index + 1" 
+   goto :while 
+)
+```
+
+The key thing to note about the above implementation is the involvement of two ‘if’ conditions. The second ‘if’ condition is used to control when the break is implemented. If the second ‘if’ condition is evaluated to be true, then the code block is not executed and the counter is directly implemented.
+
+Following is an example of how to carry out the implementation of the break statement.
+
+The key thing to note about the above program is the addition of a label called :Increment. When the value of index reaches 2, we want to skip the statement which echoes its value to the command prompt and directly just increment the value of index.
 {% endtab %}
 {% endtabs %}
+
+
 
 ### Functions
 
@@ -3086,15 +3302,16 @@ TODO: this
 {% endtab %}
 
 {% tab title="PowerShell" %}
+To execute regular Windows shell commands \(from cmd.exe\) in PowerShell, simply type the command the same way you would in the Windows command shell.  Some commands may not work in the same way, and some may need the full filename \(example: to se a directory listing in cmd.exe `dir` is the command.  To use this in PowerShell you would need to specify `dir.exe`.  
 
+IEX \(Invoke-Expression\)
 {% endtab %}
 
 {% tab title="Bash" %}
-
-
 #### Shell execution <a id="shell-execution"></a>
 
 ```text
+pwd
 echo "I'm in $(pwd)"
 echo "I'm in `pwd`"
 ```
@@ -3102,6 +3319,72 @@ echo "I'm in `pwd`"
 
 {% tab title="CMD .bat" %}
 
+{% endtab %}
+{% endtabs %}
+
+
+
+### Output Redirection
+
+{% tabs %}
+{% tab title="Python" %}
+
+{% endtab %}
+
+{% tab title="PowerShell" %}
+
+{% endtab %}
+
+{% tab title="Bash" %}
+
+
+####  <a id="shell-execution"></a>
+{% endtab %}
+
+{% tab title="CMD .bat" %}
+There are three universal “files” for keyboard input, printing text on the screen and printing errors on the screen. The “Standard In” file, known as **stdin**, contains the input to the program/script. The “Standard Out” file, known as **stdout**, is used to write output for display on the screen. Finally, the “Standard Err” file, known as **stderr**, contains any error messages for display on the screen.
+
+Each of these three standard files, otherwise known as the standard streams, are referenced using the numbers 0, 1, and 2. Stdin is file 0, stdout is file 1, and stderr is file 2.
+
+### Redirecting Output \(Stdout and Stderr\)
+
+One common practice in batch files is sending the output of a program to a log file. The &gt; operator sends, or redirects, stdout or stderr to another file. The following example shows how this can be done.
+
+```text
+Dir C:\ > list.txt
+```
+
+In the above example, the **stdout** of the command Dir C:\ is redirected to the file list.txt.
+
+If you append the number 2 to the redirection filter, then it would redirect the **stderr** to the file lists.txt.
+
+```text
+Dir C:\ 2> list.txt
+```
+
+One can even combine the **stdout** and **stderr** streams using the file number and the ‘&’ prefix. Following is an example.
+
+```text
+DIR C:\ > lists.txt 2>&1
+```
+
+### Suppressing Program Output
+
+The pseudo file NUL is used to discard any output from a program. The following example shows that the output of the command DIR is discarded by sending the output to NUL.
+
+```text
+Dir C:\ > NUL
+```
+
+#### Stdin
+
+To work with the Stdin, you have to use a workaround to achieve this. This can be done by redirecting the command prompt’s own stdin, called CON.
+
+The following example shows how you can redirect the output to a file called lists.txt. After you execute the below command, the command prompt will take all the input entered by user till it gets an EOF character. Later, it sends all the input to the file lists.txt.
+
+```text
+TYPE CON > lists.txt
+```
 {% endtab %}
 {% endtabs %}
 
