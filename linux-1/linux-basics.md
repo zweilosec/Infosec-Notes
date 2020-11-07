@@ -4,7 +4,7 @@ description: Commands and programs that all Linux users need to know (but many d
 
 # Linux Basics
 
-TODO: Add screenshots/code examples for each command
+TODO: Add screenshots/code examples for each command; put commands in tables; clean and organize all
 
 ## Command-line Basics
 
@@ -144,7 +144,7 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 `chmod -ugo -rwx -7777 5KFB6`
 
-chown
+`chown $user $group $file`
 
 ## System Information
 
@@ -198,17 +198,17 @@ Convert rpm to Debian packages: `alien <file.rpm>`
 
 ## Users and Groups
 
-groups
+`groups`
 
 Add a new user: `adduser`
 
-addgroup
+`addgroup`
 
-id
+`id`
 
-w
+`w`
 
-last -a
+`last -a`
 
 ### User Privileges
 
@@ -216,11 +216,13 @@ Execute commands with elevated privileges `sudo`
 
 Execute `sudo` command using another user's privileges: `sudo -u <username> [command]`
 
+List sudo privileges for current user with `sudo -l`
+
 ## $PATH
 
 Add new $PATHs to `.profile` rather than `.bashrc`, then `source ~/.profile` to use new PATHs
 
-Makes `pwd` part of path so dont need `./` _NOT RECOMMENDED for home use!_ `export PATH='pwd':$PATH`
+Makes `pwd` part of path so don't need `./` _NOT RECOMMENDED for home/production use!_ `export PATH='pwd':$PATH`
 
 The bullet-proof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is: \(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)\)
 
@@ -240,7 +242,7 @@ Delete script from default autorun: `update-rc.d -f </path/to/the/script> remove
 
 ## Make a Linux live boot USB
 
-On Windows:
+On Windows \(easiest way!\):
 
 1. Download and run [Rufus](https://rufus.ie/). 
 2. Select the USB device and ISO you want to use, giving the volume a name if you wish.
@@ -298,4 +300,5 @@ forkbomb() { forkbomb | forkbomb & } ; forkbomb
 ## References
 
 * [https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/](https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/)
+* [https://linuxconfig.org/linux-tutorials](https://linuxconfig.org/linux-tutorials)
 
