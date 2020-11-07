@@ -7,13 +7,13 @@
 ## Linux <a id="linux-1"></a>
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Hardening & Setup](linux-1/hardening-and-setup/README.md)
-  * [TMUX/Screen Cheatsheet](linux-1/hardening-and-setup/tmux-screen-cheatsheet.md)
-* [Red Team Notes](linux-1/linux/README.md)
-  * [Enumeration](linux-1/linux/enumeration.md)
-  * [Getting Access](linux-1/linux/getting-access.md)
-  * [Privilege Escalation](linux-1/linux/privilege-escalation.md)
-  * [Persistence](linux-1/linux/persistance.md)
+* [Hardening & Setup](linux-1/linux-hardening/README.md)
+  * [TMUX/Screen Cheatsheet](linux-1/linux-hardening/tmux-screen-cheatsheet.md)
+* [Red Team Notes](linux-1/linux-redteam/README.md)
+  * [Enumeration](linux-1/linux-redteam/enumeration.md)
+  * [Getting Access](linux-1/linux-redteam/getting-access.md)
+  * [Privilege Escalation](linux-1/linux-redteam/privilege-escalation.md)
+  * [Persistence](linux-1/linux-redteam/persistance.md)
 * [Vim](linux-1/vim.md)
 * [Test](linux-1/test.md)
 
@@ -21,23 +21,23 @@
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [PowerShell](windows-1/powershell.md)
-* [Hardening & Setup](windows-1/hardening-and-setup.md)
-* [Red Team Notes](windows-1/windows/README.md)
-  * [Enumeration](windows-1/windows/enumeration.md)
-  * [Getting Access](windows-1/windows/getting-access.md)
-  * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
-  * [Persistence](windows-1/windows/persistence.md)
-  * [Active Directory](windows-1/windows/active-directory.md)
+* [Hardening & Setup](windows-1/windows-hardening.md)
+* [Red Team Notes](windows-1/windows-redteam/README.md)
+  * [Enumeration](windows-1/windows-redteam/enumeration.md)
+  * [Getting Access](windows-1/windows-redteam/getting-access.md)
+  * [Privilege Escalation](windows-1/windows-redteam/privilege-escalation.md)
+  * [Persistence](windows-1/windows-redteam/persistence.md)
+  * [Active Directory](windows-1/windows-redteam/active-directory.md)
 
 ## MacOS
 
 * [MacOS Basics](macos/macos-basics.md)
-* [Hardening & Configuration](macos/hardening-and-configuration.md)
-* [Red Team Notes](macos/red-team-notes/README.md)
-  * [Enumeration](macos/red-team-notes/enumeration.md)
-  * [Getting Access](macos/red-team-notes/getting-access.md)
-  * [Privilege Escalation](macos/red-team-notes/privilege-escalation.md)
-  * [Persistence](macos/red-team-notes/persistence.md)
+* [Hardening & Configuration](macos/macos-hardening.md)
+* [Red Team Notes](macos/macos-redteam/README.md)
+  * [Enumeration](macos/macos-redteam/enumeration.md)
+  * [Getting Access](macos/macos-redteam/getting-access.md)
+  * [Privilege Escalation](macos/macos-redteam/privilege-escalation.md)
+  * [Persistence](macos/macos-redteam/persistence.md)
 
 ## Web
 

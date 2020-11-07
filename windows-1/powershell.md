@@ -469,7 +469,7 @@ $PSVersionTable
 To view current execution policy check use the cmdlet `Get-ExecutionPolicy`.  If no execution policy is set in any scope, the effective execution policy is **Restricted,** which is the default for client systems \(Windows 10\) or **RemoteSigned** \(Server 2016+\). ****The policy can be changed with the cmdlet `Set-ExecutionPolicy <PolicyName>`. 
 
 {% hint style="success" %}
-For**`Execution-Policy`** bypass methods for privilege escalation and so on see [this section](windows/privilege-escalation.md#script-execution-policy-bypass-methods).
+For**`Execution-Policy`** bypass methods for privilege escalation and so on see [this section](windows-redteam/privilege-escalation.md#script-execution-policy-bypass-methods).
 {% endhint %}
 
 ## Environment Variables

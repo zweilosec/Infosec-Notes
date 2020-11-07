@@ -35,35 +35,35 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Linux
 
 * [Linux Basics](linux-1/linux-basics.md)
-* [Hardening & Configuration Guide ](linux-1/hardening-and-setup/)
-* [Red Team Notes](linux-1/linux/)
-  * [Enumeration](linux-1/linux/enumeration.md)
-  * [Getting Access](linux-1/linux/getting-access.md)
-  * [Privilege Escalation](linux-1/linux/privilege-escalation.md)
-  * [Persistence](linux-1/linux/persistance.md)
+* [Hardening & Configuration Guide ](linux-1/linux-hardening/)
+* [Red Team Notes](linux-1/linux-redteam/)
+  * [Enumeration](linux-1/linux-redteam/enumeration.md)
+  * [Getting Access](linux-1/linux-redteam/getting-access.md)
+  * [Privilege Escalation](linux-1/linux-redteam/privilege-escalation.md)
+  * [Persistence](linux-1/linux-redteam/persistance.md)
 * [Vim](linux-1/vim.md)
 
 ## Windows
 
 * [Windows Basics](windows-1/windows-basics.md)
-* [Hardening & Configuration Guide](windows-1/hardening-and-setup.md)  
-* [Red Team Notes](windows-1/windows/)
-  * [Enumeration](windows-1/windows/enumeration.md)
-  * [Getting Access](windows-1/windows/getting-access.md)
-  * [Privilege Escalation](windows-1/windows/privilege-escalation.md)
-  * [Persistence](windows-1/windows/persistence.md)
-  * [Active Directory](windows-1/windows/active-directory.md)
+* [Hardening & Configuration Guide](windows-1/windows-hardening.md)  
+* [Red Team Notes](windows-1/windows-redteam/)
+  * [Enumeration](windows-1/windows-redteam/enumeration.md)
+  * [Getting Access](windows-1/windows-redteam/getting-access.md)
+  * [Privilege Escalation](windows-1/windows-redteam/privilege-escalation.md)
+  * [Persistence](windows-1/windows-redteam/persistence.md)
+  * [Active Directory](windows-1/windows-redteam/active-directory.md)
   * [PowerShell](windows-1/powershell.md)
 
 ## MacOS
 
 * [MacOS Basics](macos/macos-basics.md)
-* [Hardening & Configuration Guide](macos/hardening-and-configuration.md)
-* [Red Team Notes](macos/red-team-notes/)
-  * [Enumeration](macos/red-team-notes/enumeration.md)
-  * [Getting Access](macos/red-team-notes/getting-access.md)
-  * [Privilege Escalation](macos/red-team-notes/privilege-escalation.md)
-  * [Persistence](macos/red-team-notes/persistence.md)
+* [Hardening & Configuration Guide](macos/macos-hardening.md)
+* [Red Team Notes](macos/macos-redteam/)
+  * [Enumeration](macos/macos-redteam/enumeration.md)
+  * [Getting Access](macos/macos-redteam/getting-access.md)
+  * [Privilege Escalation](macos/macos-redteam/privilege-escalation.md)
+  * [Persistence](macos/macos-redteam/persistence.md)
 
 ## Web
 

@@ -10,7 +10,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ### sshd
 
-SSH should already be installed on most Linux computers, but you may need to start the SSH daemon \(sshd\) if the computer has never accepted incoming SSH connections before.
+SSH should already be installed on most Linux-based computers, but you may need to start the SSH daemon \(sshd\) if the computer has never accepted incoming SSH connections before.
 
 ```text
 sudo systemctl start sshd
@@ -134,6 +134,17 @@ If connection is dropped upon connect:
   ssh 127.0.0.1 "bash --noprofile --norc"
   ```
 
+## Remote Code Execution
+
+Run commands on remote system without a shell through SSH with a "Herefile". `HERE` can be anything, but it must begin and end with the same word. 
+
+```text
+ssh <user>@<server> << HERE
+ <command1>
+ <command2>
+HERE
+```
+
 ## SCP
 
 There are three main uses of SCP: to pull files from a remote host, to push files to a remote host, and to copy files between two remote hosts.
@@ -197,4 +208,6 @@ Tip: you may run a command \(e.g. watch, top\) on Destination to keep the connec
 * [https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/](https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/)
 * [https://stackoverflow.com/questions/25084288/keep-ssh-session-alive](https://stackoverflow.com/questions/25084288/keep-ssh-session-alive)
 * [https://softeng.oicr.on.ca/chen\_chen/2017/06/27/Using-Jump-Servers-in-SSH/](https://softeng.oicr.on.ca/chen_chen/2017/06/27/Using-Jump-Servers-in-SSH/)
+* [https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/)
+* [https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/](https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/)
 
