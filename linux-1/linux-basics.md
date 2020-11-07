@@ -301,4 +301,5 @@ forkbomb() { forkbomb | forkbomb & } ; forkbomb
 
 * [https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/](https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/)
 * [https://linuxconfig.org/linux-tutorials](https://linuxconfig.org/linux-tutorials)
+* [https://explainshell.com/](https://explainshell.com/)
 
