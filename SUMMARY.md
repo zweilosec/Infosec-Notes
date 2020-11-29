@@ -3,6 +3,7 @@
 * [Hacker's Rest](README.md)
 * [Tools & Cheatsheets](tools-cheatsheets.md)
 * [Hacking Methodology](hacking-methodology.md)
+* [Hands-on Practice](hands-on-practice.md)
 
 ## Linux <a id="linux-1"></a>
 
