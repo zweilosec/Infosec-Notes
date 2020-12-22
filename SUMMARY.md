@@ -14,6 +14,7 @@
   * [Enumeration](linux-1/linux-redteam/enumeration.md)
   * [Getting Access](linux-1/linux-redteam/getting-access.md)
   * [Privilege Escalation](linux-1/linux-redteam/privilege-escalation.md)
+  * [Exfiltration](linux-1/linux-redteam/exfiltration.md)
   * [Persistence](linux-1/linux-redteam/persistance.md)
 * [Vim](linux-1/vim.md)
 * [Test](linux-1/test.md)

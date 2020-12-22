@@ -54,7 +54,7 @@ Add to `multitool.sh`:create wordlists with cewl & Hashcat; add add options to u
 
 Add to `multitool.sh`: crack passwords with Hashcat
 
-```text
+```bash
 #crack passwords with hashcat; 
 
 #get user input for attack type - make attack type listing with numeric selections;
