@@ -6,8 +6,6 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-[https://www.bettercap.org/](https://www.bettercap.org/)
-
 ## Choosing a wireless module
 
 You must choose a wireless module that has a chipset that is capable of being put in monitor mode.  The site below has a fairly comprehensive list of adapters that support this.  
@@ -236,4 +234,8 @@ To combine your `airodump-ng` .txt/.csv files together simply open up a terminal
 ```bash
 dump-join.py -i $infile1 $infile2 $infile3 -o $outfile  
 ```
+
+### Man-in-the-middle with Bettercap
+
+* [https://www.bettercap.org/](https://www.bettercap.org/)
 
