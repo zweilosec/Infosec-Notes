@@ -6,11 +6,9 @@
 
 ## Ciphers
 
-[https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking) &lt;-- useful site which can help identify type of cipher. 
-
-[https://www.dcode.fr](https://www.dcode.fr) &lt;-- one of the best sites I have found with many decoders for many types of ciphers.
-
-[Cyber Chef](https://gchq.github.io/CyberChef/) &lt;-- very useful for chained ciphers which require different steps to solve. Can decrypt certificates.
+* [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking) &lt;-- useful site which can help identify type of cipher. 
+* [https://www.dcode.fr](https://www.dcode.fr) &lt;-- one of the best sites I have found with many decoders for many types of ciphers.
+* [Cyber Chef](https://gchq.github.io/CyberChef/) &lt;-- very useful for chained ciphers which require different steps to solve. Can decrypt certificates.
 
 ### Fernet
 
@@ -47,11 +45,25 @@ def is_plaintext(ptext):
       return True
 ```
 
+If this function is giving false positives/negatives, it can be tweaked by altering the number in the line: 
+
+```python
+if num_letters / len(ptext) >= .6:
+```
+
+`0.6` has been tested as working for simple CTF usage.
+
 ## Digital Certificates
 
 X.509
 
 [https://8gwifi.org/PemParserFunctions.jsp](https://8gwifi.org/PemParserFunctions.jsp) -- extract information from various digital certificates
+
+## SSH Keys
+
+For those interested in the details - you can see what's inside the public key file \(generated as explained above\), by doing this:- \`\`\`openssl rsa -noout -text -inform PEM -in key.pub -pubin or for the private key file, this:- openssl rsa -noout -text -in key.private which outputs as text on the console the actual components of the key \(modulus, exponents, primes, ...\)
+
+````` extract public key from private key:```openssl rsa -in privkey.pem -pubout -out key.pub\`
 
 ## Encryption/Decryption
 
@@ -61,9 +73,7 @@ good cipher tools: [http://rumkin.com/](http://rumkin.com/)
 
 one time pad: `pt - ct = key`
 
-decrypt rsa private key: `openssl rsautl -decrypt -inkey <key_file> < <pass.crypt (hex file?encrypted contents of pub key?)>`
+decrypt rsa private key: `openssl rsautl -decrypt -inkey $key_file < $pass.crypt` \($pass.crypt is hex file? encrypted contents of pub key?\)
 
 * [Ippsec:HacktheBox - Charon](https://www.youtube.com/watch?v=_csbKuOlmdE)
-
-`hydra -e nsr` - additional checks, "n" for null password, "s" try login as pass, "r" try the reverse login as pass
 

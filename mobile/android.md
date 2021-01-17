@@ -8,3 +8,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 Nothing here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## MISC
+
+signing APK files: [IppSec:HHC2016 - Debug](https://www.youtube.com/watch?v=fcemTQaosOQ)
+

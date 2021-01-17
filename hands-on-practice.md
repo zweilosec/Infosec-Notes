@@ -21,9 +21,6 @@ TODO: Clean, organize, and write a blurb for each site; vet each one; put into c
 
 Website list:
 
-
-
-* [https://w3challs.com/](https://w3challs.com/)  W3 Challenges: W3Challs is a penetration testing training platform, which offers various computer challenges, in categories related to security: Hacking, Cracking, Wargame, Forensic, Cryptography and Programming. The purpose of this site is to offer realistic challenges, without simulation, and without guessing!
 * [https://pwnable.tw/](https://pwnable.tw/)    Pwnable.tw: Pwnable.tw is a wargame site for hackers to test and expand their binary exploiting skills. Just as the .kr version \(I actually don’t know if they’re related\) the only thing you must do is click “challenges” con the upper left webpage tabs. They provide a scoring system, the harder the challenge is, the more score you earn. They also provide write-ups.
 * [https://challenges.re/](https://challenges.re/)   Challenges.re: Website created by Dennis Yurichev, the writer of the awesome book “Reverse Engineering for Beginners” \(https://beginners.re/\).
 * [https://www.reversinghero.com/](https://www.reversinghero.com/)   Reversing Hero: ReversingHero is a 15-challenges computer program, designed to teach you Reverse Engineering. It begins from the real basics, and continues into more advanced topics.
@@ -75,8 +72,4 @@ Other compilations:
 [https://tiwim.github.io/pages/linklist.html](https://tiwim.github.io/pages/linklist.html)    Compilation of hacking sites covering a wide variety of topics:
 
 * [https://razvioverflow.github.io/starthacking](https://razvioverflow.github.io/starthacking)  Razvioverflow
-
-Readings:
-
-   [https://github.com/onethawt/reverseengineering-reading-list](https://github.com/onethawt/reverseengineering-reading-list)   Reverse engineering reading list:
 

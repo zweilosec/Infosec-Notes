@@ -8,5 +8,9 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 Nothing here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## Resources
+
+* [https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet)
+
 
 

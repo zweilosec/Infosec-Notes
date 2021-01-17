@@ -63,14 +63,6 @@ Windows enumeration: whoami /all net use z: \\ tasklist /v \(verbose\) netstat -
 
 aquatone ?? - pulls up series of websites and takes screenshots
 
-## Ciphers 
-
-[https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking) &lt;-- useful site which can help identiry type of cipher. [https://www.dcode.fr](https://www.dcode.fr) &lt;-- one of the best sites I have found with many decoders for many types of ciphers. github Cyber Chef &lt;-- very useful for chained ciphers which require different steps to solve, can be limited. can decrypt certificates Fernet \(symmetric encryption\) - looks like base64 but decodes to garbage, in two parts. first part \(32 bytes\) is the key. Uses 128-bit AES in CBC mode and PKCS7 padding, with HMAC using SHA256 for authentication. IV is created from os.random\(\).
-
-> decode fernet @ [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode) &lt;-- Will also give the IV and timestamp \(could be useful!\) more info about this @ [https://cryptography.io/en/latest/fernet](https://cryptography.io/en/latest/fernet) python from cryptography.fernet import Fernet key = Fernet.generate\_key\(\) f = Fernet\(key\) token = f.encrypt\(b"this is my key"\) print\('the key is ' + key + '/nThe cipher text is ' + token\) ==========decrypt from cryptography.fernet import Fernet key = 'input key here' f = Fernet\(key\) token = 'cipher text here' print\(f.decrypt\(token\)\)
-
-esoteric inferno encryption Malbolge programming language &lt;--text from base64 looks like random text, but not complete garbage \(!unprintable\) ^[https://en.wikipedia.org/wiki/Malbolge](https://en.wikipedia.org/wiki/Malbolge) // [https://www.tutorialspoint.com/execute\_malbolge\_online.php](https://www.tutorialspoint.com/execute_malbolge_online.php)
-
 ## -----
 
 shortcut for all ports: `nmap -p-`
@@ -78,10 +70,6 @@ shortcut for all ports: `nmap -p-`
 ## -----
 
 Firefox Browser plugins:Tampermonkey \(userscript manager\); Cookie Manager+;
-
-## -----
-
-signing APK files: [IppSec:HHC2016 - Debug](https://www.youtube.com/watch?v=fcemTQaosOQ)
 
 ## HEX
 
@@ -389,54 +377,7 @@ compress files using windows, sets "Compressed" attribute \(cmd.exe\) `compact /
 
 ### -----
 
-## Using an ALFA Wireless Adapter in Linux
-
-[https://forums.kali.org/showthread.php?50408-Kali-2020-2-ALFA-AWUS036ACH&highlight=awus036ach](https://forums.kali.org/showthread.php?50408-Kali-2020-2-ALFA-AWUS036ACH&highlight=awus036ach)
-
-the driver you can install with `apt-get install realtek-rtl88xxau-dkms` after reboot the wifi adapter worked on my installation.
-
-the only thing to note - it will not work as the usual way with airmon-ng - to capture packages \(Handshake\)
-
-```text
-sudo ifconfig wlan0 down
-sudo airmon-ng check kill
-sudo iwconfig wlan0 mode monitor
-sudo ifconfig wlan0 up
-```
-
-than you can work with airodump-ng
-
-however, you wont be able to do the aireplay-ng deauth command it does not work with dualband wifi - i found no solution yet.
-
-but scanning and capturing is possible on both wifi bands
-
-[https://forums.kali.org/showthread.php?46019-How-to-Setup-Alfa-AWUS036ACH-RTL8812AU-on-Kali-Linux-2019-4](https://forums.kali.org/showthread.php?46019-How-to-Setup-Alfa-AWUS036ACH-RTL8812AU-on-Kali-Linux-2019-4)
-
-After a lot of failed attempts...
-
-I found a working solution.
-
-and here it is...
-
-follow these steps as it is.
-
-NB: Unplug Your Wi-Fi Adapter while You Doing Below Steps.
-
-• apt remove realtek-rtl88xxau-dkms && apt purge realtek-rtl88xxau-dkms
-
-• apt update && apt upgrade • apt autoremove && apt autoclean • reboot
-
-• apt-get dist-upgrade • reboot
-
-• git clone [https://github.com/aircrack-ng/rtl8812au](https://github.com/aircrack-ng/rtl8812au) • cd rtl8812au • make && make install
-
-• poweroff
-
-Now Turn ON the PC and Plug Your Wi-Fi Adapter
-
-[https://null-byte.wonderhowto.com/how-to/hack-5-ghz-wi-fi-networks-with-alfa-wi-fi-adapter-0203515/](https://null-byte.wonderhowto.com/how-to/hack-5-ghz-wi-fi-networks-with-alfa-wi-fi-adapter-0203515/)
-
-[https://www.amazon.com/Network-AWUS036ACS-Wide-Coverage-Dual-Band-High-Sensitivity/dp/B0752CTSGD/?tag=whtnb-20](https://www.amazon.com/Network-AWUS036ACS-Wide-Coverage-Dual-Band-High-Sensitivity/dp/B0752CTSGD/?tag=whtnb-20)
+## 
 
 ### -----
 
@@ -471,8 +412,6 @@ find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o /path/to/sor
 https://github.com/ggreer/the\_silver\_searcher
 
 For faster searching, use all the above grep regular expressions with the command `ag`.
-
-
 
 ### -----
 
