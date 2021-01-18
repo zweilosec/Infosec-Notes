@@ -167,9 +167,17 @@ Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hot
 
 ### List Environment Variables
 
-`set` 
+{% tabs %}
+{% tab title="PowerShell" %}
+Show all current environment variables: `Get-ChildItem Env:`
 
-`Get-ChildItem env:`
+Also aliased to: `dir env:` or `ls env:` or `gci env:`
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+Show all current environment variables: `set` 
+{% endtab %}
+{% endtabs %}
 
 ### Check Audit \(logging\) Settings
 
@@ -177,7 +185,7 @@ These settings show what is being logged, this can be useful information for eva
 
 #### Windows Event Forwarding
 
-\(where are the logs sent\) `reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager`
+Check where the logs are sent:`reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager`
 
 ### AV
 
@@ -193,15 +201,21 @@ Get the contents of the clipboard `Get-Clipboard`
 
 #### List the installed software
 
+{% tabs %}
+{% tab title="PowerShell" %}
+`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'` 
+
+`Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
+{% endtab %}
+
+{% tab title="cmd.exe" %}
 `dir /a "C:\Program Files"` 
 
 `dir /a "C:\Program Files (x86)"` 
 
 `reg query HKEY_LOCAL_MACHINE\SOFTWARE`
-
-`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'` 
-
-`Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
+{% endtab %}
+{% endtabs %}
 
 ### Services
 
@@ -212,6 +226,8 @@ Get a list of services:
 `wmic service list brief` 
 
 `sc query` 
+
+Get-Service
 
 `Get-Process`
 
@@ -249,11 +265,19 @@ If you are having this error \(for example with SSDPSRV\):
 
 ### Get running processes
 
-Lists all the service information for each process with `tasklist /svc`. Valid when the `/fo <format>` parameter is set to table \(default format\). Can be run remotely with `/s <name or IP address>` and credentialed with `/u <username>` and `/p <password>`. `/v` = verbose
+{% tabs %}
+{% tab title="PowerShell" %}
+`Get-Process`
 
 With usernames of process owner `Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "svchost*"} | Select Name, Handle, @{Label="Owner";Expression={$_.GetOwner().User}} | ft -AutoSize`
 
 Without usernames `Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id`
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+List all the service information for each process with `tasklist /svc`. Valid when the `/fo <format>` parameter is set to table \(default format\). Can be run remotely with `/s <name or IP address>` and credentialed with `/u <username>` and `/p <password>`. `/v` = verbose
+{% endtab %}
+{% endtabs %}
 
 #### Check permissions of the process binaries
 
@@ -278,6 +302,8 @@ todos %username%" && echo.
 
 ### Get current network connections
 
+TODO: Find PowerShell way to do this
+
 `netstat -ano`
 
 [https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md\#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) \(\*check for more network enumeration info here\)
@@ -285,6 +311,24 @@ todos %username%" && echo.
 ### AutoRuns
 
 Check which files are executed when the computer is started. Components that are executed when a user logins can be exploited to execute malicious code when the administrator logins. \(cmd.exe\)
+
+{% tabs %}
+{% tab title="PowerShell" %}
+
+
+```text
+Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
+Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
+Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run'
+Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce'
+Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
+Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+
 
 ```text
 wmic startup get caption,command 2>nul & ^
@@ -298,18 +342,8 @@ dir /b "%programdata%\Microsoft\Windows\Start Menu\Programs\Startup" 2>nul & ^
 dir /b "%appdata%\Microsoft\Windows\Start Menu\Programs\Startup" 2>nul
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 ```
-
-\(powershell\)
-
-```text
-Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
-Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
-Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
-Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run'
-Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce'
-Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
-Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
-```
+{% endtab %}
+{% endtabs %}
 
 #### SysInternals AutoRuns
 
@@ -317,7 +351,7 @@ For a comprehensive list of auto-executed files you can use AutoRuns from SysInt
 
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
-* TODO: Everything below copied from the above...in the process of verification, cleanup, and assimilation.
+* TODO: Everything below from the above site...in the process of verification, cleanup, and assimilation.
 
 ## Windows CLI gems. Tweets of [@wincmdfu](https://www.twitter.com/wincmdfu)
 
@@ -901,9 +935,9 @@ PS C:\> gwmi -n root\cimv2 -li
 C:\> vboxmanage clonehd myvdi.vdi myvmdk.vmdk --format VMDK
 ```
 
-#### Change file extensions recurseively
+#### Change file extensions recursively
 
-**csv to xls for eg**
+**csv to xls example**
 
 ```text
 C:\Projects> forfiles /S /M *.csv /C "cmd /c ren @file @fname.xls"
@@ -915,17 +949,17 @@ C:\Projects> forfiles /S /M *.csv /C "cmd /c ren @file @fname.xls"
 for /F %i in ('VBoxManage list runningvms') do VBoxManage guestproperty enumerate %i | find "IP"
 ```
 
-#### Windows Privilege Escalation
+#### Windows Privilege Escalation Slideshow
 
 [![Windows Privilege Escalation](https://github.com/madhuakula/wincmdfu/raw/master/images/windows-privilege-esclation.png)](http://www.slideshare.net/riyazwalikar/windows-privilege-escalation)
 
-#### Enumerate packages with their oem inf filenames
+#### Enumerate packages with their OEM .inf filenames
 
 ```text
 C:\> pnputil -e
 ```
 
-#### Install a driver package using inf file
+#### Install a driver package using .inf file
 
 ```text
 C:\> pnputil -i -a path_to_inf
@@ -939,11 +973,23 @@ C:\> pnputil -i -a path_to_inf
 
 [https://msdn.microsoft.com/en-us/library/mt588480\(v=vs.85\).aspx](https://msdn.microsoft.com/en-us/library/mt588480%28v=vs.85%29.aspx)
 
-#### Windows wifi hotspot using cmd
+### Start a Wi-Fi hotspot using cmd.exe
 
-Starting a wifi hotspot using Windows cmd with ssid name `hotspotname` and key `password`
+Open cmd.exe in admin mode
 
-[![Windows wifi hotspot using cmd](https://github.com/madhuakula/wincmdfu/raw/master/images/wifihotspot.jpg)](https://github.com/madhuakula/wincmdfu/blob/master/images/wifihotspot.jpg)
+```text
+netsh wlan show drivers
+
+#if Hosted Network supported: Yes
+netsh wlan set hostednetwork mode=allow ssid=$ESSID key=$password
+netsh wlan start hostednetwork
+
+#to stop
+netsh wlan stop hostednetwork
+
+#to check the status of the WiFi hotspot
+netsh wlan show hostednetwork
+```
 
 #### Disable UAC via cmdline
 
@@ -953,7 +999,7 @@ C:\> reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system 
 
 #### Turn off Windows firewall for all profiles
 
-**Useful if you have a bind shell**
+Useful if you have a bind shell
 
 ```text
 C:\> netsh advfirewall set allprofiles state off
@@ -1073,8 +1119,6 @@ Use #wmic /node:@ips process for multiple.
 ```
 
 #### Generate 32 char random password
-
-Save as genpass.ps1
 
 ```text
 PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
