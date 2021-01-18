@@ -132,3 +132,11 @@ web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
 
 Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aquatone) "is a tool for visual inspection of websites across a large amount of hosts and is convenient for quickly gaining an overview of HTTP-based attack surface" - from the author \(see link\). Visual dirbuster?
 
+
+
+### Crawl web pages for keywords - useful for password/vhost enumeration lists
+
+```bash
+cewl
+```
+

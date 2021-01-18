@@ -36,16 +36,7 @@ locate all files that symlink to this\_file: `find -L / -samefile path/to/<this_
 
 ## SSH Keys
 
-```text
-AWS will NOT accept this file.
-You have to strip off the -----BEGIN PUBLIC KEY----- and -----END PUBLIC KEY----- from the file. Save it and import and it should work in AWS.
-```
-
-and if you need to convert this format to ssh-rsa AAAAB3NzaC1y.... run : `ssh-keygen -f PublicKey.pub -i -mPKCS8`
-
-For those interested in the details - you can see what's inside the public key file \(generated as explained above\), by doing this:- \`\`\`openssl rsa -noout -text -inform PEM -in key.pub -pubin or for the private key file, this:- openssl rsa -noout -text -in key.private which outputs as text on the console the actual components of the key \(modulus, exponents, primes, ...\)
-
-````` extract public key from private key:```openssl rsa -in privkey.pem -pubout -out key.pub\`
+``` extract public key from private key:``openssl rsa -in privkey.pem -pubout -out key.pub\`
 
 ## -----
 
@@ -130,33 +121,7 @@ ff02::2 Multicast ROUTER nodes
 
 ip6tables - iptables for ipv6
 
-## PHP
-
-[https://www.php.net/manual/en/features.commandline.webserver.php](https://www.php.net/manual/en/features.commandline.webserver.php) When starting php -S on a mac \(in my case macOS Sierra\) to host a local server, I had trouble with connecting from legacy Java. As it turned out, if you started the php server with `php -S localhost:80` the server will be started with ipv6 support only! To access it via ipv4, you need to change the start up command like so: `php -S 127.0.0.1:80` which starts server in ipv4 mode only.
-
-It’s not mentioned directly, and may not be obvious, but you can also use this to create a virtual host. This, of course, requires the help of your hosts file. Here are the steps:
-
-```text
-1    /etc/hosts
-    127.0.0.1    www.example.com
-2    cd [root folder]
-    php -S www.example.com:8000
-3    Browser:
-    http://www.example.com:8000/index.php
-```
-
-In order to set project specific configuration options, simply add a php.ini file to your project, and then run the built-in server with this flag: `php -S localhost:8000 -c php.ini`
-
-Example \#6 Accessing the CLI Web Server From Remote Machines You can make the web server accessible on port 8000 to any interface with: `$ php -S 0.0.0.0:8000`
-
-Example \#2 Starting with a specific document root directory
-
-```text
-$ cd ~/public_html
-$ php -S localhost:8000 -t foo/
-Listening on localhost:8000
-Document root is /home/me/public_html/foo
-```
+## 
 
 ## -----
 
@@ -594,11 +559,7 @@ kerbrute
 
 [https://github.com/TarlogicSecurity/kerbrute](https://github.com/TarlogicSecurity/kerbrute)
 
-### Crawls web pages for keywords
-
-```bash
-cewl
-```
+### 
 
 ### TeamViewer Privilege Escalation -&gt; CVE-2019-189888
 
