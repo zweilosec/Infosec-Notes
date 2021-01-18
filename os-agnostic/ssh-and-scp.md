@@ -81,11 +81,13 @@ ClientAliveCountMax 2
 To generate a new SSH key for remote access:
 
 ```bash
-ssh-keygen -f <filename>; cat <filename>;
-#copy to remote host
-echo <copied_key> > ./.ssh/authorized_keys #on remote host in /home/<user>/
-chmod 600 <filename>; 
-ssh -i <filename> <remotehost>
+ssh-keygen -f $key_file -t ecdsa #use the ecdsa algorithm, which is much smaller than default
+cat $key_file.pub
+#copy public key to remote host
+#if characters are a premium you can chop of the user@host portion, but all users will be able to use this key!
+echo $pub_key > $victim_homeDir/.ssh/authorized_keys #on remote host in /home/<user>/
+chmod 600 $key_file 
+ssh -i $key_file $user@$remote_host
 ```
 
 {% hint style="danger" %}
@@ -104,7 +106,7 @@ ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
 #Append a comment to the first line with a space between the comment and key data.
 #An example public key is shown truncated below.
 
-"ssh-rsa <key_data AAAA..../VqDjtS5> ubuntu@ubuntu"
+"ssh-rsa <key_data AAAA..snipped../VqDjtS5> user@hostname"
 ```
 
 Prior to using a new SSH key file it is necessary to change the permissions: `chmod 600 <keyfile>`
@@ -113,7 +115,7 @@ Using an SSH key to login to a remote computer: `ssh -i <keyfile> <username>@<IP
 
 However, before you can use the key to login to a remote computer, the public key must be placed in the `AuthorizedKeys` file on the remote system.  You can do this with the `ssh-copy-id` command.
 
-```text
+```bash
 ssh-copy-id $user@$remote_host -i $key_file
 ```
 
@@ -138,10 +140,10 @@ If connection is dropped upon connect:
 
 Run commands on remote system without a shell through SSH with a "Herefile". `HERE` can be anything, but it must begin and end with the same word. 
 
-```text
-ssh <user>@<server> << HERE
- <command1>
- <command2>
+```bash
+ssh $user@$hostname << HERE
+ $command1
+ $command2
 HERE
 ```
 
@@ -159,19 +161,19 @@ TODO: add syntax and examples
 
 [https://www.howtoforge.com/reverse-ssh-tunneling](https://www.howtoforge.com/reverse-ssh-tunneling)
 
-Let's assume that Destination's IP is 192.168.20.55 \(Linux box that you want to access\).
-
-You want to access from Linux client with IP 138.47.99.99.
-
-Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(138.47.99.99\)
+* Let's assume that Destination's IP is 192.168.20.55 \(Linux box that you want to access\).
+* You want to access from Linux client with IP 178.27.99.99.
+* Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(178.27.99.99\)
 
 1. SSH from the destination to the source \(with public IP\) using the command below:
 
 ```text
-ssh -R 19999:localhost:22 sourceuser@138.47.99.99
+ssh -R 19999:localhost:22 sourceuser@178.27.99.99
 ```
 
+{% hint style="info" %}
 \* port 19999 can be any unused port.
+{% endhint %}
 
 2. Now you can SSH from source to destination through SSH tunneling:
 
@@ -179,14 +181,14 @@ ssh -R 19999:localhost:22 sourceuser@138.47.99.99
 ssh localhost -p 19999
 ```
 
-3. 3rd party servers can also access 192.168.20.55 through Destination \(138.47.99.99\).
+3. 3rd party servers can also access 192.168.20.55 through Destination \(178.27.99.99\).
 
-Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(138.47.99.99\) &lt;- Bob's server
+Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(178.27.99.99\) &lt;- Bob's server
 
 3.1 From Bob's server:
 
 ```text
-ssh sourceuser@138.47.99.99
+ssh sourceuser@178.27.99.99
 ```
 
 3.2 After the successful login to Source:
@@ -195,9 +197,9 @@ ssh sourceuser@138.47.99.99
 ssh localhost -p 19999
 ```
 
-\* the connection between destination and source must be alive at all time.
-
-Tip: you may run a command \(e.g. watch, top\) on Destination to keep the connection active.
+{% hint style="info" %}
+\* the connection between destination and source must be alive at all times. Tip: you may run a command \(e.g. watch, top\) on Destination to keep the connection active.
+{% endhint %}
 
 ### Dynamic Reverse Tunnels
 

