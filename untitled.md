@@ -32,8 +32,6 @@ _Can click on the icon to change it to something appropriate \( Changes style, I
 
 locate all files that symlink to this\_file: `find -L / -samefile path/to/<this_file>`
 
-## -----
-
 ## SSH Keys
 
 ``` extract public key from private key:``openssl rsa -in privkey.pem -pubout -out key.pub\`
@@ -121,8 +119,6 @@ ff02::2 Multicast ROUTER nodes
 
 ip6tables - iptables for ipv6
 
-## 
-
 ## -----
 
 `ls /usr/share/nmap/scripts/ |grep smb` - find nmap scripts related to smb, search this folder for any scripts for a service you want to enumerate
@@ -130,12 +126,6 @@ ip6tables - iptables for ipv6
 ## -----
 
 Cisco Smart Install Client Service Available -Then, we can pull the configs with SIET: `siet.py -i 10.10.10.10 -g` SIET: [https://github.com/Sab0tag3d/SIET/](https://github.com/Sab0tag3d/SIET/)
-
-## Active Directory
-
-use LDAPDomainDump to gather the AD schema details.[LDAPDomainDump](https://github.com/dirkjanm/ldapdomaindump%20)
-
-ADExplorer: [https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer](https://docs.microsoft.com/en-us/sysinternals/downloads/adexplorer)
 
 ## pass the hash
 
@@ -238,10 +228,6 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 ### -----
 
-#### 
-
-### -----
-
 compress files using windows, sets "Compressed" attribute \(cmd.exe\) `compact /C /S c:\MyDirectory`
 
 ### -----
@@ -255,18 +241,6 @@ compress files using windows, sets "Compressed" attribute \(cmd.exe\) `compact /
 ### -----
 
 [https://osintframework.com/](https://osintframework.com/)
-
-### -----
-
-### -----
-
-## `command-not-found` errors
-
-[https://stackoverflow.com/questions/19873430/command-not-found-message-when-i-try-to-add-command-in-bashrc/26976325](https://stackoverflow.com/questions/19873430/command-not-found-message-when-i-try-to-add-command-in-bashrc/26976325)
-
-`sudo apt purge command-not-found` and install again, `sudo apt install command-not-found` then `sudo update-command-not-found` to rebuild the database
-
-`sudo chmod ugo+r /var/lib/command-not-found/commands.db*` to fix the permissions on the database \(fixed it! Hopeuflly permanent this time\) [https://bugs.launchpad.net/command-not-found/+bug/1824000](https://bugs.launchpad.net/command-not-found/+bug/1824000)
 
 ### -----
 
