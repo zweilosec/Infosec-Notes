@@ -12,13 +12,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 SSH should already be installed on most Linux-based computers, but you may need to start the SSH daemon \(sshd\) if the computer has never accepted incoming SSH connections before.
 
-```text
+```bash
 sudo systemctl start sshd
 ```
 
 To have the SSH daemon start each time you reboot your computer, use this command:
 
-```text
+```bash
 sudo systemctl enable sshd
 ```
 

