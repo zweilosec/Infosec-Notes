@@ -8,6 +8,16 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## Wordlist Manipulation
 
+### Password file merge, sort by unique entries:
+
+Sorts all files in a directory
+
+```bash
+find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o $out_file
+```
+
+[https://unix.stackexchange.com/questions/365114/efficiently-merge-sort-unique-large-number-of-text-files](https://unix.stackexchange.com/questions/365114/efficiently-merge-sort-unique-large-number-of-text-files)
+
 ### Remove the space character with sed
 
 `# sed -i 's/ //g' file.txt` OR `# egrep -v "^[[:space:]]*$" file.txt`

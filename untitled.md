@@ -250,13 +250,7 @@ burp intruder alternative for brute-forcing ports \(or any number range\)
 
 ### -----
 
-## password file merge, sort, unique:
-
-```text
-find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o /path/to/sorted.txt
-```
-
-[https://unix.stackexchange.com/questions/365114/efficiently-merge-sort-unique-large-number-of-text-files](https://unix.stackexchange.com/questions/365114/efficiently-merge-sort-unique-large-number-of-text-files)
+## 
 
 ### -----
 
