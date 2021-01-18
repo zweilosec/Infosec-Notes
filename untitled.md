@@ -880,27 +880,7 @@ _INSIDE DTD FILE_
 %p2;
 ```
 
-### Search bash history for passwords
+### 
 
-```bash
-find . -name .bash_history -exec grep -A 1 '^passwd' {} \;
-```
 
-### Search file by name pattern
-
-```bash
-find -name "*PATTERN*" 2>/dev/null
-```
-
-### Search string
-
-```bash
-grep -r "STRING" / 2>/dev/null
-```
-
-### Check SUDO privileges/rights
-
-```bash
-sudo -l
-```
 
