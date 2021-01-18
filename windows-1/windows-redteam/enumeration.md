@@ -6,7 +6,11 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+{% hint style="info" %}
 Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO.
+
+Most commands the run in cmd.exe will also run in PowerShell! This gives many more options and flexibility at times.
+{% endhint %}
 
 [https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) = My favorite Windows enumeration script, automates most common enumeration methods
 
@@ -18,9 +22,9 @@ Be aware sometimes these commands require elevated privileges to be run, or may 
 {% tab title="PowerShell" %}
 `[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
 
-add more...
+TODO: add more...
 
-better...still not the same as whoami /all
+better...still not the same as `whoami /all`
 
 ```text
 $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIdentifier($_.Value)).Translate([System.Security.Principal.NTAccount])).Value};Label=”Group Name”},
@@ -44,7 +48,21 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-`net user %username%` \#Me `net users` \#All local users `net localgroup` \#Groups `net localgroup Administrators` \#Who is inside Administrators group 
+### Local machine Users & Groups Enumeration
+
+```text
+net user %username% #Me 
+net users #All local users 
+net localgroup #Groups 
+net localgroup Administrators #Who is inside Administrators group 
+```
+
+### Active Directory Users & Groups Enumeration
+
+```text
+net user /domain
+net group /domain
+```
 {% endtab %}
 {% endtabs %}
 
@@ -79,27 +97,65 @@ LAPS allows you to manage the local Administrator password \(which is randomized
 
 ### Get OS Version information
 
-`systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"` 
+{% tabs %}
+{% tab title="PowerShell" %}
+```text
+[System.Environment]::OSVersion
+```
+{% endtab %}
 
-`[System.Environment]::OSVersion`
+{% tab title="cmd.exe" %}
+```text
+systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
+```
+{% endtab %}
+{% endtabs %}
 
 ### Get basic Windows information
 
-Also lists the patches that have been installed. `systeminfo` `Get-ComputerInfo`
+{% tabs %}
+{% tab title="PowerShell" %}
+`Get-ComputerInfo`
+
+Gives a ton of information about the current hardware and Windows configuration
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`systeminfo`
+
+Gives basic hardware information, Also lists the hotfixes that have been installed.  
+{% endtab %}
+{% endtabs %}
 
 ### Get installed patches
 
-`wmic qfe get Caption,Description,HotFixID,InstalledOn` 
+{% tabs %}
+{% tab title="PowerShell" %}
+```text
+Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hotfixid} Get-Hotfix -description "Security update" #List only "Security Updates"
+```
 
-`Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hotfixid} Get-Hotfix -description "Security update"` \#List only "Security Updates"
+\#List only "Security Updates"
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`wmic qfe get Caption,Description,HotFixID,InstalledOn`
+{% endtab %}
+{% endtabs %}
 
 ### Drivers
 
 #### Get a list of installed drivers
 
-`driverquery` 
-
+{% tabs %}
+{% tab title="PowerShell" %}
 `Get-WindowsDriver -Online -All -Online` Specifies that the action is to be taken on the operating system that is currently running on the local computer.
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`driverquery`
+{% endtab %}
+{% endtabs %}
 
 #### Default log path
 
