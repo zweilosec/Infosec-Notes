@@ -791,24 +791,6 @@ _Hosts_
 tshark -r *PCAP* -Y 'tls.handshake.extensions_server_name' -T fields -e tls.handshake.extensions_server_name | sort -u > hosts.txt
 ```
 
-### 
-
-### Known Plaintext ZIP
-
-_Download pkcrack_
-
-[https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html](https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html)
-
-! Before using, it must be built from source
-
-_Syntax_
-
-```bash
-./pkcrack -C encrypted.zip -c file -P plaintext.zip -p file
-```
-
-### 
-
 ### XPATH Dump
 
 ```text

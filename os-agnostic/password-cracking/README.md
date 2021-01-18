@@ -20,6 +20,20 @@ Not all methods of discovering passwords involve directly "cracking" hashes.  Br
 
 Password recovery programs: [https://www.passcape.com/products](https://www.passcape.com/products) \(TODO:Test these!\)
 
+### ZIP Password Retrieval \(with Known Plaintext\)
+
+_Download pkcrack_
+
+[https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html](https://www.unix-ag.uni-kl.de/~conrad/krypto/pkcrack/download1.html)
+
+! Before using, it must be built from source
+
+_Syntax_
+
+```bash
+./pkcrack -C $encrypted.zip -c file -P $plaintext.zip -p file
+```
+
 ## Brute forcing logins <a id="hydra"></a>
 
 An amazing index of brute-force commands: [https://book.hacktricks.xyz/brute-force](https://book.hacktricks.xyz/brute-force)
