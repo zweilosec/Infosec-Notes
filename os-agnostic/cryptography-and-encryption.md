@@ -77,3 +77,51 @@ decrypt rsa private key: `openssl rsautl -decrypt -inkey $key_file < $pass.crypt
 
 * [Ippsec:HacktheBox - Charon](https://www.youtube.com/watch?v=_csbKuOlmdE)
 
+### Decrypt LDAP Passwords
+
+[https://dotnetfiddle.net/2RDoWz](https://dotnetfiddle.net/2RDoWz)
+
+```csharp
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+					
+public class Program
+{
+	public static void Main()
+	{
+	  //Change these three variables to decode your own; need a key and IV to decode!
+		string ciphertext = "BQO5l5Kj9MdErXx6Q6AGOw==";
+		string key = "c4scadek3y654321";
+		string iv = "1tdyjCbY1Ix49842";
+		
+		string plaintext = string.Empty;
+		plaintext = DecryptString(ciphertext, key, iv);
+		Console.WriteLine(plaintext);
+	}
+	
+	public static string DecryptString(string EncryptedString, string Key, string iv)
+    {
+      byte[] buffer = Convert.FromBase64String(EncryptedString);
+      Aes aes = Aes.Create();
+      ((SymmetricAlgorithm) aes).KeySize = 128;
+      ((SymmetricAlgorithm) aes).BlockSize = 128;
+      ((SymmetricAlgorithm) aes).IV = Encoding.UTF8.GetBytes(iv);
+      ((SymmetricAlgorithm) aes).Mode = CipherMode.CBC;
+      ((SymmetricAlgorithm) aes).Key = Encoding.UTF8.GetBytes(Key);
+      using (MemoryStream memoryStream = new MemoryStream(buffer))
+      {
+        using (CryptoStream cryptoStream = new CryptoStream((Stream) memoryStream, ((SymmetricAlgorithm) aes).CreateDecryptor(), CryptoStreamMode.Read))
+        {
+          byte[] numArray = new byte[checked (buffer.Length - 1 + 1)]; //not sure why this has -1+1 here, example works without it though...
+          cryptoStream.Read(numArray, 0, numArray.Length);
+          return Encoding.UTF8.GetString(numArray);
+        }
+      }
+    }
+}
+```
+
+Decodes to: `w3lc0meFr31nd`
+
