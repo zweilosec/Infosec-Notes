@@ -38,7 +38,7 @@ locate all files that symlink to this\_file: `find -L / -samefile path/to/<this_
 
 ## -----
 
-Powershell wget [http://blog.stackexchange.com/](http://blog.stackexchange.com/) -OutFile out.html wget is an alias for Invoke-WebRequest
+
 
 ## -----
 

