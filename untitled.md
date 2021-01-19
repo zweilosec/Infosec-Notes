@@ -529,12 +529,6 @@ When connecting to a service, where possible, choose TELNET over Netcat
 
 [https://blog.haao.sh/writeups/fowsniff-writeup/](https://blog.haao.sh/writeups/fowsniff-writeup/)
 
-### SSH into Victim without password
-
-1. From the attacker machine generate RSA keypair: `ssh-keygen -t rsa`
-2. Copy the public key \(id\_rsa.pub\) into the `.ssh/authorized_keys` file of the victim
-3. SSH with the -i argument \(id\_rsa\)
-
 ### Really Good Privilege Escalation Scripts
 
 [https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite)

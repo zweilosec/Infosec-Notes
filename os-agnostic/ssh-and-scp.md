@@ -6,6 +6,12 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+### SSH/SCP into Victim without password
+
+1. From the attacker machine generate keypair: `ssh-keygen -t ecdsa`
+2. Copy the public key `$keyfile.pub` into the `.ssh/authorized_keys` file of the victim
+3. Connect with the argument `-i $keyfile`
+
 ## SSH
 
 ### sshd
