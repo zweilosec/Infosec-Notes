@@ -38,10 +38,6 @@ locate all files that symlink to this\_file: `find -L / -samefile path/to/<this_
 
 ## -----
 
-
-
-## -----
-
 Windows enumeration: whoami /all net use z:  tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
 
 ## -----
