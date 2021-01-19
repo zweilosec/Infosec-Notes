@@ -42,3 +42,5 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 
  [http://whois.domaintools.com/](http://whois.domaintools.com/)
 
+[https://osintframework.com/](https://osintframework.com/)
+

@@ -212,10 +212,6 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 ### -----
 
-[https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet)
-
-### -----
-
 [https://vulndev.io/notes/2019/01/01/windows.html](https://vulndev.io/notes/2019/01/01/windows.html)
 
 ### -----
@@ -229,10 +225,6 @@ compress files using windows, sets "Compressed" attribute \(cmd.exe\) `compact /
 ### -----
 
 [https://base64.guru/converter/decode/file](https://base64.guru/converter/decode/file) recover files sent in base64 \(very useful for recovering files sent in emails\)
-
-### -----
-
-[https://osintframework.com/](https://osintframework.com/)
 
 ### -----
 
