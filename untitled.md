@@ -202,9 +202,7 @@ In Linux the ouput will be colored using ANSI colors. If you are executing winpe
 
 [https://github.com/wpscanteam/wpscan/issues/190\#issuecomment-18087644](https://github.com/wpscanteam/wpscan/issues/190#issuecomment-18087644) `iconv -f ISO-8859-1 -t UTF-8 /pentest/passwords/wordlists/rockyou.txt > rockyou_utf8.txt`
 
-### -----
-
-[https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/](https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/) [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/) add commands from these pages
+Some programs have issues with rockyou.txt because the file is in the wrong encoding by default.  USe the above to convert it to utf8 so it works with these programs.
 
 ### -----
 

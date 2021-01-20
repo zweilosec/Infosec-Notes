@@ -672,10 +672,16 @@ Many PowerShell cmdlets support the **`-ErrorAction SilentlyContinue`** attribut
 
 PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE)
 
+
+
 ## Resources
 
 * [http://vcloud-lab.com/Microsoft](http://vcloud-lab.com/Microsoft)
 * [http://go.microsoft.com/fwlink/?LinkID=135170](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7)
 * [https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/02-help-system?view=powershell-7](https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/02-help-system?view=powershell-7)
 * [https://www.pdq.com/powershell/](https://www.pdq.com/powershell/)
+* TODO:
+
+  * [https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/](https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/) - site down?
+  * [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/) 
 
