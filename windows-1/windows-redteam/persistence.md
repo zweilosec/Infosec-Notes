@@ -392,6 +392,31 @@ You can exploit a DLL hijacking vulnerability in the On-Screen Keyboard **osk.ex
 {% endtab %}
 {% endtabs %}
 
+### Enable RDP on a remote host with PowerShell:
+
+Remove the `-ComputerName $computername` property to run on the local machine.
+
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
+$RDPstate.SetAllowTSConnections(1,1)
+```
+
+#### Disable RDP on a remote host:
+
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
+$RDPstate.SetAllowTSConnections(0,0)
+```
+
+#### Check RDP status:
+
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $ComputerName
+$RDPstate.AllowTSConnections
+```
+
+The first argument represents AllowTSConnections\(0 – disable, 1 – enable\) and the second one represents ModifyFirewallException \(0 – don’t modify firewall rules, 1 – modify firewall rules\). You can read more about it at [https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections](https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections)
+
 ### RDP Backdoors
 
 #### utilman.exe
@@ -529,30 +554,11 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 
  can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
 
+
+
 ## Misc - to sort
 
-### Enable RDP on a remote host:
-
-```text
-$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
-$RDPstate.SetAllowTSConnections(1,1)
-```
-
-#### Disable RDP on a remote host:
-
-```text
-$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
-$RDPstate.SetAllowTSConnections(0,0)
-```
-
-#### Check RDP status:
-
-```text
-$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $ComputerName
-$RDPstate.AllowTSConnections
-```
-
-The first argument represents AllowTSConnections\(0 – disable, 1 – enable\) and the second one represents ModifyFirewallException \(0 – don’t modify firewall rules, 1 – modify firewall rules\). You can read more about it at [https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections](https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections)
+### 
 
 ## References
 
