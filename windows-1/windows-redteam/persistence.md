@@ -529,6 +529,31 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 
  can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
 
+## Misc - to sort
+
+### Enable RDP on a remote host:
+
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
+$RDPstate.SetAllowTSConnections(1,1)
+```
+
+#### Disable RDP on a remote host:
+
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
+$RDPstate.SetAllowTSConnections(0,0)
+```
+
+#### Check RDP status:
+
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $ComputerName
+$RDPstate.AllowTSConnections
+```
+
+The first argument represents AllowTSConnections\(0 – disable, 1 – enable\) and the second one represents ModifyFirewallException \(0 – don’t modify firewall rules, 1 – modify firewall rules\). You can read more about it at [https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections](https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections)
+
 ## References
 
 * [https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)
@@ -544,4 +569,5 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 * [https://pureinfotech.com/enable-disable-firewall-windows-10/](https://pureinfotech.com/enable-disable-firewall-windows-10/) - [Mauro Huc](https://pureinfotech.com/author/mauhuc/) [@pureinfotech](https://twitter.com/@pureinfotech)
 * [http://vcloud-lab.com/entries/powershell/microsoft-powershell-remotely-write-edit-modify-new-registry-key-and-data-value](http://vcloud-lab.com/entries/powershell/microsoft-powershell-remotely-write-edit-modify-new-registry-key-and-data-value) - [@KunalAdapi](https://twitter.com/kunalUdapi)
 * [https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html](https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html) - [Shawn Brink](https://www.tenforums.com/members/brink.html?s=c4719816f0e7a9450a073c5aeafb6024)
+* [https://techibee.com/powershell/use-wmi-powershell-to-enable-or-disable-rdp-on-windows-server/3071](https://techibee.com/powershell/use-wmi-powershell-to-enable-or-disable-rdp-on-windows-server/3071)
 

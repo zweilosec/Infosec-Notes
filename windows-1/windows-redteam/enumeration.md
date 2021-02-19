@@ -332,16 +332,16 @@ todos %username%" && echo.
 `Get-NetTCPConnection`
 
 {% hint style="warning" %}
-`This cmdlet is for TCP connections ONLY! There is a separate cmdlet for UDP`
+`This cmdlet is for TCP connections ONLY! UDP information must be queried separately.`
 {% endhint %}
 
-Get listening connections
+Get listening connections:
 
 ```text
 Get-NetTCPConnection | ? {$_.State -eq "Listen"}
 ```
 
-check for anything that’s listening from any remote address
+Check for anything that’s listening from any remote address:
 
 ```text
 Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}
@@ -356,6 +356,12 @@ $processes = (Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteA
 
 foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessName}
 ```
+
+### UDP port connections
+
+```text
+Get-NetUDPEndpoint | Select-Object -Property LocalAddress,LocalPort,OwningProcess |ft 
+```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -366,6 +372,8 @@ foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessN
 ### PowerShell netstat implementation
 
 Shows TCP and UDP connections, with the following properties: Local Address, Local Port, Remote Address, Remote Port, Connection State, Process Name, and PID
+
+TODO: Make this fully PowerShell implemented, without netstat
 
 ```text
 function Get-NetworkStatistics 
@@ -418,7 +426,21 @@ function Get-NetworkStatistics
     Get-NetworkStatistics | Format-Table
 ```
 
-[https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md\#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) \(\*check for more network enumeration info here\)
+UDP info for updating above script \(this example only shows connections for port 1900\)
+
+```text
+$LOCALPORT = "1900"
+$CONNECTIONS = Get-NetUDPEndpoint |Select-Object -Property LocalPort, @{name='ProcessID';expression={(Get-Process -Id $_.OwningProcess). ID}}, @{name='ProcessName';expression={(Get-Process -Id $_.OwningProcess). Path}}
+Foreach ($I in $CONNECTIONS)
+{
+If ($I.LocalPort -eq $LOCALPORT)
+{
+$I
+}
+}
+```
+
+[https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md\#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) \(TODO:check for more network enumeration info here\)
 
 ### AutoRuns
 
@@ -1254,4 +1276,5 @@ PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 * [https://docs.microsoft.com/en-us/powershell/](https://docs.microsoft.com/en-us/powershell/)
 * [https://github.com/madhuakula/wincmdfu](https://github.com/madhuakula/wincmdfu)
 * [https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/](https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/)
+* [https://techexpert.tips/powershell/powershell-list-open-udp-ports/](https://techexpert.tips/powershell/powershell-list-open-udp-ports/)
 
