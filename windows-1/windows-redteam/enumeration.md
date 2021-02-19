@@ -7,12 +7,12 @@ Always ensure you have **explicit** permission to access any computer system **b
 {% endhint %}
 
 {% hint style="info" %}
-Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO.
+Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO or other means \([JEA](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/overview) for example\).
 
-Most commands the run in cmd.exe will also run in PowerShell! This gives many more options and flexibility at times.
+Most commands the run in cmd.exe will also run in PowerShell! This gives many more options and flexibility at times. Some commands may not work directly, and will need to be run through cmd.exe by prefixing the commands with **`cmd /c`**
 {% endhint %}
 
-[https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) = My favorite Windows enumeration script, automates most common enumeration methods
+[https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) = My favorite Windows enumeration script, automates most common enumeration methods.
 
 ## User Enumeration
 
@@ -37,6 +37,8 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 
 {% tab title="cmd.exe" %}
 `whoami /all` Includes: Username, SID, Groups \(including their descriptions!\), and user privileges. 
+
+`echo %username%` Displays the current username
 {% endtab %}
 {% endtabs %}
 
@@ -91,7 +93,13 @@ WQL uses the backslash \(`\`\) as its escape character. This is different from W
 
 ### LAPS
 
-LAPS allows you to manage the local Administrator password \(which is randomized, unique, and changed regularly\) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorized users using ACLs. Passwords are protected in transit from the client to the server using Kerberos v5 and AES. `reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled` When using LAPS, 2 new attributes appear in the computer objects of the domain: ms-msc-AdmPwd and ms-mcs-AdmPwdExpirationTime. These attributes contains the plain-text admin password and the expiration time. Then, in a domain environment, it could be interesting to check which users can read these attributes...
+LAPS allows you to manage the local Administrator password \(which is randomized, unique, and changed regularly\) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorized users using ACLs. Passwords are protected in transit from the client to the server using Kerberos v5 and AES. 
+
+```text
+reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
+```
+
+When using LAPS, two new attributes appear in the computer objects of the domain: `ms-msc-AdmPwd` and `ms-mcs-AdmPwdExpirationTime`. These attributes contains the plain-text admin password and the expiration time.  In a domain environment, it could be interesting to check which users can read these attributes.
 
 ## OS Information
 
@@ -115,9 +123,7 @@ systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-ComputerInfo`
-
-Gives a ton of information about the current hardware and Windows configuration
+`Get-ComputerInfo` Gives a ton of information about the current hardware and Windows configuration
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -132,10 +138,10 @@ Gives basic hardware information, Also lists the hotfixes that have been install
 {% tabs %}
 {% tab title="PowerShell" %}
 ```text
-Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hotfixid} Get-Hotfix -description "Security update" #List only "Security Updates"
+Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach $_.hotfixid {Get-Hotfix}
 ```
 
-\#List only "Security Updates"
+Use the `-description "Security update"` attribute of `Get-Hotfix` to list only security updates
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -149,7 +155,9 @@ Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hot
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-WindowsDriver -Online -All -Online` Specifies that the action is to be taken on the operating system that is currently running on the local computer.
+**Requires an elevated PowerShell prompt:**
+
+`Get-WindowsDriver -Online -All` Specifies that the action is to be taken on the operating system that is currently running on the local computer.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -171,7 +179,7 @@ Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach {$_.hot
 {% tab title="PowerShell" %}
 Show all current environment variables: `Get-ChildItem Env:`
 
-Also aliased to: `dir env:` or `ls env:` or `gci env:`
+_Also aliased to_: `dir env:` or `ls env:` or `gci env:`
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -189,7 +197,7 @@ Check where the logs are sent:`reg query HKLM\Software\Policies\Microsoft\Window
 
 ### AV
 
-Check if there is any antivirus intalled: `WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get DisplayName | fl`
+Check if there is any antivirus installed: `WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get DisplayName | fl`
 
 ### Clipboard
 
@@ -283,7 +291,16 @@ Without usernames `Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-List all the service information for each process with `tasklist /svc`. Valid when the `/fo <format>` parameter is set to table \(default format\). Can be run remotely with `/s <name or IP address>` and credentialed with `/u <username>` and `/p <password>`. `/v` = verbose
+`tasklist` list running processes
+
+| **`tasklist`** Options | Use |
+| :--- | :--- |
+| `/svc` | List all the service information for each process |
+| `/fo $format` | Change output format \[table is default\] |
+| `/s $ComputerName` | Run on remote computer \[Computer Name or IP\]\ |
+| `/u $username` | Username if credentials are needed |
+| `/p $password` | Password if credentials are needed |
+| `/v` | Verbose output |
 {% endtab %}
 {% endtabs %}
 
@@ -310,9 +327,96 @@ todos %username%" && echo.
 
 ### Get current network connections
 
-TODO: Find PowerShell way to do this
+{% tabs %}
+{% tab title="PowerShell" %}
+`Get-NetTCPConnection`
 
+{% hint style="warning" %}
+`This cmdlet is for TCP connections ONLY! There is a separate cmdlet for UDP`
+{% endhint %}
+
+Get listening connections
+
+```text
+Get-NetTCPConnection | ? {$_.State -eq "Listen"}
+```
+
+check for anything that’s listening from any remote address
+
+```text
+Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}
+```
+
+To get connection information for a specific port use the `-LocalPort $port` attribute.
+
+Since this cmdlet returns objects, you can use these objects to return other information, such as getting the process ID associated with each connection:
+
+```text
+$processes = (Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}).OwningProcess
+
+foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessName}
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
 `netstat -ano`
+{% endtab %}
+{% endtabs %}
+
+### PowerShell netstat implementation
+
+Shows TCP and UDP connections, with the following properties: Local Address, Local Port, Remote Address, Remote Port, Connection State, Process Name, and PID
+
+```text
+function Get-NetworkStatistics 
+    { 
+        $properties = ‘Protocol’,’LocalAddress’,’LocalPort’ 
+        $properties += ‘RemoteAddress’,’RemotePort’,’State’,’ProcessName’,’PID’
+
+        netstat -ano | Select-String -Pattern ‘\s+(TCP|UDP)’ | ForEach-Object {
+
+            $item = $_.line.split(” “,[System.StringSplitOptions]::RemoveEmptyEntries)
+
+            if($item[1] -notmatch ‘^\[::’) 
+            {            
+                if (($la = $item[1] -as [ipaddress]).AddressFamily -eq ‘InterNetworkV6’) 
+                { 
+                   $localAddress = $la.IPAddressToString 
+                   $localPort = $item[1].split(‘\]:’)[-1] 
+                } 
+                else 
+                { 
+                    $localAddress = $item[1].split(‘:’)[0] 
+                    $localPort = $item[1].split(‘:’)[-1] 
+                } 
+
+                if (($ra = $item[2] -as [ipaddress]).AddressFamily -eq ‘InterNetworkV6’) 
+                { 
+                   $remoteAddress = $ra.IPAddressToString 
+                   $remotePort = $item[2].split(‘\]:’)[-1] 
+                } 
+                else 
+                { 
+                   $remoteAddress = $item[2].split(‘:’)[0] 
+                   $remotePort = $item[2].split(‘:’)[-1] 
+                } 
+
+                New-Object PSObject -Property @{ 
+                    PID = $item[-1] 
+                    ProcessName = (Get-Process -Id $item[-1] -ErrorAction SilentlyContinue).Name 
+                    Protocol = $item[0] 
+                    LocalAddress = $localAddress 
+                    LocalPort = $localPort 
+                    RemoteAddress =$remoteAddress 
+                    RemotePort = $remotePort 
+                    State = if($item[0] -eq ‘tcp’) {$item[3]} else {$null} 
+                } | Select-Object -Property $properties 
+            } 
+        } 
+    }
+
+    Get-NetworkStatistics | Format-Table
+```
 
 [https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md\#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) \(\*check for more network enumeration info here\)
 
@@ -355,7 +459,13 @@ schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 
 #### SysInternals AutoRuns
 
-For a comprehensive list of auto-executed files you can use AutoRuns from SysInternals [https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns): `autorunsc.exe -m -nobanner -a * -ct /accepteula`
+For a comprehensive list of auto-executed files you can use AutoRuns from SysInternals 
+
+* [https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)
+
+To run this from a command prompt without popup windows:
+
+`autorunsc.exe -m -nobanner -a * -ct /accepteula`
 
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
@@ -1132,11 +1242,16 @@ Use #wmic /node:@ips process for multiple.
 PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 ```
 
-#### 
+## Misc
+
+`echo %cd%` - Same as pwd in Linux
+
+`where $filename` - finds files in %PATH%
 
 ## References
 
 * [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
 * [https://docs.microsoft.com/en-us/powershell/](https://docs.microsoft.com/en-us/powershell/)
 * [https://github.com/madhuakula/wincmdfu](https://github.com/madhuakula/wincmdfu)
+* [https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/](https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/)
 
