@@ -329,10 +329,12 @@ todos %username%" && echo.
 
 {% tabs %}
 {% tab title="PowerShell" %}
+### View TCP port connections with PowerShell
+
 `Get-NetTCPConnection`
 
 {% hint style="warning" %}
-`This cmdlet is for TCP connections ONLY! UDP information must be queried separately.`
+`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See` **`Get-NetUDPEndpoint`** `below.`
 {% endhint %}
 
 Get listening connections:
@@ -357,11 +359,19 @@ $processes = (Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteA
 foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessName}
 ```
 
-### UDP port connections
+### View UDP port connections with PowerShell
 
 ```text
 Get-NetUDPEndpoint | Select-Object -Property LocalAddress,LocalPort,OwningProcess |ft 
 ```
+
+To show listening ports filter for the address 0.0.0.0:
+
+```text
+Get-NetUDPEndpoint | Where {$_.LocalAddress -eq "0.0.0.0"}
+```
+
+Use the `-CimSession $CimSession` Parameter to run this on a remote computer.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
