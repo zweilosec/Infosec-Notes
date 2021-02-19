@@ -219,23 +219,31 @@ Get the contents of the clipboard `Get-Clipboard`
 
 ### Services
 
+{% tabs %}
+{% tab title="PowerShell" %}
+Get a list of services: 
+
+`Get-Service`
+{% endtab %}
+
+{% tab title="cmd.exe" %}
 Get a list of services: 
 
 `net start` 
 
 `wmic service list brief` 
 
-`sc query` 
-
-Get-Service
-
-`Get-Process`
+`sc query`
+{% endtab %}
+{% endtabs %}
 
 #### Get detailed information for a specific service
 
-`sc qc <service_name>` To use this command in PowerShell you need to specify `sc.exe` instead of `sc`. In PowerShell `sc` is an alias for `Set-Content` and will not give the expected output.
+`sc qc $service_name` 
 
-`Get-Service`
+{% hint style="success" %}
+To use this command in PowerShell you need to specify `sc.exe` instead of `sc`. In PowerShell `sc` is an alias for `Set-Content` and will not give the expected output.
+{% endhint %}
 
 #### Enable a disabled service
 
