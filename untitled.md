@@ -1236,3 +1236,283 @@ nmap -PN -d -p445 --script=smb-check-vulns --script-args=safe=1 IP-RANGES
 (: </dev/tcp/127.0.0.1/80) &>/dev/null && echo "OPEN" || echo "CLOSED"
 ```
 
+
+
+
+
+### 
+
+### Port Scanning
+
+Port scanning is the process of checking for open TCP or UDP ports on a remote machine.
+
+> --Please note that port scanning is illegal in many countries and should not be performed outside the labs.--
+
+#### Connect Scanning
+
+* The simplest TCP port scanning technique, usually called CONNECT scanning, relies on the three-way TCP handshake mechanism.
+* Connect port scanning involves attempting to complete a three-way handshake with the target host on the specified port\(s\).
+* If the handshake is completed, this indicates that the port is open.
+
+```text
+# TCP Netcat port scan on ports 3388-3390
+> nc -nvv -w 1 -z 10.0.0.19 3388-3390
+# -n :: numeric only ip adressess no DNS
+# -v :: verboose use twice to be more verboose
+# -w :: (secs) timeout for connects and final net reads
+# -z :: zero I/O mode (used for scanning)
+```
+
+#### Stealth / SYN Scanning
+
+* SYN scanning, or stealth scanning, is a TCP port scanning method that involves sending SYN packets to various ports on a target machine without completing a TCP handshake.
+* If a TCP port is open, a SYN-ACK should be sent back from the target machine, informing us that the port is open, without the need to send a final ACK back to the target machine.
+* With early and primitive firewalls, this method would often bypass firewall logging, as this logging was limited to completed TCP sessions.
+* This is no longer true with modern firewalls, and the term stealth is misleading. Users might believe their scans will somehow not be detected, when in fact, they will be.
+
+#### UDP Scanning
+
+```text
+> nc -nv -u -z -w 1 10.0-0.19 160-162
+# -u :: UDP mode
+```
+
+#### Common Port Scanning Pitfalls
+
+* UDP port scanning is often unreliable, as firewalls and routers may drop ICMP packets. This can lead to false positives in your scan, and you will regularly see UDP port scans showing all UDP ports open on a scanned machine.
+* Most port scanners do not scan all available ports, and usually have a preset list of “interesting ports” that are scanned.
+* People often forget to scan for UDP services, and stick only to TCP scanning, thereby seeing only half of the equation.
+
+#### Port Scanning with Nmap
+
+* A default nmap TCP scan will scan the 1000 most popular ports on a given machine.
+
+```text
+# We’ll scan one of my local machines while monitoring the amount
+# of traffic sent to the specific host using iptables.
+> iptables -I INPUT 1 -s 10.0.0.19 -j ACCEPT
+> iptables -I OUTPUT 1 -d 10.0.0.19 -j ACCEPT
+> iptables -Z
+# -I :: insert in chain as rulenum ( default 1=first)
+# -s :: source (address)
+# -j :: jump target for the rulw
+# -Z :: ??
+
+> nmpap -sT 10.0.0.9
+> iptables -vn -L
+> iptables -Z
+# -sT :: TCP Connect Scan
+# -v :: Display more information in the output
+# -L :: List the current filter rules.
+
+> nmap -sT -p 1-65635 10.0.0.19
+> iptables -vn -L
+# -p :: port range
+```
+
+* This default 1000 port scan has generated around 72KB of traffic.
+* A similar local port scan explicitly probing all 65535 ports would generate about 4.5 MB of traffic, a significantly higher amount.
+* However, this full port scan has discovered two new ports that were not found by the default TCP scan: ports 180 and 25017.
+
+--Full nmap scan of a class C network \(254 hosts\) would result in sending over 1000 MB of traffic to the network.--
+
+**So, if we are in a position where we can’t run a full port scan on the network, what can we do?**
+
+#### Network Sweeping
+
+* To deal with large volumes of hosts, or to otherwise try to conserve network traffic, we can attempt to probe these machines using Network Sweeping techniques.
+* Machines that filter or block ICMP requests may seem down to a ping sweep, so it is not a definitive way to identify which machines are really up or down.
+
+```text
+> nmap -sP 192.168.1.0/24 ## Deprecated in modern versions Use -sn instead
+Show ips of connected devices
+
+> nmap -sn 192.168.11.200-250
+# -sn :: ping scan
+# using the grep command can give you output that’s difficult to manage.
+# let’s use Nmap’s “greppable” output parameter (-oG)
+> nmap -v -sn 192.168.11.200-250 -oG ping-sweep.txt
+> grep Up ping-sweep.txt | cut -d " " -f 2
+
+# we can sweep for specific TCP or UDP ports (-p) across the network
+> nmap ­-p 80 192.168.11.200-250 -oG web-sweep.txt
+> grep open web­-sweep.txt |cut ­-d " " -f 2
+
+# we are conducting a scan for the top 20 TCP ports.
+> nmap –sT –A --top­-ports=20 192.168.11.200-250 –oG top­-port-­sweep.txt
+```
+
+* Machines that prove to be rich in services, or otherwise interesting, would then be individually port scanned, using a more exhaustive port list.
+
+#### OS Fingerprinting
+
+```text
+# OS fingerprinting (-O parameter).
+> nmap -O 10.0.0.19
+```
+
+#### Banner Grabbing/Service Enumeration
+
+Nmap can also help identify services on specific ports, by banner grabbing, and running several enumeration scripts \(-sV and -A parameters\).
+
+```text
+> nmap -sV -sT 10.0.0.19
+# -sV :: probe open ports to determine service / version info
+```
+
+#### Nmap Scripting Engine \(NSE\)
+
+* The scripts include a broad range of utilities, from DNS enumeration scripts, brute force attack scripts, and even vulnerability identification scripts.
+* All NSE scripts can be found in the /usr/share/nmap/scripts directory
+
+```text
+> nmap 10.0.0.19 --script smb-os-discovery.nse
+# Another useful script is the DNS zone transfer NSE script
+> nmap --script=dns-zone-transfer -p 53 ns2.megacorpone.com
+```
+
+#### SMB Enumeration
+
+```text
+SMB1   – Windows 2000, XP and Windows 2003.
+SMB2   – Windows Vista SP1 and Windows 2008
+SMB2.1 – Windows 7 and Windows 2008 R2
+SMB3   – Windows 8 and Windows 2012.
+```
+
+**Scanning for the NetBIOS Service**
+
+* The SMB NetBIOS32 service listens on TCP ports 139 and 445, as well as several UDP ports.
+
+  ```text
+  > nmap -v -p 139,445 -oG smb.txt 192.168.11.200-254
+  ```
+
+* There are other, more specialized, tools for specifically identifying NetBIOS information
+
+  ```text
+  > nbtscan -r 192.168.11.0/24
+  ```
+
+**Null Session Enumeration**
+
+* A null session refers to an unauthenticated NetBIOS session between two computers. This feature exists to allow unauthenticated machines to obtain browse lists from other Microsoft servers.
+* A null session also allows unauthenticated hackers to obtain large amounts of information about the machine, such as password policies, usernames, group names, machine names, user and host SIDs.
+* This Microsoft feature existed in SMB1 by default and was later restricted in subsequent versions of SMB.
+
+```text
+> enum4linux -a 192.168.11.227
+```
+
+**Nmap SMB NSE Scripts**
+
+```text
+# These scripts can be found in the /usr/share/nmap/scripts directory
+> ls -l /usr/share/nmap/scripts/smb-
+# We can see that several interesting Nmap SMB NSE scripts exist,, such as OS discovery
+# and enumeration of various pieces of information from the protocol
+> nmap -v -p 139, 445 --script=smb-os-discovery 192.168.11.227
+# To check for known SMB protocol vulnerabilities,
+# you can invoke the nmap smb-check-vulns script
+> nmap -v -p 139,445 --script=smb-check-vulns --script-args=unsafe=1 192.168.11.201
+```
+
+**SMTP Enumeration**
+
+* mail servers can also be used to gather information about a host or network.
+* SMTP supports several important commands, such as VRFY and EXPN.
+* A VRFY request asks the server to verify an email address
+* while EXPN asks the server for the membership of a mailing list.
+* These can often be abused to verify existing users on a mail server, which can later aid the attacker.
+
+```text
+# This procedure can be used to help guess valid usernames.
+> nc -nv 192.168.11.215 25
+```
+
+* Examine the following simple Python script that opens a TCP socket, connects to the SMTP server, and issues a VRFY command for a given username.
+
+```text
+# !/usr/bin/python
+import socket
+import sys
+
+if len(sys.argv) != 2:
+  print "Usage: vrfy.py <username>"
+  sys.exit(0)
+
+# Create a Socket
+s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Connect to the Server
+connect=s.connect(('192.168.11.215',25))
+
+# Receive the banner
+banner=s.recv(1024)
+print banner
+
+# VRFY a user
+s.send('VRFY' - sys.argv[1] - '\r\n')
+result=s.recv(1024)
+print result
+
+# Close the socket
+s.close()
+```
+
+## SNMP Enumeration \(Simple Network Management Protocol\)
+
+* SNMP is based on UDP, a simple, stateless protocol, and is therefore susceptible to IP spoofing, and replay attacks.
+* In addition, the commonly used SNMP protocols 1, 2, and 2c offer no traffic encryption, meaning SNMP information and credentials can be easily intercepted over a local network.
+* For all these reasons, SNMP is another of our favorite enumeration protocols.
+
+#### MIB Tree \(SNMP Management Information Base\)
+
+* \(MIB\) is a database containing information usually related to network management.
+* The database is organized like a tree, where branches represent different organizations or network functions. The leaves of the tree \(final endpoints\) correspond to specific variable values that can then be accessed, and probed, by an external user.
+* [Read more about the MIB](http://www-01.ibm.com/support/knowledgecenter/ssw_aix_53/com.ibm.aix.progcomm/doc/progcomc/mib.htm%23jkmb0ria)
+
+#### Scanning for SNMP
+
+```text
+> nmap -sU --open -p 161 192.168.11.200-254 -oG mega-snmp.txt
+# -sU :: UDP scan
+```
+
+* Alternatively, we can use a tool such as **onesixtyone**, which will check for given community strings against an IP list, allowing us to brute force various community strings.
+
+  ```text
+  > echo public > community
+  > echo private >> community
+  > echo manager >> community
+  > for ip in $(seq 200 254);do echo 192.168.11.$ip;done > ips
+  > onesixtyone -c community i ips
+  ```
+
+  Once these SNMP services are found, we can start querying them for specific MIB data that might be interesting to us.
+
+#### Windows SNMP Enumeration Example
+
+* We can probe and query SNMP values using a tool such as **snmpwalk** provided we at least know the SNMP read-only community string, which in most cases is “public”.
+* Using some of the MIB values provided above, we could attempt to enumerate their corresponding values.
+* Try out the following examples against a known machine in the labs, which has a Windows SNMP port exposed with the community string “public”.
+
+  ```text
+  # Enumerating the Entire MIB Tree
+  > snmpwalk  c public -v1 192.168.11.219
+
+  # Enumerating Windows Users:
+  > snmpwalk -c public -v1 192.168.11.204 1.3.6.1.4.1.77.1.2.25
+
+  # Enumerating Running Windows Processes:
+  > snmpwalk -c public -v1 192.168.11.204 1.3.6.1.2.1.25.4.2.1.2
+
+  # Enumerating Open TCP Ports:
+  > snmpwalk -c public -v1 192.168.11.204 1.3.6.1.2.1.6.13.1.3
+
+  # Enumerating Installed Software:
+  > snmpwalk -c public v1 192.168.11.204 1.3.6.1.2.1.25.6.3.1.2
+  ```
+
+* try to Use **snmpwalk** and **snmpcheck** to gather information about the discovered targets.
+

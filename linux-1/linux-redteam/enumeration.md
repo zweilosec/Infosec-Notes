@@ -40,10 +40,40 @@ grep -ri "STRING" / 2>/dev/null
 
 ### Check for useful installed programs
 
- only shows the ones currently installed
+* only displays the ones currently installed
 
 ```bash
 which awk perl python ruby gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null
+```
+
+### Find UID 0 files \(root execution\)
+
+```text
+/usr/bin/find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \\\\; 2>/dev/null
+```
+
+### Find executable files updated in August
+
+```text
+find / -executable -type f 2> /dev/null | egrep -v "^/bin|^/var|^/etc|^/usr" | xargs ls -lh | grep Aug
+```
+
+### Find a specific file
+
+```text
+find /. -name suid\\\*\\
+```
+
+### Display all the strings in a file
+
+```text
+strings <filename>
+```
+
+### Determine the type of a file
+
+```text
+file <filename>
 ```
 
 ## Process Enumeration

@@ -152,3 +152,126 @@ Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aqua
 cewl
 ```
 
+## HTTP Enumeration
+
+* Search for folders with gobuster:
+
+```text
+gobuster -w /usr/share/wordlists/dirb/common.txt -u $ip
+```
+
+* OWasp DirBuster - Http folder enumeration - can take a dictionary file
+* Dirb - Directory brute force finding using a dictionary file
+
+```text
+dirb http://$ip/ wordlist.dict
+
+dirb <<http://vm/>>
+```
+
+* Dirb against a proxy
+
+```text
+dirb [http://$ip/](http://172.16.0.19/) -p $ip:3129
+```
+
+* Nikto
+
+```text
+nikto -h $ip
+```
+
+* Nmap HTTP Enumeration
+
+```text
+nmap --script=http-enum -p80 -n $ip/24
+```
+
+* Nmap Check the server methods
+
+```text
+nmap --script http-methods --script-args http-methods.url-path='/test' $ip
+```
+
+* Get Options available from web server
+
+```text
+  curl -vX OPTIONS vm/test
+```
+
+* Uniscan directory finder:
+
+```text
+uniscan -qweds -u <<http://vm/>>
+```
+
+* Wfuzz - The web brute forcer
+
+```text
+wfuzz -c -w /usr/share/wfuzz/wordlist/general/megabeast.txt $ip:60080/?FUZZ=test
+
+wfuzz -c --hw 114 -w /usr/share/wfuzz/wordlist/general/megabeast.txt $ip:60080/?page=FUZZ
+
+wfuzz -c -w /usr/share/wfuzz/wordlist/general/common.txt "$ip:60080/?page=mailer&mail=FUZZ"
+
+wfuzz -c -w /usr/share/seclists/Discovery/Web_Content/common.txt --hc 404 $ip/FUZZ
+```
+
+* Recurse level 3
+
+```text
+wfuzz -c -w /usr/share/seclists/Discovery/Web_Content/common.txt -R 3 --sc 200 $ip/FUZZ
+```
+
+* Open a service using a port knock \(Secured with Knockd\)
+
+```text
+for x in 7000 8000 9000; do nmap -Pn --host_timeout 201 -max-retries 0 -p $x server_ip_address; done
+```
+
+* WordPress Scan - Wordpress security scanner
+
+```text
+wpscan --url $ip/blog --proxy $ip:3129
+```
+
+* RSH Enumeration - Unencrypted file transfer system
+
+```text
+auxiliary/scanner/rservices/rsh_login
+```
+
+* Finger Enumeration
+
+```text
+finger @$ip
+
+finger batman@$ip
+```
+
+* TLS & SSL Testing
+
+```text
+./testssl.sh -e -E -f -p -y -Y -S -P -c -H -U $ip | aha > OUTPUT-FILE.html
+```
+
+* Proxy Enumeration \(useful for open proxies\)
+
+```text
+nikto -useproxy http://$ip:3128 -h $ip
+```
+
+## OpenVAS Vulnerability Scanner
+
+```text
+apt-get update
+
+apt-get install openvas
+
+openvas-setup
+
+netstat -tulpn
+
+Login at: https://$ip:939
+```
+
