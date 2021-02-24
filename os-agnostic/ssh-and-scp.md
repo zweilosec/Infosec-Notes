@@ -157,7 +157,27 @@ HERE
 
 There are three main uses of SCP: to pull files from a remote host, to push files to a remote host, and to copy files between two remote hosts.
 
-TODO: add syntax and examples
+TODO: update and clean syntax and examples
+
+```text
+[>] Copy from remote host to local file:
+$ scp username@192.168.0.10:<remote_file> ./some/local/directory
+
+[>] Copy local file to remote host:
+$ scp <local_file> your_username@192.168.0.10:/some/remote/directory
+
+[>] Copy local directory to remote directory:
+scp -r <local_dir> your_username@192.168.0.10:/some/remote/directory/<remote_dir>
+
+[>] Copy a file from one remote host to another:
+scp your_username@<host1>:/some/remote/directory/foobar.txt your_username@<host2>:/some/remote/directory/
+
+[>] Improve scp performance (use blowfish):
+scp -c blowfish <local_file> your_username@192.168.0.10:/some/remote/directory
+
+[>] Use keyfile to login to remote host (-i must be first parameter)
+scp -i $keyfile [other parameters]
+```
 
 ## Reverse Tunnels
 
