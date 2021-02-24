@@ -10,6 +10,79 @@ TODO: Separate Bash and Python scripting pages...and add more
 
 ## Bash
 
+### Bash Scripting Basics
+
+\[+\] Shebang:
+
+```markup
+#!/bin/bash
+```
+
+\[+\] Variables
+
+```markup
+name=Bob
+echo $name
+user=$(whoami)
+echo $user
+echo 'Hello' $name. 'You are running as' $user.
+```
+
+\[+\] Simple script example
+
+```bash
+#!/bin/bash
+clear
+echo "Hello World"
+name=Bob
+ip=`ifconfig | grep "Bcast:" | cut -d":" -f2 | cut -d" " -f1`
+echo "Hello" $name "Your IP address is:" $ip
+```
+
+\[+\] User Input
+
+```bash
+read -p "IP: " IP
+```
+
+Example script with `read`
+
+```bash
+#!/bin/bash
+echo "Please input the IP address"
+read -p "IP: " IP
+ping -c 5 $IP
+```
+
+\[+\] Check For No User Input
+
+```bash
+if [ -z $domain ]; then
+	echo
+	echo "#########################"
+	echo
+	echo "Invalid choice."
+	echo
+	exit
+fi
+```
+
+\[+\] For loops
+
+```bash
+#!/bin/bash
+for host in $(cat hosts.txt)
+do
+	echo $host
+done
+```
+
+\[+\] Port Scan one liner
+
+```bash
+for port in $(cat Ports.txt); do nc -nzv 192.168.0.1 $port & sleep 0.5; done
+```
+
 ### Check for root privileges
 
 When user account created a user ID is assigned to each user. BASH shell stores the user ID in the $UID environment variable. The effective user ID is stored in the $EUID variable. 
@@ -89,8 +162,6 @@ hashcat -D1,2 -O --force -a $attack_type -m $hash_id $hash_list $pass_list
 #|>if not then add variables for the proper flags + user input for mangling/masks
 #|>ex: rules="-r $user_rules"
 ```
-
-
 
 ## Python
 

