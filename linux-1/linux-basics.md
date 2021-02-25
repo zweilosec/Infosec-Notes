@@ -176,7 +176,7 @@ Everything in Linux is are files, even directories and devices. Directories have
       </td>
       <td style="text-align:left">
         <p></p>
-        <p>List files in a folder, to includehidden files:</p>
+        <p>List files in a folder, to include hidden files:</p>
         <ul>
           <li>Hidden files in Linux begin with a <b><code>.</code></b> these files can
             still be accessed normally, but the <b><code>.</code></b> must be added to
@@ -200,35 +200,51 @@ Everything in Linux is are files, even directories and devices. Directories have
       <td style="text-align:left">List files in current folder and all subfolders (Recursive)</td>
     </tr>
     <tr>
-      <td style="text-align:left"><code>find -L / -samefile $file</code>
+      <td style="text-align:left"><code>find -L /          -samefile $file</code>
       </td>
       <td style="text-align:left">Locate all files that symlink to a file</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>df</code>
+      </td>
+      <td style="text-align:left">List the size, used space, and available space on the mounted filesystems
+        of your computer</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>cat $file</code>
+      </td>
+      <td style="text-align:left">Print the contents of a file to the command line</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>cat $file1 $file2 &gt; $newfile</code>
+      </td>
+      <td style="text-align:left">Combine the contents of two text files</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>diff</code>
+      </td>
+      <td style="text-align:left">Compare two files and show differences</td>
+    </tr>
+    <tr>
+      <td style="text-align:left">Search for string inside a file</td>
+      <td style="text-align:left"><code>grep $string $file</code>
+      </td>
     </tr>
   </tbody>
 </table>
 
- - 
-
-
-
-List the size, used space, and available space on the mounted filesystems of your computer: `df`
-
-Print the contents of a file to the command line: `cat <file>`
-
-Combine the contents of two text files: `cat <file1> <file2> > <newfilename>`
-
-Compare two files and show differences: `diff`
-
-Search for string inside a file: `grep <string> <file>`
-
 ### File and Directory Creation, Modification, and Deletion
+
+| Command | Description |
+| :--- | :--- |
+|  |  |
 
 To create a new file `touch <filename>` or
 
 ```text
-cat > <filename>
- Type your file contents
-Press `Ctrl+d` to return to your terminal.
+cat > $fileName
+ [Type your file contents]
+ [Press `Ctrl+d` to return to your terminal]
 ```
 
 Create a new directory: `mkdir [/path/to/]<dirname>`
@@ -245,29 +261,38 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 ### File Permissions
 
+TODO: Add more here...include descriptions and examples
+
 `chmod -ugo -rwx -7777 5KFB6`
 
 `chown $user $group $file`
 
 ## System Information
 
-List OS, hostname, kernel build number, CPU architecture: `uname -a`
-
-List running processes \(current user\): `ps`
-
-Similar to Windows Task Manager, lists running processes with details of hardware usage: `top`
+| Command | Description |
+| :--- | :--- |
+| `uname -a` | List OS, hostname, kernel build number, CPU architecture |
+| `ps` | List running processes \(current user\) |
+| `ps aux` | List running processes for all users \(if permitted\) |
+| `top` | Similar to Windows Task Manager, lists running processes with details of hardware usage |
 
 ## Networking
 
-Get networking information \(IP, Subnet mask, MAC, etc.\) `ip a` or `sudo ifconfig` \(like `ipconfig` on windows\)
-
-Set IP address: `ifconfig <interface> <ip>/<CIDR>`
-
-Change MTU size: `ifconfig <interface> mtu <size>`
-
-Change MAC address: `ifconfig <interface> hw ether <new_MAC>`
+| Command | Description |
+| :--- | :--- |
+| `ifconfig` | Get networking information \(IP, Subnet mask, MAC, etc.\); On some systems may require **`sudo`** rights |
+| `ip a` | Get networking information \(IP, Subnet mask, MAC, etc.\); No **`sudo`** required. Newer |
+| `ifconfig $interface $ip/$CIDR` | Set IP address for an interface |
+| `ifconfig $interface mtu $size` | Change MTU size for an interface |
+| `ifconfig $interface hw ether $new_MAC` | Change MAC address \(or use `macchanger`\) |
 
 ### Managing connections
+
+TODO: add more, include description and examples
+
+| Command | Description |
+| :--- | :--- |
+|  |  |
 
 nc
 
@@ -279,27 +304,42 @@ wget
 
 list open network connections: `lsof -i`
 
+`ss`
+
+`netstat`
+
 ### Shared folders
 
-Connect to Windows SMB share folder: `smb://<ip>/<share_name>`
+| Command | Description |
+| :--- | :--- |
+| `showmount -e $ip` | Show available shares to mount |
+| `smb://$ip/$share_name` | Connect to Windows SMB share folder |
+
+TODO: pull more from [HTB Writeups](https://zweilosec.gitbook.io/htb-writeups/)
 
 ### DNS
 
-Look up DNS information for a website: `dig @<server> <name> <type>`
-
-Reverse look up a domain from an IP: `dig -x <IP>`
+| Command | Description |
+| :--- | :--- |
+| `dig @$server $domain_or_ip $record_type` | Look up DNS information for a site |
+| `dig -x $ip` | Reverse look up a domain from an IP |
 
 ## Installing and Managing Programs
 
-Update repository database: `sudo apt update`
-
-Update installed programs and packages: `sudo apt upgrade` \(must update repository database first\)
-
-Search for packages \(unknown name\) to install from repositories: `apt-file search <binary name>` or `apt search <keyword>`
-
-Convert rpm to Debian packages: `alien <file.rpm>`
+| Command | Description |
+| :--- | :--- |
+| `sudo apt update` | Update repository database |
+| `sudo apt upgrade` | Update installed programs and packages \(must update repository database first\) |
+| `apt search $keyword` | Search for packages \(unknown name\) to install from repositories |
+| `alien $file.rpm` | Convert rpm to Debian packages |
 
 ## Users and Groups
+
+TODO: add descriptions and examples
+
+| Command | Description |
+| :--- | :--- |
+|  |  |
 
 `groups`
 
@@ -315,11 +355,12 @@ Add a new user: `adduser`
 
 ### User Privileges
 
-Execute commands with elevated privileges `sudo`
-
-Execute `sudo` command using another user's privileges: `sudo -u <username> [command]`
-
-List sudo privileges for current user with `sudo -l`
+| Command | Description |
+| :--- | :--- |
+| `sudo $command` | Execute commands with elevated privileges |
+| `sudo -u $username $command` | Execute `sudo` command using another user's privileges |
+| `sudo -l` | List `sudo` privileges for current user with |
+| `/etc/sudoers` | Configuration file for `sudo` |
 
 ## $PATH
 
@@ -327,15 +368,17 @@ Add new $PATHs to `.profile` rather than `.bashrc`, then `source ~/.profile` to 
 
 Makes `pwd` part of path so don't need `./` _NOT RECOMMENDED for home/production use!_ `export PATH='pwd':$PATH`
 
-The bullet-proof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is: \(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)\)
+The bulletproof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is: 
 
-```text
+```bash
 PATH="${PATH:+${PATH}:}~/opt/bin"
-for appending (instead of PATH="$PATH:~/opt/bin") and
+#for appending (instead of PATH="$PATH:~/opt/bin")
 
 PATH="~/opt/bin${PATH:+:${PATH}}"
-for prepending (instead of PATH="~/opt/bin:$PATH")
+#for prepending (instead of PATH="~/opt/bin:$PATH")
 ```
+
+\(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)\)
 
 ## Startup Scripts
 
@@ -422,4 +465,5 @@ sudo chmod ugo+r /var/lib/command-not-found/commands.db* #fix database permissio
 * [https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/](https://www.kali.org/docs/usb/kali-linux-live-usb-persistence/)
 * [https://linuxconfig.org/linux-tutorials](https://linuxconfig.org/linux-tutorials)
 * [https://explainshell.com/](https://explainshell.com/)
+* [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path)
 
