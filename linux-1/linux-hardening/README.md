@@ -29,9 +29,12 @@ Remember that disabling unnecessary services will reduce the attack surface, so 
 
 `yum` for RedHat based systems. `apt` for debian based systems.
 
-```text
-# yum erase xinetd ypserv tftp-server telnet-server rsh-server
-# apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
+```bash
+yum erase xinetd ypserv tftp-server telnet-server rsh-server
+# RedHat
+
+apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
+# Debian
 ```
 
 ### **Disable Unnecessary Services**
@@ -59,7 +62,7 @@ netstat -tulpn
 ss -tulpn
 lsof -i
 
-...add more info
+TODO...add more info
 ```
 
 ## Secure SSH
@@ -74,7 +77,7 @@ First of all, if you do not need SSH, disable it. However, if you want to use it
 
 4. Allow only specific users:
 
-    `AllowUsers <username>`
+    `AllowUsers $username`
 
 5. Add a banner to discourage attackers from continuing further with:
 
@@ -105,13 +108,17 @@ First of all, if you do not need SSH, disable it. However, if you want to use it
 
 ## Lock the boot directory
 
-The boot directory contains important files related to the Linux kernel, so you need to make sure that this directory is locked down to read-only permissions by following the next simple steps. 1. First, open the “fstab” file: `vim /etc/fstab` 2. Then, add the following below the last line: `LABEL=/boot /boot ext2 defaults,ro 1 2` 3. When you finish editing the file, you need to set the owner by executing the following command: `chown root:root /etc/fstab` 4. Next, set permissions for securing the boot settings:
+The boot directory contains important files related to the Linux kernel, so you need to make sure that this directory is locked down to read-only permissions by following the next simple steps. 
 
-* Set the owner and group of `/etc/grub.conf` to the root user: `chown root:root /etc/grub.conf`
-* Set permission on the `/etc/grub.conf` file to read and write for root only: `chmod og-rwx /etc/grub.conf`
-* Require authentication for single-user mode:
-  * `sed -i "/SINGLE/s/sushell/sulogin/" /etc/sysconfig/init`
-  * `sed -i "/PROMPT/s/yes/no/" /etc/sysconfig/init`
+1. First, open the “fstab” file: `vim /etc/fstab` 
+2. Then, add the following below the last line: `LABEL=/boot /boot ext2 defaults,ro 1 2` 
+3. When you finish editing the file, you need to set the owner by executing the following command: `chown root:root /etc/fstab` 
+4. Next, set permissions for securing the boot settings:
+   1. Set the owner and group of `/etc/grub.conf` to the root user: `chown root:root /etc/grub.conf`
+   2. Set permission on the `/etc/grub.conf` file to read and write for root only: `chmod og-rwx /etc/grub.conf`
+   3. Require authentication for single-user mode:
+      1. `sed -i "/SINGLE/s/sushell/sulogin/" /etc/sysconfig/init`
+      2. `sed -i "/PROMPT/s/yes/no/" /etc/sysconfig/init`
 
 ## Monitoring and Logging
 
@@ -177,7 +184,7 @@ sudo utmpdump /var/log/wtmp
 sudo utmpdump /var/log/btmp
 ```
 
-`who`, `w`, and `last <username>` will also give you information about users logged into your machine.
+`who`, `w`, and `last $username` will also give you information about users logged into your machine.
 
 ### with `logcheck`
 
