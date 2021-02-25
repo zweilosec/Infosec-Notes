@@ -172,7 +172,7 @@ dirb <<http://vm/>>
 * Dirb against a proxy
 
 ```text
-dirb [http://$ip/](http://172.16.0.19/) -p $ip:3129
+dirb http://$ip/ -p $ip:$port
 ```
 
 * Nikto

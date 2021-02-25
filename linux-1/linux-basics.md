@@ -8,37 +8,104 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 
 ## Command-line Basics
 
-Get help with a command: `man <command>`
-
-View history of commands that have been typed into the terminal: `history`
-
-Repeat a specific command from history command: `!<number>`
-
-Search through command history: `Ctrl + r` then cycle with Up or Down arrows. \(Do not need to type `history` command first\)
-
-Cycle through previously used command arguments: `alt + .`
-
-Move between "words" on a command line: `ctrl + [arrow_keys]`
-
-Clear all text off the terminal window: `clear`
-
-Print string to terminal: `echo <text_to_show>`
-
-* Can be used to display environment variables such as `$USER`, `$HOME`, `$PATH`
-
-Copy text: Select with mouse then `Ctrl + Shift + c`
-
-Paste text: `Ctrl + Shift + v`
-
-Print text from file to printer: `lp <filename>`
-
-Change directories: `cd <directory>`
-
-Move up one directory: `cd ..`
-
-Change directory to current user's home directory: `cd ~`
-
-Exit terminal session: `exit`
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Command</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><code>man $command</code>
+      </td>
+      <td style="text-align:left">Get help with a command</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>history</code>
+      </td>
+      <td style="text-align:left">View history of commands that have been typed into the terminal</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>!&lt;number&gt;</code>
+      </td>
+      <td style="text-align:left">Repeat a specific command from command history</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>Ctrl + r</code>
+      </td>
+      <td style="text-align:left">Search through command history: then cycle with Up or Down arrows. (Do
+        not need to type <code>history</code> command first)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>alt + .</code>
+      </td>
+      <td style="text-align:left">Cycle through previously used command arguments</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>ctrl + [arrow_keys]</code>
+      </td>
+      <td style="text-align:left">Move between &quot;words&quot; on a command line</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>clear</code>
+      </td>
+      <td style="text-align:left">Clear all text off the terminal window</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>echo $text</code>
+      </td>
+      <td style="text-align:left">
+        <p>Print string to terminal.</p>
+        <ul>
+          <li>Most useful when piped into other commands.</li>
+          <li>Can be used to display environment variables such as <code>$USER</code>, <code>$HOME</code>, <code>$PATH</code>
+          </li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>Ctrl + Shift + c</code>
+      </td>
+      <td style="text-align:left">Copy selected text</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>Ctrl + Shift + v</code>
+      </td>
+      <td style="text-align:left">Paste clipboard contents</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>lp $filename</code>
+      </td>
+      <td style="text-align:left">Print from file to printer</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>cd $directory</code>
+      </td>
+      <td style="text-align:left">Change directories</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>cd ..</code>
+      </td>
+      <td style="text-align:left">Move up one directory</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>cd ~</code>
+      </td>
+      <td style="text-align:left">Change directory to current user&apos;s home directory</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>cd -</code>
+      </td>
+      <td style="text-align:left">Return to previous directory</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>exit</code>
+      </td>
+      <td style="text-align:left">Exit terminal session</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Special Symbols
 
@@ -96,17 +163,53 @@ Everything in Linux is are files, even directories and devices. Directories have
 
 ### Listing and viewing Directories and Files
 
-List hidden files: `ls -a`
+<table>
+  <thead>
+    <tr>
+      <th style="text-align:left">Command</th>
+      <th style="text-align:left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align:left"><code>ls -a</code>
+      </td>
+      <td style="text-align:left">
+        <p></p>
+        <p>List files in a folder, to includehidden files:</p>
+        <ul>
+          <li>Hidden files in Linux begin with a <b><code>.</code></b> these files can
+            still be accessed normally, but the <b><code>.</code></b> must be added to
+            the name.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>ls -la</code>
+      </td>
+      <td style="text-align:left">List files with attributes (filesize, permissions, etc.)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>ls -lS</code>
+      </td>
+      <td style="text-align:left">List files, sorted by Size</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>ls -R</code>
+      </td>
+      <td style="text-align:left">List files in current folder and all subfolders (Recursive)</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>find -L / -samefile $file</code>
+      </td>
+      <td style="text-align:left">Locate all files that symlink to a file</td>
+    </tr>
+  </tbody>
+</table>
 
-* Hidden files in Linux begin with a `.` these files can still be accessed normally, but the `.` must be added to the name.
+ - 
 
-List files with attributes \(filesize, permissions, etc.\): `ls -la`
 
-List files, sorted by Size: `ls -lS`
-
-List files in current folder and subfolders \(Recursive\) - `ls -R`
-
-Locate all files that symlink to a file: `find -L / -samefile </path/to/file>`
 
 List the size, used space, and available space on the mounted filesystems of your computer: `df`
 
