@@ -188,9 +188,25 @@ sudo utmpdump /var/log/btmp
 
 ### with `logcheck`
 
-TODO:Rewrite this...brevity and clarity
+The `logcheck` program monitors log files every hour by default and sends unusual log messages in emails to the administrator for further analysis. The list of monitored files is stored in `/etc/logcheck/logcheck.logfiles`. The default values work fine if the `/etc/rsyslog.conf` file has not been completely overhauled. 
 
-The logcheck program monitors log files every hour by default and sends unusual log messages in emails to the administrator for further analysis. The list of monitored files is stored in /etc/logcheck/logcheck.logfiles. The default values work fine if the /etc/rsyslog.conf file has not been completely overhauled. logcheck can report in various levels of detail: paranoid, server, and workstation. paranoid is very verbose and should probably be restricted to specific servers such as firewalls. server is the default mode and is recommended for most servers. workstation is obviously designed for workstations and is extremely terse, filtering out more messages than the other options. In all three cases, logcheck should probably be customized to exclude some extra messages \(depending on installed services\), unless you really want to receive hourly batches of long uninteresting emails. Since the message selection mechanism is rather complex, /usr/share/doc/logcheck-database/README.logcheck-database.gz is a required—if challenging—read. The applied rules can be split into several types: those that qualify a message as a cracking attempt \(stored in a file in the /etc/logcheck/cracking.d/directory\); ignored cracking attempts \(/etc/logcheck/cracking.ignore.d/\); those classifying a message as a security alert \(/etc/logcheck/violations.d/\); ignored security alerts \(/etc/logcheck/violations.ignore.d/\); finally, those applying to the remaining messages \(considered as system events\). ignore.d files are used to \(obviously\) ignore messages. For example, a message tagged as a cracking attempt or a security alert \(following a rule stored in a /etc/logcheck/violations.d/myfile file\) can only be ignored by a rule in a /etc/logcheck/violations.ignore.d/myfile or /etc/logcheck/violations.ignore.d/myfile-extension file. A system event is always signaled unless a rule in one of the /etc/logcheck/ignore.d.{paranoid,server,workstation}/ directories states the event should be ignored. Of course, the only directories taken into account are those corresponding to verbosity levels equal or greater than the selected operation mode.
+`logcheck` can report in various levels of detail: `paranoid`, `server`, and `workstation`. 
+
+* `paranoid` is very verbose and should probably be restricted to specific servers such as firewalls. 
+* `server` is the default mode and is recommended for most servers. 
+* `workstation` is obviously designed for workstations and is extremely terse, filtering out more messages than the other options. 
+
+In all three cases, `logcheck` should probably be customized to exclude some extra messages \(depending on installed services\), unless you really want to receive hourly batches of long uninteresting emails. Since the message selection mechanism is rather complex, `/usr/share/doc/logcheck-database/README.logcheck-database.gz` is a required—if challenging—read. 
+
+The applied rules can be split into several types: 
+
+* those that qualify a message as a cracking attempt \(stored in a file in the `/etc/logcheck/cracking.d/` directory\); 
+* ignored cracking attempts \(`/etc/logcheck/cracking.ignore.d/`\); 
+* those classifying a message as a security alert \(`/etc/logcheck/violations.d/`\); 
+* ignored security alerts \(`/etc/logcheck/violations.ignore.d/`\); 
+* finally, those applying to the remaining messages \(considered as system events\). 
+
+`ignore.d` files are used to \(obviously\) ignore messages. For example, a message tagged as a cracking attempt or a security alert \(following a rule stored in a `/etc/logcheck/violations.d/myfile` file\) can only be ignored by a rule in a `/etc/logcheck/violations.ignore.d/myfile` or `/etc/logcheck/violations.ignore.d/myfile-extension` file. A system event is always signaled unless a rule in one of the `/etc/logcheck/ignore.d.{paranoid,server,workstation}/` directories states the event should be ignored. Of course, the only directories taken into account are those corresponding to verbosity levels equal or greater than the selected operation mode.
 
 ## Enable SELinux
 
@@ -300,7 +316,7 @@ deb   http://http.kali.org/kali   kali-rolling   main non-free contrib
 
 To add kali's repository to another distro use the line: `deb http://http.kali.org/kali kali-rolling main non-free contrib`\`
 
-## Useful Programs & Configs Setup
+## Useful Programs & Configuration Setup
 
 [FireJail](https://firejail.wordpress.com/)
 
@@ -309,8 +325,6 @@ To add kali's repository to another distro use the line: `deb http://http.kali.o
 [gufw](https://costales.github.io/projects/gufw/)
 
 [chroot jail](https://www.geeksforgeeks.org/linux-virtualization-using-chroot-jail/)
-
-
 
  **lynis** - open source security auditing tool. Comes with Kali
 
@@ -340,11 +354,9 @@ ssh root@$targetHost "bastille -b"
 
 where _`$targetHost`_ is the hostname or IP address of the computer you want to connect to. These commands copy the Bastille configuration file to the remote computer and then run Bastille on the remote computer in batch mode, which reads the configuration file to determine the changes Bastille should make and applies them to your system. Obviously Bastille needs to be installed on each of the remote computers first.
 
-### 
-
 ### iptables based wireless access point
 
-Here’s a cool and interesting use of iptables. You can turn any computer with a wireless interface into a wireless access point with hostapd. This solution comes from [https://seravo.fi/2014/create-wireless-access-point-hostapd](https://seravo.fi/2014/create-wireless-access-point-hostapd):
+Here’s a cool and interesting use of iptables. You can turn any computer with a wireless interface into a wireless access point with `hostapd`. This solution comes from [https://seravo.fi/2014/create-wireless-access-point-hostapd](https://seravo.fi/2014/create-wireless-access-point-hostapd):
 
 ```text
 iptables -t nat -F
