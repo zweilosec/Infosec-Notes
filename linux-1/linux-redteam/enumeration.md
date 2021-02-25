@@ -6,6 +6,8 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+TODO: Integrate the different sections; add descriptions to commands; clean up and prep for scripting
+
 ## Filesystem Enumeration
 
 ### Find all files a specific user has access to:
@@ -29,13 +31,13 @@ find . -name .bash_history -exec grep -A 1 '^passwd' {} \;
 ### Search filesystem by name pattern
 
 ```bash
-find / -name "*PATTERN*" 2>/dev/null
+find / -name "$pattern" 2>/dev/null
 ```
 
 ### Search files in whole filesystem for a string \(case insensitive\)
 
 ```bash
-grep -ri "STRING" / 2>/dev/null
+grep -ri "$string" / 2>/dev/null
 ```
 
 ### Check for useful installed programs
@@ -96,7 +98,7 @@ The default settings should be fine for most applications. Watching files inside
 
 Some more complex examples:
 
-```text
+```bash
 # print both commands and file system events and scan procfs every 1000 ms (=1sec)
 ./pspy64 -pf -i 1000 
 
@@ -139,7 +141,7 @@ Semi-automated enumeration all-in-one \(use this!\): [nmapAutomator](https://git
 
 Unix hardening tool that can be used for enumeration: [Bastille](http://bastille-linux.sourceforge.net/)
 
-## Procedures
+## Questions to ask:
 
 Enumeration is the key. Linux privilege escalation is all about:
 
@@ -149,11 +151,9 @@ Enumeration is the key. Linux privilege escalation is all about:
 * Adapt - Customize the exploit, so it fits. Not every exploit work for every system "out of the box".
 * Try - Get ready for \(lots of\) trial and error.
 
-### Questions to ask:
-
 TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\)
 
-#### Operating System
+### Operating System
 
 What's the distribution type? What version?
 
@@ -194,7 +194,7 @@ Is there a printer?
 lpstat -a
 ```
 
-#### Applications & Services
+### Applications & Services
 
 What services are running? Which service has which user privilege?
 
@@ -264,7 +264,7 @@ grep -C 5 "password" [filename]
 find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password"   # Joomla 
 ```
 
-#### Communications & Networking
+### Communications & Networking
 
 What NIC\(s\) does the system have? Is it connected to another network?
 
@@ -360,7 +360,7 @@ ssh -D 127.0.0.1:9050 -N $username@$ip
 proxychains ifconfig
 ```
 
-#### Confidential Information & Users
+### Confidential Information & Users
 
 Who are you? Who is logged in? Who has been logged in? Who else is there? Who can do what?
 
@@ -385,7 +385,7 @@ cat /etc/shadow
 ls -alh /var/mail/
 ```
 
-Anything "interesting" in the home directorie\(s\)? If it's possible to access
+Anything "interesting" in the home directory\(s\)? If it's possible to access
 
 ```text
 ls -ahlR /root/
@@ -449,7 +449,7 @@ cat /etc/ssh/ssh_host_key.pub
 cat /etc/ssh/ssh_host_key
 ```
 
-#### File Systems
+### File Systems
 
 Which configuration files can be written in `/etc`? Are you able to reconfigure services?
 
@@ -584,7 +584,7 @@ find / -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print   # world-writeab
 find /dir -xdev \( -nouser -o -nogroup \) -print   # No-owner files
 ```
 
-#### Preparation for Writing Exploit Code
+### Preparation for Writing Exploit Code
 
 What development tools/languages are installed/supported?
 
@@ -606,14 +606,14 @@ find / -name tftp*
 find / -name ftp 
 ```
 
-Researching Vulnerabilities
+#### Researching Vulnerabilities
 
 * http://www.cvedetails.com
 * http://packetstormsecurity.org/files/cve/\[CVE\]
 * http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\]
 * http://www.vulnview.com/cve-details.php?cvename=\[CVE\]
 
-Finding exploit code
+#### Finding exploit code
 
 * https://www.exploit-db.com
 * https://cvebase.com
