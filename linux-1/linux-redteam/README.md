@@ -39,6 +39,8 @@ IFS=$'\n'
 for i in $(ps -eo command); do echo $i; done
 ```
 
+### Cat file directly to clipboard
+
 [https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents](https://unix.stackexchange.com/questions/211817/copy-the-contents-of-a-file-into-the-clipboard-without-displaying-its-contents) script to copy contents of file directly to clipboard; Save in PATH location then enjoy!
 
 ```text
