@@ -39,6 +39,12 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
       </td>
     </tr>
     <tr>
+      <td style="text-align:left">Create a new named session</td>
+      <td style="text-align:left"><code>tmux new -s &lt;name&gt;</code>
+      </td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
       <td style="text-align:left">Re-attach a (local) detached session</td>
       <td style="text-align:left">
         <p><code>tmux attach</code>
@@ -227,6 +233,17 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
       </td>
     </tr>
     <tr>
+      <td style="text-align:left">Enter &quot;Vim mode&quot;</td>
+      <td style="text-align:left">
+        <p><code>^b ]</code>
+        </p>
+        <p>Search with <code>?</code>.</p>
+        <p>Hit <code>[spacebar]</code> to start copying text</p>
+        <p>Use <code>^b + ]</code> to paste.</p>
+      </td>
+      <td style="text-align:left"></td>
+    </tr>
+    <tr>
       <td style="text-align:left">Scroll up in &quot;scroll mode&quot;</td>
       <td style="text-align:left">
         <p><code>[page up]</code>
@@ -271,7 +288,7 @@ Screen is fairly ubiquitous in most Linux distributions, however TMUX is a progr
 
 
 
-### Tmux
+### Ippsec Tmux Notes
 
 Config from [ippsec](https://www.youtube.com/watch?v=Lqehvpe_djs).
 
@@ -294,15 +311,9 @@ run-shell /opt/tmux-logging/logging.tmux
 
 First press the prefix `ctrl + b`\(default, Ippsec changes it to Ctrl+a\) then release the buttons and press the combination you want.
 
-Create new named session: `tmux new -s [Name]`
-
 Join panes: `prefix + s #`
 
 Zoom in/out to panes: `prefix + z`
-
-Make sub-terminal its own window: `prefix + !`
-
-Enter vim mode: `prefix + ]` -&gt; Search with `?` in vi mode then press `space` to start copying. Press `prefix + ]` to paste
 
 Kill session by tag:`tmux kill-session -t X`
 
