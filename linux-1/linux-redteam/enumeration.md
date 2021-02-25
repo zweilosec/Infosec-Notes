@@ -143,13 +143,7 @@ Unix hardening tool that can be used for enumeration: [Bastille](http://bastille
 
 ## Questions to ask:
 
-Enumeration is the key. Linux privilege escalation is all about:
 
-* Collect - Enumeration, more enumeration and some more enumeration.
-* Process - Sort through data, analyse and prioritisation.
-* Search - Know what to search for and where to find the exploit code.
-* Adapt - Customize the exploit, so it fits. Not every exploit work for every system "out of the box".
-* Try - Get ready for \(lots of\) trial and error.
 
 TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\)
 
