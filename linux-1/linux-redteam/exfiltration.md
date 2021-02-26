@@ -1,5 +1,9 @@
 # Exfiltration
 
+Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
+
+TODO: add `--help` 
+
 Script for listing and sharing files in a folder.  Uses python3's `http.server` module.
 
 ```bash
