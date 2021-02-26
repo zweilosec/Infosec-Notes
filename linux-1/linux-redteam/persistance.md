@@ -1,5 +1,7 @@
 # Persistence
 
+Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
+
 {% hint style="success" %}
 Hack Responsibly.
 
@@ -14,11 +16,11 @@ Add script to run at startup: `update-rc.d </path/to/the/script> defaults` \(nee
 
 ## Accounts
 
-### Add Account and/or Password to /etc/passwd
+### Add Account & Password to /etc/passwd
 
-Generate password:
-
-`openssl passwd -1 -salt <username> <password>`
-
-Then add to `/etc/passwd` file.  The format is:`<username>:<generated_password>:<UID>:<GUID>:root:/root:/bin/bash`
+* Generate password with `openssl passwd -1 -salt $username $password` 
+* Add to `/etc/passwd` file which is in the format: 
+  * `$UserName:$generated_password:$UID:$GUID:$comment:$home_dir:$default_shell` 
+  * `$comment` is usually the user's Full Name.  Check the `/etc/passwd` file to ensure you match local standards.
+  * \(assumes you have write privilege to this file!\). 
 

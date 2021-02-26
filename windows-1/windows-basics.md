@@ -10,15 +10,9 @@ description: Commands and programs that all Windows users need to know (but many
 
 If you don't know about Mark Russinovich's amazing tools then go and check them out.  Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
 
-...add highlights about best tools...psexec, accesschk, etc.
+TODO: add highlights about best tools...psexec, accesschk, etc.
 
 Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
-
-## SMB
-
-Mount a remote 5KFB6 CIFS/SMB share `net use z: \\<ip>\sharename`. Adding `/persistent:yes` will make this survive reboots. A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
-
-Remove a previously mounted share: `"net use z: /delete"`
 
 ## CMD.EXE
 
@@ -109,7 +103,12 @@ Remove a previously mounted share: `"net use z: /delete"`
     </tr>
     <tr>
       <td style="text-align:center">net</td>
-      <td style="text-align:left">many many...pick some of the most useful</td>
+      <td style="text-align:left">
+        <p>many many...TODO: pick some of the most useful and add examples</p>
+        <p>net user</p>
+        <p>net groups</p>
+        <p>net share</p>
+      </td>
     </tr>
     <tr>
       <td style="text-align:center">net use</td>
@@ -249,18 +248,16 @@ Remove a previously mounted share: `"net use z: /delete"`
   </tbody>
 </table>
 
-
-
 ## File manipulation
 
 ### Change file attributes
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Set a file as **Hidden**.  This can also be used to change other file property flags such as Archive and ReadOnly.
+Set a file as `Hidden`.  This can also be used to change other file property flags such as `Archive` and `ReadOnly`.
 
 ```text
-$file = (Get-ChildItem <file>) #can shorten command with gci or ls
+$file = (Get-ChildItem $file) #can shorten command with gci or ls
 $file.attributes #Show the files attributes
 Normal
 
@@ -280,15 +277,27 @@ Normal
 Set a file as **Hidden** \(`-h`\).  This can also be used to change other file property flags such as \(`a`\) Archive and \(`r`\) ReadOnly. Flags must be added separately \(`-h -a -r` not `-har`\).
 
 ```text
-attrib <C:\path\filename> #show the file attributes
+#show the file attributes
+attrib <C:\path\filename>
 
+#add the 'hidden' attribute
 attrib +h <C:\path\filename>
 
-#to remove the hidden property
+#to remove the 'hidden' property
 attrib -h <C:\path\filename>
 ```
 {% endtab %}
 {% endtabs %}
+
+## SMB
+
+Mount a remote CIFS/SMB share `net use z: \\$ip\$sharename`. 
+
+Adding `/persistent:yes` will make this survive reboots. 
+
+A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
+
+To remove a previously mounted share: `"net use z: /delete"`
 
 ## Powershell
 

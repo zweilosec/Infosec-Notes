@@ -499,6 +499,10 @@ To run this from a command prompt without popup windows:
 
 `autorunsc.exe -m -nobanner -a * -ct /accepteula`
 
+### 
+
+
+
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
 * TODO: Everything below from the above site...in the process of verification, cleanup, and assimilation.
@@ -1279,6 +1283,12 @@ PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 `echo %cd%` - Same as pwd in Linux
 
 `where $filename` - finds files in %PATH%
+
+### Find file by name with PowerShell
+
+`Get-Childitem -Path C: -Recurse -ErrorAction SilentlyContinue | ? {$_.Name = $filename}`
+
+* you can use wildcards here for name and for extension \(e.g. `pass*` could match password\)
 
 ## References
 

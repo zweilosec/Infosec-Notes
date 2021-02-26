@@ -7,19 +7,23 @@ description: >-
 
 # Vim
 
+Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## How to exit Vim
 
 {% embed url="https://github.com/hakluke/how-to-exit-vim" caption="lulz" %}
 
-No really, exiting vi, vim, etc. is quite simple. `[esc] :q!` will get you out every time, most of the time. _Learning why or why not...takes a little bit longer._ 
+No really, exiting vi, vim, etc. is quite simple. `[esc] :q!` will get you out every time, most of the time.  _Learning why or why not...takes a little bit longer._ 
 
-If you need to save any changes you made to a file user `[esc] :w` or to save changes and exit: `[esc] :wq` _\(thats the escape key, then type colon w or wq\)_
+If you need to save any changes you made to a file use `[esc] :w` or `[esc] :wq`to save changes and exit.
+
+{% hint style="info" %}
+_To clarify, that's the escape key, then type colon w, or colon wq\)_
+{% endhint %}
 
 Enter insert \(normal text edit\) mode: `i` _\(yep that's it, just type and move around like a basic text editor now.\)_
 
-\_\_
-
-_misc:_
+## _misc:_
 
 * Learn vim: `vimtutor`
 * [https://www.youtube.com/watch?v=OnUiHLYZgaA](https://www.youtube.com/watch?v=OnUiHLYZgaA)

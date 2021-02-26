@@ -20,7 +20,7 @@ You can also use them in pretty much the same way as commands in a traditional s
 
 Cmdlets are restricted to only a set list of verbs.  Nouns can be whatever you want, but should follow Third party developers and scripters are encouraged by Microsoft to only use ones from this list for consistency, but PowerShell will not deny modules that use other verbs from running. The most common verbs are **New**, **Get**, **Set**, and **Invoke**, though there are many more. You can read more about this [here](https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7). 
 
-#### The Three Core Cmdlets \(TODO:put these in tables with descriptions\)
+#### The Three Core Cmdlets
 
 If you know how to use these three cmdlets, you can figure out how to use any other cmdlet.
 
@@ -290,6 +290,8 @@ Run `Get-Help $cmdlet_name -Examples` for usage
 
 TODO: Break this table in sections by Category; Add description of difference between cmdlets and functions
 
+TODO: Add information about creating functions, anonymous functions
+
 Run PowerShell scripts or C\# code directly from the terminal!
 
 Run `Get-Help $function_name -Examples` for usage
@@ -417,32 +419,44 @@ There are many built-in aliases for the most commonly used cmdlets.  The develop
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:left">Get-ChildItem</td>
+      <td style="text-align:left"><code>Get-ChildItem</code>
+      </td>
       <td style="text-align:left">
         <ul>
-          <li>ls</li>
-          <li>dir</li>
-          <li>gci</li>
+          <li><code>ls</code>
+          </li>
+          <li><code>dir</code>
+          </li>
+          <li><code>gci</code>
+          </li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">Get-Content</td>
+      <td style="text-align:left"><code>Get-Content</code>
+      </td>
       <td style="text-align:left">
         <ul>
-          <li>cat</li>
-          <li>type</li>
-          <li>gc</li>
+          <li><code>cat</code>
+          </li>
+          <li><code>type</code>
+          </li>
+          <li><code>gc</code>
+          </li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td style="text-align:left">Set-Location</td>
+      <td style="text-align:left"><code>Set-Location</code>
+      </td>
       <td style="text-align:left">
         <ul>
-          <li>cd</li>
-          <li>chdir</li>
-          <li>sl</li>
+          <li><code>cd</code>
+          </li>
+          <li><code>chdir</code>
+          </li>
+          <li><code>sl</code>
+          </li>
         </ul>
       </td>
     </tr>
@@ -456,6 +470,8 @@ $PSVersionTable
 ```
 
 ## Script Execution Policy
+
+TODO: add short description about what this is and why it's important
 
 | Policy | Description |
 | :--- | :--- |
@@ -494,6 +510,8 @@ $Env:$var = "$value"
 
 You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Copy-Item` to change the values of environment variables. For example, to use the `Set-Item` cmdlet to append `;C:\Windows\Temp` to the value of the `$Env:PATH` environment variable, use the following syntax:
 
+### Adding a Folder to PATH
+
 ```text
 Set-Item -Path Env:PATH -Value ($Env:Path + ";C:\Windows\Temp")
 ```
@@ -501,8 +519,6 @@ Set-Item -Path Env:PATH -Value ($Env:Path + ";C:\Windows\Temp")
 {% hint style="info" %}
 In this command, the value **`$Env:Path + ";C:\Windows\Temp"`** is enclosed in parentheses so that it is interpreted as a single unit.
 {% endhint %}
-
-### Adding a Folder to PATH
 
 {% tabs %}
 {% tab title="Windows" %}
@@ -556,7 +572,7 @@ $file.attributes
 Normal
 ```
 
-### Search for files that contain a certain string
+### Recursively search for files that contain a certain string
 
 [https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) - look for text in a file and lists its name and contents.  These examples are looking for the word 'password'.
 
@@ -603,13 +619,11 @@ ForEach-Object {
 }
 ```
 
-\`\`
-
 Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names in the shorthand version, you may want to note the following significant differences between the "full" versions and the "golfed" version:
 
 `Select-String` was swapped to use piped input instead of `-InputObject`. The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional. The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line. `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true. \(Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.\) `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
 
-`ls -R|?{$_|Select-String 'password'}|%{$_.FullName;gc $_}`
+`ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}`
 
 ## Modifying the Registry
 
@@ -633,10 +647,14 @@ Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name
 {% tabs %}
 {% tab title="Windows" %}
 PowerShell.exe full path: `C:\Windows\SysNative\WindowsPowershell\v1.0\powershell.exe`
+
+TODO: This is either old or inacurate for Windows 10...look this up
 {% endtab %}
 
 {% tab title="Linux/MacOS" %}
 PowerShell.exe full path: `/usr/local/microsoft/powershell/7/`
+
+`7` is the version number of PS Core, so this can change...
 {% endtab %}
 {% endtabs %}
 
