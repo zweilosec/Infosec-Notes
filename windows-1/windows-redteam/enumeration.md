@@ -9,7 +9,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 {% hint style="info" %}
 Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO or other means \([JEA](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/overview) for example\).
 
-Most commands the run in cmd.exe will also run in PowerShell! This gives many more options and flexibility at times. Some commands may not work directly, and will need to be run through cmd.exe by prefixing the commands with **`cmd /c`**
+Most commands that run in cmd.exe will also run in PowerShell! This gives many more options and provides flexibility at times. Some commands may not work directly though, and will need to be run through cmd.exe by prefixing the commands with **`cmd /c`**
 {% endhint %}
 
 [https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS) = My favorite Windows enumeration script, automates most common enumeration methods.
