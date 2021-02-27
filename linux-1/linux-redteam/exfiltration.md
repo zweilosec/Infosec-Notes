@@ -2,6 +2,8 @@
 
 Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## Python HTTP server
+
 TODO: add `--help` 
 
 Script for listing and sharing files in a folder.  Uses python3's `http.server` module.
@@ -80,4 +82,51 @@ echo -e "\nStarting Server"
 
 python3 -m http.server 8099  -d .
 ```
+
+## Python FTP server
+
+```bash
+#!/usr/bin/env python3
+
+
+##Author : Paranoid Ninja
+#Modified: Zweilos
+##Descr  : Creates a Simple FTP Server in the tmp directory
+
+from pyftpdlib.authorizers import DummyAuthorizer
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.servers import FTPServer
+
+FTP_PORT = 2121
+FTP_USER = "ninja"
+FTP_PASSWORD = "ninja"
+FTP_DIRECTORY = "."
+
+
+def main():
+    dir = input("Run in the current directory? [y/n]\n")
+    if (dir != "y") or (dir != "Y"):
+        FTP_DIRECTORY = input("Please enter a directory:")
+    
+    authorizer = DummyAuthorizer()
+    authorizer.add_user(FTP_USER, FTP_PASSWORD, FTP_DIRECTORY, perm='elradfmw')
+
+    handler = FTPHandler
+    handler.authorizer = authorizer
+    handler.banner = "Ninja FTP Server"
+
+    address = ('', FTP_PORT)
+    server = FTPServer(address, handler)
+
+    server.max_cons = 256
+    server.max_cons_per_ip = 5
+
+    server.serve_forever()
+
+
+if __name__ == '__main__':
+    main()
+```
+
+
 
