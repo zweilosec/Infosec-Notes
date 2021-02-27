@@ -256,7 +256,7 @@ Run `Get-Help $cmdlet_name -Examples` for usage
 | [Set-WmiInstance](https://www.pdq.com/powershell/set-wmiinstance/) |  | Creates or updates an instance of an existing Windows Management Instrumentation \(WMI\) class. |
 | [Set-WSManQuickConfig](https://www.pdq.com/powershell/set-wsmanquickconfig/) |  | Configures the local computer for remote management. |
 | [Sort-Object](https://www.pdq.com/powershell/sort-object/) | sort | Sorts objects by property values. |
-| [Split-Path](https://www.pdq.com/powershell/split-path/) |  | Returns the specified part of a path. |
+| [Split-Path](https://www.pdq.com/powershell/split-path/) |  | Returns the specified part of a path. Example: `cd` to file location:`cd (Split-Path -Parent (Get-Command -Name pwsh).Path)` |
 | [Start-BitsTransfer](https://www.pdq.com/powershell/start-bitstransfer/) |  | Creates a BITS transfer job. |
 | [Start-DscConfiguration](https://www.pdq.com/powershell/start-dscconfiguration/) |  | Applies configuration to nodes. |
 | [Start-Job](https://www.pdq.com/powershell/start-job/) | sajb | Starts a background job in PowerShell. |
