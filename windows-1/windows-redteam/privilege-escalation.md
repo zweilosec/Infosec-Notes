@@ -6,8 +6,6 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-
-
 ## PowerShell Script Execution Policy Bypass Methods
 
 <table>
@@ -156,11 +154,13 @@ There may be times when you know the credentials for another user, but can't spa
 ```text
 function sudo {
 
+#hard-coded $Password that can be sniffed, beware
 $pw = ConvertTo-SecureString "$Password" -AsPlainText -Force
+
 $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$DomainName\$UserName",$pw
 
-#The script below can be any privilege escalation or reverse shell script or executable
-#make it so this will take an argument, so can use like "sudo -User bob test.bat"
+#The $script below can be any privilege escalation or reverse shell script or executable
+#TODO:make it so this will take an argument, so can use like "sudo -User bob test.bat"
 $script = "C:\Users\$UserName\AppData\Local\Temp\test.bat"
 
 Start-Process powershell -Credential $cred -ArgumentList '-NoProfile -Command &{Start-Process $script -verb RunAs}'
