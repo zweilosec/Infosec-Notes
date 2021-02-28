@@ -68,7 +68,7 @@ net group /domain
 {% endtab %}
 {% endtabs %}
 
-#### Using WMI Query Language \(WQL\)
+### Using WMI Query Language \(WQL\)
 
 WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
 
@@ -100,6 +100,16 @@ reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 ```
 
 When using LAPS, two new attributes appear in the computer objects of the domain: `ms-msc-AdmPwd` and `ms-mcs-AdmPwdExpirationTime`. These attributes contains the plain-text admin password and the expiration time.  In a domain environment, it could be interesting to check which users can read these attributes.
+
+### Find Administrator Accounts
+
+TODO: Add more examples
+
+Many administrators set their account passwords to never expire, so searching for these can be valuable.  Also, this means the password may have been set a long time ago.
+
+```bash
+Search-ADAccount -PasswordNeverExpires
+```
 
 ## OS Information
 
