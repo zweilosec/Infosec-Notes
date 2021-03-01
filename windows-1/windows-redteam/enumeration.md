@@ -111,10 +111,17 @@ Many administrators set their account passwords to never expire, so searching fo
 Search-ADAccount -PasswordNeverExpires
 ```
 
-Find AutoLogon passwords
+### Find AutoLogon passwords
 
 ```text
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>null | findstr "DefaultUserName DefaultDomainName DefaultPassword"
+```
+
+### Search for "password" in registry
+
+```text
+reg query HKLM /f password /t REG_SZ /s
+reg query HKCU /f password /t REG_SZ /s
 ```
 
 ## OS Information
