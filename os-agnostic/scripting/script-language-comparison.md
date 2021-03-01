@@ -3332,13 +3332,27 @@ echo "I'm in `pwd`"
 {% endtab %}
 
 {% tab title="PowerShell" %}
+### 
 
+### Redirect Standard Error to the nether
+
+```text
+2>null
+```
+
+Many cmdlets also have an `ErrorAction` property
+
+```text
+-ErrorAction Silent
+```
 {% endtab %}
 
 {% tab title="Bash" %}
+Redirect Standard Error to the nether
 
-
-####  <a id="shell-execution"></a>
+```text
+2>/dev/null
+```
 {% endtab %}
 
 {% tab title="CMD .bat" %}
