@@ -177,7 +177,7 @@ Use the `-description "Security update"` attribute of `Get-Hotfix` to list only 
 
 #### Default log path
 
-`%WINDIR%\Logs\Dism\dism.log`
+`$env:windir\Logs\Dism\dism.log`
 
 #### Make back up of all installed drivers
 
@@ -199,15 +199,98 @@ Show all current environment variables: `set`
 
 ### Check Audit \(logging\) Settings
 
-These settings show what is being logged, this can be useful information for evasion and persistence `reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit`
+These settings show what is being logged, this can be useful information for evasion and persistence 
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```bash
+Get-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
+```
+
+Add the `-Name $KeyName` property to get the value of a specific key.
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit`
+{% endtab %}
+{% endtabs %}
 
 #### Windows Event Forwarding
 
-Check where the logs are sent:`reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager`
+Check where the logs are sent:
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```bash
+Get-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager
+```
+
+Add the `-Name $KeyName` property to get the value of a specific key.
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`reg query HKLM\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager`
+{% endtab %}
+{% endtabs %}
 
 ### AV
 
-Check if there is any antivirus installed: `WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get DisplayName | fl`
+Check if there is any antivirus installed: 
+
+{% tabs %}
+{% tab title="PowerShell" %}
+
+
+```bash
+function Get-AntivirusName { 
+[cmdletBinding()]     
+param ( 
+[string]$ComputerName = "$env:computername" , 
+$Credential 
+) 
+    BEGIN  
+        { 
+            $wmiQuery = "SELECT * FROM AntiVirusProduct" 
+        } 
+    PROCESS  
+        {    
+            $AntivirusProduct = Get-WmiObject -Namespace "root\SecurityCenter2" -Query $wmiQuery  @psboundparameters         
+            [array]$AntivirusNames = $AntivirusProduct.displayName    
+               
+            foreach ($av in $AntivirusNames) 
+            {
+            echo "The installed AV products are:"
+            echo $av
+            }
+         }
+} 
+
+Get-AntivirusName
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+`WMIC /Node:localhost /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get DisplayName`
+{% endtab %}
+{% endtabs %}
+
+### Windows Firewall
+
+Check the status of the Windows Firewall
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```bash
+Get-NetFirewallProfile -All
+```
+
+Use the  `-Name Public` property \(instead of `-All`\) to select a specific firewall profile.  Pipe the results to `| Get-NetFirewallRule` to see the currently configured rules.
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+netsh advfirewall something something
+{% endtab %}
+{% endtabs %}
 
 ### Clipboard
 
