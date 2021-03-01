@@ -315,8 +315,20 @@ Get the contents of the clipboard `Get-Clipboard`
 `dir /a "C:\Program Files (x86)"` 
 
 `reg query HKEY_LOCAL_MACHINE\SOFTWARE`
+
+#### WMIC
+
+```text
+wmic product get name /value
+```
 {% endtab %}
 {% endtabs %}
+
+### Uninstall Software <a id="cfde"></a>
+
+```text
+wmic product where name="$name" call uninstall /INTERACTIVE:OFF
+```
 
 ### Services
 
@@ -1382,6 +1394,28 @@ PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 `Get-Childitem -Path C: -Recurse -ErrorAction SilentlyContinue | ? {$_.Name = $filename}`
 
 * you can use wildcards here for name and for extension \(e.g. `pass*` could match password\)
+
+### Resolve IP to Hostname
+
+`[System.Net.Dns]::GetHostByAddress('$IP').HostName`
+
+### **PowerShell 'Watch' Command**
+
+`while (1) { $command_to_watch ; sleep 5}`
+
+### Get WiFi Passwords <a id="246a"></a>
+
+First, you have to know the SSID of the access point \(AP\) to get the password from
+
+```text
+netsh wlan show profiles
+```
+
+Next, get the cleartext password:
+
+```text
+netsh wlan show profile $SSID key=clear
+```
 
 ### Gather hostnames of machines on a network
 

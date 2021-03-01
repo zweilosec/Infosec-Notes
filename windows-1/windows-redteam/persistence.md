@@ -558,9 +558,11 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 
 ## Misc - to sort
 
-### 
+### **Change File Modified Date and Time**
 
-## References
+`(dir $file).LastWriteTime = New-object DateTime $YYYY,$MM,$DD`
+
+## **Resources**
 
 * [https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)
 * [A view of persistence - Rastamouse](https://rastamouse.me/2018/03/a-view-of-persistence/)
