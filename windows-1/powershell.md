@@ -552,6 +552,12 @@ $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
 
 ## Working with Files
 
+Find hidden files
+
+```text
+Get-ChildItem -Force
+```
+
 ### Change file attributes
 
 This can also be used to change file property flags such as Hidden, Archive, and ReadOnly.
