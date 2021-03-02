@@ -4,7 +4,7 @@ description: Commands and programs that all Linux users need to know (but many d
 
 # Linux Basics
 
-TODO: Add screenshots/code examples for each command; put commands in tables; clean and organize all (issue [#7](/zweilosec/Infosec-Notes/issues/7))
+TODO: Add screenshots/code examples for each command; put commands in tables; clean and organize all (issue [#7](../../../issues/7))
 
 ## Command-line Basics
 
