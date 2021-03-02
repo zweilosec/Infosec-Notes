@@ -36,7 +36,7 @@ searchsploit <name_of_program>
 searchsploit -x <name/number of exploit>
 ```
 
-enumerate running processes: `pspy (TODO: find github and link it)`
+enumerate running processes: [`pspy`](https://github.com/DominicBreuker/pspy)
 
 `ps -U root -u root ux` View all processes started by a certain user \(`root` in this case\)
 
