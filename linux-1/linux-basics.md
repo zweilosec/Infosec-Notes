@@ -111,7 +111,7 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 
 | `Symbol` | Purpose |
 | :--- | :--- |
-| `|` | Send the output of one command to another. |
+| `\|` | Send the output of one command to another. |
 | `>` | Redirect output to a file. |
 | `<` | Redirect input from a file. |
 | `>>` | Append output to an existing file. |
@@ -261,7 +261,7 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 ### File Permissions
 
-TODO: Add more here...include descriptions and examples
+> TODO: Add more information about Linux file permissions (both `octal` and `ugo-rwx` formats); Add information about `chmod` and `chown` commands;  Add descriptions and examples (issue [#8](https://github.com/zweilosec/Infosec-Notes/issues/8))
 
 `chmod -ugo -rwx -7777 5KFB6`
 
