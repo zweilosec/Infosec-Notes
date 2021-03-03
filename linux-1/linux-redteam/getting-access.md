@@ -6,9 +6,12 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-## Reverse Shells
+TODO: description, methodology, and script prep for each section (issue [#15](https://github.com/zweilosec/Infosec-Notes/issues/15))
+* Add description and methodology as needed for each section
+* Prep all code examples for scripting (replace IPs and ports with variables, etc.)
+* Ensure code examples' variables are appropriate for their respective programming language
 
-TODO: description and methodology for each section \(as needed\)
+## Reverse Shells
 
 ### Reverse Shell as a Service - [https://shell.now.sh](https://shell.now.sh)
 
