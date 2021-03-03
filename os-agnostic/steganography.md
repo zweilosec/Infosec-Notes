@@ -6,17 +6,17 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-`StegCracker` - [https://pypi.org/project/stegcracker/](https://pypi.org/project/stegcracker/) - bruteforce tool for finding `steghide` passwords and extract \(works well, uses `rockyou.txt` as default wordlist\)
-
-extract files from stego'd files: `binwalk -Me <filename>`
-
-[http://bigwww.epfl.ch/demo/ip/demos/FFT/](http://bigwww.epfl.ch/demo/ip/demos/FFT/) - Fast Fourier Transform online tool. Check this to test stego images that cant be solved with other stuff
-
-[https://0xrick.github.io/lists/stego/](https://0xrick.github.io/lists/stego/) [https://github.com/DominicBreuker/stego-toolkit/blob/master/README.md\#tools](https://github.com/DominicBreuker/stego-toolkit/blob/master/README.md#tools) [https://pequalsnp-team.github.io/cheatsheet/steganography-101](https://pequalsnp-team.github.io/cheatsheet/steganography-101)
-
 ## Steganography Checklist
 
-[https://georgeom.net/StegOnline/checklist](https://georgeom.net/StegOnline/checklist) - TODO: 5KFB6 properly link everything below, clean up, credit to [Ge0rg3](https://github.com/Ge0rg3) for this great checklist.  His site also has custom examples for each situation below.
+TODO: clean up steganography CTF checklist (issue [#17](https://github.com/zweilosec/Infosec-Notes/issues/17))
+* Properly link all tools and attributions
+* Add description for what the checklist is for
+* Make sure all tools still exist
+* Check author's site for updates
+* Add "Resources" section at bottom
+* Find link for "feature for randomizing the color palette" (section 10.ii) on author's site
+
+* credit to [Ge0rg3](https://github.com/Ge0rg3) for this great checklist.  His site also has custom examples for each situation below.
 
 1. File
    1. Just to be sure what filetype you are facing, check with `type <filename>`.
@@ -66,3 +66,15 @@ extract files from stego'd files: `binwalk -Me <filename>`
     2. It would be rare to have a case of PVD where you're not explicitly told \(or perhaps hinted at\) that this is the steganographic method, as it's very niche.
     3.  Related write-ups: TJCTF 2019, MMA-CTF 2015
 
+## Misc
+
+`StegCracker` - [https://pypi.org/project/stegcracker/](https://pypi.org/project/stegcracker/) - bruteforce tool for finding `steghide` passwords and extract \(works well, uses `rockyou.txt` as default wordlist\)
+
+extract files from stego'd files: `binwalk -Me <filename>`
+
+[http://bigwww.epfl.ch/demo/ip/demos/FFT/](http://bigwww.epfl.ch/demo/ip/demos/FFT/) - Fast Fourier Transform online tool. Check this to test stego images that cant be solved with other stuff
+
+[https://0xrick.github.io/lists/stego/](https://0xrick.github.io/lists/stego/) [https://github.com/DominicBreuker/stego-toolkit/blob/master/README.md\#tools](https://github.com/DominicBreuker/stego-toolkit/blob/master/README.md#tools) [https://pequalsnp-team.github.io/cheatsheet/steganography-101](https://pequalsnp-team.github.io/cheatsheet/steganography-101)
+
+## References
+* [https://georgeom.net/StegOnline/checklist](https://georgeom.net/StegOnline/checklist)
