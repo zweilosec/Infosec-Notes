@@ -4,7 +4,11 @@ Not much here yet...please feel free to contribute at [https://www.github.com/zw
 
 ## Python HTTP server
 
-TODO: add `--help` 
+TODO: add --help to python file sharing scripts (issue [#14](https://github.com/zweilosec/Infosec-Notes/issues/14))
+* Add argument parsing capability
+* add `--help` argument for getting usage description
+* add arguments for all user input variables
+* FTP Server script has hardcoded values that need to be replaceable
 
 Script for listing and sharing files in a folder.  Uses python3's `http.server` module.
 
