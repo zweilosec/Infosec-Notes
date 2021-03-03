@@ -6,7 +6,12 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-TODO: Integrate the different sections; add descriptions to commands; clean up and prep for scripting
+TODO: (issue [#13](https://github.com/zweilosec/Infosec-Notes/issues/13))
+* Integrate "[Questions to Ask](#questions-to-ask)" into existing sections
+* Add descriptions (Keep/expand questions? Or rewrite?)
+* Clean up
+* Prep code examples for scripting
+* Split debian/redhat/BSD commands into "tabs"
 
 ## Filesystem Enumeration
 
@@ -145,7 +150,7 @@ Unix hardening tool that can be used for enumeration: [Bastille](http://bastille
 
 
 
-TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\)
+TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\) (issue [#13](https://github.com/zweilosec/Infosec-Notes/issues/13))
 
 ### Operating System
 
