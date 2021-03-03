@@ -343,7 +343,13 @@ TODO: add more information on mounting and using network shares (issue [#10](htt
 
 ## Users and Groups
 
-TODO: add descriptions and examples
+TODO: Add information about Linux Users and Groups (issue [#11](https://github.com/zweilosec/Infosec-Notes/issues/11))
+* Add information about creating, modifying, and deleting users and passwords
+* Add information about use, creation, modification, and deletion of groups
+* Add commands such as `adduser`, `groups`, `passwd`, etc.
+* Add commands related to listing users, seeing who is logged in, etc. (`id`, `w`, `last -a`)
+* add descriptions and examples
+
 
 | Command | Description |
 | :--- | :--- |
