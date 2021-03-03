@@ -6,6 +6,13 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+TODO: update and clean syntax and examples (issue [#18](https://github.com/zweilosec/Infosec-Notes/issues/18))
+* Prep code examples for scripting (as appropriate, descriptive examples may not need this)
+* Standardize variable names across examples
+* Split up [SCP](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#scp) examples for readability
+* Move links to "[References](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#resources)" section or make cleaner looking if belongs
+* Expand "[Dynamic Reverse Tunnels](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#dynamic-reverse-tunnels)" section
+
 ### SSH/SCP into victim without password
 
 1. From the attacker machine generate a keypair: `ssh-keygen -t ecdsa`
@@ -157,25 +164,41 @@ HERE
 
 There are three main uses of SCP: to pull files from a remote host, to push files to a remote host, and to copy files between two remote hosts.
 
-TODO: update and clean syntax and examples
+### Copy from remote host to local file:
 
 ```text
-[>] Copy from remote host to local file:
-$ scp username@192.168.0.10:<remote_file> ./some/local/directory
+scp username@192.168.0.10:<remote_file> ./some/local/directory
+```
 
-[>] Copy local file to remote host:
+### Copy local file to remote host:
+
+```
 $ scp <local_file> your_username@192.168.0.10:/some/remote/directory
+```
 
-[>] Copy local directory to remote directory:
+### Copy local directory to remote directory:
+
+```
 scp -r <local_dir> your_username@192.168.0.10:/some/remote/directory/<remote_dir>
+```
 
-[>] Copy a file from one remote host to another:
+### Copy a file from one remote host to another:
+
+```
 scp your_username@<host1>:/some/remote/directory/foobar.txt your_username@<host2>:/some/remote/directory/
+```
 
-[>] Improve scp performance (use blowfish):
+### Improve scp performance (use blowfish):
+
+```
 scp -c blowfish <local_file> your_username@192.168.0.10:/some/remote/directory
+```
 
-[>] Use keyfile to login to remote host (-i must be first parameter)
+### Use keyfile to login to remote host 
+
+(-i must be first parameter)
+
+```
 scp -i $keyfile [other parameters]
 ```
 
