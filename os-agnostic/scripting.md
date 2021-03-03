@@ -6,7 +6,9 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-TODO: Separate Bash and Python scripting pages...and add more
+TODO: Create separate pages for each scripting language (issue [#19](https://github.com/zweilosec/Infosec-Notes/issues/19))
+* Create separate pages for each scripting language (bash, python, etc.)
+* Add basic information about each language, similar to PowerShell page
 
 ## Bash
 
