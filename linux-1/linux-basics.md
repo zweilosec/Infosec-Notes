@@ -320,7 +320,10 @@ nc listener: `nc -lvnp <port>`
 | `showmount -e $ip` | Show available shares to mount |
 | `smb://$ip/$share_name` | Connect to Windows SMB share folder |
 
-TODO: pull more from [HTB Writeups](https://zweilosec.gitbook.io/htb-writeups/)
+TODO: add more information on mounting and using network shares (issue [#10](https://github.com/zweilosec/Infosec-Notes/issues/10))
+* Add information on creating, mounting, and connecting to network shares (Samba, SMB, etc.)
+* pull more information from HTB Writeups ([Resolute](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/resolute-write-up.md), [Remote](https://github.com/zweilosec/htb-writeups/blob/da514f8ff85dfaf164f78e776b8b987e6e346f14/windows-machines/easy/remote-write-up.md), and [Fuse](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/fuse-write-up.md) for example, as well as outside sources)
+* Add commands such as `smbclient`, `smbpass`, `showmount`, `mount`, [Downloading Files](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/nest-write-up.md#copying-an-entire-smb-folder-recursively-using-smbclient), [Detecting ADS](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/nest-write-up.md#useful-skills-and-tools), [`smbmap`](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/cascade-write-up.md#useful-skills-and-tools),
 
 ### DNS
 
