@@ -288,26 +288,31 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 ### Managing connections
 
-TODO: add more, include description and examples
+TODO: add more information about Managing connections in Linux (Issue [#9](https://github.com/zweilosec/Infosec-Notes/issues/9)) 
+* Add commands such as telnet, SSH, nc, curl, wget
+* Add commands for listing information about open network connections: lsof -i, ss, netstat
+* include description and examples 
+
 
 | Command | Description |
 | :--- | :--- |
-|  |  |
+| `telnet` |  |
+| `SSH` |  |
+| `nc` |  |
+| `curl` |  |
+| `wget` |  |
 
-nc
 
 nc listener: `nc -lvnp <port>`
 
-curl
 
-wget
+#### list open network connections
 
-list open network connections: `lsof -i`
-
-`ss`
-
-`netstat`
-
+| Command | Description |
+| :--- | :--- |
+| `lsof -i` |  |
+| `ss` |  |
+| `netstat` |  |
 ### Shared folders
 
 | Command | Description |
