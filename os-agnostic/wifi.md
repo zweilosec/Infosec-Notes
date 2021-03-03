@@ -181,6 +181,12 @@ pyrit -r $capturefile -i $wordlist -b $AP_MAC attack_passthrough
 
 ## **MISC**
 
+TODO: Split "Misc" items into proper sections; prep code for scripting (issue [#16](https://github.com/zweilosec/Infosec-Notes/issues/16))
+
+* Put each example into its respective section
+* Clean up code examples and prep for scripting
+* Remove second "misc" section
+
 ### **Bridge-control man in the middle**
 
 ```bash
