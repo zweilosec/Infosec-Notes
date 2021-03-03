@@ -8,11 +8,10 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## Headings:
 
-This page is getting to be long, so here are shortcuts to the major sections.  I may break these into separate pages later.
-
+TODO: Break these three sections into separate pages (issue [#20](https://github.com/zweilosec/Infosec-Notes/issues/20))
 * [Getting the hashes](password-cracking.md#getting-the-hashes)
 * [Wordlist manipulation](password-cracking.md#wordlist-manipulation)
-* [Password cracking](password-cracking.md#password-cracking)
+* [Password cracking](password-cracking.md#password-cracking-1)
 
 ## Getting the Hashes
 
@@ -253,7 +252,9 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 
 ## Password Cracking
 
-Password recovery programs: [https://www.passcape.com/products](https://www.passcape.com/products) \(TODO:Test these!\)
+TODO: Test the password recovery programs (issue [#21](https://github.com/zweilosec/Infosec-Notes/issues/21))
+* Test Password recovery programs at https://www.passcape.com/products
+* Add descriptions of useful and functional programs 
 
 https://github.com/frizb/
 
@@ -352,7 +353,7 @@ hashcat --outfile > $hash_file
 
 ## Hashcat Cheatsheet <a id="hashcat-cheatsheet"></a>
 
-Hashcat Cheatsheet for OSCP [https://hashcat.net/wiki/doku.php?id=hashcat](https://hashcat.net/wiki/doku.php?id=hashcat)​
+Hashcat Cheatsheet for OSCP [https://hashcat.net/wiki/doku.php?id=hashcat](https://hashcat.net/wiki/doku.php?id=hashcat)
 
 ### Identify Hashes <a id="identify-hashes"></a>
 
