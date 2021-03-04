@@ -10,7 +10,11 @@ description: Commands and programs that all Windows users need to know (but many
 
 If you don't know about Mark Russinovich's amazing tools then go and check them out.  Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
 
-TODO: add highlights about best tools...psexec, accesschk, etc.
+TODO: Add more information about Microsoft Sysinternals (issue [#23](https://github.com/zweilosec/Infosec-Notes/issues/23))
+* Read about each tool and find the ones that work for Red Teaming
+* Add highlights about best tools...psexec, accesschk, etc.
+* Add examples of how to use each in a command-line only environment
+* Link to relevant sections (privilege escalation, enumeration, etc.)
 
 Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
 
