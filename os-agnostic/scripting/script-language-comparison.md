@@ -1,8 +1,9 @@
 # Script Language Syntax
 
-TODO: Add output for all examples
+TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](https://github.com/zweilosec/Infosec-Notes/issues/22))
+* Add syntax examples for Bash and Windows Batch scripting
+* Add example output for all
 
-TODO: Add examples for Bash and Windows Batch scripting
 
 ## Basic syntax examples for Python, PowerShell, Bash, and Windows cmd.exe batch
 
