@@ -108,7 +108,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
     <tr>
       <td style="text-align:center">net</td>
       <td style="text-align:left">
-        <p>many many...TODO: pick some of the most useful and add examples</p>
+        <p>many many...TODO: pick some of the most useful and add examples (issue [#24](https://github.com/zweilosec/Infosec-Notes/issues/24))</p>
         <p>net user</p>
         <p>net groups</p>
         <p>net share</p>
@@ -130,7 +130,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       <td style="text-align:left">
         <p>Get a list of all active TCP connections.</p>
         <ul>
-          <li>TODO: add more options</li>
+          <li>TODO: add more options (issue [#24](https://github.com/zweilosec/Infosec-Notes/issues/24))</li>
         </ul>
       </td>
     </tr>
