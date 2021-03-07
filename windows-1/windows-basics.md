@@ -8,13 +8,14 @@ description: Commands and programs that all Windows users need to know (but many
 
 #### This. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
 
-If you don't know about Mark Russinovich's amazing tools then go and check them out.  Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
+If you don't know about Mark Russinovich's amazing tools then go and check them out. Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
 
-TODO: Add more information about Microsoft Sysinternals (issue [#23](https://github.com/zweilosec/Infosec-Notes/issues/23))
+TODO: Add more information about Microsoft Sysinternals \(issue [\#23](https://github.com/zweilosec/Infosec-Notes/issues/23)\)
+
 * Read about each tool and find the ones that work for Red Teaming
 * Add highlights about best tools...psexec, accesschk, etc.
 * Add examples of how to use each in a command-line only environment
-* Link to relevant sections (privilege escalation, enumeration, etc.)
+* Link to relevant sections \(privilege escalation, enumeration, etc.\)
 
 Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
 
@@ -25,13 +26,13 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
 <table>
   <thead>
     <tr>
-      <th style="text-align:center">Program name</th>
+      <th style="text-align:left">Program name</th>
       <th style="text-align:left">Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td style="text-align:center">assoc</td>
+      <td style="text-align:left">assoc</td>
       <td style="text-align:left">
         <p>View all the file associations your computer knows</p>
         <ul>
@@ -41,7 +42,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">attrib</td>
+      <td style="text-align:left">attrib</td>
       <td style="text-align:left">
         <p>Change file attributes.</p>
         <ul>
@@ -53,14 +54,13 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">bitsadmin</td>
+      <td style="text-align:left">bitsadmin</td>
       <td style="text-align:left">Initiate upload or download jobs over the network or internet and monitor
         the current state of those file transfers</td>
     </tr>
     <tr>
-      <td style="text-align:center">chkdsk</td>
+      <td style="text-align:left">chkdsk</td>
       <td style="text-align:left">
-        <p></p>
         <p>Check the integrity of an entire drive.</p>
         <ul>
           <li>This command checks for file fragmentation errors, disk errors, and bad
@@ -72,11 +72,11 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">color</td>
+      <td style="text-align:left">color</td>
       <td style="text-align:left">Change the background color of the command prompt window</td>
     </tr>
     <tr>
-      <td style="text-align:center">fc</td>
+      <td style="text-align:left">fc</td>
       <td style="text-align:left">
         <p>Performs either an ascii or a binary file comparison and lists all of
           the differences that it finds.</p>
@@ -89,7 +89,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">findstr</td>
+      <td style="text-align:left">findstr</td>
       <td style="text-align:left">
         <p>Search for strings inside of text files</p>
         <ul>
@@ -101,23 +101,23 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">ipconfig /all</td>
+      <td style="text-align:left">ipconfig /all</td>
       <td style="text-align:left">Get detailed information about your current network adapters. Includes:
         IP address, Subnet mask, Default gateway IP, Domain name</td>
     </tr>
     <tr>
-      <td style="text-align:center">net</td>
+      <td style="text-align:left">net</td>
       <td style="text-align:left">
-        <p>many many...TODO: pick some of the most useful and add examples (issue [#24](https://github.com/zweilosec/Infosec-Notes/issues/24))</p>
+        <p>many many...TODO: pick some of the most useful and add examples (issue
+          [#24](https://github.com/zweilosec/Infosec-Notes/issues/24))</p>
         <p>net user</p>
         <p>net groups</p>
         <p>net share</p>
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">net use</td>
+      <td style="text-align:left">net use</td>
       <td style="text-align:left">
-        <p></p>
         <p>Map a network drive.</p>
         <ul>
           <li>The <code>/persistent:yes</code> switch tells your computer that you want
@@ -126,7 +126,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">netstat</td>
+      <td style="text-align:left">netstat</td>
       <td style="text-align:left">
         <p>Get a list of all active TCP connections.</p>
         <ul>
@@ -135,7 +135,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">ping</td>
+      <td style="text-align:left">ping</td>
       <td style="text-align:left">
         <p>Test network connectivity.</p>
         <ul>
@@ -146,7 +146,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">powercfg</td>
+      <td style="text-align:left">powercfg</td>
       <td style="text-align:left">
         <p>Configure power options</p>
         <ul>
@@ -156,19 +156,19 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">prompt</td>
+      <td style="text-align:left">prompt</td>
       <td style="text-align:left">Change the command prompt from <code>C:&gt;</code> to something else</td>
     </tr>
     <tr>
-      <td style="text-align:center">regedit</td>
+      <td style="text-align:left">regedit</td>
       <td style="text-align:left">Edit keys in the Windows registry</td>
     </tr>
     <tr>
-      <td style="text-align:center">robocopy</td>
+      <td style="text-align:left">robocopy</td>
       <td style="text-align:left">A powerful file copy utility</td>
     </tr>
     <tr>
-      <td style="text-align:center">schtasks</td>
+      <td style="text-align:left">schtasks</td>
       <td style="text-align:left">
         <p>Schedule tasks (similar to Unix cron).</p>
         <ul>
@@ -186,9 +186,8 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">sfc</td>
+      <td style="text-align:left">sfc</td>
       <td style="text-align:left">
-        <p></p>
         <p>To check the integrity of protected system files (run cmd.exe as administrator
           first).</p>
         <ul>
@@ -210,7 +209,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">shutdown</td>
+      <td style="text-align:left">shutdown</td>
       <td style="text-align:left">
         <p>Shut down or restart the computer from the command line</p>
         <ul>
@@ -224,7 +223,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">systeminfo</td>
+      <td style="text-align:left">systeminfo</td>
       <td style="text-align:left">
         <p>Get an overview of important system information</p>
         <ul>
@@ -234,11 +233,11 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
       </td>
     </tr>
     <tr>
-      <td style="text-align:center">title</td>
+      <td style="text-align:left">title</td>
       <td style="text-align:left">Change the title of the command prompt window.</td>
     </tr>
     <tr>
-      <td style="text-align:center">tracert</td>
+      <td style="text-align:left">tracert</td>
       <td style="text-align:left">
         <p>Trace route to remote host.</p>
         <p>Provides you with all of the following information:</p>
@@ -258,7 +257,7 @@ Sysinternals tools can be linked to directly and run in-memory from [https://liv
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Set a file as `Hidden`.  This can also be used to change other file property flags such as `Archive` and `ReadOnly`.
+Set a file as `Hidden`. This can also be used to change other file property flags such as `Archive` and `ReadOnly`.
 
 ```text
 $file = (Get-ChildItem $file) #can shorten command with gci or ls
@@ -278,7 +277,7 @@ Normal
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-Set a file as **Hidden** \(`-h`\).  This can also be used to change other file property flags such as \(`a`\) Archive and \(`r`\) ReadOnly. Flags must be added separately \(`-h -a -r` not `-har`\).
+Set a file as **Hidden** \(`-h`\). This can also be used to change other file property flags such as \(`a`\) Archive and \(`r`\) ReadOnly. Flags must be added separately \(`-h -a -r` not `-har`\).
 
 ```text
 #show the file attributes
@@ -295,9 +294,9 @@ attrib -h <C:\path\filename>
 
 ## SMB
 
-Mount a remote CIFS/SMB share `net use z: \\$ip\$sharename`. 
+Mount a remote CIFS/SMB share `net use z: \\$ip\$sharename`.
 
-Adding `/persistent:yes` will make this survive reboots. 
+Adding `/persistent:yes` will make this survive reboots.
 
 A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
 
@@ -305,5 +304,5 @@ To remove a previously mounted share: `"net use z: /delete"`
 
 ## Powershell
 
-PowerShell is a large and important enough topic that it has its [own page](powershell.md).  
+PowerShell is a large and important enough topic that it has its [own page](powershell.md).
 

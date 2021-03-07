@@ -4,7 +4,7 @@ description: Commands and programs that all Linux users need to know (but many d
 
 # Linux Basics
 
-TODO: Add screenshots/code examples for each command; put commands in tables; clean and organize all (issue [#7](../../../issues/7))
+TODO: Add screenshots/code examples for each command; put commands in tables; clean and organize all \(issue [\#7](https://github.com/zweilosec/Infosec-Notes/tree/9375dea2ecb0e3feeda3395c360ea20793d94891/issues/7/README.md)\)
 
 ## Command-line Basics
 
@@ -155,7 +155,7 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 
    Some programs \(like **mail**\) expect text from the user. A program may be waiting for an end-of-input character from you to tell it that you’ve finished entering text. However, typing **CTRL-D** may cause you to log out, so you should only try this as a last resort.
 
-8. If you’re using a windowing system, close \(or terminate\) the terminal window and open a new one. 
+8. If you’re using a windowing system, close \(or terminate\) the terminal window and open a new one.
 
 ## Filesystem Basics
 
@@ -175,7 +175,6 @@ Everything in Linux is are files, even directories and devices. Directories have
       <td style="text-align:left"><code>ls -a</code>
       </td>
       <td style="text-align:left">
-        <p></p>
         <p>List files in a folder, to include hidden files:</p>
         <ul>
           <li>Hidden files in Linux begin with a <b><code>.</code></b> these files can
@@ -200,7 +199,7 @@ Everything in Linux is are files, even directories and devices. Directories have
       <td style="text-align:left">List files in current folder and all subfolders (Recursive)</td>
     </tr>
     <tr>
-      <td style="text-align:left"><code>find -L /          -samefile $file</code>
+      <td style="text-align:left"><code>find -L / -samefile $file</code>
       </td>
       <td style="text-align:left">Locate all files that symlink to a file</td>
     </tr>
@@ -261,7 +260,7 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 ### File Permissions
 
-> TODO: Add more information about Linux file permissions (both `octal` and `ugo-rwx` formats); Add information about `chmod` and `chown` commands;  Add descriptions and examples (issue [#8](https://github.com/zweilosec/Infosec-Notes/issues/8))
+> TODO: Add more information about Linux file permissions \(both `octal` and `ugo-rwx` formats\); Add information about `chmod` and `chown` commands; Add descriptions and examples \(issue [\#8](https://github.com/zweilosec/Infosec-Notes/issues/8)\)
 
 `chmod -ugo -rwx -7777 5KFB6`
 
@@ -288,11 +287,11 @@ Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<
 
 ### Managing connections
 
-TODO: add more information about Managing connections in Linux (Issue [#9](https://github.com/zweilosec/Infosec-Notes/issues/9)) 
+TODO: add more information about Managing connections in Linux \(Issue [\#9](https://github.com/zweilosec/Infosec-Notes/issues/9)\)
+
 * Add commands such as telnet, SSH, nc, curl, wget
 * Add commands for listing information about open network connections: lsof -i, ss, netstat
 * include description and examples 
-
 
 | Command | Description |
 | :--- | :--- |
@@ -302,9 +301,7 @@ TODO: add more information about Managing connections in Linux (Issue [#9](https
 | `curl` |  |
 | `wget` |  |
 
-
 nc listener: `nc -lvnp <port>`
-
 
 #### list open network connections
 
@@ -313,6 +310,7 @@ nc listener: `nc -lvnp <port>`
 | `lsof -i` |  |
 | `ss` |  |
 | `netstat` |  |
+
 ### Shared folders
 
 | Command | Description |
@@ -320,9 +318,10 @@ nc listener: `nc -lvnp <port>`
 | `showmount -e $ip` | Show available shares to mount |
 | `smb://$ip/$share_name` | Connect to Windows SMB share folder |
 
-TODO: add more information on mounting and using network shares (issue [#10](https://github.com/zweilosec/Infosec-Notes/issues/10))
-* Add information on creating, mounting, and connecting to network shares (Samba, SMB, etc.)
-* pull more information from HTB Writeups ([Resolute](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/resolute-write-up.md), [Remote](https://github.com/zweilosec/htb-writeups/blob/da514f8ff85dfaf164f78e776b8b987e6e346f14/windows-machines/easy/remote-write-up.md), and [Fuse](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/fuse-write-up.md) for example, as well as outside sources)
+TODO: add more information on mounting and using network shares \(issue [\#10](https://github.com/zweilosec/Infosec-Notes/issues/10)\)
+
+* Add information on creating, mounting, and connecting to network shares \(Samba, SMB, etc.\)
+* pull more information from HTB Writeups \([Resolute](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/resolute-write-up.md), [Remote](https://github.com/zweilosec/htb-writeups/blob/da514f8ff85dfaf164f78e776b8b987e6e346f14/windows-machines/easy/remote-write-up.md), and [Fuse](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/fuse-write-up.md) for example, as well as outside sources\)
 * Add commands such as `smbclient`, `smbpass`, `showmount`, `mount`, [Downloading Files](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/nest-write-up.md#copying-an-entire-smb-folder-recursively-using-smbclient), [Detecting ADS](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/nest-write-up.md#useful-skills-and-tools), [`smbmap`](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/cascade-write-up.md#useful-skills-and-tools),
 
 ### DNS
@@ -343,13 +342,13 @@ TODO: add more information on mounting and using network shares (issue [#10](htt
 
 ## Users and Groups
 
-TODO: Add information about Linux Users and Groups (issue [#11](https://github.com/zweilosec/Infosec-Notes/issues/11))
+TODO: Add information about Linux Users and Groups \(issue [\#11](https://github.com/zweilosec/Infosec-Notes/issues/11)\)
+
 * Add information about creating, modifying, and deleting users and passwords
 * Add information about use, creation, modification, and deletion of groups
 * Add commands such as `adduser`, `groups`, `passwd`, etc.
-* Add commands related to listing users, seeing who is logged in, etc. (`id`, `w`, `last -a`)
+* Add commands related to listing users, seeing who is logged in, etc. \(`id`, `w`, `last -a`\)
 * add descriptions and examples
-
 
 | Command | Description |
 | :--- | :--- |
@@ -382,7 +381,7 @@ Add new $PATHs to `.profile` rather than `.bashrc`, then `source ~/.profile` to 
 
 Makes `pwd` part of path so don't need `./` _NOT RECOMMENDED for home/production use!_ `export PATH='pwd':$PATH`
 
-The bulletproof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is: 
+The bulletproof way to add a path \(e.g., ~/opt/bin\) to the PATH environment variable is:
 
 ```bash
 PATH="${PATH:+${PATH}:}~/opt/bin"
@@ -433,7 +432,7 @@ For Kali live persistent boot USBs you will need the additional step of adding a
 
 A fork bomb is a type of denial-of-service attack against Unix-based systems, which makes use of the fork operation \(or equivalent functionality\) whereby a running process spawns another running process indefinitely. This attack works by creating a large number of processes very quickly in order to saturate the available resources of the operating system.
 
-Once this code is executed, within seconds the target system will freeze and will have to hard rebooted. 
+Once this code is executed, within seconds the target system will freeze and will have to hard rebooted.
 
 A common succinct bash fork bomb looks like:
 
@@ -443,13 +442,13 @@ A common succinct bash fork bomb looks like:
 
 Which can be explained as:
 
-| Function | Description |
-| :--- | :--- |
-| `:()` | define a function named `:` . Whenever we call `:`, execute the commands inside the `{ }` |
-| `:|:` | load a copy of the **`:`** function into memory and pipe its output to another copy of the **`:`** function, which has to also be loaded into memory separately. |
-| `&` | Disowns the other functions. If the first **`:`** is killed, all of the functions that it started should NOT also be killed. |
-| `;` | Ends the function definition and tells the interpreter to run what is next as a command |
-| `:` | Call function `:` initiating a chain-reaction: each call of `:` will start two more |
+| Function | Description |  |
+| :--- | :--- | :--- |
+| `:()` | define a function named `:` . Whenever we call `:`, execute the commands inside the `{ }` |  |
+| \`: | :\` | load a copy of the **`:`** function into memory and pipe its output to another copy of the **`:`** function, which has to also be loaded into memory separately. |
+| `&` | Disowns the other functions. If the first **`:`** is killed, all of the functions that it started should NOT also be killed. |  |
+| `;` | Ends the function definition and tells the interpreter to run what is next as a command |  |
+| `:` | Call function `:` initiating a chain-reaction: each call of `:` will start two more |  |
 
 It can also be written as:
 
@@ -461,7 +460,7 @@ forkbomb() { forkbomb | forkbomb & } ; forkbomb
 
 [https://stackoverflow.com/questions/19873430/command-not-found-message-when-i-try-to-add-command-in-bashrc/26976325](https://stackoverflow.com/questions/19873430/command-not-found-message-when-i-try-to-add-command-in-bashrc/26976325)
 
-If you encounter errors on your system when you mistype a command or try to run a program that is not installed try these steps to fix the `command-not-found` command. 
+If you encounter errors on your system when you mistype a command or try to run a program that is not installed try these steps to fix the `command-not-found` command.
 
 TODO: screenshot or type out example so people know what I am referring to...
 
@@ -472,7 +471,7 @@ sudo update-command-not-found #rebuild the database
 sudo chmod ugo+r /var/lib/command-not-found/commands.db* #fix database permissions
 ```
 
- [https://bugs.launchpad.net/command-not-found/+bug/1824000](https://bugs.launchpad.net/command-not-found/+bug/1824000)
+[https://bugs.launchpad.net/command-not-found/+bug/1824000](https://bugs.launchpad.net/command-not-found/+bug/1824000)
 
 ## References
 

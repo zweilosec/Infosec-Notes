@@ -3,18 +3,18 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
 ## Choosing a wireless module
 
-You must choose a wireless module that has a chipset that is capable of being put in monitor mode.  The site below has a fairly comprehensive list of adapters that support this.  
+You must choose a wireless module that has a chipset that is capable of being put in monitor mode. The site below has a fairly comprehensive list of adapters that support this.
 
 [https://miloserdov.org/?p=2196](https://miloserdov.org/?p=2196)
 
 ## Using an ALFA Wireless Adapter in Linux \(Kali\)
 
-Install the correct driver with `apt-get install realtek-rtl88xxau-dkms`.  After a reboot the WiFi adapter worked on my installation.  The only thing to note - it may not work in the usual way with `airmon-ng` to capture handshakes.  The following commands can be used to troubleshoot the interface:
+Install the correct driver with `apt-get install realtek-rtl88xxau-dkms`. After a reboot the WiFi adapter worked on my installation. The only thing to note - it may not work in the usual way with `airmon-ng` to capture handshakes. The following commands can be used to troubleshoot the interface:
 
 ```text
 sudo ifconfig wlan0 down
@@ -23,7 +23,7 @@ sudo iwconfig wlan0 mode monitor
 sudo ifconfig wlan0 up
 ```
 
-After a lot of failed attempts I found a working solution for folks that have continued problems with getting the Alfa card to work.  First unplug your Wi-Fi adapter, then follow these steps:
+After a lot of failed attempts I found a working solution for folks that have continued problems with getting the Alfa card to work. First unplug your Wi-Fi adapter, then follow these steps:
 
 ```bash
 apt remove realtek-rtl88xxau-dkms && apt purge realtek-rtl88xxau-dkms
@@ -63,7 +63,7 @@ aircrack-ng -0 -w $pass_list $cap_file
 
 ## **Cracking WEP**
 
-###  **with Connected Clients**
+### **with Connected Clients**
 
 ```bash
 airmon-ng start wlan0 #[$channel] (optional)
@@ -181,7 +181,7 @@ pyrit -r $capturefile -i $wordlist -b $AP_MAC attack_passthrough
 
 ## **MISC**
 
-TODO: Split "Misc" items into proper sections; prep code for scripting (issue [#16](https://github.com/zweilosec/Infosec-Notes/issues/16))
+TODO: Split "Misc" items into proper sections; prep code for scripting \(issue [\#16](https://github.com/zweilosec/Infosec-Notes/issues/16)\)
 
 * Put each example into its respective section
 * Clean up code examples and prep for scripting
@@ -261,7 +261,7 @@ As well, only data packets following the handshake will be decrypted. This is be
 To combine your `airodump-ng` .txt/.csv files together simply open up a terminal and cd into the directory where you're keeping them in and then type:
 
 ```bash
-dump-join.py -i $infile1 $infile2 $infile3 -o $outfile  
+dump-join.py -i $infile1 $infile2 $infile3 -o $outfile
 ```
 
 ### Man-in-the-middle with Bettercap

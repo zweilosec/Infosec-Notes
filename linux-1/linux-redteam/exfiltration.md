@@ -4,13 +4,14 @@ Not much here yet...please feel free to contribute at [https://www.github.com/zw
 
 ## Python HTTP server
 
-TODO: add --help to python file sharing scripts (issue [#14](https://github.com/zweilosec/Infosec-Notes/issues/14))
+TODO: add --help to python file sharing scripts \(issue [\#14](https://github.com/zweilosec/Infosec-Notes/issues/14)\)
+
 * Add argument parsing capability
 * add `--help` argument for getting usage description
 * add arguments for all user input variables
 * FTP Server script has hardcoded values that need to be replaceable
 
-Script for listing and sharing files in a folder.  Uses python3's `http.server` module.
+Script for listing and sharing files in a folder. Uses python3's `http.server` module.
 
 ```bash
 #!/bin/bash
@@ -111,7 +112,7 @@ def main():
     dir = input("Run in the current directory? [y/n]\n")
     if (dir != "y") or (dir != "Y"):
         FTP_DIRECTORY = input("Please enter a directory:")
-    
+
     authorizer = DummyAuthorizer()
     authorizer.add_user(FTP_USER, FTP_PASSWORD, FTP_DIRECTORY, perm='elradfmw')
 
@@ -131,6 +132,4 @@ def main():
 if __name__ == '__main__':
     main()
 ```
-
-
 

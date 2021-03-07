@@ -3,11 +3,12 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: update and clean syntax and examples (issue [#18](https://github.com/zweilosec/Infosec-Notes/issues/18))
-* Prep code examples for scripting (as appropriate, descriptive examples may not need this)
+TODO: update and clean syntax and examples \(issue [\#18](https://github.com/zweilosec/Infosec-Notes/issues/18)\)
+
+* Prep code examples for scripting \(as appropriate, descriptive examples may not need this\)
 * Standardize variable names across examples
 * Split up [SCP](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#scp) examples for readability
 * Move links to "[References](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#resources)" section or make cleaner looking if belongs
@@ -48,7 +49,7 @@ Host jumpBox-1
     HostName jumpbox-1.com
     User jumper
     IdentityFile /home/kali/.ssh/to_jumpbox-1.key
-    
+
 Host jumpBox-2
     HostName sup.er.long.complex.aws.dns.name.com
     User jumpboxAdmin
@@ -62,7 +63,7 @@ Host raspPi-1
     ProxyJump jumpBox-2
 ```
 
-In the case of the SSH server side, replace `ServerAliveInterval` with `ClientAliveInterval` and put it in the file `/etc/ssh/sshd_config`.  This is especially useful for reverse tunnels.
+In the case of the SSH server side, replace `ServerAliveInterval` with `ClientAliveInterval` and put it in the file `/etc/ssh/sshd_config`. This is especially useful for reverse tunnels.
 
 The above configuration shows an example of allowing a user to use a simplified command such as`ssh jumpbox-1` in place of having to type out `user@hostName -i /path/to/keyfile` and supplies the relevant information automatically. This reduces the need for remembering usernames, IPs, or long and complex DNS names.
 
@@ -70,7 +71,7 @@ The above configuration shows an example of allowing a user to use a simplified 
 
 By having SSH keys for each of our jump boxes and the target device on our local machine, we can simplify the process of logging in through each machine quite a bit. The `ProxyJump` directive signifies which machine you need to jump through to get to the next machine in the proxy chain.
 
-This simple change allows a user to simply give the command `ssh raspPi-1`, wait a bit for all of the connections to be made, and pop a shell on the `raspPi-1` device. 
+This simple change allows a user to simply give the command `ssh raspPi-1`, wait a bit for all of the connections to be made, and pop a shell on the `raspPi-1` device.
 
 ### Keep Alive
 
@@ -126,7 +127,7 @@ Prior to using a new SSH key file it is necessary to change the permissions: `ch
 
 Using an SSH key to login to a remote computer: `ssh -i <keyfile> <username>@<IP>`
 
-However, before you can use the key to login to a remote computer, the public key must be placed in the `AuthorizedKeys` file on the remote system.  You can do this with the `ssh-copy-id` command.
+However, before you can use the key to login to a remote computer, the public key must be placed in the `AuthorizedKeys` file on the remote system. You can do this with the `ssh-copy-id` command.
 
 ```bash
 ssh-copy-id $user@$remote_host -i $key_file
@@ -136,7 +137,7 @@ ssh-copy-id $user@$remote_host -i $key_file
 
 For those interested in the details inside the key file \(generated as explained above\): `openssl rsa -noout -text -inform PEM -in key.pub -pubin`; or for the private key file: `openssl rsa -noout -text -in key.private` which outputs as text on the console the actual components of the key \(modulus, exponents, primes, etc.\)
 
- To extract the public key from a private key: `openssl rsa -in privkey.pem -pubout -out key.pub`\`
+To extract the public key from a private key: `openssl rsa -in privkey.pem -pubout -out key.pub`\`
 
 ### Troubleshooting SSH
 
@@ -151,7 +152,7 @@ If connection is dropped upon connect:
 
 ## Remote Code Execution
 
-Run commands on remote system without a shell through SSH with a "Herefile". `HERE` can be anything, but it must begin and end with the same word. 
+Run commands on remote system without a shell through SSH with a "Herefile". `HERE` can be anything, but it must begin and end with the same word.
 
 ```bash
 ssh $user@$hostname << HERE
@@ -172,33 +173,33 @@ scp username@192.168.0.10:<remote_file> ./some/local/directory
 
 ### Copy local file to remote host:
 
-```
+```text
 $ scp <local_file> your_username@192.168.0.10:/some/remote/directory
 ```
 
 ### Copy local directory to remote directory:
 
-```
+```text
 scp -r <local_dir> your_username@192.168.0.10:/some/remote/directory/<remote_dir>
 ```
 
 ### Copy a file from one remote host to another:
 
-```
+```text
 scp your_username@<host1>:/some/remote/directory/foobar.txt your_username@<host2>:/some/remote/directory/
 ```
 
-### Improve scp performance (use blowfish):
+### Improve scp performance \(use blowfish\):
 
-```
+```text
 scp -c blowfish <local_file> your_username@192.168.0.10:/some/remote/directory
 ```
 
-### Use keyfile to login to remote host 
+### Use keyfile to login to remote host
 
-(-i must be first parameter)
+\(-i must be first parameter\)
 
-```
+```text
 scp -i $keyfile [other parameters]
 ```
 
@@ -213,8 +214,7 @@ scp -i $keyfile [other parameters]
 * Let's assume that Destination's IP is 192.168.20.55 \(Linux box that you want to access\).
 * You want to access from Linux client with IP 178.27.99.99.
 * Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(178.27.99.99\)
-
-1. SSH from the destination to the source \(with public IP\) using the command below:
+* SSH from the destination to the source \(with public IP\) using the command below:
 
 ```text
 ssh -R 19999:localhost:22 sourceuser@178.27.99.99
@@ -224,13 +224,13 @@ ssh -R 19999:localhost:22 sourceuser@178.27.99.99
 \* port 19999 can be any unused port.
 {% endhint %}
 
-2. Now you can SSH from source to destination through SSH tunneling:
+1. Now you can SSH from source to destination through SSH tunneling:
 
 ```text
 ssh localhost -p 19999
 ```
 
-3. 3rd party servers can also access 192.168.20.55 through Destination \(178.27.99.99\).
+1. 3rd party servers can also access 192.168.20.55 through Destination \(178.27.99.99\).
 
 Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(178.27.99.99\) &lt;- Bob's server
 

