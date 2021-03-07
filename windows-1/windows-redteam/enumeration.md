@@ -320,6 +320,54 @@ Get the contents of the clipboard `Get-Clipboard`
 `Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'` 
 
 `Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
+
+The below PowerShell script will return a more complete list of all software installed by querying `SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall` on a list of computer names.  It displays the following information: 
+
+* Computer Name, 
+* Software Name, 
+* Version, 
+* Publisher
+
+```bash
+# Get-SoftwareInventory 
+
+#Change this variable to point to a list of computer names
+$computers = Import-Csv “C:\computerlist.csv”
+
+$array = @()
+
+foreach($pc in $computers){
+
+    $computername=$pc.computername
+
+    #Define the variable to hold the location of Currently Installed Programs
+    $UninstallKey=”SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall” 
+
+    #Create an instance of the Registry Object and open the HKLM base key
+    $reg=[microsoft.win32.registrykey]::OpenRemoteBaseKey(‘LocalMachine’,$computername) 
+
+    #Drill down into the Uninstall key using the OpenSubKey Method
+    $regkey=$reg.OpenSubKey($UninstallKey) 
+
+    #Retrieve an array of string that contain all the subkey names
+    $subkeys=$regkey.GetSubKeyNames() 
+
+    #Open each Subkey and use GetValue Method to return the required values for each
+    foreach($key in $subkeys){
+        $thisKey=$UninstallKey+”\\”+$key 
+        $thisSubKey=$reg.OpenSubKey($thisKey) 
+        $obj = New-Object PSObject
+        $obj | Add-Member -MemberType NoteProperty -Name “ComputerName” -Value $computername
+        $obj | Add-Member -MemberType NoteProperty -Name “DisplayName” -Value $($thisSubKey.GetValue(“DisplayName”))
+        $obj | Add-Member -MemberType NoteProperty -Name “DisplayVersion” -Value $($thisSubKey.GetValue(“DisplayVersion”))
+        $obj | Add-Member -MemberType NoteProperty -Name “InstallLocation” -Value $($thisSubKey.GetValue(“InstallLocation”))
+        $obj | Add-Member -MemberType NoteProperty -Name “Publisher” -Value $($thisSubKey.GetValue(“Publisher”))
+        $array += $obj
+    } 
+}
+
+$array | Where-Object { $_.DisplayName } | select ComputerName, DisplayName, DisplayVersion, Publisher | ft -auto
+```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -336,6 +384,8 @@ wmic product get name /value
 ```
 {% endtab %}
 {% endtabs %}
+
+
 
 ### Uninstall Software <a id="cfde"></a>
 
