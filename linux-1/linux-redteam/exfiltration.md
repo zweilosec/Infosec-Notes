@@ -133,3 +133,5 @@ if __name__ == '__main__':
     main()
 ```
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

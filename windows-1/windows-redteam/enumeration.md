@@ -1506,3 +1506,7 @@ done
 * [https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/](https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/)
 * [https://techexpert.tips/powershell/powershell-list-open-udp-ports/](https://techexpert.tips/powershell/powershell-list-open-udp-ports/)
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

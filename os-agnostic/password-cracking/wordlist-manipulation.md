@@ -113,7 +113,7 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 
 `# unix2dos file.txt`
 
-### Remove from one file what is in another file
+### Extract the difference between two files
 
 `# grep -F -v -f file1.txt -w file2.txt > file3.txt`
 
@@ -128,4 +128,8 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 ### Find the line number of a string inside a file
 
 `# awk '{ print NR, $0 }' file.txt | grep "string-to-grep"`
+
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

@@ -77,3 +77,7 @@ Example: `1:2:a1%.` The generated passwords will be of length 1 to 2 and contain
 * [https://guide.offsecnewbie.com/password-cracking](https://guide.offsecnewbie.com/password-cracking)
 * [https://www.hackingarticles.in/abusing-kerberos-using-impacket/](https://www.hackingarticles.in/abusing-kerberos-using-impacket/)
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

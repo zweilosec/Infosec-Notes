@@ -29,5 +29,5 @@ Enter insert \(normal text edit\) mode: `i` _\(yep that's it, just type and move
 * [https://www.youtube.com/watch?v=OnUiHLYZgaA](https://www.youtube.com/watch?v=OnUiHLYZgaA)
 * vim plugins: fuzzy finder plugin ctrlp /// surround.vim
 
-\_\_
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

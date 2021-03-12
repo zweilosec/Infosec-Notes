@@ -21,9 +21,12 @@ disable location, telemetry, etc
 
 {% embed url="https://ninite.com" %}
 
-notepad++
+* [notepad++](https://notepad-plus-plus.org/)
+* [Visual Studio Code](https://code.visualstudio.com/)
+* [Tor Browser](https://www.torproject.org/)
+  * Based on Firefox.  Be careful of settings and extensions used as these can break the protection provided by the VPN.  
 
-Visual Studio Code
 
-Tor Browser - based on Firefox.  Be careful of settings and extensions used as these can break the protection provided by the VPN.  
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

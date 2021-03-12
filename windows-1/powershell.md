@@ -704,3 +704,7 @@ PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this
   * [https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/](https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/) - site down?
   * [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/) 
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

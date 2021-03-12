@@ -306,3 +306,5 @@ To remove a previously mounted share: `"net use z: /delete"`
 
 PowerShell is a large and important enough topic that it has its [own page](powershell.md).
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

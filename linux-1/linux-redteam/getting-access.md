@@ -329,3 +329,5 @@ xhost +targetip
 * [https://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html](https://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html)
 * [https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/)
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

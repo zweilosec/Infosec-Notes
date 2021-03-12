@@ -324,3 +324,5 @@ Kill pane: `prefix + &`
 * tmux logging plugin \(get this!!\) can save log of tmux windows
 * [better mouse mode](https://github.com/NHDaly/tmux-better-mouse-mode)
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

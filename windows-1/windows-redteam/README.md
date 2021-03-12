@@ -54,3 +54,7 @@ check what updates are installed: `type WindowsUpdate.log`
 
 net use share from linux \[like SimpleHTTPServer for Samba\]: `impacket-smbserver <sharename> '<dir_to_share>'`
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

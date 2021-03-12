@@ -104,3 +104,7 @@ Based off of the original _Web Application Hacker's Handbook_, this project was 
 * [https://portswigger.net/web-security](https://portswigger.net/web-security)
 * [https://gist.github.com/jhaddix/6b777fb004768b388fefadf9175982ab](https://gist.github.com/jhaddix/6b777fb004768b388fefadf9175982ab)
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

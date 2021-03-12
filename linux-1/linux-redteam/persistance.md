@@ -24,3 +24,5 @@ Add script to run at startup: `update-rc.d </path/to/the/script> defaults` \(nee
   * `$comment` is usually the user's Full Name.  Check the `/etc/passwd` file to ensure you match local standards.
   * \(assumes you have write privilege to this file!\). 
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

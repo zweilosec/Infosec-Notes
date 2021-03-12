@@ -64,3 +64,7 @@ pretty print JSON text in console \([https://www.howtogeek.com/529219/how-to-par
 
 `vi -c 'let $enc = &fileencoding | execute "!echo Encoding: $enc" | q' <file_to_check>` check encoding of a text file \(needed especially when doing crypto with python, or cracking passwords with `rockyou.txt` - _hint: needs latin encoding!_\) [https://vim.fandom.com/wiki/Bash\_file\_encoding\_alias](https://vim.fandom.com/wiki/Bash_file_encoding_alias) \(how to make an alias for the above command\)
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

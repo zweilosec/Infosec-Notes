@@ -1,5 +1,11 @@
 # Subdomain/Virtual Host Enumeration
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+{% endhint %}
+
 ## Wordlists
 
 * [https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS](https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS)
@@ -226,4 +232,8 @@ cat targets.txt | aquatone -ports large
 nmap $ip -oX scan
 cat scan.xml | aquatone -nmap
 ```
+
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

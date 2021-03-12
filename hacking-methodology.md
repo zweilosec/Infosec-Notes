@@ -44,3 +44,5 @@ Proper and thorough enumeration is the key to a successful engagement. Privilege
 * Adapting - Customize the exploit so it fits. Not every exploit works for every system "out of the box".
 * Trying - Get ready for \(lots of\) trial and error.
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

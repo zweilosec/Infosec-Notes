@@ -263,15 +263,21 @@ nikto -useproxy http://$ip:3128 -h $ip
 
 ## OpenVAS Vulnerability Scanner
 
-```text
-apt-get update
+```bash
+#Install openvas
+apt update
+apt install openvas
 
-apt-get install openvas
-
+#Run the setup script
 openvas-setup
 
+#Check that it is running on port 939
 netstat -tulpn
 
-Login at: https://$ip:939
+#Login by using a browser to navigate to: https://127.0.0.1:939
 ```
+
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

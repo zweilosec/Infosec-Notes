@@ -579,3 +579,7 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 * [https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html](https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html) - [Shawn Brink](https://www.tenforums.com/members/brink.html?s=c4719816f0e7a9450a073c5aeafb6024)
 * [https://techibee.com/powershell/use-wmi-powershell-to-enable-or-disable-rdp-on-windows-server/3071](https://techibee.com/powershell/use-wmi-powershell-to-enable-or-disable-rdp-on-windows-server/3071)
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

@@ -377,3 +377,5 @@ echo '1' > /proc/sys/net/ipv4/ip_forward
 * [https://www.ubuntupit.com/best-linux-hardening-security-tips-a-comprehensive-checklist/](https://www.ubuntupit.com/best-linux-hardening-security-tips-a-comprehensive-checklist/)
 * [https://www.thegeekdiary.com/what-is-the-purpose-of-utmp-wtmp-and-btmp-files-in-linux/](https://www.thegeekdiary.com/what-is-the-purpose-of-utmp-wtmp-and-btmp-files-in-linux/)
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+

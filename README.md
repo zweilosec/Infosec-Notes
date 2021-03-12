@@ -36,10 +36,12 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 * [Linux Basics](linux-1/linux-basics.md)
 * [Hardening & Configuration Guide ](linux-1/linux-hardening/)
+  * [TMUX/Screen Cheatsheet](linux-1/linux-hardening/tmux-screen-cheatsheet.md)
 * [Red Team Notes](linux-1/linux-redteam/)
   * [Enumeration](linux-1/linux-redteam/enumeration.md)
   * [Getting Access](linux-1/linux-redteam/getting-access.md)
   * [Privilege Escalation](linux-1/linux-redteam/privilege-escalation.md)
+  * [Exfiltration](linux-1/linux-redteam/exfiltration.md)
   * [Persistence](linux-1/linux-redteam/persistance.md)
 * [Vim](linux-1/vim.md)
 
@@ -68,7 +70,9 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Web
 
 * [DNS](web/dns.md)
+* [Subdomain/Virtual Host Enumeration](web/subdomain-virtual-host-enumeration.md)
 * [Web Apps](web/web-notes/)
+  * [Web Application Hacker's Handbook Task Checklist](web/web-notes/the-web-application-hackers-handbook.md)
 
 ## Mobile
 
@@ -82,8 +86,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/)
+  * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
+  * [Wordlist Generation](os-agnostic/password-cracking/wordlist-manipulation.md)
+  * [Cracking the Hashes](os-agnostic/password-cracking/cracking-the-hashes.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation/)
+  * [Buffer Overflow](os-agnostic/reverse-engineering-and-binary-exploitation/buffer-overflow.md)
 * [Scripting](os-agnostic/scripting/)
+  * [Scripting Language Syntax Comparison](os-agnostic/scripting/script-language-comparison.md)
 * [SQL](os-agnostic/sql.md)
 * [SSH & SCP](os-agnostic/ssh-and-scp.md)
 * [Steganography](os-agnostic/steganography.md)
@@ -93,11 +102,11 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 * [Unsorted Notes](untitled.md)
 
-## CTF Tools and Cheatsheets 
+## OSCP/CTF Tools and Cheatsheets 
 
 [List of outside sources](tools-cheatsheets.md)
 
 
 
-If you like this content and would like to see more, please consider supporting me through Patreon at [https://www.patreon.com/zweilosec](https://www.patreon.com/zweilosec).
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

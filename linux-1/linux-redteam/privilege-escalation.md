@@ -359,3 +359,5 @@ mawk 'BEGIN {system("/bin/sh")}'
 * [https://touhidshaikh.com/blog/2018/04/sudo-ld\_preload-linux-privilege-escalation/](https://touhidshaikh.com/blog/2018/04/sudo-ld_preload-linux-privilege-escalation/)
 * [https://www.baeldung.com/linux/ld\_preload-trick-what-is](https://www.baeldung.com/linux/ld_preload-trick-what-is)
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+
