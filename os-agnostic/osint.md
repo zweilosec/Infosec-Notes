@@ -12,7 +12,15 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 
 [https://developers.google.com/identity/sign-in/web/people](https://developers.google.com/identity/sign-in/web/people) [https://developers.google.com/people/api/rest/v1/people/get](https://developers.google.com/people/api/rest/v1/people/get)
 
-## Misc tools
+## Multipurpose
+
+* https://shodan.io/
+* https://www.zoomeye.org/
+* https://leakix.net/
+* https://www.yougetsignal.com/
+* https://intelx.io/
+* https://pentest-tools.com/
+* [https://osintframework.com/](https://osintframework.com/)
 
 [RiskIQ’s Community Edition](https://www.riskiq.com/products/community-edition/) - 
 
@@ -34,13 +42,35 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 
 > Discover every asset in your attack surface, known or unknown.
 
+## Domain/IP Recon
+
+* https://domainbigdata.com/
+* https://viewdns.info/
+* http://bgp.he.net/
+* https://rapiddns.io/
+* https://dnsdumpster.com/
+* https://www.whoxy.com/
+*  [http://whois.domaintools.com/](http://whois.domaintools.com/)
+
  [https://www.robtex.com/](https://www.robtex.com/) - Good for geo-location of IP origin
 
 > Robtex is used for various kinds of research of IP numbers, Domain names, etc
 >
 > Robtex uses various sources to gather public information about IP numbers, domain names, host names, Autonomous systems, routes etc. It then indexes the data in a big database and provide free access to the data.
 
- [http://whois.domaintools.com/](http://whois.domaintools.com/)
+## Mail server blacklists
 
-[https://osintframework.com/](https://osintframework.com/)
+* http://multirbl.valli.org/
+
+## Dark web exposure
+
+* https://immuniweb.com/radar/
+
+## New acquisitions
+
+* https://crunchbase.com/
+
+## Email
+
+* https://hunter.io/
 
