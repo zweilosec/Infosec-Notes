@@ -58,7 +58,19 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 >
 > Robtex uses various sources to gather public information about IP numbers, domain names, host names, Autonomous systems, routes etc. It then indexes the data in a big database and provide free access to the data.
 
-## Mail server blacklists
+[https://opendata.rapid7.com/sonar.fdns\_v2/](https://opendata.rapid7.com/sonar.fdns_v2/)
+
+> Project Sonar produces a [Forward DNS](https://scans.io/study/sonar.fdns_v2) dataset every week or so. This data is created by extracting domain names from a number of sources and then sending an `ANY` query for each domain. The sources used to build the list of domains include:
+>
+> * Reverse DNS \(PTR\) Records
+> * Common Name and SubjectAltName fields from SSL Certificates
+> * HTML elements and Location headers seen in HTTP responses
+> * Zone files from COM, INFO, ORG, NET, BIZ, INFO and other TLDs
+> * Zone files from gTLDs
+>
+> The data format is a gzip-compressed JSON file, where each line of the file is a JSON document with attributes for the record name, type, value and time of resolution.
+
+## Mail server blacklist enumerator
 
 * http://multirbl.valli.org/
 
@@ -74,6 +86,8 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 
 * https://hunter.io/
   * Email Domain enumeration
+* [https://emkei.cz/](https://emkei.cz/)
+  * Fake email sender
 
 ## Social Media
 
@@ -128,4 +142,48 @@ Some of the steps for doing this require you to actually sign in to a Google acc
   * Can search by language or feature
 * [https://searchcode.com/](https://searchcode.com/)
   * Search public repositories
+* [https://www.shhgit.com/](https://www.shhgit.com/)
+  * Searches for "secrets" inside git code repos
+  * FOSS version at [https://github.com/eth0izzle/shhgit](https://github.com/eth0izzle/shhgit)
+
+## Credential Leak Sites
+
+{% embed url="https://haveibeenpwned.com" %}
+
+Run by Troy Hunt, haveibeenpwned.com is one of the best for checking whether an email address has been involved in a credential breach.  
+
+{% hint style="danger" %}
+Not all of these sites below are trustworthy.  Do not enter any credentials that are in use, or you plan to use into any searches!
+{% endhint %}
+
+* https://link-base.org/index.php
+* http://xjypo5vzgmo7jca6b322dnqbsdnp3amd24ybx26x5nxbusccjkm4pwid.onion/
+* http://pwndb2am4tzkvold.onion
+* https://weleakinfo.to/
+* https://www.dehashed.com/search?query=
+* https://rslookup.com
+* https://leakcheck.net
+* https://snusbase.com
+* https://leakpeek.com
+* https://breachchecker.com
+* https://leak-lookup.com
+* https://weleakinfo.to
+* https://leakcheck.io
+* http://scylla.sh
+* http://scatteredsecrets.com
+* https://joe.black/leakengine.html
+* https://services.normshield.com/data-breach
+* https://leakedsource.ru/main/ 
+* https://leaked.site/ 
+* https://ghostproject.fr/ 
+* https://haveibeensold.app/
+* https://vigilante.pw/
+* https://nuclearleaks.com/
+* https://hashes.org/
+* https://leak.sx/
+* https://leakcorp.com/login
+* https://private-base.info/
+* https://4iq.com/
+* https://intelx.io
+* https://leakprobe.net
 

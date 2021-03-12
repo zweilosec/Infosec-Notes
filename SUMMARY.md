@@ -44,6 +44,7 @@
 ## Web
 
 * [DNS](web/dns.md)
+* [Subdomain/Virtual Host Enumeration](web/subdomain-virtual-host-enumeration.md)
 * [Web Notes](web/web-notes.md)
 
 ## Mobile

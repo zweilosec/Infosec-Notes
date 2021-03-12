@@ -8,6 +8,8 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## Hosts File
 
+Description here
+
 {% tabs %}
 {% tab title="Linux" %}
 `/etc/hosts`
@@ -28,36 +30,51 @@ example here
 
 ## DNS Enumeration
 
-```text
-DNS offers a variety of information about public (and sometimes private!) organization servers, such as IP addresses, server names, and server functionality.
-```
+DNS offers a variety of information about public \(and sometimes private!\) organization servers, such as IP addresses, server names, and server functionality.
+
+### zonetransfer.me
+
+zonetransfer.me \([https://digi.ninja/projects/zonetransferme.php](https://digi.ninja/projects/zonetransferme.php)\)
+
+A public training site for testing and learning about DNS.  Uses the following two name servers:
+
+* nsztm1.digi.ninja
+* nsztm2.digi.ninja
+
+You can test everything from simple `dig` queries to DNS zone transfers.
 
 ### Interacting with a DNS Server
 
 ```text
-> host -t ns megacorpone.com           # -t : type , ns: dns
-> host -t mx megacorpone.com           # mx : mail server
+host -t ns zonetransfer.me
+# -t : type , ns: dns
+
+host -t mx zonetransfer.me           
+# mx : mail server
 ```
 
 * Also you can use `nslookup`
 
 ```text
-> nslookup anasboureada.com
+nslookup zonetransfer.me
 ```
 
 * `dig` also can be used
 
 ```text
-> dig aboureada.com
+dig zonetransfer.me
 ```
 
 ### Automating lookups
 
-we have some initial data from the megacorpone.com domain, we can continue to use additional DNS queries to discover more host names and IP addresses belonging to megacorpone.com.
+we have some initial data from the zonetransfer.me domain, we can continue to use additional DNS queries to discover more host names and IP addresses belonging to megacorpone.com.
 
 ```text
-> host www.megacorpone.com             # we will found that it has an ip
-> host idontexist.megacorpone.com      # this is not found
+host zonetransfer.me
+# we will found that it has an IP
+
+host idontexist.zonetransfer.me
+# this is not found
 ```
 
 ### Forward Lookup Brute Force
@@ -65,14 +82,14 @@ we have some initial data from the megacorpone.com domain, we can continue to us
 Taking the previous concept a step further, we can automate the Forward DNS Lookup of common host names using the host command and a Bash script.
 
 ```text
-> echo www > list.txt
-> echo ftp >> list.txt
-> echo mail >> list.txt
-> echo owa >> list.txt
-> echo proxy >> list.txt
-> echo router >> list.txt
-> echo api >> list.txt
-> for ip in $(cat list.txt);do host $ip.megacorpone.com;done
+echo www > list.txt
+echo ftp >> list.txt
+echo mail >> list.txt
+echo owa >> list.txt
+echo proxy >> list.txt
+echo router >> list.txt
+echo api >> list.txt
+for ip in $(cat list.txt);do host $ip.$domain;done
 ```
 
 ### Reverse Lookup Brute Force
@@ -80,7 +97,7 @@ Taking the previous concept a step further, we can automate the Forward DNS Look
 If the DNS administrator of megacorpone.com configured PTR records for the domain, we might find out some more domain names that were missed during the forward lookup brute-force phase.
 
 ```text
-> for ip in $(seq 155 190);do host 50.7.67.$ip;done | grep -v "not found"
+for ip in $(seq 155 190);do host 50.7.67.$ip;done | grep -v "not found"
 # grep -v :: --invert-match
 ```
 
@@ -91,26 +108,27 @@ If the DNS administrator of megacorpone.com configured PTR records for the domai
 * The zone file contains a list of all the DNS names configured for that zone. Zone transfers should usually be limited to authorized slave DNS servers.
 
 ```text
-> host -l megacorpone.com ns1.megacorpone.com   # ns1 refused us our zone transfer request
+host -l megacorpone.com ns1.megacorpone.com   # ns1 refused us our zone transfer request
 # -l :: list all hosts in a domain
-> host -l megacorpone.com ns2.megacorpone.com
+
+host -l megacorpone.com ns2.megacorpone.com
 # The result is a full dump of the zone file for the megacorpone.com domain,
 # providing us a convenient list of IPs and DNS names for the megacorpone.com domain.
 ```
 
 ```text
-> host -t axfr zonetransfer.me nsztm1.digi.ninja.
+host -t axfr zonetransfer.me nsztm1.digi.ninja
 ```
 
 ```text
-> dig axfr nsztm1.digi.ninja zonetransfer.me
+dig axfr nsztm1.digi.ninja zonetransfer.me
 ```
 
 * Now Lets automate the process:
   * To get the name servers for a given domain in a clean format, we can issue the following command.
 
     ```text
-    > host -t ns megacorpone.com | cut -d " " -f 4
+    host -t ns zonetransfer.me | cut -d " " -f 4
     # -d :: --delimiter=DELIM ;
     # -f ::  --fields=LIST select only these fields on each line;
     ```
@@ -124,7 +142,7 @@ If the DNS administrator of megacorpone.com configured PTR records for the domai
     # Check if argument was given, if not, print usage
     if  [-z "$1" ]; then
     echo "[-] Simple Zone transfer script"
-    echo "[-] Usage : $0 <domain name> "
+    echo "[-] Usage : $0 $domain_name "
     exit 0
     fi
 
@@ -135,11 +153,11 @@ If the DNS administrator of megacorpone.com configured PTR records for the domai
     done
     ```
 
-    Running this script on megacorpone.com should automatically identify both name servers and attempt a zone transfer on each of them
+    Running this script on zonetransfer.me should automatically identify both name servers and attempt a zone transfer on each of them
 
     ```text
     > chmod 755 dns-­-axfr.sh
-    > ./dns-­-axfr.sh megacorpone.com
+    > ./dns-­-axfr.sh zonetransfer.me
     ```
 
 ## Tools
@@ -147,7 +165,7 @@ If the DNS administrator of megacorpone.com configured PTR records for the domai
 ### **DNSRecon**
 
 ```text
-> dnsrecon -d megacorpone.com -t axfr
+dnsrecon -d zonetransfer.me -t axfr
 # -d :: domain
 # -t :: type of Enumeration to perform
 # axfr :: test all ns servers for zone transfer
@@ -156,16 +174,47 @@ If the DNS administrator of megacorpone.com configured PTR records for the domai
 ### **DNSEnum**
 
 ```text
-> dnsenum zonetransfer.me
+dnsenum zonetransfer.me
 ```
 
 ### **fierce**
 
-**NOTE** the one included in kali may not work, so try to install the new version from [fierce](https://github.com/mschwager/fierce)
+{% hint style="info" %}
+**NOTE:** the one included in Kali is outdated and may not work, so try using the new version from [fierce](https://github.com/mschwager/fierce)
+{% endhint %}
 
 ```text
-> pip3 install fierce
-> fierce --domain zonetransfer.me
+pip3 install fierce
+fierce --domain zonetransfer.me
+```
+
+### DIG
+
+```bash
+dig zonetransfer.me + short
+dig zonetransfer.me MX
+dig zonetransfer.me NS
+dig zonetransfer.me SOA
+dig zonetransfer.me ANY +noall +answer
+dig -x zonetransfer.me
+dig zonetransfer.me mx +noall +answer zonetransfer.me ns +noall +answer
+
+# DNS Zone Transfer
+dig -t AXFR zonetransfer.me
+dig axfr @10.11.1.111 zonetransfer.me
+
+# For Ipv4
+dig -4 zonetransfer.me
+
+# For IPv6
+dig -6 zonetransfer.me
+```
+
+### DNSEnum
+
+```bash
+# dnsenum
+dnsenum 10.11.1.111
 ```
 
 ## Misc
@@ -187,7 +236,7 @@ nmap -F --dns-server
 * Host Lookup
 
 ```text
-host -t ns megacorpone.com
+host -t ns zonetransfer.me
 ```
 
 * Reverse Lookup Brute Force - find domains in the same range
@@ -219,13 +268,13 @@ dig axfr domain-name-here.com @nameserver
 * Windows DNS zone transfer
 
 ```text
-nslookup -> set type=any -> ls -d blah.com
+nslookup -> set type=any -> ls -d zonetransfer.me
 ```
 
 * Linux DNS zone transfer
 
 ```text
-dig axfr blah.com @ns1.blah.com
+dig axfr zonetransfer.me @ns1.zonetransfer.me
 ```
 
 * Dnsrecon DNS Brute Force
@@ -237,12 +286,12 @@ dnsrecon -d TARGET -D /usr/share/wordlists/dnsmap.txt -t std --xml ouput.xml
 * Dnsrecon DNS List of megacorp
 
 ```text
-dnsrecon -d megacorpone.com -t axfr
+dnsrecon -d zonetransfer.me -t axfr
 ```
 
 * DNSEnum
 
 ```text
-dnsenum zonetransfer.m
+dnsenum zonetransfer.me
 ```
 
