@@ -45,7 +45,8 @@
 
 * [DNS](web/dns.md)
 * [Subdomain/Virtual Host Enumeration](web/subdomain-virtual-host-enumeration.md)
-* [Web Notes](web/web-notes.md)
+* [Web Notes](web/web-notes/README.md)
+  * [The Web Application Hacker's Handbook](web/web-notes/the-web-application-hackers-handbook.md)
 
 ## Mobile
 

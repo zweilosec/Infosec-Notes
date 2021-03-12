@@ -68,7 +68,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Web
 
 * [DNS](web/dns.md)
-* [Web Apps](web/web-notes.md)
+* [Web Apps](web/web-notes/)
 
 ## Mobile
 
