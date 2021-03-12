@@ -6,15 +6,6 @@ description: Web Application Hacker's Handbook Task Checklist
 
 Based off of the original _Web Application Hacker's Handbook_, this project was revamped as a free online training site at [https://portswigger.net/web-security](https://portswigger.net/web-security). The author of the original books worked in conjunction with Portswigger to create the Web Security Academy. The below checklist is meant as a methodology to complement their training.
 
-## Contents
-
-* [Recon and analysis](the-web-application-hackers-handbook.md#recon-and-analysis)
-* [Test handling of access](the-web-application-hackers-handbook.md#test-handling-of-access)
-* [Test handling of input](the-web-application-hackers-handbook.md#test-handling-of-input)
-* [Test application logic](the-web-application-hackers-handbook.md#test-application-logic)
-* [Assess application hosting](the-web-application-hackers-handbook.md#assess-application-hosting)
-* [Miscellaneous tests](the-web-application-hackers-handbook.md#miscellaneous-tests)
-
 ## Task Checklist
 
 ### Recon and analysis
