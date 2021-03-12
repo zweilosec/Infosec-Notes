@@ -73,4 +73,59 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 ## Email
 
 * https://hunter.io/
+  * Email Domain enumeration
+
+## Social Media
+
+### Social media search engine
+
+* [https://kribrum.io/](https://kribrum.io/)
+  * This page is in Russian!
+
+### Accounts registered by email
+
+* [emailrep.io ](https://emailrep.io/)
+
+### Enumerate usernames
+
+* [https://whatsmyname.app/](https://whatsmyname.app/)
+
+### Twitter
+
+* [https://tinfoleak.com/](https://tinfoleak.com/)
+
+### Instagram
+
+* [https://www.searchmy.bio/](https://www.searchmy.bio/)
+
+### Facebook
+
+### Skype
+
+* [https://mostwantedhf.info/](https://mostwantedhf.info/)
+
+### Forums
+
+* [https://boardreader.com/](https://boardreader.com/)
+
+### Pastebin
+
+* [https://psbdmp.ws/](https://psbdmp.ws/)
+
+## Advanced Search
+
+### Search with results grouped by topic
+
+* [https://search.carrot2.org/](https://search.carrot2.org/)
+
+### Search by Region/ Augmented keyword search
+
+* [https://swisscows.com/](https://swisscows.com/)
+
+### Source code search engines
+
+* [https://publicwww.com/](https://publicwww.com/)
+  * Can search by language or feature
+* [https://searchcode.com/](https://searchcode.com/)
+  * Search public repositories
 
