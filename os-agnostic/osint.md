@@ -1,5 +1,9 @@
 # OSINT
 
+## OSINT Multitool
+
+{% embed url="https://osintframework.com/" caption="Mind map of many many OSINT tools and websites" %}
+
 ## Google Account Enumeration
 
 {% embed url="https://medium.com/week-in-osint/getting-a-grasp-on-googleids-77a8ab707e43" %}
