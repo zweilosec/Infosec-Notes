@@ -20,18 +20,24 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 {% tabs %}
 {% tab title="PowerShell" %}
+`$env:username` Displays the current user's display name
+
 `[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
 
-TODO: add more...
+The below example is better.  Will display group name and SIDs.  Still not the same as `whoami /all` though.
 
-better...still not the same as `whoami /all`
-
-```text
+```bash
 $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIdentifier($_.Value)).Translate([System.Security.Principal.NTAccount])).Value};Label=”Group Name”},
 @{Expression={$_.Value};Label=”Group SID”},
 @{Expression={$_.Type};Label=”Group Type”}
 
 ([Security.Principal.WindowsIdentity]::GetCurrent()).Claims | Format-Table $tableLayout -AutoSize
+```
+
+### List user's home folders
+
+```bash
+Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
 ```
 {% endtab %}
 
@@ -39,6 +45,8 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 `whoami /all` Includes: Username, SID, Groups \(including their descriptions!\), and user privileges. 
 
 `echo %username%` Displays the current username
+
+`net user $username` Displays account and password expiration information, Logon script, User profile, Home directory, and group membership
 {% endtab %}
 {% endtabs %}
 
@@ -46,7 +54,9 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-WmiObject -class Win32_UserAccount` \#if run on a domain connected machine dumps all accounts on the whole domain!
+`Get-WmiObject -class Win32_UserAccount` 
+
+\#if run on a domain connected machine dumps all accounts on the whole domain!
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -72,19 +82,14 @@ net group /domain
 
 WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
 
-```text
-The following WQL query returns only local user accounts.
+```bash
+# The following WQL query returns only local user accounts.
+$q = "Select * from Win32_UserAccount where LocalAccount = True"
+Get-CimInstance -Query $q
 
-    $q = "Select * from Win32_UserAccount where LocalAccount = True"
-
-    Get-CimInstance -Query $q
-
-To find domain accounts, use a value of False, as shown in the following
-example.
-
-    $q = "Select * from Win32_UserAccount where LocalAccount = False"
-    
-    Get-CimInstance -Query $q
+# To find domain accounts, use a value of False, as shown in the following example.
+$q = "Select * from Win32_UserAccount where LocalAccount = False"
+Get-CimInstance -Query $q
 ```
 
 {% hint style="info" %}
