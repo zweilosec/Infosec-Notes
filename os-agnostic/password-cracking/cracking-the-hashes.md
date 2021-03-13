@@ -62,7 +62,7 @@ crunch
 hashcat --outfile > $hash_file 
 ```
 
-#### Online rainbow tables:
+## Online rainbow tables:
 
 * https://crackstation.net/
 * http://www.cmd5.org/
@@ -70,6 +70,15 @@ hashcat --outfile > $hash_file
 * https://www.onlinehashcrack.com/
 * http://rainbowtables.it64.com/
 * http://www.md5online.org
+* https://www.cmd5.org/
+* http://hashes.org
+* https://gpuhash.me/
+* https://crack.sh/
+* https://hash.help/
+* https://passwordrecovery.io/
+* http://cracker.offensive-security.com/
+* https://md5decrypt.net/en/Sha256/
+* https://weakpass.com/wordlists
 
 ## Hashcat Cheatsheet <a id="hashcat-cheatsheet"></a>
 
