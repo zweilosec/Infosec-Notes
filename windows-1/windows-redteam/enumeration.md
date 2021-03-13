@@ -22,6 +22,10 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 {% tab title="PowerShell" %}
 `$env:username` Displays the current user's display name
 
+`Get-LocalUser | Select *` Display usernames, password and account expiration, SID, Description, enabled status
+
+#### Groups
+
 `[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
 
 The below example is better.  Will display group name and SIDs.  Still not the same as `whoami /all` though.
