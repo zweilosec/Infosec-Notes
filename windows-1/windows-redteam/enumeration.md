@@ -44,6 +44,14 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
 ```
 
+#### Using WMI
+
+Use the below one-liner to pull information about all all local accounts.  This can also be used remotely, and to query information about AD accounts.
+
+```bash
+Get-WmiObject -ComputerName $env:computername -Class Win32_UserAccount -Filter "LocalAccount=True" | Select PSComputername, Name, Status, Disabled, AccountType, Lockout, PasswordRequired, PasswordChangeable | Out-GridView
+```
+
 #### Using ADSI
 
 Can be run on remote machines by substituting `$env:computername` with the computer name of the remote machine. This returns a large amount of useful information. 
