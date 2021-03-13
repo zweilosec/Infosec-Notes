@@ -38,10 +38,24 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 ([Security.Principal.WindowsIdentity]::GetCurrent()).Claims | Format-Table $tableLayout -AutoSize
 ```
 
-### List user's home folders
+#### List user's home folders
 
 ```bash
 Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
+```
+
+#### Using ADSI
+
+Can be run on remote machines by substituting `$env:computername` with the computer name of the remote machine. This returns a large amount of useful information. 
+
+{% hint style="info" %}
+There is a property called Password, though this did not return anything on my Windows Account-enabled machine. Will have to try this on a domain or local account
+{% endhint %}
+
+```bash
+$adsi = [ADSI]"WinNT://$env:computername"
+$Users = $adsi.Children | where {$_.SchemaClassName -eq 'user'}
+$Users | Select *
 ```
 {% endtab %}
 
