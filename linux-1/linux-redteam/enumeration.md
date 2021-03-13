@@ -90,6 +90,12 @@ strings $file
 file $file
 ```
 
+### Find deleted \(unlinked\) files
+
+```text
+lsof +L1
+```
+
 ## Process Enumeration
 
 ### Pspy
