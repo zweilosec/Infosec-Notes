@@ -723,6 +723,7 @@ PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this
 * TODO:
   * [https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/](https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/) - site down?
   * [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/) 
+* [https://www.infosecmatter.com/pure-powershell-infosec-cheatsheet/](https://www.infosecmatter.com/pure-powershell-infosec-cheatsheet/)
 
 
 
