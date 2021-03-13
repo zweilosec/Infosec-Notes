@@ -36,6 +36,22 @@ The hacking methodology categories align with the enterprise attack tactics in t
 
 ## General methodology
 
+* Log all commands of the current session
+
+  ```text
+  script $session_name.log
+
+  #when finished
+  exit
+  ```
+
+* Use Joplin, OneNote, CherryTree or other notetaking program to document findings
+* Set the Target IP Address to the `$ip` system variable
+
+  ```text
+  export ip=target_ip
+  ```
+
 * Run `nmap -sCV` for all TCP and UDP ports
 * For every open port TCP/UDP
   * Find service and version
