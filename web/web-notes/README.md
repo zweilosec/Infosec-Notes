@@ -464,7 +464,7 @@ wget --save-headers http://www.example.com/
 
 # Cookies
     # Check Secure and HttpOnly flag in session cookie
-    # If exists BIG-IP cookie, app behind a load balancer
+    # If you find a BIG-IP cookie, app is behind a load balancer
 
 # SSL Ciphers
 nmap --script ssl-enum-ciphers -p 443 www.example.com
@@ -475,9 +475,6 @@ nmap -p 443 --script http-methods www.example.com
 # Cross Domain Policy
 curl http://example.com/crossdomain.xml
     # allow-access-from domain="*"
-
-# Cookies explained
-https://cookiepedia.co.uk/
 ```
 
 
