@@ -10,6 +10,11 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+## Useful Tools
+
+* [https://app.diagrams.net/](https://app.diagrams.net/)
+  * Network Diagramming \(Free Online Visio Replacement\)
+
 ## OSCP Cheatsheets
 
 * [https://github.com/s0wr0b1ndef/OSCP-Biggest-Reference-Bank/blob/master/Cheatsheet\_PenTesting.txt](https://github.com/s0wr0b1ndef/OSCP-Biggest-Reference-Bank/blob/master/Cheatsheet_PenTesting.txt)
