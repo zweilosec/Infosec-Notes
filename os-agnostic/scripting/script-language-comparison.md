@@ -44,6 +44,7 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -53,6 +54,7 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
 | Global Variable | `$global:var = "Hello"` |
 | Environment Variables |  |
 | Retrieving Variable Contents |  |
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -64,6 +66,7 @@ TODO: this
 | Global Variable |  |
 | Environment Variables |  |
 | Retrieving Variable Contents |  |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -162,6 +165,7 @@ The output would show the JAVA\_HOME directory which would depend from system to
 ```text
 C:\Atlassian\Bitbucket\4.0.1\jre
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -331,6 +335,7 @@ C:\Atlassian\Bitbucket\4.0.1\jre
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -498,6 +503,7 @@ C:\Atlassian\Bitbucket\4.0.1\jre
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -625,6 +631,7 @@ NAME="John"
 echo "Hi $NAME"  #=> Hi John
 echo 'Hi $NAME'  #=> Hi $NAME
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -683,6 +690,7 @@ A string can be created in DOS in the following way.
 set message = Hello World 
 echo %message%
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -696,6 +704,7 @@ echo %message%
 | As Float | `i = float("10.5")` |
 | As String | `i = str(10)` |
 | As Char |  |
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -705,6 +714,7 @@ echo %message%
 | As Float | `$i = [float]"10.5"`  |
 | As String | `$i = [string]10` |
 | As Char |  |
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -714,6 +724,7 @@ echo %message%
 | As Float |  |
 | As String |  |
 | As Char |  |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -723,6 +734,7 @@ echo %message%
 | As Float |  |
 | As String |  |
 | As Char |  |
+
 {% endtab %}
 {% endtabs %}
 
@@ -792,6 +804,7 @@ echo %message%
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -859,6 +872,7 @@ echo %message%
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -919,6 +933,7 @@ Fruits[0]="Apple"
 Fruits[1]="Banana"
 Fruits[2]="Orange"
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -1110,6 +1125,7 @@ Output The above command produces the following output.
 ```text
 The length of the array is 4
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -1152,6 +1168,7 @@ The length of the array is 4
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -1202,6 +1219,7 @@ The length of the array is 4
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -1238,6 +1256,7 @@ else
   echo "This never happens"
 fi
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -1326,6 +1345,7 @@ SET str2 = String2
 if %str1%==StrinG1 echo "The value of variable String1" 
 if %str2%==String3 echo "The value of variable c is String3"
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -1401,6 +1421,7 @@ if %str2%==String3 echo "The value of variable c is String3"
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -1496,6 +1517,7 @@ if %str2%==String3 echo "The value of variable c is String3"
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -1557,6 +1579,7 @@ while true; do
   ···
 done
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -1782,6 +1805,7 @@ The key thing to note about the above implementation is the involvement of two �
 Following is an example of how to carry out the implementation of the break statement.
 
 The key thing to note about the above program is the addition of a label called :Increment. When the value of index reaches 2, we want to skip the statement which echoes its value to the command prompt and directly just increment the value of index.
+
 {% endtab %}
 {% endtabs %}
 
@@ -1870,6 +1894,7 @@ The key thing to note about the above program is the addition of a label called 
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -1982,6 +2007,7 @@ The key thing to note about the above program is the addition of a label called 
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2038,6 +2064,7 @@ function myfunc() {
 ```text
 myfunc "John"
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2051,6 +2078,7 @@ TODO: this
 | Named Arguments |  |
 | Default Values |  |
 | Return Values |  |
+
 {% endtab %}
 {% endtabs %}
 
@@ -2121,6 +2149,7 @@ TODO: this
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2206,6 +2235,7 @@ TODO: this
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2215,6 +2245,7 @@ TODO: this
 | Object Creation |  |
 | Using Class Constructors |  |
 | Defining and using Methods |  |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2224,6 +2255,7 @@ TODO: this
 | Object Creation |  |
 | Using Class Constructors |  |
 | Defining and using Methods |  |
+
 {% endtab %}
 {% endtabs %}
 
@@ -2257,6 +2289,7 @@ TODO: this
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2286,6 +2319,7 @@ TODO: this
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2311,6 +2345,7 @@ multi line
 comment
 '
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2384,6 +2419,7 @@ Hello World
 ```
 
 **Note** − If you have too many lines of Rem, it could slow down the code, because in the end each line of code in the batch file still needs to be executed.
+
 {% endtab %}
 {% endtabs %}
 
@@ -2410,6 +2446,7 @@ Hello World
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2437,6 +2474,7 @@ Hello World
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2453,6 +2491,7 @@ TODO: this
 | Action | Code Examples |
 | :--- | :--- |
 | Get Object's Type |  |
+
 {% endtab %}
 {% endtabs %}
 
@@ -2596,6 +2635,7 @@ TODO: this
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2747,6 +2787,7 @@ TODO: this
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2806,6 +2847,7 @@ for key in "${!sounds[@]}"; do
   echo $key
 done
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2873,6 +2915,7 @@ Value = 2
 Name = Mohan 
 Value = 3
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -2899,6 +2942,7 @@ Value = 3
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2921,6 +2965,7 @@ Value = 3
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2929,6 +2974,7 @@ TODO: this
 | Lambda | Code Examples |
 | :--- | :--- |
 | Lambda |  |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2937,6 +2983,7 @@ TODO: this
 | Lambda | Code Examples |
 | :--- | :--- |
 | Lambda |  |
+
 {% endtab %}
 {% endtabs %}
 
@@ -2955,6 +3002,7 @@ TODO: Add other operator types
 | Modulus | `var = 1 % 1` |
 | Floor | `var = 10 // 3` |
 | Exponent | `var = 10 ** 3` |
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2967,6 +3015,7 @@ TODO: Add other operator types
 | Modulus | `$var = 1 % 1` |
 | Floor | `$var = [Math]::Floor(10 / 3)` |
 | Exponent | `$var = [Math]::Pow(10, 3)` |
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2981,6 +3030,7 @@ TODO: this
 | Modulus |  |
 | Floor |  |
 | Exponent |  |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3139,6 +3189,7 @@ Following is the truth table showcasing these operators.
 | 0 | 1 | 0 | 1 | 1 |
 | 1 | 1 | 1 | 1 | 0 |
 | 1 | 0 | 0 | 1 | 1 |
+
 {% endtab %}
 {% endtabs %}
 
@@ -3214,6 +3265,7 @@ Following is the truth table showcasing these operators.
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -3242,6 +3294,7 @@ Following is the truth table showcasing these operators.
     </tr>
   </tbody>
 </table>
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3285,6 +3338,7 @@ else
   echo "failure"
 fi
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3293,6 +3347,7 @@ TODO: this
 | Error Handling | Code Examples |
 | :--- | :--- |
 | Try/Catch |  |
+
 {% endtab %}
 {% endtabs %}
 
@@ -3307,6 +3362,7 @@ TODO: this
 To execute regular Windows shell commands \(from cmd.exe\) in PowerShell, simply type the command the same way you would in the Windows command shell.  Some commands may not work in the same way, and some may need the full filename \(example: to se a directory listing in cmd.exe `dir` is the command.  To use this in PowerShell you would need to specify `dir.exe`.  
 
 IEX \(Invoke-Expression\)
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3317,6 +3373,7 @@ pwd
 echo "I'm in $(pwd)"
 echo "I'm in `pwd`"
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3347,6 +3404,7 @@ Many cmdlets also have an `ErrorAction` property
 ```text
 -ErrorAction Silent
 ```
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3355,6 +3413,7 @@ Redirect Standard Error to the nether
 ```text
 2>/dev/null
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3401,6 +3460,7 @@ The following example shows how you can redirect the output to a file called lis
 ```text
 TYPE CON > lists.txt
 ```
+
 {% endtab %}
 {% endtabs %}
 
@@ -3425,6 +3485,7 @@ cat <<HERE
 hello world
 HERE
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3441,6 +3502,7 @@ HERE
 | Install | `pip install requests` |
 | Import | `import requests` |
 | List | `pip list` |
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -3449,6 +3511,7 @@ HERE
 | Install | `Install-Module Pester` |
 | Import | `Import-Module Pester` |
 | List | `Get-Module -ListAvailable` |
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3459,6 +3522,7 @@ TODO: this
 | Install |  |
 | Import |  |
 | List |  |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3469,6 +3533,7 @@ TODO: this
 | Install |  |
 | Import |  |
 | List |  |
+
 {% endtab %}
 {% endtabs %}
 
