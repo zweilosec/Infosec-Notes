@@ -345,10 +345,6 @@ Host: evil-website.com
 GET /index.php HTTP/1.1
  Host: vulnerable-website.com
 Host: evil-website.com
-
-# Wordlists
-https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/BurpSuite-ParamMiner/lowercase-headers
-https://github.com/danielmiessler/SecLists/tree/bbb4d86ec1e234b5d3cfa0a4ab3e20c9d5006405/Miscellaneous/web/http-request-headers
 ```
 
 ## Cookies
