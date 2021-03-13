@@ -1514,6 +1514,7 @@ done
 * [https://github.com/madhuakula/wincmdfu](https://github.com/madhuakula/wincmdfu)
 * [https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/](https://sysnetdevops.com/2017/04/24/exploring-the-powershell-alternative-to-netstat/)
 * [https://techexpert.tips/powershell/powershell-list-open-udp-ports/](https://techexpert.tips/powershell/powershell-list-open-udp-ports/)
+* [https://www.lepide.com/how-to/list-all-user-accounts-on-a-windows-system-using-powershell.html](https://www.lepide.com/how-to/list-all-user-accounts-on-a-windows-system-using-powershell.html)
 
 
 
