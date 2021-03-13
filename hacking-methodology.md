@@ -34,6 +34,30 @@ The hacking methodology categories align with the enterprise attack tactics in t
 
 \*\*\*\*
 
+## General methodology
+
+* Run `nmap -sCV` for all TCP and UDP ports
+* For every open port TCP/UDP
+  * Find service and version
+  * Find known service bugs
+  * Find configuration issues
+  * Do banner grabbing
+* Google/Web-search
+  * Every unknown service/program
+  * Every error message
+  * Every URL path
+  * Every parameter to find versions/apps/bugs
+  * Every service version + exploit db
+  * Every service version + vulnerability
+* `searchsploit` every service
+* If app has authentication:
+  * User enumeration
+  * Password brute force
+  * Default credentials google search
+* Run nmap vuln scan
+* Run metasploit enum
+* Run metasploit exploits
+
 ## Privilege Escalation Standard Operating Procedures
 
 Proper and thorough enumeration is the key to a successful engagement. Privilege escalation is all about:
