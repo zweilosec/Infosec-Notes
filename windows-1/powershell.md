@@ -467,18 +467,38 @@ For**`Execution-Policy`** bypass methods for privilege escalation and so on see 
 Show all current environment variables in PowerShell: `Get-ChildItem Env:`
 
 Also aliased to: `dir env:` or `ls env:` or `gci env:`
+
+Environment variables can be `echo`'d or used in scripts by prefixing them with `$env:`.  Ex: 
+
+```bash
+echo $env:USERNAME
+#bob
+```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 Show all current environment variables in cmd.exe: `set`
+
+Environment variables can be `echo`'d or used in scripts by bracketing them with `%`.  Ex: 
+
+```bash
+echo %USERNAME%
+#bob
+```
 {% endtab %}
 {% endtabs %}
 
 You can assign values to Environment Variables without using a cmdlet using the following syntax:
 
-```text
+```bash
 $Env:$var = "$value"
 ```
+
+Examples:
+
+* `$env:username`
+* `$env:hostname`
+* `$env:path`
 
 You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Copy-Item` to change the values of environment variables. For example, to use the `Set-Item` cmdlet to append `;C:\Windows\Temp` to the value of the `$Env:PATH` environment variable, use the following syntax:
 
