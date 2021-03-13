@@ -226,9 +226,21 @@ export TERM=xterm-256color #allows you to clear console, and have color output
 ### Other Languages:
 
 ```python
-1. python3 -c 'import pty; pty.spawn("/bin/sh")'
-2. perl -e 'exec "/bin/sh";'
-3. ruby -e 'exec "/bin/sh"'
+echo os.system('/bin/bash')
+/bin/sh -i
+
+#python3
+python3 -c 'import pty; pty.spawn("/bin/sh")'
+
+#perl
+perl -e 'exec "/bin/sh";'
+
+#ruby
+exec "/bin/sh"
+ruby -e 'exec "/bin/sh"'
+
+#lua
+os.execute('/bin/sh')
 ```
 
 ### Using “Expect” To Get A TTY
