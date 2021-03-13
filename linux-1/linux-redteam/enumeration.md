@@ -72,15 +72,21 @@ find / -executable -type f 2> /dev/null | egrep -v "^/bin|^/var|^/etc|^/usr" | x
 find /. -name suid\\\*\\
 ```
 
+### Find symlinked files
+
+```bash
+find -L / -samefile $file
+```
+
 ### Display all the strings in a file
 
-```text
+```bash
 strings $file
 ```
 
 ### Determine the type of a file
 
-```text
+```bash
 file $file
 ```
 

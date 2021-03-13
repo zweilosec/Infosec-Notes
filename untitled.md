@@ -30,7 +30,7 @@ _Can click on the icon to change it to something appropriate \( Changes style, I
 
 ## -----
 
-locate all files that symlink to this\_file: `find -L / -samefile path/to/<this_file>`
+
 
 ## SSH Keys
 
