@@ -381,3 +381,7 @@ Uses a four way handshake, and if that handshake can be captured, then a diction
 WPA-Enterprise
 ```
 
+
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+
