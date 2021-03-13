@@ -2,6 +2,15 @@
 
 Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## Simple HTTP Servers
+
+```text
+python2 -m SimpleHTTPServer $port
+python3 -m http.server $port
+ruby -rwebrick -e "WEBrick::HTTPServer.new(:Port => 8888, :DocumentRoot => Dir.pwd).start"
+php -S 0.0.0.0:8888
+```
+
 ## Python HTTP server
 
 TODO: add --help to python file sharing scripts \(issue [\#14](https://github.com/zweilosec/Infosec-Notes/issues/14)\)

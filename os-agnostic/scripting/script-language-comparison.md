@@ -1,10 +1,9 @@
 # Script Language Syntax
 
-TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](https://github.com/zweilosec/Infosec-Notes/issues/22))
+TODO: need syntax examples for Bash and Windows Batch scripting \(issue [\#22](https://github.com/zweilosec/Infosec-Notes/issues/22)\)
 
 * Add syntax examples for Bash and Windows Batch scripting
 * Add example output for all
-
 
 ## Basic syntax examples for Python, PowerShell, Bash, and Windows cmd.exe batch
 
@@ -44,7 +43,6 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -54,7 +52,6 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
 | Global Variable | `$global:var = "Hello"` |
 | Environment Variables |  |
 | Retrieving Variable Contents |  |
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -66,7 +63,6 @@ TODO: this
 | Global Variable |  |
 | Environment Variables |  |
 | Retrieving Variable Contents |  |
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -78,8 +74,6 @@ TODO: this
 | Global Variable |  |
 | Environment Variables |  |
 | Retrieving Variable Contents |  |
-
-
 
 ### Set Command
 
@@ -107,8 +101,6 @@ set message=Hello World
 echo %message%
 ```
 
-
-
 ### Working with Numeric Values
 
 In batch script, it is also possible to define a variable to hold a numeric value. This can be done by using the /A switch.
@@ -122,8 +114,6 @@ SET /A b = 10
 SET /A c = %a% + %b% 
 echo %c%
 ```
-
-
 
 ### Local vs Global Variables
 
@@ -149,8 +139,6 @@ Few key things to note about the above program.
 * The ‘globalvar’ is defined with a global scope and is available throughout the entire script.
 * The ‘var‘ variable is defined in a local scope because it is enclosed between a ‘SETLOCAL’ and ‘ENDLOCAL’ block. Hence, this variable will be destroyed as soon the ‘ENDLOCAL’ statement is executed.
 
-
-
 ### Working with Environment Variables
 
 If you have variables that would be used across batch files, then it is always preferable to use environment variables. Once the environment variable is defined, it can be accessed via the % sign. The following example shows how to see the JAVA\_HOME defined on a system. The JAVA\_HOME variable is a key component that is normally used by a wide variety of applications.
@@ -165,7 +153,6 @@ The output would show the JAVA\_HOME directory which would depend from system to
 ```text
 C:\Atlassian\Bitbucket\4.0.1\jre
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -335,7 +322,6 @@ C:\Atlassian\Bitbucket\4.0.1\jre
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -503,7 +489,6 @@ C:\Atlassian\Bitbucket\4.0.1\jre
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -525,8 +510,6 @@ TODO: this
 | Formatting |  |
 | Formatting by Index |  |
 | Formatting Strings |  |
-
-
 
 #### Basics <a id="basics"></a>
 
@@ -598,8 +581,6 @@ Omitting the `:` removes the \(non\)nullity checks, e.g. `${FOO-val}` expands to
 | `${FOO/%from/to}` | Replace suffix |
 | `${FOO/#from/to}` | Replace prefix |
 
-####  <a id="comments"></a>
-
 #### Substrings <a id="substrings"></a>
 
 | `${FOO:0:3}` | Substring _\(position, length\)_ |
@@ -631,7 +612,6 @@ NAME="John"
 echo "Hi $NAME"  #=> Hi John
 echo 'Hi $NAME'  #=> Hi $NAME
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -653,8 +633,6 @@ TODO: this
 | Formatting |  |
 | Formatting by Index |  |
 | Formatting Strings |  |
-
-
 
 An empty string can be created in DOS Scripting by assigning it no value during it’s initialization as shown in the following example.
 
@@ -690,7 +668,6 @@ A string can be created in DOS in the following way.
 set message = Hello World 
 echo %message%
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -704,17 +681,15 @@ echo %message%
 | As Float | `i = float("10.5")` |
 | As String | `i = str(10)` |
 | As Char |  |
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
 | Type | Code Examples |
 | :--- | :--- |
 | As Integer | `$i = [int]"10"` |
-| As Float | `$i = [float]"10.5"`  |
+| As Float | `$i = [float]"10.5"` |
 | As String | `$i = [string]10` |
 | As Char |  |
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -724,7 +699,6 @@ echo %message%
 | As Float |  |
 | As String |  |
 | As Char |  |
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -734,7 +708,6 @@ echo %message%
 | As Float |  |
 | As String |  |
 | As Char |  |
-
 {% endtab %}
 {% endtabs %}
 
@@ -804,12 +777,9 @@ echo %message%
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
-
-
 <table>
   <thead>
     <tr>
@@ -872,7 +842,6 @@ echo %message%
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -886,8 +855,6 @@ TODO: this
 | Adding Elements |  |
 | Removing Elements |  |
 | Remove Element by Value |  |
-
-
 
 #### Working with arrays <a id="working-with-arrays"></a>
 
@@ -933,7 +900,6 @@ Fruits[0]="Apple"
 Fruits[1]="Banana"
 Fruits[2]="Orange"
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -947,8 +913,6 @@ TODO: this
 | Adding Elements |  |
 | Removing Elements |  |
 | Remove Element by Value |  |
-
-
 
 Arrays are not specifically defined as a type in Batch Script but can be implemented. The following things need to be noted when arrays are implemented in Batch Script.
 
@@ -1125,7 +1089,6 @@ Output The above command produces the following output.
 ```text
 The length of the array is 4
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -1150,15 +1113,15 @@ The length of the array is 4
         </p>
         <p><code>if b &gt; a:</code>
         </p>
-        <p><code>  print(&quot;b is greater than a&quot;)</code>
+        <p> <code>print(&quot;b is greater than a&quot;)</code>
         </p>
         <p><code>elif a == b:</code>
         </p>
-        <p><code>  print(&quot;a and b are equal&quot;)</code>
+        <p> <code>print(&quot;a and b are equal&quot;)</code>
         </p>
         <p><code>else:</code>
         </p>
-        <p><code>  print(&quot;a is greater than b&quot;)</code>
+        <p> <code>print(&quot;a is greater than b&quot;)</code>
         </p>
       </td>
     </tr>
@@ -1168,7 +1131,6 @@ The length of the array is 4
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -1191,7 +1153,7 @@ The length of the array is 4
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host &quot;b is greater than a&quot;</code>
+        <p> <code>Write-Host &quot;b is greater than a&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1199,7 +1161,7 @@ The length of the array is 4
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host &quot;a and b are equal&quot;  </code>
+        <p> <code>Write-Host &quot;a and b are equal&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1207,7 +1169,7 @@ The length of the array is 4
         </p>
         <p><code>{</code>
         </p>
-        <p><code>  Write-Host &quot;a is greater than b&quot;</code>
+        <p> <code>Write-Host &quot;a is greater than b&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1219,7 +1181,6 @@ The length of the array is 4
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -1229,8 +1190,6 @@ TODO: this
 | :--- | :--- |
 | If / ElseIf / Else |  |
 | Case |  |
-
-
 
 #### Case/switch <a id="caseswitch"></a>
 
@@ -1256,7 +1215,6 @@ else
   echo "This never happens"
 fi
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -1266,8 +1224,6 @@ TODO: this
 | :--- | :--- |
 | If / ElseIf / Else |  |
 | Case |  |
-
-
 
 The first decision-making statement is the ‘if’ statement. The general form of this statement in Batch Script is as follows −
 
@@ -1345,7 +1301,6 @@ SET str2 = String2
 if %str1%==StrinG1 echo "The value of variable String1" 
 if %str2%==String3 echo "The value of variable c is String3"
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -1368,7 +1323,7 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>for x in fruits:</code>
         </p>
-        <p><code>  print(x)</code>
+        <p> <code>print(x)</code>
         </p>
       </td>
     </tr>
@@ -1379,9 +1334,9 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>while i &lt; 6:</code>
         </p>
-        <p><code>  print(i)</code>
+        <p> <code>print(i)</code>
         </p>
-        <p><code>  i += 1</code>
+        <p> <code>i += 1</code>
         </p>
       </td>
     </tr>
@@ -1392,13 +1347,13 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>while i &lt; 6:</code>
         </p>
-        <p><code>   print(i)</code>
+        <p> <code>print(i)</code>
         </p>
-        <p><code>   if i == 3:</code>
+        <p> <code>if i == 3:</code>
         </p>
-        <p><code>     break</code>
+        <p> <code>break</code>
         </p>
-        <p><code>  i += 1</code>
+        <p> <code>i += 1</code>
         </p>
       </td>
     </tr>
@@ -1409,19 +1364,18 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>while i &lt; 6:</code>
         </p>
-        <p><code>   print(i)</code>
+        <p> <code>print(i)</code>
         </p>
-        <p><code>   if i == 3:</code>
+        <p> <code>if i == 3:</code>
         </p>
-        <p><code>     continue</code>
+        <p> <code>continue</code>
         </p>
-        <p><code>  i += 1</code>
+        <p> <code>i += 1</code>
         </p>
       </td>
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -1442,7 +1396,7 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host $x</code>
+        <p> <code>Write-Host $x</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1457,9 +1411,9 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host $i</code>
+        <p> <code>Write-Host $i</code>
         </p>
-        <p><code>    $i++</code>
+        <p> <code>$i++</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1474,17 +1428,17 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host $i</code>
+        <p> <code>Write-Host $i</code>
         </p>
-        <p><code>    if ($i -eq 3)</code>
+        <p> <code>if ($i -eq 3)</code>
         </p>
-        <p><code>    {</code>
+        <p> <code>{</code>
         </p>
-        <p><code>        break</code>
+        <p> <code>break</code>
         </p>
-        <p><code>    }</code>
+        <p> <code>}</code>
         </p>
-        <p><code>    $i++</code>
+        <p> <code>$i++</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1499,17 +1453,17 @@ if %str2%==String3 echo "The value of variable c is String3"
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host $i</code>
+        <p> <code>Write-Host $i</code>
         </p>
-        <p><code>    if ($i -eq 3)</code>
+        <p> <code>if ($i -eq 3)</code>
         </p>
-        <p><code>    {</code>
+        <p> <code>{</code>
         </p>
-        <p><code>        continue</code>
+        <p> <code>continue</code>
         </p>
-        <p><code>    }</code>
+        <p> <code>}</code>
         </p>
-        <p><code>    $i++</code>
+        <p> <code>$i++</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1517,7 +1471,6 @@ if %str2%==String3 echo "The value of variable c is String3"
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -1529,8 +1482,6 @@ TODO: this
 | While |  |
 | Break |  |
 | Continue |  |
-
-
 
 #### Basic for loop <a id="basic-for-loop"></a>
 
@@ -1579,7 +1530,6 @@ while true; do
   ···
 done
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -1805,11 +1755,8 @@ The key thing to note about the above implementation is the involvement of two �
 Following is an example of how to carry out the implementation of the break statement.
 
 The key thing to note about the above program is the addition of a label called :Increment. When the value of index reaches 2, we want to skip the statement which echoes its value to the command prompt and directly just increment the value of index.
-
 {% endtab %}
 {% endtabs %}
-
-
 
 ### Functions
 
@@ -1828,7 +1775,7 @@ The key thing to note about the above program is the addition of a label called 
       <td style="text-align:left">
         <p><code>def hello_function():</code>
         </p>
-        <p><code>  print(&quot;Hello from my function!&quot;)</code>
+        <p> <code>print(&quot;Hello from my function!&quot;)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>hello_function()</code>
@@ -1840,7 +1787,7 @@ The key thing to note about the above program is the addition of a label called 
       <td style="text-align:left">
         <p><code>def my_name(fname, lname):</code>
         </p>
-        <p><code>  print(&quot;My name is &quot; + fname + &quot; &quot; + lname)</code>
+        <p> <code>print(&quot;My name is &quot; + fname + &quot; &quot; + lname)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>my_function(&quot;Wolf&quot;, &quot;Zweiler&quot;)</code>
@@ -1852,7 +1799,7 @@ The key thing to note about the above program is the addition of a label called 
       <td style="text-align:left">
         <p><code>def second_arg(*children):</code>
         </p>
-        <p><code>  print(&quot;The youngest child is &quot; + children[1])</code>
+        <p> <code>print(&quot;The youngest child is &quot; + children[1])</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>my_function(&quot;Sarah&quot;, &quot;Emily&quot;, &quot;Tom&quot;)</code>
@@ -1864,7 +1811,7 @@ The key thing to note about the above program is the addition of a label called 
       <td style="text-align:left">
         <p><code>def young_child(child3, child2, child1):</code>
         </p>
-        <p><code>  print(&quot;The youngest child is &quot; + child3)</code>
+        <p> <code>print(&quot;The youngest child is &quot; + child3)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>my_function(child1 = &quot;Sarah&quot;, child2 = &quot;Emily&quot;, child3 = &quot;Tom&quot;)</code>
@@ -1876,7 +1823,7 @@ The key thing to note about the above program is the addition of a label called 
       <td style="text-align:left">
         <p><code>def my_country(country = &quot;Wakanda&quot;):</code>
         </p>
-        <p><code>  print(&quot;I am from &quot; + country)</code>
+        <p> <code>print(&quot;I am from &quot; + country)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>my_country()</code>
@@ -1888,13 +1835,12 @@ The key thing to note about the above program is the addition of a label called 
       <td style="text-align:left">
         <p><code>def five_times(x):</code>
         </p>
-        <p><code>  return 5 * x</code>
+        <p> <code>return 5 * x</code>
         </p>
       </td>
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -1913,7 +1859,7 @@ The key thing to note about the above program is the addition of a label called 
         </p>
         <p><code>{</code>
         </p>
-        <p><code>  Write-Host &quot;Hello from my function!&quot;  </code>
+        <p> <code>Write-Host &quot;Hello from my function!&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1928,7 +1874,7 @@ The key thing to note about the above program is the addition of a label called 
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host &quot;My name is $fname $lname&quot;</code>
+        <p> <code>Write-Host &quot;My name is $fname $lname&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1943,11 +1889,9 @@ The key thing to note about the above program is the addition of a label called 
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host &quot;The youngest child is $($args[1])&quot;</code>
+        <p> <code>Write-Host &quot;The youngest child is $($args[1])&quot;</code>
         </p>
         <p><code>}</code>
-        </p>
-        <p><code>  </code>
         </p>
         <p><code>my-function &quot;Sarah&quot; &quot;Emily&quot; &quot;Tom&quot;</code>
         </p>
@@ -1960,11 +1904,9 @@ The key thing to note about the above program is the addition of a label called 
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host &quot;The youngest child is $child3&quot;</code>
+        <p> <code>Write-Host &quot;The youngest child is $child3&quot;</code>
         </p>
         <p><code>}</code>
-        </p>
-        <p><code>  </code>
         </p>
         <p><code>my-function -child1 &quot;Sarah&quot; -child2 &quot;Emily&quot; -child3 &quot;Tom&quot;</code>
         </p>
@@ -1977,14 +1919,14 @@ The key thing to note about the above program is the addition of a label called 
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    param(</code>
+        <p> <code>param(</code>
         </p>
-        <p><code>        $country = &quot;Wakanda&quot;</code>
+        <p> <code>$country = &quot;Wakanda&quot;</code>
         </p>
-        <p><code>    )</code>
+        <p> <code>)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p><code>    Write-Host &quot;I am from $country&quot;</code>
+        <p> <code>Write-Host &quot;I am from $country&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -1999,7 +1941,7 @@ The key thing to note about the above program is the addition of a label called 
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    5 * $x</code>
+        <p> <code>5 * $x</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2007,7 +1949,6 @@ The key thing to note about the above program is the addition of a label called 
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2021,8 +1962,6 @@ TODO: this
 | Named Arguments |  |
 | Default Values |  |
 | Return Values |  |
-
-
 
 #### Arguments <a id="arguments"></a>
 
@@ -2064,7 +2003,6 @@ function myfunc() {
 ```text
 myfunc "John"
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2078,7 +2016,6 @@ TODO: this
 | Named Arguments |  |
 | Default Values |  |
 | Return Values |  |
-
 {% endtab %}
 {% endtabs %}
 
@@ -2099,7 +2036,7 @@ TODO: this
       <td style="text-align:left">
         <p><code>class MyClass:</code>
         </p>
-        <p><code>  x = 5</code>
+        <p> <code>x = 5</code>
         </p>
       </td>
     </tr>
@@ -2113,11 +2050,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>class Person:</code>
         </p>
-        <p><code>  def __init__(self, name, age):</code>
+        <p> <code>def __init__(self, name, age):</code>
         </p>
-        <p><code>    self.name = name</code>
+        <p> <code>self.name = name</code>
         </p>
-        <p><code>    self.age = age</code>
+        <p> <code>self.age = age</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>p1 = Person(&quot;Bob&quot;, 42)</code>
@@ -2129,16 +2066,16 @@ TODO: this
       <td style="text-align:left">
         <p><code>class Person:</code>
         </p>
-        <p><code>  def __init__(self, name, age):</code>
+        <p> <code>def __init__(self, name, age):</code>
         </p>
-        <p><code>    self.name = name</code>
+        <p> <code>self.name = name</code>
         </p>
-        <p><code>    self.age = age</code>
+        <p> <code>self.age = age</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p><code>  def myfunc(self):</code>
+        <p> <code>def myfunc(self):</code>
         </p>
-        <p><code>    print(&quot;Hello my name is &quot; + self.name)</code>
+        <p> <code>print(&quot;Hello my name is &quot; + self.name)</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
         <p><code>p1 = Person(&quot;Bob&quot;, 42)</code>
@@ -2149,7 +2086,6 @@ TODO: this
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2166,7 +2102,7 @@ TODO: this
       <td style="text-align:left">
         <p><code>class MyClass {</code>
         </p>
-        <p><code>    $x = 5</code>
+        <p> <code>$x = 5</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2182,18 +2118,18 @@ TODO: this
       <td style="text-align:left">
         <p><code>class Person {</code>
         </p>
-        <p><code>    Person($Name, $Age) {</code>
+        <p> <code>Person($Name, $Age) {</code>
         </p>
-        <p><code>        $this.Name = $Name</code>
+        <p> <code>$this.Name = $Name</code>
         </p>
-        <p><code>        $this.Age = $Age</code>
+        <p> <code>$this.Age = $Age</code>
         </p>
-        <p><code>    }</code>
+        <p> <code>}</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p><code>    $Name = &apos;&apos;</code>
+        <p> <code>$Name = &apos;&apos;</code>
         </p>
-        <p><code>    $Age = 0</code>
+        <p> <code>$Age = 0</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2206,25 +2142,25 @@ TODO: this
       <td style="text-align:left">
         <p><code>class Person {</code>
         </p>
-        <p><code>    Person($Name, $Age) {</code>
+        <p> <code>Person($Name, $Age) {</code>
         </p>
-        <p><code>        $this.Name = $Name</code>
+        <p> <code>$this.Name = $Name</code>
         </p>
-        <p><code>        $this.Age = $Age</code>
+        <p> <code>$this.Age = $Age</code>
         </p>
-        <p><code>    }</code>
-        </p>
-        <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p><code>    [string]myfunc() {</code>
-        </p>
-        <p><code>        return &quot;Hello my name is $($this.Name)&quot;</code>
-        </p>
-        <p><code>    }</code>
+        <p> <code>}</code>
         </p>
         <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p><code>    $Name = &apos;&apos;</code>
+        <p> <code>[string]myfunc() {</code>
         </p>
-        <p><code>    $Age = 0</code>
+        <p> <code>return &quot;Hello my name is $($this.Name)&quot;</code>
+        </p>
+        <p> <code>}</code>
+        </p>
+        <p>&lt;code&gt;&lt;/code&gt;</p>
+        <p> <code>$Name = &apos;&apos;</code>
+        </p>
+        <p> <code>$Age = 0</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2235,7 +2171,6 @@ TODO: this
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2245,7 +2180,6 @@ TODO: this
 | Object Creation |  |
 | Using Class Constructors |  |
 | Defining and using Methods |  |
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2255,7 +2189,6 @@ TODO: this
 | Object Creation |  |
 | Using Class Constructors |  |
 | Defining and using Methods |  |
-
 {% endtab %}
 {% endtabs %}
 
@@ -2289,7 +2222,6 @@ TODO: this
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2309,7 +2241,7 @@ TODO: this
     <tr>
       <td style="text-align:left">Multiline</td>
       <td style="text-align:left">
-        <p><code>&lt;# </code>
+        <p><code>&lt;#</code>
         </p>
         <p><code>Hello, world!</code>
         </p>
@@ -2319,7 +2251,6 @@ TODO: this
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2329,8 +2260,6 @@ TODO: this
 | :--- | :--- |
 | Single line |  |
 | Multiline |  |
-
-
 
 #### Comments <a id="comments"></a>
 
@@ -2345,7 +2274,6 @@ multi line
 comment
 '
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2419,7 +2347,6 @@ Hello World
 ```
 
 **Note** − If you have too many lines of Rem, it could slow down the code, because in the end each line of code in the batch file still needs to be executed.
-
 {% endtab %}
 {% endtabs %}
 
@@ -2446,7 +2373,6 @@ Hello World
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2465,16 +2391,13 @@ Hello World
         </p>
         <p><code>$var | Get-Member</code>
         </p>
-        <p></p>
         <p>#or</p>
-        <p></p>
         <p><code>$var.GetType()</code>
         </p>
       </td>
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2491,7 +2414,6 @@ TODO: this
 | Action | Code Examples |
 | :--- | :--- |
 | Get Object's Type |  |
-
 {% endtab %}
 {% endtabs %}
 
@@ -2513,11 +2435,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2530,11 +2452,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2547,11 +2469,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2564,17 +2486,17 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
         <p><code>for x in thisdict:</code>
         </p>
-        <p><code>    print(x)</code>
+        <p> <code>print(x)</code>
         </p>
       </td>
     </tr>
@@ -2583,17 +2505,17 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
         <p><code>for x in thisdict.values():</code>
         </p>
-        <p><code>    print(x)</code>
+        <p> <code>print(x)</code>
         </p>
       </td>
     </tr>
@@ -2602,17 +2524,17 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
         <p><code>if &quot;model&quot; in thisdict:</code>
         </p>
-        <p><code>  print(&quot;Yes, &apos;model&apos; is one of the keys in the thisdict dictionary&quot;)</code>
+        <p> <code>print(&quot;Yes, &apos;model&apos; is one of the keys in the thisdict dictionary&quot;)</code>
         </p>
       </td>
     </tr>
@@ -2621,11 +2543,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>thisdict = {</code>
         </p>
-        <p><code>  &quot;brand&quot;: &quot;Ford&quot;,</code>
+        <p> <code>&quot;brand&quot;: &quot;Ford&quot;,</code>
         </p>
-        <p><code>  &quot;model&quot;: &quot;Mustang&quot;,</code>
+        <p> <code>&quot;model&quot;: &quot;Mustang&quot;,</code>
         </p>
-        <p><code>  &quot;year&quot;: 1964</code>
+        <p> <code>&quot;year&quot;: 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2635,7 +2557,6 @@ TODO: this
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2653,11 +2574,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2668,11 +2589,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2691,11 +2612,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2708,17 +2629,17 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
         <p><code>$thisdict.Keys | ForEach-Object {</code>
         </p>
-        <p><code>    $_</code>
+        <p> <code>$_</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2729,17 +2650,17 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
         <p><code>$thisdict.Values | ForEach-Object {</code>
         </p>
-        <p><code>    $_</code>
+        <p> <code>$_</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2750,11 +2671,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2762,7 +2683,7 @@ TODO: this
         </p>
         <p><code>{</code>
         </p>
-        <p><code>    Write-Host &quot;Yes, &apos;model&apos; is one of the keys in the thisdict dictionary&quot;</code>
+        <p> <code>Write-Host &quot;Yes, &apos;model&apos; is one of the keys in the thisdict dictionary&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2773,11 +2694,11 @@ TODO: this
       <td style="text-align:left">
         <p><code>$thisdict = @{</code>
         </p>
-        <p><code>  brand = &quot;Ford&quot;</code>
+        <p> <code>brand = &quot;Ford&quot;</code>
         </p>
-        <p><code>  model = &quot;Mustang&quot;</code>
+        <p> <code>model = &quot;Mustang&quot;</code>
         </p>
-        <p><code>  year = 1964</code>
+        <p> <code>year = 1964</code>
         </p>
         <p><code>}</code>
         </p>
@@ -2787,7 +2708,6 @@ TODO: this
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2802,8 +2722,6 @@ TODO: this
 | Enumerating Values |  |
 | Check if key exists |  |
 | Adding items |  |
-
-
 
 #### Defining <a id="defining"></a>
 
@@ -2847,7 +2765,6 @@ for key in "${!sounds[@]}"; do
   echo $key
 done
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2862,8 +2779,6 @@ TODO: this
 | Enumerating Values |  |
 | Check if key exists |  |
 | Adding items |  |
-
-
 
 ### Creating Structures in Arrays
 
@@ -2915,7 +2830,6 @@ Value = 2
 Name = Mohan 
 Value = 3
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -2942,7 +2856,6 @@ Value = 3
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -2965,7 +2878,6 @@ Value = 3
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -2974,7 +2886,6 @@ TODO: this
 | Lambda | Code Examples |
 | :--- | :--- |
 | Lambda |  |
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -2983,7 +2894,6 @@ TODO: this
 | Lambda | Code Examples |
 | :--- | :--- |
 | Lambda |  |
-
 {% endtab %}
 {% endtabs %}
 
@@ -3002,7 +2912,6 @@ TODO: Add other operator types
 | Modulus | `var = 1 % 1` |
 | Floor | `var = 10 // 3` |
 | Exponent | `var = 10 ** 3` |
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -3015,7 +2924,6 @@ TODO: Add other operator types
 | Modulus | `$var = 1 % 1` |
 | Floor | `$var = [Math]::Floor(10 / 3)` |
 | Exponent | `$var = [Math]::Pow(10, 3)` |
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3030,7 +2938,6 @@ TODO: this
 | Modulus |  |
 | Floor |  |
 | Exponent |  |
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3045,8 +2952,6 @@ TODO: this
 | Modulus |  |
 | Floor |  |
 | Exponent |  |
-
-
 
 An operator is a symbol that tells the compiler to perform specific mathematical or logical manipulations.
 
@@ -3189,7 +3094,6 @@ Following is the truth table showcasing these operators.
 | 0 | 1 | 0 | 1 | 1 |
 | 1 | 1 | 1 | 1 | 0 |
 | 1 | 0 | 0 | 1 | 1 |
-
 {% endtab %}
 {% endtabs %}
 
@@ -3210,11 +3114,11 @@ Following is the truth table showcasing these operators.
       <td style="text-align:left">
         <p><code>try:</code>
         </p>
-        <p><code>  print(x)</code>
+        <p> <code>print(x)</code>
         </p>
         <p><code>except:</code>
         </p>
-        <p><code>  print(&quot;An exception occurred&quot;)</code>
+        <p> <code>print(&quot;An exception occurred&quot;)</code>
         </p>
       </td>
     </tr>
@@ -3223,32 +3127,32 @@ Following is the truth table showcasing these operators.
       <td style="text-align:left">
         <p><code>try:<br /></code>
         </p>
-        <p><code>  print(&quot;Hello&quot;)<br /></code>
+        <p> <code>print(&quot;Hello&quot;)<br /></code>
         </p>
         <p><code>except:<br /></code>
         </p>
-        <p><code>  print(&quot;Something went wrong&quot;)<br /></code>
+        <p> <code>print(&quot;Something went wrong&quot;)<br /></code>
         </p>
         <p><code>else:<br /></code>
         </p>
-        <p><code>  print(&quot;Nothing went wrong&quot;)</code>
+        <p> <code>print(&quot;Nothing went wrong&quot;)</code>
         </p>
       </td>
     </tr>
     <tr>
       <td style="text-align:left">Finally</td>
       <td style="text-align:left">
-        <p><code>try: </code>
+        <p><code>try:</code>
         </p>
-        <p><code>  f = open(&quot;file.txt&quot;) f.write(&quot;Lorum Ipsum&quot;) </code>
+        <p> <code>f = open(&quot;file.txt&quot;) f.write(&quot;Lorum Ipsum&quot;)</code>
         </p>
-        <p><code>except: </code>
+        <p><code>except:</code>
         </p>
-        <p><code>  print(&quot;Something went wrong when writing to the file&quot;) </code>
+        <p> <code>print(&quot;Something went wrong when writing to the file&quot;)</code>
         </p>
-        <p><code>finally: </code>
+        <p><code>finally:</code>
         </p>
-        <p><code>  f.close()</code>
+        <p> <code>f.close()</code>
         </p>
       </td>
     </tr>
@@ -3257,15 +3161,14 @@ Following is the truth table showcasing these operators.
       <td style="text-align:left">
         <p><code>x = -1</code>
         </p>
-        <p><code>if x &lt; 0: </code>
+        <p><code>if x &lt; 0:</code>
         </p>
-        <p><code>  raise Exception(&quot;Sorry, no numbers below zero&quot;)</code>
+        <p> <code>raise Exception(&quot;Sorry, no numbers below zero&quot;)</code>
         </p>
       </td>
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -3282,11 +3185,11 @@ Following is the truth table showcasing these operators.
       <td style="text-align:left">
         <p><code>try {</code>
         </p>
-        <p><code>    Write-Host $x </code>
+        <p> <code>Write-Host $x</code>
         </p>
         <p><code>} catch {</code>
         </p>
-        <p><code>    Write-Host &quot;An exception ocurred&quot;</code>
+        <p> <code>Write-Host &quot;An exception ocurred&quot;</code>
         </p>
         <p><code>}</code>
         </p>
@@ -3294,7 +3197,6 @@ Following is the truth table showcasing these operators.
     </tr>
   </tbody>
 </table>
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3303,8 +3205,6 @@ TODO: this
 | Error Handling | Code Examples |
 | :--- | :--- |
 | Try/Catch |  |
-
-
 
 #### Trap errors <a id="trap-errors"></a>
 
@@ -3338,7 +3238,6 @@ else
   echo "failure"
 fi
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3347,7 +3246,6 @@ TODO: this
 | Error Handling | Code Examples |
 | :--- | :--- |
 | Try/Catch |  |
-
 {% endtab %}
 {% endtabs %}
 
@@ -3359,10 +3257,9 @@ TODO: this
 {% endtab %}
 
 {% tab title="PowerShell" %}
-To execute regular Windows shell commands \(from cmd.exe\) in PowerShell, simply type the command the same way you would in the Windows command shell.  Some commands may not work in the same way, and some may need the full filename \(example: to se a directory listing in cmd.exe `dir` is the command.  To use this in PowerShell you would need to specify `dir.exe`.  
+To execute regular Windows shell commands \(from cmd.exe\) in PowerShell, simply type the command the same way you would in the Windows command shell. Some commands may not work in the same way, and some may need the full filename \(example: to se a directory listing in cmd.exe `dir` is the command. To use this in PowerShell you would need to specify `dir.exe`.
 
 IEX \(Invoke-Expression\)
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3373,15 +3270,12 @@ pwd
 echo "I'm in $(pwd)"
 echo "I'm in `pwd`"
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
 
 {% endtab %}
 {% endtabs %}
-
-
 
 ### Output Redirection
 
@@ -3391,8 +3285,6 @@ echo "I'm in `pwd`"
 {% endtab %}
 
 {% tab title="PowerShell" %}
-### 
-
 ### Redirect Standard Error to the nether
 
 ```text
@@ -3404,7 +3296,6 @@ Many cmdlets also have an `ErrorAction` property
 ```text
 -ErrorAction Silent
 ```
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3413,7 +3304,6 @@ Redirect Standard Error to the nether
 ```text
 2>/dev/null
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3429,7 +3319,7 @@ One common practice in batch files is sending the output of a program to a log f
 Dir C:\ > list.txt
 ```
 
-In the above example, the **stdout** of the command Dir C:\ is redirected to the file list.txt.
+In the above example, the **stdout** of the command Dir C: is redirected to the file list.txt.
 
 If you append the number 2 to the redirection filter, then it would redirect the **stderr** to the file lists.txt.
 
@@ -3460,7 +3350,6 @@ The following example shows how you can redirect the output to a file called lis
 ```text
 TYPE CON > lists.txt
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -3476,8 +3365,6 @@ TYPE CON > lists.txt
 {% endtab %}
 
 {% tab title="Bash" %}
-
-
 #### Heredoc <a id="heredoc"></a>
 
 ```text
@@ -3485,7 +3372,6 @@ cat <<HERE
 hello world
 HERE
 ```
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3502,7 +3388,6 @@ HERE
 | Install | `pip install requests` |
 | Import | `import requests` |
 | List | `pip list` |
-
 {% endtab %}
 
 {% tab title="PowerShell" %}
@@ -3511,7 +3396,6 @@ HERE
 | Install | `Install-Module Pester` |
 | Import | `Import-Module Pester` |
 | List | `Get-Module -ListAvailable` |
-
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -3522,7 +3406,6 @@ TODO: this
 | Install |  |
 | Import |  |
 | List |  |
-
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -3533,15 +3416,14 @@ TODO: this
 | Install |  |
 | Import |  |
 | List |  |
-
 {% endtab %}
 {% endtabs %}
 
-References 
+References
 
 * [https://devhints.io/bash](https://devhints.io/bash)
 * [https://wiki.bash-hackers.org/syntax/expansion/cmdsubst](https://wiki.bash-hackers.org/syntax/expansion/cmdsubst)
 * [https://www.tutorialspoint.com/batch\_script/batch\_script\_syntax.htm](https://www.tutorialspoint.com/batch_script/batch_script_syntax.htm)
 * 
-
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+
