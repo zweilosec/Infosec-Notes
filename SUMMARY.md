@@ -55,6 +55,7 @@
 
 ## OS Agnostic
 
+* [Basic Enumeration](os-agnostic/basic-enumeration.md)
 * [Cryptography & Encryption](os-agnostic/cryptography-and-encryption.md)
 * [Network Hardware](os-agnostic/network-hardware.md)
 * [OS Agnostic](os-agnostic/os_agnostic.md)
