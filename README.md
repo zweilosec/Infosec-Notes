@@ -24,6 +24,19 @@ If you would like to give suggestions or even commit changes to these pages feel
 
 {% embed url="https://github.com/zweilosec/Infosec-Notes" %}
 
+### If you would like to add to, modify, or improve anything in my notes, PLEASE DO!
+
+Here's how to contribute:
+
+1. [Create an Issue Request](https://github.com/zweilosec/Infosec-Notes/issues) describing your changes/additions.
+2. Fork [this repository](https://github.com/zweilosec/Infosec-Notes).
+3. Push some code to your fork.
+4. Come back to this repository and [open a pull request](https://github.com/zweilosec/Infosec-Notes/pulls).
+5. After reviewing your changes, I will merge your pull request to the master repository.
+6. Make sure to update your Issue Request so that I can credit you! Thank you so much!
+
+Feel free to also open an issue with any questions, help wanted, or requests!
+
 The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-type challenges such as cryptography, reverse engineering, steganography and more.
 
 {% hint style="success" %}
