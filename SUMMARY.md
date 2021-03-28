@@ -43,6 +43,7 @@
 
 ## Web
 
+* [Burp Suite](web/burp-suite.md)
 * [DNS](web/dns.md)
 * [Subdomain/Virtual Host Enumeration](web/subdomain-virtual-host-enumeration.md)
 * [Web Notes](web/web-notes/README.md)
