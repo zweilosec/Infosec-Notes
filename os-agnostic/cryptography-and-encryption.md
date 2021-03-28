@@ -83,6 +83,8 @@ For those interested in the details - you can see what's inside the public key f
 
 ## Encryption/Decryption
 
+[https://www.devglan.com/online-tools/aes-encryption-decryption](https://www.devglan.com/online-tools/aes-encryption-decryption)
+
 [CyberChef](https://gchq.github.io/CyberChef/): Website for encryption/decryption of many different types at same time
 
 good cipher tools: [http://rumkin.com/](http://rumkin.com/)
