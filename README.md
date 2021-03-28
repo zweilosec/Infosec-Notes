@@ -22,7 +22,7 @@ Warning - These notes are very raw and largely unformatted right now. They are b
 
 If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at:
 
-{% embed url="https://github.com/zweilosec/Infosec-Notes" %}
+{% embed url="https://github.com/zweilosec/Infosec-Notes" caption="" %}
 
 ### If you would like to add to, modify, or improve anything in my notes, PLEASE DO!
 
@@ -37,12 +37,12 @@ Here's how to contribute:
 
 Feel free to also open an issue with any questions, help wanted, or requests!
 
-The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more.  I also cover techniques for dealing with CTF-type challenges such as cryptography, reverse engineering, steganography and more.
+The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more. I also cover techniques for dealing with CTF-type challenges such as cryptography, reverse engineering, steganography and more.
 
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
 ## Linux
@@ -115,11 +115,9 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 * [Unsorted Notes](untitled.md)
 
-## OSCP/CTF Tools and Cheatsheets 
+## OSCP/CTF Tools and Cheatsheets
 
 [List of outside sources](tools-cheatsheets.md)
-
-
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
