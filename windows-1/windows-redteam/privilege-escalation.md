@@ -616,24 +616,32 @@ powershell.exe -command "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64St
 
 ### Using `Runas` to execute commands as another user
 
-```text
-C:\Windows\System32\runas.exe /env /noprofile /user:$UserName $Password "$Commands"
-```
+{% tabs %}
+{% tab title="PowerShell" %}
+First you have to create a credential object, and specify the computer to connect to.  Can be used both locally and remotely.
 
-#### Using PowerShell
-
-```text
+```bash
 $passwd = ConvertTo-SecureString "$Password" -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential ("$UserName", $passwd)
 $computer = "$ComputerName"
 [System.Diagnostics.Process]::Start("$Commands", $creds.Username, $creds.Password, $computer)
 ```
+{% endtab %}
 
-#### Using PsExec
+{% tab title="cmd.exe" %}
+#### Using runas.exe
+
+```text
+C:\Windows\System32\runas.exe /env /noprofile /user:$UserName $Password "$Commands"
+```
+
+#### Using PsExec.exe
 
 ```text
 PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
 ```
+{% endtab %}
+{% endtabs %}
 
 ## References
 
