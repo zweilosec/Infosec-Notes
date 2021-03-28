@@ -12,6 +12,24 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
+## Checklist
+
+* [ ] View SSL certificates for domains, emails, usernames
+* [ ] View Source code 
+* [ ] Check /robots.txt, .htaccess, .htpasswd
+* [ ] Check HTTP Request/Response headers
+* [ ] Run gobuster/dirbuster
+* [ ] View Console
+* [ ] Use Nikto
+* [ ] Check HTTP OPTIONS
+* [ ] HTTP PUT / POST File upload 
+* [ ] Parameter fuzzing with wfuzz
+* [ ] Browser response vs Burp response
+* [ ] Shell shock \(cgi-bin/status\)
+* [ ] Cewl wordlist and directory bruteforce
+* [ ] `nmap --script http-enum 192.168.10.55`
+* [ ] Apache version exploit & other base server exploits
+
 ## HTTP Response Codes
 
 ```bash
