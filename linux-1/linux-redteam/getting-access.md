@@ -225,6 +225,7 @@ stty -a #get local number of rows & columns
 fg #to return shell to foreground
 
 #On victim machine
+export SHELL=bash
 stty rows $x columns $y #Set remote shell to x number of rows & y columns
 export TERM=xterm-256color #allows you to clear console, and have color output
 ```
@@ -246,7 +247,7 @@ exec "/bin/sh"
 ruby -e 'exec "/bin/sh"'
 
 #lua
-os.execute('/bin/sh')
+lua -e "os.execute('/bin/sh')"
 ```
 
 ### Using “Expect” To Get A TTY
