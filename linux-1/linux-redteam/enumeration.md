@@ -386,11 +386,15 @@ sudo -l
 
 What sensitive files can be read?
 
-```text
+```bash
 cat /etc/passwd
 cat /etc/group
 cat /etc/shadow
 ls -alh /var/mail/
+
+#bsd
+cat /etc/master.passwd 
+#is where password hashes are stored in BSD, not /etc/shadow
 ```
 
 Anything "interesting" in the home directory\(s\)? If it's possible to access
