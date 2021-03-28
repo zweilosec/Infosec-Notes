@@ -12,16 +12,6 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
-## Local File Inclusion \(LFI\) / Remote File Inclusion \(RFI\)
-
-Common and/or useful files to check for when exploiting Local File Inclusion \(for both Linux and Windows\): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
-
-### LFI - Retrieve HTML/PHP files without executing
-
-```text
-https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
-```
-
 ## Headers
 
 ### HTTP Authorization headers
@@ -217,6 +207,16 @@ or "Edit This Cookie" plugin
 Preferences -&gt; Privacy -&gt; Show Cookies
 
 or "Cookies Manager+" addon
+
+## Local File Inclusion \(LFI\) / Remote File Inclusion \(RFI\)
+
+Common and/or useful files to check for when exploiting Local File Inclusion \(for both Linux and Windows\): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
+
+### LFI - Retrieve HTML/PHP files without executing
+
+```text
+https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
+```
 
 ## OpenVAS Vulnerability Scanner
 
