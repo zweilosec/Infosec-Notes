@@ -629,15 +629,22 @@ $computer = "$ComputerName"
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-#### Using runas.exe
+First, list available credentials using `cmdkey`, then use a saved credential from the list.
 
-```text
+```bash
+cmdkey /list
+runas /savecred /user:$user $command
+```
+
+#### Using runas.exe with known credentials
+
+```bash
 C:\Windows\System32\runas.exe /env /noprofile /user:$UserName $Password "$Commands"
 ```
 
-#### Using PsExec.exe
+#### Using PsExec.exe with known credentials
 
-```text
+```bash
 PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
 ```
 {% endtab %}
