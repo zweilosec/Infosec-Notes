@@ -83,7 +83,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ## Web
 
 * [DNS](web/dns.md)
-* [Subdomain/Virtual Host Enumeration](web/subdomain-virtual-host-enumeration.md)
+* [Subdomain/Virtual Host Enumeration](web/web-notes/subdomain-virtual-host-enumeration.md)
 * [Web Apps](web/web-notes/)
   * [Web Application Hacker's Handbook Task Checklist](web/web-notes/the-web-application-hackers-handbook.md)
 

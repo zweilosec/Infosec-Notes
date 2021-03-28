@@ -45,8 +45,11 @@
 
 * [Burp Suite](web/burp-suite.md)
 * [DNS](web/dns.md)
-* [Subdomain/Virtual Host Enumeration](web/subdomain-virtual-host-enumeration.md)
 * [Web Notes](web/web-notes/README.md)
+  * [Enumeration](web/web-notes/enumeration.md)
+  * [Web Filter Bypass](web/web-notes/web-filter-bypass.md)
+  * [Command Injection](web/web-notes/command-injection.md)
+  * [Subdomain/Virtual Host Enumeration](web/web-notes/subdomain-virtual-host-enumeration.md)
   * [The Web Application Hacker's Handbook](web/web-notes/the-web-application-hackers-handbook.md)
 
 ## Mobile
