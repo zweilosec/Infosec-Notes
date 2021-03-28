@@ -35,6 +35,22 @@ print(f.decrypt(token))
 
 Esoteric inferno encryption. Used in some CTF challenges. Malbolge programming language - **text from base64 looks like random text**, but complete garbage \(much of it unprintable.\) . Read for at [https://en.wikipedia.org/wiki/Malbolge](https://en.wikipedia.org/wiki/Malbolge) and [https://www.tutorialspoint.com/execute\_malbolge\_online.php](https://www.tutorialspoint.com/execute_malbolge_online.php)
 
+### BrainFuck
+
+A programming language that uses a series of only `+-.[]<>` characters.
+
+++++++++++\[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-\]&gt;&gt;&gt;----.&gt;++++++++++++++.-----------------.++++++++.+++++.--------.+++++++++++++++.------------------.++++++++.  = BrainFuck 
+
+Decode using [https://www.dcode.fr/brainfuck-language](https://www.dcode.fr/brainfuck-language)
+
+### OOK!
+
+Uses only the word `ook` paired with punctuation marks \(`.!?`\).  Shorthand leaves out `ook`.
+
+....................!?.?...?.......?...............?....................?.?.?.?.!!?!.?.?.?..................!.!.!!!!!!!!!.?.......!. = OOK! 
+
+Decode using [https://www.dcode.fr/ook-language](https://www.dcode.fr/ook-language)
+
 ## Test for Plaintext Output from a \(Python\) Script
 
 ```python
