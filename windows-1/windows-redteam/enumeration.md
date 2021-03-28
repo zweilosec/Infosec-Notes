@@ -332,7 +332,21 @@ Use the  `-Name Public` property \(instead of `-All`\) to select a specific fire
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-netsh advfirewall something something
+
+
+```bash
+sc query windefend 
+
+netsh advfirewall firewall dump
+netsh advfirewall show currentprofile
+netsh advfirewall firewall show rule name=all
+
+netsh firewall show state
+netsh firewall show config
+
+# Disable firewall
+netsh firewall set opmode disable
+```
 {% endtab %}
 {% endtabs %}
 
