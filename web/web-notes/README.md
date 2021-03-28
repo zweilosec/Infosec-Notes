@@ -16,17 +16,18 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 * [ ] View SSL certificates for domains, emails, usernames
 * [ ] View Source code 
-* [ ] Check /robots.txt, .htaccess, .htpasswd
+* [ ] Check `/robots.txt`, `.htaccess`, `.htpasswd`
 * [ ] Check HTTP Request/Response headers
-* [ ] Run gobuster/dirbuster
+* [ ] Check for files/directories with `gobuster`/`dirbuster`
+* [ ] Check for virtual hosts/subdomains
 * [ ] View Console
-* [ ] Use Nikto
+* [ ] Use `nikto`
 * [ ] Check HTTP OPTIONS
 * [ ] HTTP PUT / POST File upload 
-* [ ] Parameter fuzzing with wfuzz
+* [ ] Parameter fuzzing with `ffuf`
 * [ ] Browser response vs Burp response
-* [ ] Shell shock \(cgi-bin/status\)
-* [ ] Cewl wordlist and directory bruteforce
+* [ ] Shell shock \(`cgi-bin/status`\)
+* [ ] Make wordlist with `cewl` and directory/login brute force
 * [ ] `nmap --script http-enum 192.168.10.55`
 * [ ] Apache version exploit & other base server exploits
 
