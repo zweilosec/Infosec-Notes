@@ -111,7 +111,7 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 
 | `Symbol` | Purpose |
 | :--- | :--- |
-| `\|` | Send the output of one command to another. |
+| `|` | Send the output of one command to another. |
 | `>` | Redirect output to a file. |
 | `<` | Redirect input from a file. |
 | `>>` | Append output to an existing file. |
@@ -119,7 +119,7 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 | `\` | Used to escape characters and to send multi-line commands. |
 | `.` | Current directory. |
 | `..` | Parent directory. |
-| `&` | Process command in the background \(and give control of the terminal back. |
+| `&` | Process command in the background \(and give control of the terminal back\). |
 | `&&` | Run the next command only if the previous completed successfully. |
 | `*` | Match any number of characters in file name. |
 | `?` | Match any single character in file name. |
@@ -220,14 +220,21 @@ Everything in Linux is are files, even directories and devices. Directories have
       <td style="text-align:left">Combine the contents of two text files</td>
     </tr>
     <tr>
-      <td style="text-align:left"><code>diff</code>
+      <td style="text-align:left"><code>diff $file1 $file2</code>
       </td>
-      <td style="text-align:left">Compare two files and show differences</td>
+      <td style="text-align:left">Compare two files and show differences (Only for text-based files)</td>
     </tr>
     <tr>
-      <td style="text-align:left">Search for string inside a file</td>
       <td style="text-align:left"><code>grep $string $file</code>
       </td>
+      <td style="text-align:left">Search for string inside a file</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>file $file</code>
+      </td>
+      <td style="text-align:left">Displays the filetype of a file, determined by the hexadecimal &quot;
+        <a
+        href="https://blog.netspi.com/magic-bytes-identifying-common-file-formats-at-a-glance/">magic bytes</a>&quot;.</td>
     </tr>
   </tbody>
 </table>
@@ -236,27 +243,21 @@ Everything in Linux is are files, even directories and devices. Directories have
 
 | Command | Description |
 | :--- | :--- |
-|  |  |
-
-To create a new file `touch <filename>` or
+| `touch $fileName` | Create a new blank file with this name |
+| `cp $file [/path/to/]$newFile` | Copy file from one location to another.  If no location is specified, creates the copy in the same directory. |
+| `mv $file [/path/to/]$newFile` | Move file from one location to another.  If no location is specified, renames the file in same directory \(removes the old file\). |
+| `rm $file` | Removes \(deletes\) a file.  |
+| `rm *` | Removes \(deletes\) all files in the directory. |
+| `rm -rf *` | Recursively deletes all files in the directory and all subdirectories and files.  Will not prompt for approval with `-f`.  |
+| `mkdir [/path/to/]$dir` | Makes a new empty directory |
+| `rmdir $dir` | Deletes an empty directory |
+| `sudo rm --force $(which $file)` | Removes all instances of a specified filename.  Only searches PATH directories.  You could also use `find` or `locate` instead of `which` to find more files.  With `--force` will not prompt for approval! |
 
 ```text
 cat > $fileName
  [Type your file contents]
  [Press `Ctrl+d` to return to your terminal]
 ```
-
-Create a new directory: `mkdir [/path/to/]<dirname>`
-
-Remove a file from the filesystem: `rm <filename>`
-
-Remove a directory from the filesystem: `rmdir <dirname>`
-
-Remove all instances of a certain file. `sudo rm --force $(which <file_name>)` \(Could be used with `find` or `locate` instead of `which`. Dangerous with --force!!\)
-
-Copy a file/directory to another location \(or name\): `cp <file> [/path/to/]<filename>`
-
-Move a file/directory to another location \(or rename\): `mv <file> [/path/to/]<filename>`
 
 ### File Permissions
 
@@ -336,7 +337,9 @@ TODO: add more information on mounting and using network shares \(issue [\#10](h
 | Command | Description |
 | :--- | :--- |
 | `sudo apt update` | Update repository database |
-| `sudo apt upgrade` | Update installed programs and packages \(must update repository database first\) |
+| `sudo apt upgrade` | Update installed programs and packages \(must update repository database first\).  Adding `-y` will accept all prompts and install automatically. |
+| `sudo apt dist-upgrade` |  |
+| `sudo apt full-upgrade` |  |
 | `apt search $keyword` | Search for packages \(unknown name\) to install from repositories |
 | `alien $file.rpm` | Convert rpm to Debian packages |
 
@@ -373,6 +376,7 @@ Add a new user: `adduser`
 | `sudo $command` | Execute commands with elevated privileges |
 | `sudo -u $username $command` | Execute `sudo` command using another user's privileges |
 | `sudo -l` | List `sudo` privileges for current user with |
+| `sudo -k` | Stop remembering credentials and re-prompt for password |
 | `/etc/sudoers` | Configuration file for `sudo` |
 
 ## $PATH
