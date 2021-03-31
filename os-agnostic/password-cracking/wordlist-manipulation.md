@@ -129,7 +129,13 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 
 `# awk '{ print NR, $0 }' file.txt | grep "string-to-grep"`
 
+## Crunch
 
+## Hashcat
+
+## Rules
+
+[https://github.com/NotSoSecure/password\_cracking\_rules/blob/master/OneRuleToRuleThemAll.rule](https://github.com/NotSoSecure/password_cracking_rules/blob/master/OneRuleToRuleThemAll.rule)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
