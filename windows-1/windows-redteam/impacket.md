@@ -1,11 +1,17 @@
 # Impacket
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+{% endhint %}
+
 Impacket tools are powerful and useful enough that they need their own page
 
 * [https://github.com/SecureAuthCorp/impacket](https://github.com/SecureAuthCorp/impacket)
 * [https://www.secureauth.com/labs/open-source-tools/impacket/](https://www.secureauth.com/labs/open-source-tools/impacket/)
 
-
+TODO: add code examples for each tool
 
 ## **Remote Execution**
 
