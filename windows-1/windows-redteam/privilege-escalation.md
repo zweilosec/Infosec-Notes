@@ -541,6 +541,10 @@ net localgroup administrators hacker /add
 net group "Domain Admins" /domain
 ```
 
+### Password brute force/domain user enumeration \(kerbrute\)
+
+* [https://github.com/ropnop/kerbrute](https://github.com/ropnop/kerbrute)
+
 ### Dump password hashes \(Metasploit\)
 
 ```text
