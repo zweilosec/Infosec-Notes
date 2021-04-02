@@ -22,14 +22,25 @@ git clone --depth 1 https://github.com/andresriancho/w3af.git
 
 ## HTTP Enumeration
 
-* Search for folders with gobuster:
+### dirsearch 
+
+[https://github.com/maurosoria/dirsearch](https://github.com/maurosoria/dirsearch)
+
+```text
+python3 dirsearch.py -e php,html,js -u https://target -w /path/to/wordlist
+```
+
+### gobuster:
 
 ```text
 gobuster -w /usr/share/wordlists/dirb/common.txt -u $ip
 ```
 
-* OWasp DirBuster - Http folder enumeration - can take a dictionary file
-* Dirb - Directory brute force finding using a dictionary file
+### DirBuster - Http folder enumeration - can take a dictionary file
+
+### Dirb
+
+* Directory brute force finding using a dictionary file
 
 ```text
 dirb http://$ip/ wordlist.dict
@@ -43,13 +54,19 @@ dirb <<http://vm/>>
 dirb http://$ip/ -p $ip:$port
 ```
 
-* Nikto
+### Nikto
 
 ```text
 nikto -h $ip
 ```
 
-* Nmap HTTP Enumeration
+* Proxy Enumeration \(useful for open proxies\)
+
+```text
+nikto -useproxy http://$ip:3128 -h $ip
+```
+
+### Nmap HTTP Enumeration
 
 ```text
 nmap --script=http-enum -p80 -n $ip/24
@@ -61,19 +78,15 @@ nmap --script=http-enum -p80 -n $ip/24
 nmap --script http-methods --script-args http-methods.url-path='/test' $ip
 ```
 
-* Get Options available from web server
+### Uniscan
 
-```text
-  curl -vX OPTIONS vm/test
-```
-
-* Uniscan directory finder:
+ directory finder:
 
 ```text
 uniscan -qweds -u <<http://vm/>>
 ```
 
-* Wfuzz - The web brute forcer
+### Wfuzz - The web brute forcer
 
 ```text
 wfuzz -c -w /usr/share/wfuzz/wordlist/general/megabeast.txt $ip:60080/?FUZZ=test
@@ -89,6 +102,14 @@ wfuzz -c -w /usr/share/seclists/Discovery/Web_Content/common.txt --hc 404 $ip/FU
 
 ```text
 wfuzz -c -w /usr/share/seclists/Discovery/Web_Content/common.txt -R 3 --sc 200 $ip/FUZZ
+```
+
+### Misc
+
+* Get Options available from web server
+
+```text
+  curl -vX OPTIONS vm/test
 ```
 
 * Open a service using a port knock \(Secured with Knockd\)
@@ -121,12 +142,6 @@ finger batman@$ip
 
 ```text
 ./testssl.sh -e -E -f -p -y -Y -S -P -c -H -U $ip | aha > OUTPUT-FILE.html
-```
-
-* Proxy Enumeration \(useful for open proxies\)
-
-```text
-nikto -useproxy http://$ip:3128 -h $ip
 ```
 
 ## 
