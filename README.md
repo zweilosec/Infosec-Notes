@@ -6,8 +6,6 @@ description: >-
 
 # Hacker's Rest
 
-\#TODO: Change all code examples to use variables \(e.g. $host\_ip\) rather than fill-in-the-blank format \(e.g. &lt;host\_ip&gt;\). This will help greatly with copying code directly into scripts.
-
 These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.gitbook.io/htb-writeups/).
 
 {% hint style="warning" %}
@@ -20,13 +18,15 @@ Warning - These notes are very raw and largely unformatted right now. They are b
 * Always consult additional resources. If possible I will try to link to outside resources.  _If I have shared something of yours and you want credit, please let me know!_
 {% endhint %}
 
+## Contribution
+
+**If you would like to add to, modify, or improve anything in my notes, PLEASE DO!**
+
 If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at:
 
 {% embed url="https://github.com/zweilosec/Infosec-Notes" caption="" %}
 
-### If you would like to add to, modify, or improve anything in my notes, PLEASE DO!
-
-Here's how to contribute:
+### How to contribute
 
 1. [Create an Issue Request](https://github.com/zweilosec/Infosec-Notes/issues) describing your changes/additions.
 2. Fork [this repository](https://github.com/zweilosec/Infosec-Notes).
@@ -35,7 +35,15 @@ Here's how to contribute:
 5. After reviewing your changes, I will merge your pull request to the master repository.
 6. Make sure to update your Issue Request so that I can credit you! Thank you so much!
 
-Feel free to also open an issue with any questions, help wanted, or requests!
+Feel free to also open an issue with any questions, help wanted, or requests!  Throughout these notes I have put `TODO:` notes that indicate that I know a certain section needs work.  Focus on these if you can!
+
+```bash
+TODO: Change all code examples to use variables (e.g. $host_ip)
+rather than fill-in-the-blank format (e.g. <host_ip>). 
+This will help greatly with copying code directly into scripts.
+```
+
+## Contents
 
 The following sub-pages of these notes will explore some of the common offensive and defensive security techniques including gaining shells, code execution, lateral movement, persistence, scripting, tools and much more. I also cover techniques for dealing with CTF-type challenges such as cryptography, reverse engineering, steganography and more.
 
@@ -45,7 +53,7 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-## Linux
+### Linux
 
 * [Linux Basics](linux-1/linux-basics.md)
 * [Hardening & Configuration Guide ](linux-1/linux-hardening/)
@@ -58,7 +66,7 @@ Always ensure you have **explicit** permission to access any computer system **b
   * [Persistence](linux-1/linux-redteam/persistance.md)
 * [Vim](linux-1/vim.md)
 
-## Windows
+### Windows
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [Hardening & Configuration Guide](windows-1/windows-hardening.md)  
@@ -70,7 +78,7 @@ Always ensure you have **explicit** permission to access any computer system **b
   * [Active Directory](windows-1/windows-redteam/active-directory.md)
   * [PowerShell](windows-1/powershell.md)
 
-## MacOS
+### MacOS
 
 * [MacOS Basics](macos/macos-basics.md)
 * [Hardening & Configuration Guide](macos/macos-hardening.md)
@@ -80,19 +88,19 @@ Always ensure you have **explicit** permission to access any computer system **b
   * [Privilege Escalation](macos/macos-redteam/privilege-escalation.md)
   * [Persistence](macos/macos-redteam/persistence.md)
 
-## Web
+### Web
 
 * [DNS](web/dns.md)
 * [Subdomain/Virtual Host Enumeration](web/web-notes/subdomain-virtual-host-enumeration.md)
 * [Web Apps](web/web-notes/)
   * [Web Application Hacker's Handbook Task Checklist](web/web-notes/the-web-application-hackers-handbook.md)
 
-## Mobile
+### Mobile
 
 * [iOS](mobile/ios.md)
 * [Android](mobile/android.md)
 
-## OS Agnostic
+### OS Agnostic
 
 * [Cryptography & Encryption](os-agnostic/password-cracking/)
 * [Network Hardware](os-agnostic/network-hardware.md)
@@ -111,13 +119,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [Steganography](os-agnostic/steganography.md)
 * [Wireless](os-agnostic/wifi.md)
 
-## Unsorted
+### Unsorted
 
 * [Unsorted Notes](untitled.md)
 
 ## OSCP/CTF Tools and Cheatsheets
 
-[List of outside sources](tools-cheatsheets.md)
+See my [list of outside sources](tools-cheatsheets.md)!
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
