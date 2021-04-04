@@ -24,6 +24,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [https://oscp.infosecsanyam.in/cheatsheet-short](https://oscp.infosecsanyam.in/cheatsheet-short)
 * [https://github.com/slyth11907/Cheatsheets](https://github.com/slyth11907/Cheatsheets)
 * [https://oscp.infosecsanyam.in/one-page-methodology](https://oscp.infosecsanyam.in/one-page-methodology)
+* [https://github.com/The-Lynx-Team/OSCP](https://github.com/The-Lynx-Team/OSCP)
 
 ## CTF Cheatsheats
 

@@ -30,6 +30,7 @@
   * [Privilege Escalation](windows-1/windows-redteam/privilege-escalation.md)
   * [Persistence](windows-1/windows-redteam/persistence.md)
   * [Active Directory](windows-1/windows-redteam/active-directory.md)
+  * [Kerberos](windows-1/windows-redteam/kerberos.md)
   * [Impacket](windows-1/windows-redteam/impacket.md)
 
 ## MacOS
