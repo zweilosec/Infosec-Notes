@@ -9,6 +9,20 @@ description: >-
 
 Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## Basic Commands
+
+All commands must be run from Command Mode \(unless otherwise specified\).
+
+| Command | Description |
+| :--- | :--- |
+| `[ESC]` | Return to Command Mode. |
+| `i` | Enter insert \(normal text edit\) mode. |
+| `x` | Delete a character.  Type a number first to delete that many characters. |
+| `dd` | Delete a whole line.  Type a number first to delete that many lines. |
+| `yy` | Yank \(copy\) a whole line.  Type a number first to yank that many lines. |
+| `p` | Put \(paste\) contents of clipboard. |
+|  |  |
+
 ## How to exit Vim
 
 {% embed url="https://github.com/hakluke/how-to-exit-vim" caption="lulz" %}
@@ -21,9 +35,7 @@ If you need to save any changes you made to a file use `[esc] :w` or `[esc] :wq`
 _To clarify, that's the escape key, then type colon w, or colon wq\)_
 {% endhint %}
 
-Enter insert \(normal text edit\) mode: `i` _\(yep that's it, just type and move around like a basic text editor now.\)_
-
-## _misc:_
+## Misc
 
 * Learn vim: `vimtutor`
 * [https://www.youtube.com/watch?v=OnUiHLYZgaA](https://www.youtube.com/watch?v=OnUiHLYZgaA)
