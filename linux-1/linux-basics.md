@@ -119,6 +119,7 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 | `\` | Used to escape characters and to send multi-line commands. |
 | `.` | Current directory. |
 | `..` | Parent directory. |
+| `$$` | displays the process ID of the current shell instance. |
 | `&` | Process command in the background \(and give control of the terminal back\). |
 | `&&` | Run the next command only if the previous completed successfully. |
 | `*` | Match any number of characters in file name. |
@@ -126,7 +127,12 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 | `[ ]` | Match any one of the enclosed characters in file name. |
 | `;` | Run commands in sequence, regardless if the previous succeeded. |
 | `( )` | Group commands. |
+| `{ }` | Used to feed multiple parameters to a single command.  Separate parameters by `,` |
+| `!` | Followed by a digit will repeat the command from the history file that corresponds. |
 | `!!` | Repeat the previous command. |
+| `0` | Shortcut that stands for Standard Input \(STDIN\) |
+| `1` | Shortcut that stands for Standard Output \(STDOUT\) |
+| `2` | Shortcut that stands for Standard Error \(STDERR\) |
 
 ### Recover an unresponsive terminal
 
@@ -206,6 +212,17 @@ Everything in Linux is a file, even directories and devices. Directories have so
       <td style="text-align:left">Locate all files that symlink to a file</td>
     </tr>
     <tr>
+      <td style="text-align:left"><code>which $file</code>
+      </td>
+      <td style="text-align:left">Searches for files in a <code>$PATH</code> directory only.</td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>locate $file</code>
+      </td>
+      <td style="text-align:left">Uses a database to search for files. Update the database with <b><code>sudo updatedb</code></b>
+      </td>
+    </tr>
+    <tr>
       <td style="text-align:left"><code>df</code>
       </td>
       <td style="text-align:left">List the size, used space, and available space on the mounted filesystems
@@ -232,6 +249,18 @@ Everything in Linux is a file, even directories and devices. Directories have so
       <td style="text-align:left">Search for string inside a file</td>
     </tr>
     <tr>
+      <td style="text-align:left"><code>head $file</code>
+      </td>
+      <td style="text-align:left">Displays the first 10 lines of a file. Specify the number of lines with <code>-#</code>
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:left"><code>tail $file</code>
+      </td>
+      <td style="text-align:left">Displays the last 10 lines of a file. Specify the number of lines with <code>-#</code>
+      </td>
+    </tr>
+    <tr>
       <td style="text-align:left"><code>file $file</code>
       </td>
       <td style="text-align:left">Displays the filetype of a file, determined by the hexadecimal &quot;
@@ -241,7 +270,7 @@ Everything in Linux is a file, even directories and devices. Directories have so
   </tbody>
 </table>
 
-### File and Directory Creation, Modification, and Deletion
+### File and directory creation and deletion
 
 | Command | Description |
 | :--- | :--- |
@@ -252,8 +281,21 @@ Everything in Linux is a file, even directories and devices. Directories have so
 | `rm *` | Removes \(deletes\) all files in the directory. |
 | `rm -rf *` | Recursively deletes all files in the directory and all subdirectories and files.  Will not prompt for approval with `-f`.  |
 | `mkdir [/path/to/]$dir` | Makes a new empty directory |
+| `mkdir -p test/{test1,test2}` | The `-p` flag creates multiple directories at once.  In this example we use brace expansion to create `test/` and 2 subdirectories under it. |
 | `rmdir $dir` | Deletes an empty directory |
 | `sudo rm --force $(which $file)` | Removes all instances of a specified filename.  Only searches PATH directories.  You could also use `find` or `locate` instead of `which` to find more files.  With `--force` will not prompt for approval! |
+
+### File & text manipulation
+
+| Command | Description |
+| :--- | :--- |
+| `cat $file1 $file2` | Concatenates the contents of two files |
+| `wc` | Counts the lines, words, and bytes in a file.  `-l` will count only lines, `-m` will count only characters, `-c` will count only bytes,  `-w` will count only words |
+| `awk` | A programming language for text processing. Can do many many things. |
+| `sed` | Performs text editing on a stream of text. Useful for replacing text in a file and much more |
+| `cut` | Extract a section of text.  **`-f`** selects the field, **`-d`** sets the delimiter.  |
+| `sort` |  |
+| `uniq` |  |
 
 ```text
 cat > $fileName
@@ -269,6 +311,14 @@ cat > $fileName
 
 `chown $user $group $file`
 
+### File compression and encryption
+
+| Command | Description |
+| :--- | :--- |
+| unzip |  |
+| gunzip |  |
+| tar |  |
+
 ## System Information
 
 | Command | Description |
@@ -277,6 +327,7 @@ cat > $fileName
 | `ps` | List running processes \(current user\) |
 | `ps aux` | List running processes for all users \(if permitted\) |
 | `top` | Similar to Windows Task Manager, lists running processes with details of hardware usage |
+| `systemctl list-unit-files` | Show list of all services installed with status |
 
 ## Networking
 
@@ -311,7 +362,8 @@ nc listener: `nc -lvnp <port>`
 | Command | Description |
 | :--- | :--- |
 | `lsof -i` |  |
-| `ss` |  |
+| `ss` | Shows State, data sent/recieved, local process:port, remote address:port |
+| `ss -anlp` | Get all connections that are listening, do not resolve names, show process information |
 | `netstat` |  |
 
 ### Shared folders
@@ -339,10 +391,15 @@ TODO: add more information on mounting and using network shares \(issue [\#10](h
 | Command | Description |
 | :--- | :--- |
 | `sudo apt update` | Update repository database |
-| `sudo apt upgrade` | Update installed programs and packages \(must update repository database first\).  Adding `-y` will accept all prompts and install automatically. |
+| `sudo apt upgrade` | Update installed programs and packages \(must update repository database first\).  Adding `-y` will accept all prompts and install automatically.  Specifying a package name after "upgrade" will upgrade only that package. |
 | `sudo apt dist-upgrade` |  |
 | `sudo apt full-upgrade` |  |
 | `apt search $keyword` | Search for packages \(unknown name\) to install from repositories |
+| `apt-cache search $keyword` | Search for package in repositories |
+| `apt show $package` | Show details about the specified package |
+| `sudo apt install $package` | Installs the specified package \(and any dependencies\). |
+| `apt remove --purge $package` | Uninstalls the specified package |
+| `dpkg -i $deb_file`  | Installs the specified `.deb` package file \(Does not install dependencies\). |
 | `alien $file.rpm` | Convert rpm to Debian packages |
 
 ## Users and Groups
@@ -358,6 +415,7 @@ TODO: Add information about Linux Users and Groups \(issue [\#11](https://github
 | Command | Description |
 | :--- | :--- |
 |  |  |
+| `env` | Displays all environment variables for the current context. |
 
 `groups`
 
