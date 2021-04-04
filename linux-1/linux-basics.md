@@ -159,7 +159,9 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 
 ## Filesystem Basics
 
-Everything in Linux is are files, even directories and devices. Directories have some special restrictions, but for the most part can be treated like files.
+![Standard Linux Directories and Files](../.gitbook/assets/0_roztlgbulghhs2p_.png)
+
+Everything in Linux is a file, even directories and devices. Directories have some special restrictions, but for the most part can be treated like files.
 
 ### Listing and viewing Directories and Files
 
