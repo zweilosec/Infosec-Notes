@@ -1495,7 +1495,17 @@ PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 
 `echo %cd%` - Same as pwd in Linux
 
-`where $filename` - finds files in %PATH%
+### Find files by name with cmd.exe
+
+#### For files in %PATH%
+
+`where $filename`
+
+#### For files not in `%PATH%`
+
+```bash
+where /R C:\ ping.exe 2>null
+```
 
 ### Find file by name with PowerShell
 
