@@ -6,10 +6,10 @@ description: >-
 
 # Hacker's Rest
 
-These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.gitbook.io/htb-writeups/).
+These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.github.io/).
 
 {% hint style="warning" %}
-Warning - These notes are very raw and largely unformatted right now. They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes. Cleaning up and formatting comes later.
+Warning - These notes are largely unformatted right now. They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes. Cleaning up and formatting comes later.
 
 * Do not assume anything from these notes.
 * Do not expect the notes to be exhaustive, or to cover the techniques or the output they produce in full.
@@ -22,7 +22,7 @@ Warning - These notes are very raw and largely unformatted right now. They are b
 
 **If you would like to add to, modify, or improve anything in my notes, PLEASE DO!**
 
-If you would like to give suggestions or even commit changes to these pages feel free to head to my Github page at:
+If you would like to give suggestions or even commit changes to these pages feel free to head to my GitHub page at:
 
 {% embed url="https://github.com/zweilosec/Infosec-Notes" caption="" %}
 
