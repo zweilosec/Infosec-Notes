@@ -14,9 +14,9 @@ TODO: update and clean syntax and examples \(issue [\#18](https://github.com/zwe
 * Move links to "[References](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#resources)" section or make cleaner looking if belongs
 * Expand "[Dynamic Reverse Tunnels](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#dynamic-reverse-tunnels)" section
 
-### SSH/SCP into victim without password
+## SSH/SCP into victim without password
 
-1. From the attacker machine generate a keypair: `ssh-keygen -t ecdsa`
+1. From the attacker machine generate a keypair: `ssh-keygen -t ed25519`
 2. Copy the contents from public key `$keyfile.pub` into the `.ssh/authorized_keys` file of the victim
 3. Connect with the argument `-i $keyfile`
 
@@ -117,8 +117,10 @@ ssh-keygen -t ecdsa -b 521
 ssh-keygen -t ed25519
 ```
 
+### Log into remote server using SSH Key
+
 ```bash
-ssh-keygen -f $key_file -t ecdsa #use the ecdsa algorithm, which is much smaller than default
+ssh-keygen -f $key_file -t ed25519 #use the ed25519 algorithm, which is much smaller than default rsa, more secure than ECDSA
 cat $key_file.pub
 #copy public key to remote host
 #if characters are a premium you can chop of the user@host portion, but all users will be able to use this key!
@@ -187,7 +189,7 @@ Implementation EdDSA is fairly new. Crypto++ and cryptlib do not currently suppo
 ssh-keygen -t ed25519 -a 200 -C "you@host" -f ~/.ssh/my_new_id_ed25519
 ```
 
-The parameter -a defines the number of rounds for the key derivation function. The higher this number, the harder it will be for someone trying to brute-force the password of your private key — but also the longer you will have to wait during the initialization of an SSH login session.
+The parameter `-a` defines the number of rounds for the key derivation function. The higher this number, the harder it will be for someone trying to brute-force the password of your private key — but also the longer you will have to wait during the initialization of an SSH login session.
 
 ### Extract the public key from a private key
 
@@ -236,37 +238,37 @@ There are three main uses of SCP: to pull files from a remote host, to push file
 
 ### Copy from remote host to local file:
 
-```text
-scp username@192.168.0.10:<remote_file> ./some/local/directory
+```bash
+scp $username@ip:$remote_file $local_directory
 ```
 
 ### Copy local file to remote host:
 
-```text
-$ scp <local_file> your_username@192.168.0.10:/some/remote/directory
+```bash
+$ scp $local_file $username@$ip:$directory
 ```
 
 ### Copy local directory to remote directory:
 
-```text
-scp -r <local_dir> your_username@192.168.0.10:/some/remote/directory/<remote_dir>
+```bash
+scp -r $local_directory $username@$ip:$remote_directory
 ```
 
 ### Copy a file from one remote host to another:
 
-```text
-scp your_username@<host1>:/some/remote/directory/foobar.txt your_username@<host2>:/some/remote/directory/
+```bash
+scp $username@$host1:$directory/$file $username@$host2:$directory2
 ```
 
-### Improve scp performance \(use blowfish\):
+### Improve scp performance \(using blowfish algorithm\):
 
-```text
-scp -c blowfish <local_file> your_username@192.168.0.10:/some/remote/directory
+```bash
+scp -c blowfish $local_file $username@$ip:$directory
 ```
 
 ### Use keyfile to login to remote host
 
-\(-i must be first parameter\)
+\(`-i` must be the first parameter\)
 
 ```text
 scp -i $keyfile [other parameters]
@@ -290,7 +292,7 @@ ssh -R 19999:localhost:22 sourceuser@178.27.99.99
 ```
 
 {% hint style="info" %}
-\* port 19999 can be any unused port.
+\* port 19999 can be any unused local port.
 {% endhint %}
 
 1. Now you can SSH from source to destination through SSH tunneling:
