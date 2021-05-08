@@ -263,9 +263,23 @@ dig -f file.txt [options]
 dnsenum 10.11.1.111
 ```
 
-## Misc
 
-DNS reverse lookup recon: `dnsrecon -r <ip/subnet[127.0.0.0/24]> -n <ip_to_check>`
+### DNS reverse lookup
+
+#### Using powershell
+
+```
+$ComputerIPAddress = "10.10.10.10"
+[System.Net.Dns]::GetHostEntry($ComputerIPAddress).HostName
+```
+
+#### Using dnsrecon: 
+
+```
+dnsrecon -r $ip/$subnet -n $ip_to_check
+```
+
+## Misc
 
 DNS zone transfer: `dig axfr <hostname> @<ip>` or `host -l <domain> <nameserver>`
 
