@@ -1085,13 +1085,13 @@ nltest /DSGETDC:DomainName
 
 ### Get Current Domain Info
 
-```
+```text
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
 ```
 
 ### View Domain Forest Info
 
-```
+```text
 [System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()
 ```
 
