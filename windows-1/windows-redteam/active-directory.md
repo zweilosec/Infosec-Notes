@@ -1083,7 +1083,7 @@ nltest /DCNAME:DomainName
 nltest /DSGETDC:DomainName
 ```
 
-### Get Current Domain Info - Similar to Get-Domain
+### Get Current Domain Info
 
 ```
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
@@ -1094,6 +1094,7 @@ nltest /DSGETDC:DomainName
 ```
 [System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()
 ```
+
 ###  View Domain Trust Information
 
 #### Using PowerShell
