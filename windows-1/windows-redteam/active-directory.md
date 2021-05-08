@@ -1085,20 +1085,20 @@ nltest /DSGETDC:DomainName
 
 ### Get Current Domain Info - Similar to Get-Domain
 
-```powershell
+```
 [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
 ```
 
 ### View Domain Forest Info
 
-```powershell
+```
 [System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()
 ```
 ###  View Domain Trust Information
 
 #### Using PowerShell
 
-```powershell
+```
 ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
 
 ([System.DirectoryServices.ActiveDirectory.Forest]::GetForest((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Forest', 'forest-of-interest.local')))).GetAllTrustRelationships()
@@ -1165,13 +1165,13 @@ set u
 
 ### List all Usernames
 
-```powershell
+```
 ([adsisearcher]"(&(objectClass=User)(samaccountname=*))").FindAll().Properties.samaccountname
 ```
 
 ### List Administrators
 
-```powershell
+```
 ([adsisearcher]"(&(objectClass=User)(admincount=1))").FindAll().Properties.samaccountname
 ```
 
@@ -1179,7 +1179,7 @@ set u
 
 #### Using PowerShell
 
-```powershell
+```
 ([adsisearcher]"(&(objectClass=User)(samaccountname=<username>))").FindAll().Properties
 ```
 
@@ -1191,7 +1191,7 @@ nltest /user:"zweilos"
 
 ### View All Users with Description Field Set
 
-```powershell
+```
 ([adsisearcher]"(&(objectClass=group)(samaccountname=*))").FindAll().Properties | % { Write-Host $_.samaccountname : $_.description }
 ```
 
