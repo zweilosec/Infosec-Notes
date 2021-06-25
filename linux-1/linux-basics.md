@@ -311,8 +311,8 @@ File permissions in linux can be expressed in two formats, the rwx and the octal
 
 #### rwx notation
 
-r = read
-w = write
+r = read\
+w = write\
 x = execute
 
 In linux the if the permission of a file would be :
@@ -345,8 +345,8 @@ In the octal notation, the permissions are assigned using octal digits.
 
 From the above table we can easily derive :
 
-Read    = 4
-Write   = 2
+Read    = 4\
+Write   = 2\
 Execute = 1
 
 Therefore if you would want to give a read and write, it would be 6 (4+2=6).
@@ -359,9 +359,9 @@ it would be :
 
 The first 7 would mean for the owner (4+2+1), the second 7 for the group and the third one for others.
 
-u = user
-g = group
-o = others
+u = user\
+g = group\
+o = others\
 a = u+g+o (all)
 
 You can also give permissions using this method :
