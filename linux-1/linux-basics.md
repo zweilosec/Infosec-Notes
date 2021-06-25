@@ -307,9 +307,111 @@ cat > $fileName
 
 > TODO: Add more information about Linux file permissions \(both `octal` and `ugo-rwx` formats\); Add information about `chmod` and `chown` commands; Add descriptions and examples \(issue [\#8](https://github.com/zweilosec/Infosec-Notes/issues/8)\)
 
-`chmod -ugo -rwx -7777 5KFB6`
+File permissions in linux can be expressed in two formats, the rwx and the octal notation.
+
+####rwx notation
+
+r = read
+w = write
+x = execute
+
+In linux the if the permission of a file would be :
+
+`-rwxrwxrwx
+
+Then that would mean that the anyone can read, write and execute the file. Breaking down this format into four parts :
+1. The first character would tell if it is a file or a directory, if it is a '-' (hyphen) then it would mean it is a file, but if it is 'd', then
+   it would mean that it is a directory.
+2. The next three characters specify the permission of the owner of the file.
+3. The next three character specify the permissions of the group.
+4. The last three character would specify the characters of others.
+
+In the above example all of them had rwx assigned to them, hence anyone could read, write and execute this file.
+
+####Octal notation
+
+In the octal notation, the permissions are assigned using octal digits.
+
+|  Permissions  |  binary notation  |  octal notation  |  Description  |
+|  :---  |  :---  |  :---  |  :--  |
+|  ---  |  000  |  0  |  No permission  |
+|  --x  |  001  |  1  |  Execute permission only  |
+|  -w-  |  010  |  2  |  Write permission only  |
+|  -wx  |  011  |  3  |  Write and execute  |
+|  r--  |  100  |  4  |  Read permission only  |
+|  r-x  |  101  |  5  |  Read and execute permission  |
+|  rw-  |  110  |  6  |  Read and write permission  |
+|  rwx  |  111  |  7  |  Read, write and execute  |
+
+From the above table we can easily derive :
+
+Read    = 4
+Write   = 2
+Execute = 1
+
+Therefore if you would want to give a read and write, it would be 6 (4+2=6).
+
+Now taking the same above example of -rwxrwxrwx  :
+In order to assign a file this permission using the octal notation and chmod
+it would be :
+
+`chmod 777 file
+
+The first 7 would mean for the owner (4+2+1), the second 7 for the group and the third one for others.
+
+u = user
+g = group
+o = others
+a = u+g+o (all)
+
+You can also give permissions using this method :
+
+`chmod a+w file
+
+The above example would give write permissions to everyone.
+
+'chmod a-x file'
+
+The above example would remove execute permissions for everyone.
+
+####Advanced permissions
+
+Other than just read and write, you can also set some other permissions like SUID and GUID.
+
+`chmod 4000 file
+`chmod +s file
+
+Both the above examples would add the setuid bit to the file.
+
+`chmod 2000 file
+`chmod +g file
+
+Both the above examples would add the getuid bit to the file
+
+The sticky bit is added to folders mainly in order to prevent anyone else from deleting the folder.
+or any of it's contents. It is represented by a 't' at the end. When a sticky bit is set, nobody other than
+the owner or the root can delete the folder or the file.
+
+`chmod 1000 folder
+`chmod +t folder
+
+Both the above examples set the sticky bit to the folders
+
+Examples:
+`chmod 1744 file
+This would set the sticky bit, give all permissions to the owner and only read permission to the group and others
+
+`chmod 0600 file
+This would only give the owner read and write permission, but not execute permission.
+
+####chown command
+
+The chown command can be used to change the owner of a file or a directory.
 
 `chown $user $group $file`
+
+The above command would change the owner of the file from root to $user and also the group to $group
+
 
 ### File compression and encryption
 
@@ -345,7 +447,7 @@ TODO: add more information about Managing connections in Linux \(Issue [\#9](htt
 
 * Add commands such as telnet, SSH, nc, curl, wget
 * Add commands for listing information about open network connections: lsof -i, ss, netstat
-* include description and examples 
+* include description and examples
 
 | Command | Description |
 | :--- | :--- |
@@ -467,9 +569,9 @@ Delete script from default autorun: `update-rc.d -f </path/to/the/script> remove
 
 On Windows \(easiest way!\):
 
-1. Download and run [Rufus](https://rufus.ie/). 
+1. Download and run [Rufus](https://rufus.ie/).
 2. Select the USB device and ISO you want to use, giving the volume a name if you wish.
-3. If you want to use persistence, 
+3. If you want to use persistence,
    1. Click "Show advanced drive options".
    2. Select the amount of storage to use for persistence.
 4. Click "Start" and wait for it to finish.
