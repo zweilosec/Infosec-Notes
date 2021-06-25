@@ -317,7 +317,7 @@ x = execute
 
 In linux the if the permission of a file would be :
 
-`-rwxrwxrwx
+`-rwxrwxrwx`
 
 Then that would mean that the anyone can read, write and execute the file. Breaking down this format into four parts :
 1. The first character would tell if it is a file or a directory, if it is a '-' (hyphen) then it would mean it is a file, but if it is 'd', then
@@ -355,7 +355,7 @@ Now taking the same above example of -rwxrwxrwx  :
 In order to assign a file this permission using the octal notation and chmod
 it would be :
 
-` chmod 777 file
+`chmod 777 file`
 
 The first 7 would mean for the owner (4+2+1), the second 7 for the group and the third one for others.
 
@@ -366,11 +366,11 @@ a = u+g+o (all)
 
 You can also give permissions using this method :
 
-` chmod a+w file
+`chmod a+w file`
 
 The above example would give write permissions to everyone.
 
-' chmod a-x file'
+`chmod a-x file`
 
 The above example would remove execute permissions for everyone.
 
@@ -378,13 +378,13 @@ The above example would remove execute permissions for everyone.
 
 Other than just read and write, you can also set some other permissions like SUID and GUID.
 
-` chmod 4000 file
-` chmod +s file
+`chmod 4000 file`
+`chmod +s file`
 
 Both the above examples would add the setuid bit to the file.
 
-` chmod 2000 file
-` chmod +g file
+`chmod 2000 file`
+`chmod +g file`
 
 Both the above examples would add the getuid bit to the file
 
@@ -392,16 +392,16 @@ The sticky bit is added to folders mainly in order to prevent anyone else from d
 or any of it's contents. It is represented by a 't' at the end. When a sticky bit is set, nobody other than
 the owner or the root can delete the folder or the file.
 
-` chmod 1000 folder
-` chmod +t folder
+`chmod 1000 folder`
+`chmod +t folder`
 
 Both the above examples set the sticky bit to the folders
 
 Examples:
-` chmod 1744 file
+`chmod 1744 file`
 This would set the sticky bit, give all permissions to the owner and only read permission to the group and others
 
-` chmod 0600 file
+`chmod 0600 file`
 This would only give the owner read and write permission, but not execute permission.
 
 #### chown command
