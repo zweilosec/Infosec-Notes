@@ -3,7 +3,7 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
 ## Hosts File
@@ -36,7 +36,7 @@ DNS offers a variety of information about public \(and sometimes private!\) orga
 
 zonetransfer.me \([https://digi.ninja/projects/zonetransferme.php](https://digi.ninja/projects/zonetransferme.php)\)
 
-A public training site for testing and learning about DNS.  Uses the following two name servers:
+A public training site for testing and learning about DNS. Uses the following two name servers:
 
 * nsztm1.digi.ninja
 * nsztm2.digi.ninja
@@ -263,19 +263,17 @@ dig -f file.txt [options]
 dnsenum 10.11.1.111
 ```
 
-
 ### DNS reverse lookup
 
 #### Using powershell
 
-```
+```text
 $ComputerIPAddress = "10.10.10.10"
-[System.Net.Dns]::GetHostEntry($ComputerIPAddress).HostName
 ```
 
-#### Using dnsrecon: 
+#### Using dnsrecon:
 
-```
+```text
 dnsrecon -r $ip/$subnet -n $ip_to_check
 ```
 
@@ -354,8 +352,6 @@ dnsrecon -d zonetransfer.me -t axfr
 ```text
 dnsenum zonetransfer.me
 ```
-
-
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

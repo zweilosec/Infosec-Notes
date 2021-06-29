@@ -109,30 +109,30 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 
 ### Special Symbols
 
-| `Symbol` | Purpose |
-| :--- | :--- |
-| `|` | Send the output of one command to another. |
-| `>` | Redirect output to a file. |
-| `<` | Redirect input from a file. |
-| `>>` | Append output to an existing file. |
-| `/` | Separator used in path names. |
-| `\` | Used to escape characters and to send multi-line commands. |
-| `.` | Current directory. |
-| `..` | Parent directory. |
-| `$$` | displays the process ID of the current shell instance. |
-| `&` | Process command in the background \(and give control of the terminal back\). |
-| `&&` | Run the next command only if the previous completed successfully. |
-| `*` | Match any number of characters in file name. |
-| `?` | Match any single character in file name. |
-| `[ ]` | Match any one of the enclosed characters in file name. |
-| `;` | Run commands in sequence, regardless if the previous succeeded. |
-| `( )` | Group commands. |
-| `{ }` | Used to feed multiple parameters to a single command.  Separate parameters by `,` |
-| `!` | Followed by a digit will repeat the command from the history file that corresponds. |
-| `!!` | Repeat the previous command. |
-| `0` | Shortcut that stands for Standard Input \(STDIN\) |
-| `1` | Shortcut that stands for Standard Output \(STDOUT\) |
-| `2` | Shortcut that stands for Standard Error \(STDERR\) |
+| `Symbol` | Purpose |  |
+| :--- | :--- | :--- |
+| \` | \` | Send the output of one command to another. |
+| `>` | Redirect output to a file. |  |
+| `<` | Redirect input from a file. |  |
+| `>>` | Append output to an existing file. |  |
+| `/` | Separator used in path names. |  |
+| `\` | Used to escape characters and to send multi-line commands. |  |
+| `.` | Current directory. |  |
+| `..` | Parent directory. |  |
+| `$$` | displays the process ID of the current shell instance. |  |
+| `&` | Process command in the background \(and give control of the terminal back\). |  |
+| `&&` | Run the next command only if the previous completed successfully. |  |
+| `*` | Match any number of characters in file name. |  |
+| `?` | Match any single character in file name. |  |
+| `[ ]` | Match any one of the enclosed characters in file name. |  |
+| `;` | Run commands in sequence, regardless if the previous succeeded. |  |
+| `( )` | Group commands. |  |
+| `{ }` | Used to feed multiple parameters to a single command.  Separate parameters by `,` |  |
+| `!` | Followed by a digit will repeat the command from the history file that corresponds. |  |
+| `!!` | Repeat the previous command. |  |
+| `0` | Shortcut that stands for Standard Input \(STDIN\) |  |
+| `1` | Shortcut that stands for Standard Output \(STDOUT\) |  |
+| `2` | Shortcut that stands for Standard Error \(STDERR\) |  |
 
 ### Recover an unresponsive terminal
 
@@ -277,9 +277,9 @@ Everything in Linux is a file, even directories and devices. Directories have so
 | `touch $fileName` | Create a new blank file with this name |
 | `cp $file [/path/to/]$newFile` | Copy file from one location to another.  If no location is specified, creates the copy in the same directory. |
 | `mv $file [/path/to/]$newFile` | Move file from one location to another.  If no location is specified, renames the file in same directory \(removes the old file\). |
-| `rm $file` | Removes \(deletes\) a file.  |
+| `rm $file` | Removes \(deletes\) a file. |
 | `rm *` | Removes \(deletes\) all files in the directory. |
-| `rm -rf *` | Recursively deletes all files in the directory and all subdirectories and files.  Will not prompt for approval with `-f`.  |
+| `rm -rf *` | Recursively deletes all files in the directory and all subdirectories and files.  Will not prompt for approval with `-f`. |
 | `mkdir [/path/to/]$dir` | Makes a new empty directory |
 | `mkdir -p test/{test1,test2}` | The `-p` flag creates multiple directories at once.  In this example we use brace expansion to create `test/` and 2 subdirectories under it. |
 | `rmdir $dir` | Deletes an empty directory |
@@ -293,7 +293,7 @@ Everything in Linux is a file, even directories and devices. Directories have so
 | `wc` | Counts the lines, words, and bytes in a file.  `-l` will count only lines, `-m` will count only characters, `-c` will count only bytes,  `-w` will count only words |
 | `awk` | A programming language for text processing. Can do many many things. |
 | `sed` | Performs text editing on a stream of text. Useful for replacing text in a file and much more |
-| `cut` | Extract a section of text.  **`-f`** selects the field, **`-d`** sets the delimiter.  |
+| `cut` | Extract a section of text.  **`-f`** selects the field, **`-d`** sets the delimiter. |
 | `sort` |  |
 | `uniq` |  |
 
@@ -305,76 +305,97 @@ cat > $fileName
 
 ### File Permissions
 
-> TODO: Add more information about Linux file permissions \(both `octal` and `ugo-rwx` formats\); Add information about `chmod` and `chown` commands; Add descriptions and examples \(issue [\#8](https://github.com/zweilosec/Infosec-Notes/issues/8)\)
+The permissions for a file \(for example, viewed with the `ls -l` command\) are typically written as: 
 
-File permissions in linux can be expressed in two formats, the rwx and the octal notation.
+```bash
+-rwxrwxrwx owner group [metadata] $filename
+```
 
-#### rwx notation
+**`r`** = read **`w`** = write **`x`** = execute
 
-r = read\
-w = write\
-x = execute
+Breaking down this format gives us four parts: 
 
-In linux the if the permission of a file would be :
+1. The first character tells if it is a file or a directory.  if it is a **`-`** \(hyphen\) then it is a file. However if the first character is a **`d`**, then the file is a directory.  \(Remember, technically everything in Linux is a file, even directories\).
+2. The next three characters specify the permissions of the owner of the file.
+3. The following three characters specify the permissions of the group that owns the file.
+4. The final three characters specify the permissions of all other users.
 
-`-rwxrwxrwx`
+The permissions `-rwxrwxrwx` mean that the anyone can read, write and execute the file. 
 
-Then that would mean that the anyone can read, write and execute the file. Breaking down this format into four parts :
-1. The first character would tell if it is a file or a directory, if it is a '-' (hyphen) then it would mean it is a file, but if it is 'd', then
-   it would mean that it is a directory.
-2. The next three characters specify the permission of the owner of the file.
-3. The next three character specify the permissions of the group.
-4. The last three character would specify the characters of others.
+In the above example, the owner, group, and everyone permissions are all `rwx`; hence anyone can read, write, and execute this file.
 
-In the above example all of them had rwx assigned to them, hence anyone could read, write and execute this file.
+#### The chmod command
+
+The `chmod` command is used to set the permissions on a file.  This is usually expressed in one of two different formats, ugoa+rwx and octal notation.  The command is used as follows:
+
+```bash
+chmod [permissions] $file
+```
 
 #### Octal notation
 
-In the octal notation, the permissions are assigned using octal digits.
+In octal notation, the permissions are assigned using triple octal \(base8\) digits.  The first digit is the cumulative permissions for the owner, the second for the group, and the third for everyone else.
 
-|  Permissions  |  binary notation  |  octal notation  |  Description  |
-|  :---  |  :---  |  :---  |  :--  |
-|  ---  |  000  |  0  |  No permission  |
-|  --x  |  001  |  1  |  Execute permission only  |
-|  -w-  |  010  |  2  |  Write permission only  |
-|  -wx  |  011  |  3  |  Write and execute  |
-|  r--  |  100  |  4  |  Read permission only  |
-|  r-x  |  101  |  5  |  Read and execute permission  |
-|  rw-  |  110  |  6  |  Read and write permission  |
-|  rwx  |  111  |  7  |  Read, write and execute  |
+| Permissions | Binary notation | Octal notation | Description |
+| :--- | :--- | :--- | :--- |
+| `---` | 000 | 0 | No permissions |
+| `--x` | 001 | 1 | Execute permission only |
+| `-w-` | 010 | 2 | Write permission only |
+| `-wx` | 011 | 3 | Write and execute |
+| `r--` | 100 | 4 | Read permission only |
+| `r-x` | 101 | 5 | Read and execute permission |
+| `rw-` | 110 | 6 | Read and write permission |
+| `rwx` | 111 | 7 | Read, write and execute |
 
 From the above table we can easily derive :
 
-Read    = 4\
-Write   = 2\
-Execute = 1
+```bash
+Read = 4    Write = 2     Execute = 1
+```
 
-Therefore if you would want to give a read and write, it would be 6 (4+2=6).
+Therefore, if you want to give only the owner read and write permissions, they would be assigned `600` \(4+2=6\).  
 
-Now taking the same above example of -rwxrwxrwx  :
-In order to assign a file this permission using the octal notation and chmod
-it would be :
+Taking the same example from above, to assign the permissions `-rwxrwxrwx` the command would be: 
 
-`chmod 777 file`
+```bash
+chmod 777 $file
+```
 
-The first 7 would mean for the owner (4+2+1), the second 7 for the group and the third one for others.
+That is: read \(4\), write \(2\), and execute \(1\) permissions for the owner, group, and all others.
 
-u = user\
-g = group\
-o = others\
-a = u+g+o (all)
+#### ugoa+rwx notation
 
-You can also give permissions using this method :
+In this notation format, there are three main components:
 
-`chmod a+w file`
+1. _Who._ The users to modify permissions for: `u` = user \(owner\), `g` = group, `o` = others, and finally  `a` = u+g+o \(all\).
+2. _What._ The modifier: `=` to set permissions, `+` for adding permissions, `-` for removing permissions.
+3. _Which._ The permissions to set, add, or remove: one or more of `rwx` as above.
 
-The above example would give write permissions to everyone.
+As you can see, this notations allows for easier and more explicit control over exactly which permissions are given to whom.
 
-`chmod a-x file`
+Examples: 
 
-The above example would remove execute permissions for everyone.
+To give all users the write permission:
 
-#### Advanced permissions
+```bash
+chmod a+w $file
+```
+
+To remove write and execute permissions from the 'other' group:
+
+```bash
+chmod o-wx $file
+```
+
+These permission changes can also be chained by adding a comma between the permission changes.  
+
+To add read/write permissions for the file owner and group, while making it read only for everyone else:
+
+```bash
+chmod ug+rw,o=r $file
+```
+
+#### Advanced permissions \(TODO: Finish cleaning this up.  Add descriptions of SUID/GUID\)
 
 Other than just read and write, you can also set some other permissions like SUID and GUID.
 
@@ -382,17 +403,19 @@ Other than just read and write, you can also set some other permissions like SUI
 
 `chmod +s file`
 
-Both the above examples would add the setuid bit to the file.
+Both the above examples would add the `setuid` bit to the file.
 
 `chmod 2000 file`
 
 `chmod +g file`
 
-Both the above examples would add the getuid bit to the file
+Both the above examples would add the `getuid` bit to the file.
 
-The sticky bit is added to folders mainly in order to prevent anyone else from deleting the folder.
-or any of it's contents. It is represented by a 't' at the end. When a sticky bit is set, nobody other than
-the owner or the root can delete the folder or the file.
+#### The sticky bit
+
+[https://en.wikipedia.org/wiki/Sticky\_bit](https://en.wikipedia.org/wiki/Sticky_bit) &lt;- pull more information from here and add
+
+The "sticky bit" is added to folders in order to prevent anyone else from deleting the folder or any of its contents. It is represented by a `t` at the end of the permissions `d--r--r--rt`. When a sticky bit is set, nobody other than the owner or the root can delete the folder or the file.
 
 `chmod 1000 folder`
 
@@ -400,8 +423,7 @@ the owner or the root can delete the folder or the file.
 
 Both the above examples set the sticky bit to the folders
 
-Examples:
-`chmod 1744 file`
+Examples: `chmod 1744 file`
 
 This would set the sticky bit, give all permissions to the owner and only read permission to the group and others
 
@@ -409,14 +431,15 @@ This would set the sticky bit, give all permissions to the owner and only read p
 
 This would only give the owner read and write permission, but not execute permission.
 
-#### chown command
+#### The chown command
 
-The chown command can be used to change the owner of a file or a directory.
+The `chown` command can be used to change the owner of a file or a directory.
 
-`chown $user $group $file`
+```bash
+chown $user $group $file
+```
 
-The above command would change the owner of the file from root to $user and also the group to $group
-
+The above command would change the owner of the file to `$user` and also the group to `$group`.
 
 ### File compression and encryption
 
@@ -506,7 +529,7 @@ TODO: add more information on mounting and using network shares \(issue [\#10](h
 | `apt show $package` | Show details about the specified package |
 | `sudo apt install $package` | Installs the specified package \(and any dependencies\). |
 | `apt remove --purge $package` | Uninstalls the specified package |
-| `dpkg -i $deb_file`  | Installs the specified `.deb` package file \(Does not install dependencies\). |
+| `dpkg -i $deb_file` | Installs the specified `.deb` package file \(Does not install dependencies\). |
 | `alien $file.rpm` | Convert rpm to Debian packages |
 
 ## Users and Groups

