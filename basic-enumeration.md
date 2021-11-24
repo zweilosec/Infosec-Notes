@@ -42,3 +42,17 @@ if need full details scan:
 ```bash
 nmap -vvv --reason -sCV -Pn -A --osscan-guess --version-all -p $ports -oA host.nmap-full
 ```
+
+### Simple bash port scan script
+
+```bash
+for ip in {1..254};
+  do for port in {1..65535};
+    do (echo >/dev/tcp/10.10.10.$ip/$port) >& /dev/null \
+    && echo "10.10.10.$ip:$port is open";
+    done;
+  done;
+echo "Scan complete."
+```
+
+The IP range and ports to scan can of course be modified to fit the situation.  Scanning all ports on a class C range will take awhile. Try not to do this as it is very noisy.
