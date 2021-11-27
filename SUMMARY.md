@@ -5,7 +5,7 @@
 * [Hacking Methodology](hacking-methodology.md)
 * [Hands-on Practice](hands-on-practice.md)
 
-## Linux <a id="linux-1"></a>
+## Linux <a href="linux-1" id="linux-1"></a>
 
 * [Linux Basics](linux-1/linux-basics.md)
 * [Hardening & Setup](linux-1/linux-hardening/README.md)
@@ -19,7 +19,7 @@
 * [Vim](linux-1/vim.md)
 * [Test](linux-1/test.md)
 
-## Windows <a id="windows-1"></a>
+## Windows <a href="windows-1" id="windows-1"></a>
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [PowerShell](windows-1/powershell.md)
@@ -64,12 +64,13 @@
 * [Basic Enumeration](os-agnostic/basic-enumeration.md)
 * [Cryptography & Encryption](os-agnostic/cryptography-and-encryption.md)
 * [Network Hardware](os-agnostic/network-hardware.md)
-* [OS Agnostic](os-agnostic/os_agnostic.md)
+* [OS Agnostic](os-agnostic/os\_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/README.md)
   * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
   * [Wordlist Manipulation](os-agnostic/password-cracking/wordlist-manipulation.md)
   * [Cracking the Hashes](os-agnostic/password-cracking/cracking-the-hashes.md)
+* [Pivoting](os-agnostic/pivoting.md)
 * [Reverse Engineering & Binary Exploitation](os-agnostic/reverse-engineering-and-binary-exploitation/README.md)
   * [Buffer Overflow](os-agnostic/reverse-engineering-and-binary-exploitation/buffer-overflow.md)
 * [Scripting](os-agnostic/scripting/README.md)
@@ -79,7 +80,6 @@
 * [Steganography](os-agnostic/steganography.md)
 * [Wireless](os-agnostic/wifi.md)
 
----
+***
 
 * [Unsorted](untitled.md)
-
