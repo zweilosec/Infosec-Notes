@@ -1,12 +1,18 @@
 # Pivoting
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
+{% endhint %}
+
 ## PORT FORWARDING ("port to port")
 
 ### Using Metasploit
 
 Target: Most platforms
 
-Forward: Get meterpreter session on one of the dual homed machines
+If you get a meterpreter session on a dual homed machine, or one with multiple network interfaces.
 
 ```bash
 portfwd add -l 4445 -p 4443 -r 10.1.1.1
@@ -16,8 +22,6 @@ portfwd add -l 4445 -p 4443 -r 10.1.1.1
 ### Using SSH
 
 Target: Linux
-
-\~C
 
 **If you already have an SSH session**
 
@@ -113,7 +117,7 @@ netsh interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=9000 con
 netsh interface portproxy delete v4tov4 listenaddress=127.0.0.1 listenport=9000
 ```
 
-## DYNAMIC Port Forwarding ("port to any")
+## DYNAMIC Port Forwarding ("one port to any")
 
 * setup proxychains with socks5 on 127.0.0.1:1080
   * Or set up socks5 proxy on firefox
@@ -123,8 +127,8 @@ netsh interface portproxy delete v4tov4 listenaddress=127.0.0.1 listenport=9000
 
 Target: Most platforms
 
-* Get meterpreter session on one of the dual homed machines
-* Auto route to 10.1.1.0 (multi/manage/autoroute)
+* If you get a meterpreter session on a dual homed machine, or one with multiple network interfaces.
+* Auto route to IP (multi/manage/autoroute)
 * Start socks proxy (auxiliary/server/socks4a)
 
 ### Using SSH
@@ -141,7 +145,7 @@ Target: Windows
 
 ```bash
 #On Target: 
-plink.exe 10.1.1.1 -P 22 -C -N -D 1080 -l $KALIUSER -pw $PASS
+plink.exe 10.10.10.123 -P 22 -C -N -D 1080 -l $KALIUSER -pw $PASS
 ```
 
 ### Using CHISEL
@@ -153,7 +157,7 @@ Target: Most platforms
 ./chisel server -p 8000 -reverse
 
 #On Target:
-./chisel client 10.1.1.1:8000 R:8001:127.0.0.1:1080
+./chisel client 10.10.10.123:8000 R:8001:127.0.0.1:1080
 ./chisel server -p 8001 --socks5
 
 #On Kali:
