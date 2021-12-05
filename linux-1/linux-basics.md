@@ -77,7 +77,7 @@ Everything in Linux is a file, even directories and devices. Directories have so
 | `diff $file1 $file2`           | Compare two files and show differences (Only for text-based files)                                                                                                                                                                                         |
 | `grep $string $file`           | Search for string inside a file                                                                                                                                                                                                                            |
 | `head $file`                   | Displays the first 10 lines of a file. Specify the number of lines with `-#`                                                                                                                                                                               |
-| `tail $file`                   | Displays the last 10 lines of a file. Specify the number of lines with `-#`                                                                                                                                                                                |
+| `tail $file`                   | <p>Displays the last 10 lines of a file. Specify the number of lines with <code>-#</code></p><p><code>-f</code> - Update the output continuously.</p>                                                                                                      |
 | `file $file`                   | Displays the filetype of a file, determined by the hexadecimal " [magic bytes](https://blog.netspi.com/magic-bytes-identifying-common-file-formats-at-a-glance/)".                                                                                         |
 
 ### File and directory creation and deletion
@@ -85,14 +85,14 @@ Everything in Linux is a file, even directories and devices. Directories have so
 | Command                          | Description                                                                                                                                                                                                 |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `touch $fileName`                | Create a new blank file with this name                                                                                                                                                                      |
-| `cp $file [/path/to/]$newFile`   | Copy file from one location to another.  If no location is specified, creates the copy in the same directory.                                                                                               |
+| `cp $file [/path/to/]$newFile`   | Copy file from one location to another.  If no location is specified, creates the copy in the same directory. \[Path optional]                                                                              |
 | `mv $file [/path/to/]$newFile`   | Move file from one location to another.  If no location is specified, renames the file in same directory (removes the old file).                                                                            |
 | `rm $file`                       | Removes (deletes) a file.                                                                                                                                                                                   |
 | `rm *`                           | Removes (deletes) all files in the directory.                                                                                                                                                               |
 | `rm -rf *`                       | Recursively deletes all files in the directory and all subdirectories and files.  Will not prompt for approval with `-f`.                                                                                   |
 | `mkdir [/path/to/]$dir`          | Makes a new empty directory                                                                                                                                                                                 |
-| `mkdir -p test/{test1,test2}`    | The `-p` flag creates multiple directories at once.  In this example we use brace expansion to create `test/` and 2 subdirectories under it.                                                                |
-| `rmdir $dir`                     | Deletes an empty directory                                                                                                                                                                                  |
+| `mkdir -p test/{test1,test2}`    | The `-p` flag creates multiple directories at once.  In this example we use brace expansion to create `test/` and two subdirectories under it simultaneously.                                               |
+| `rmdir $dir`                     | Deletes an (empty) directory                                                                                                                                                                                |
 | `sudo rm --force $(which $file)` | Removes all instances of a specified filename.  Only searches PATH directories.  You could also use `find` or `locate` instead of `which` to find more files.  With `--force` will not prompt for approval! |
 
 ### File & text manipulation
@@ -290,13 +290,14 @@ TODO: add more information about Managing connections in Linux (Issue [#9](https
 * Add commands for listing information about open network connections: lsof -i, ss, netstat
 * include description and examples
 
-| Command  | Description |
-| -------- | ----------- |
-| `telnet` |             |
-| `SSH`    |             |
-| `nc`     |             |
-| `curl`   |             |
-| `wget`   |             |
+| Command  | Description                                                                                                                                                                                                                       |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `telnet` |                                                                                                                                                                                                                                   |
+| `ssh`    |                                                                                                                                                                                                                                   |
+| `nc`     |                                                                                                                                                                                                                                   |
+| `curl`   | Transfer data to or from a server using a variety of protocols including IMAP/S, POP3/S, SCP, SFTP, SMB/S, SMTP/S, TELNET, TFTP, and others.                                                                                      |
+| `wget`   | Downloads files using the HTTP,HTTPS, or FTP protocols.                                                                                                                                                                           |
+| `axel`   | <p>Download files using concurrent connections</p><ul><li><code>-a</code> - Show progress indicator</li><li><code>-n #</code> - # number of connections to use</li><li><code>-o</code> - Specify the output file's name</li></ul> |
 
 nc listener: `nc -lvnp <port>`
 
@@ -410,6 +411,35 @@ export PATH="~/opt/bin${PATH:+:${PATH}}"
 ```
 
 (from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path))
+
+### $HISTCONTROL
+
+The HISTCONTROL environment variable can be used to whether the bash history removes duplicate commands, commands that start with a space, or both.  The default behavior is to remove both.
+
+```bash
+export HISTCONTROL=ignoredups
+```
+
+`ignoredups` - Ignore Duplicates
+
+### $HISTIGNORE
+
+The HISTIGNORE environment variable can be used to filter commands so they do not appear in the history.
+
+```bash
+export HISTIGNORE="ls:[bf]g:exit:history"
+```
+
+This example causes the history command to not log common commands such as `ls`,`bg`,`fg`,`exit`,and `history`.  Uses standard bash text shortcuts such as \[ ] to indicate options.
+
+### $HISTTIMEFORMAT
+
+The HISTTIMEFORMAT environment variable controls date/time stamps in the output of the history command.
+
+```bash
+export HISTTIMEFORMAT='%F %T '
+#show date and time before each command in history
+```
 
 ## Startup Scripts
 
