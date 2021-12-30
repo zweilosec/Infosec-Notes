@@ -158,7 +158,26 @@ Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
 
 ### **Shell URIs**
 
-_shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* `shell:Administrative Tools`
+* `shell:DocumentsLibrary`
+* `shell:Libraries`
+* `shell:UserProfiles`
+* `shell:Personal`
+* `shell:SearchHomeFolder`
+* `shell:NetworkPlacesFolder`
+* `shell:SendTo`
+* `shell:UserProfiles`
+* `shell:Common Administrative Tools`
+* `shell:MyComputerFolder`
+* `shell:InternetFolder`
+* `Shell:Profile`
+* `Shell:ProgramFiles`
+* `Shell:System`
+* `Shell:ControlPanelFolder`
+* `Shell:Windows`
+* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Control Panel
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> This PC/My Computer
+* `shell:::{208D2C60-3AEA-1069-A2D7-08002B30309D}` --> Network Places
 
 ## Powershell
 
