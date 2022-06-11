@@ -26,7 +26,7 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 #### Groups
 
-`[Security.Principal.WindowsIdentity]::GetCurrent() `Not very good output by default, need to manipulate the object a bit to get the desired information
+`[Security.Principal.WindowsIdentity]::GetCurrent()` Not very good output by default, need to manipulate the object a bit to get the desired information
 
 The below example is better.  Will display group name and SIDs.  Still not the same as `whoami /all` though.
 
@@ -432,7 +432,7 @@ wmic product get name /value
 
 
 
-### Uninstall Software <a href="cfde" id="cfde"></a>
+### Uninstall Software <a href="#cfde" id="cfde"></a>
 
 ```
 wmic product where name="$name" call uninstall /INTERACTIVE:OFF
@@ -547,7 +547,7 @@ todos %username%" && echo.
 `Get-NetTCPConnection`
 
 {% hint style="warning" %}
-`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See `**`Get-NetUDPEndpoint` **`below.`
+`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See`` `**`Get-NetUDPEndpoint` ** `below.`
 {% endhint %}
 
 Get listening connections:
@@ -716,52 +716,72 @@ To run this from a command prompt without popup windows:
 
 Port 139 and 445- SMB/Samba. Server Message Block is a service that enables the user to share files with other machines. Works the same as a command line FTP client, may browse files without even having credentials
 
+### SMB Enumeration Checklist
+
+* Enumerate Hostname&#x20;
+  * &#x20;`nmblookup -A $ip`
+* List Shares
+  * `smbmap -H $computer`
+  * `echo exit | smbclient -L \\\\$ip`
+  * `nmap --script smb-enum-shares -p 139,445 $ip`
+* Check Null Sessions
+  * `smbmap -H $computer`
+  * `rpcclient -U "" -N $ip`
+  * `smbclient \\\\$ip\\$share_name`
+* Check for Vulnerabilities&#x20;
+  * `nmap --script smb-vuln* -p 139,445 $ip`
+* Overall Scan &#x20;
+  * `enum4linux -a $ip`
+* Manual Inspection
+  * `smbver.sh $ip $port`&#x20;
+  * Use Wireshark to check pcap
+
 ### Share List:
 
 ```bash
-smbclient --list $targetip
-smbclient -L $targetip
-smbmap
+smbclient --list $ip
+smbclient -L $ip
+smbmap -H $computer
 ```
 
 ### Check SMB vulnerabilities:
 
 ```bash
-nmap --script=smb-check-vulns.nse $targetip -p 445
+nmap --script=smb-check-vulns.nse $ip -p 445
 ```
 
 ### SMB nmap scripts to enumerate shares and OS discovery
 
-```
+```bash
 nmap -p 139,445 $ip_range --script smb-enum-shares.nse smb-os-discovery.nse
 ```
 
 ### Connect using Username
 
 ```bash
-smbclient -L $targetip -U $UserName -p 445
+smbclient -L $ip -U $UserName -p 445
 ```
 
 ### Connect to Shares
 
 ```bash
-smbclient \\\\$targetip\\$ShareName
-smbclient \\\\$targetip\\$ShareName -U $UserName
+smbclient \\\\$ip\\$ShareName
+smbclient \\\\$ip\\$ShareName -U $UserName
 ```
 
 ### Enumerate with smb-shares
 
 ```bash
-enum4linux -a $ipbash
+enum4linux -a $ip
 ```
 
 `-a` "do everything" option
 
 ### Get machine name and then enumerate with smbclient
 
-```
-nmblookup -A 192.168.1.102
-smbclient -L <server_name> -I 192.168.1.105
+```bash
+nmblookup -A $ip
+smbclient -L $server_name -I $ip
 ```
 
 ### rpcclient
@@ -771,7 +791,7 @@ smbclient -L <server_name> -I 192.168.1.105
 ```bash
 rpcclient -U $UserName $ip
 rpcclient -U "" $ip
-#(press enter if asks for a password)
+#press enter if it asks for a password
 ```
 
 #### Common Checks
@@ -788,11 +808,32 @@ rpcclient> queryuser john
 
 ### scan for vulnerabilities with nmap
 
-nm
+```bash
+nmap --script smb-vuln* -p 139,445 $ip
+```
+
+### Use TCPdump/Wireshark to get version
+
+_`@rewardone`_ in the PWK forums posted a script to gather Samba versions:
 
 ```bash
-nmap --script "vuln" -p139,445
+#!/bin/sh
+#Author: rewardone
+#Description:
+# Requires root or enough permissions to use tcpdump
+# Will listen for the first 7 packets of a null login
+# and grab the SMB Version
+#Notes:
+# Will sometimes not capture or will print multiple
+# lines. May need to run a second time for success.
+if [ -z $1 ]; then echo "Usage: ./smbver.sh RHOST {RPORT}" && exit; else rhost=$1; fi
+if [ ! -z $2 ]; then rport=$2; else rport=139; fi
+tcpdump -s0 -n -i tap0 src $rhost and port $rport -A -c 7 2>/dev/null | grep -i "samba\|s.a.m" | tr -d '.' | grep -oP 'UnixSamba.*[0-9a-z]' | tr -d '\n' & echo -n "$rhost: " &
+echo "exit" | smbclient -L $rhost 1>/dev/null 2>/dev/null
+sleep 0.5 && echo ""
 ```
+
+To get Windows SMB information open the pcap in Wireshark and filter on `ntlmssp.ntlmv2_response`
 
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
@@ -998,7 +1039,7 @@ C:\> streams -s .
 
 #### Use `procdump` to obtain the `lsass` process memory.
 
-**Use `mimikatz` `minidump` to get passwords**
+**Use `mimikatz`  `minidump` to get passwords**
 
 ```
 C:\> procdump -accepteula -ma lsass.exe mini.dmp
@@ -1412,7 +1453,7 @@ C:\> pnputil -i -a path_to_inf
 
 #### Malware Hunting with Mark Russinovich and the Sysinternals
 
-[![Malware Hunting with Mark Russinovich and the Sysinternals Tools](https://camo.githubusercontent.com/6b3e069a3767ac14b74715d37bd3eddbdd4d9dcc/687474703a2f2f696d672e796f75747562652e636f6d2f76692f383076665441394c72424d2f302e6a7067)](https://www.youtube.com/watch?v=80vfTA9LrBM)
+[<img src="https://camo.githubusercontent.com/6b3e069a3767ac14b74715d37bd3eddbdd4d9dcc/687474703a2f2f696d672e796f75747562652e636f6d2f76692f383076665441394c72424d2f302e6a7067" alt="Malware Hunting with Mark Russinovich and the Sysinternals Tools" data-size="original">](https://www.youtube.com/watch?v=80vfTA9LrBM)
 
 #### Windows Nano Server APIs
 
@@ -1593,13 +1634,13 @@ where /R C:\ ping.exe 2>null
 
 ### Resolve IP to Hostname&#xD;
 
-`[System.Net.Dns]::GetHostByAddress('$IP').HostName`
+`[System.Net.Dns]::GetHostByAddress('$IP').HostName`
 
 ### **PowerShell 'Watch' Command**
 
 `while (1) { $command_to_watch ; sleep 5}`
 
-### Get WiFi Passwords <a href="246a" id="246a"></a>
+### Get WiFi Passwords <a href="#246a" id="246a"></a>
 
 First, you have to know the SSID of the access point (AP) to get the password from
 
