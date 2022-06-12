@@ -30,7 +30,7 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 The below example is better.  Will display group name and SIDs.  Still not the same as `whoami /all` though.
 
-```bash
+```powershell
 $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIdentifier($_.Value)).Translate([System.Security.Principal.NTAccount])).Value};Label=”Group Name”},
 @{Expression={$_.Value};Label=”Group SID”},
 @{Expression={$_.Type};Label=”Group Type”}
@@ -40,7 +40,7 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 
 #### List users' home folders
 
-```bash
+```powershell
 Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
 ```
 
@@ -48,8 +48,8 @@ Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' |
 
 Use either `Get-WmiObject` or `Get-CimInstance` to pull information about all local accounts.  This can also be used remotely, and to query information about AD accounts.
 
-```bash
-Get-WmiObject -ComputerName $env:computername -Class Win32_UserAccount -Filter "LocalAccount=True" | Select PSComputername, Name, Status, Disabled, AccountType, Lockout, PasswordRequired, PasswordChangeable | Out-GridView
+```powershell
+Get-CimInstance -ComputerName $env:computername -Class Win32_UserAccount -Filter "LocalAccount=True" | Select PSComputername, Name, Status, Disabled, AccountType, Lockout, PasswordRequired, PasswordChangeable | Out-GridView
 
 #Get Current or last logged in username
 $CurrentUser = Get-CimInstance -ComputerName $Computer -Class Win32_ComputerSystem | Select-Object -ExpandProperty UserName
@@ -59,7 +59,7 @@ $CurrentUser = Get-CimInstance -ComputerName $Computer -Class Win32_ComputerSyst
 
 #### Using ADSI
 
-```bash
+```powershell
 $adsi = [ADSI]"WinNT://$env:computername"
 $Users = $adsi.Children | where {$_.SchemaClassName -eq 'user'}
 $Users | Select *
@@ -85,7 +85,7 @@ There is a property called Password, though this did not return anything on my M
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```
+```powershell
 Get-CimInstance -class Win32_UserAccount
 ```
 
@@ -124,7 +124,7 @@ net group /domain
 
 WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
 
-```bash
+```powershell
 # The following WQL query returns only local user accounts.
 $q = "Select * from Win32_UserAccount where LocalAccount = True"
 Get-CimInstance -Query $q
@@ -177,7 +177,7 @@ reg query HKCU /f password /t REG_SZ /s
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```
+```powershell
 [System.Environment]::OSVersion
 ```
 {% endtab %}
@@ -207,8 +207,8 @@ Gives basic hardware information, Also lists the hotfixes that have been install
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```
-Get-WmiObject -query 'select * from win32_quickfixengineering' | foreach $_.hotfixid {Get-Hotfix}
+```powershell
+Get-CimInstance -query 'select * from win32_quickfixengineering' | foreach $_.hotfixid {Get-Hotfix}
 ```
 
 Use the `-description "Security update"` attribute of `Get-Hotfix` to list only security updates
@@ -227,7 +227,11 @@ Use the `-description "Security update"` attribute of `Get-Hotfix` to list only 
 {% tab title="PowerShell" %}
 **Requires an elevated PowerShell prompt:**
 
-`Get-WindowsDriver -Online -All` Specifies that the action is to be taken on the operating system that is currently running on the local computer.
+```powershell
+ Get-WindowsDriver -Online -All
+```
+
+Specifies that the action is to be taken on the operating system that is currently running on the local computer.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -241,7 +245,9 @@ Use the `-description "Security update"` attribute of `Get-Hotfix` to list only 
 
 #### Make back up of all installed drivers
 
-`Export-WindowsDriver -Online -Destination "C:\Backup\Path\"`
+```powershell
+Export-WindowsDriver -Online -Destination "C:\Backup\Path\"
+```
 
 ### List Environment Variables
 
@@ -263,7 +269,7 @@ These settings show what is being logged, this can be useful information for eva
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```bash
+```powershell
 Get-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\Audit
 ```
 
@@ -281,7 +287,7 @@ Check where the logs are sent:
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```bash
+```powershell
 Get-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\EventLog\EventForwarding\SubscriptionManager
 ```
 
@@ -314,7 +320,7 @@ $Credential
         } 
     PROCESS  
         {    
-            $AntivirusProduct = Get-WmiObject -Namespace "root\SecurityCenter2" -Query $wmiQuery  @psboundparameters         
+            $AntivirusProduct = Get-CimInstance -Namespace "root\SecurityCenter2" -Query $wmiQuery @psboundparameters         
             [array]$AntivirusNames = $AntivirusProduct.displayName    
                
             foreach ($av in $AntivirusNames) 
@@ -340,7 +346,7 @@ Check the status of the Windows Firewall
 
 {% tabs %}
 {% tab title="PowerShell" %}
-```bash
+```powershell
 Get-NetFirewallProfile -All
 ```
 
@@ -368,7 +374,9 @@ netsh firewall set opmode disable
 
 ### Clipboard
 
-Get the contents of the clipboard `Get-Clipboard`
+Get the contents of the clipboard&#x20;
+
+`Get-Clipboard`
 
 ## Software, Services, and Processes
 
@@ -378,9 +386,10 @@ Get the contents of the clipboard `Get-Clipboard`
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)'`&#x20;
-
-`Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE`
+```powershell
+Get-ChildItem 'C:\Program Files', 'C:\Program Files (x86)' 
+Get-ChildItem -path Registry::HKEY_LOCAL_MACHINE\SOFTWARE
+```
 
 The below PowerShell script will return a more complete list of all software installed by querying `SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall` on a list of computer names.  It displays the following information:&#x20;
 
@@ -389,45 +398,63 @@ The below PowerShell script will return a more complete list of all software ins
 * Version,&#x20;
 * Publisher
 
-```bash
-# Get-SoftwareInventory 
+```powershell
+function Get-SoftwareInventory
+{
+  #Enable -Verbose output, piping of input from other comdlets, and more
+  [CmdletBinding()]
+  #List of input parameters
+  Param
+  (   
+    #List of ComputerNames to process
+    [Parameter(ValueFromPipeline=$true,
+    ValueFromPipelineByPropertyName=$true)]
+    [ValidateNotNullOrEmpty()]
+    [alias('Name')] #Allows for piping in of computers by name from Active Directory (Get-ADComputer)
+    [string[]]
+    $ComputerName
+  )
 
-#Change this variable to point to a list of computer names
-$computers = Import-Csv “C:\computerlist.csv”
+  Begin
+  {
+    $SoftwareArray = @()
+  }
 
-$array = @()
-
-foreach($pc in $computers){
-
-    $computername=$pc.computername
-
-    #Define the variable to hold the location of Currently Installed Programs
-    $UninstallKey=”SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall” 
+  Process
+  {
+    #Variable to hold the location of Currently Installed Programs
+    $SoftwareRegKey = ”SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall” 
 
     #Create an instance of the Registry Object and open the HKLM base key
-    $reg=[microsoft.win32.registrykey]::OpenRemoteBaseKey(‘LocalMachine’,$computername) 
+    $Reg = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey(‘LocalMachine’,$ComputerName) 
 
-    #Drill down into the Uninstall key using the OpenSubKey Method
-    $regkey=$reg.OpenSubKey($UninstallKey) 
+    #Open the Uninstall subkey using the OpenSubKey Method
+    $RegKey = $Reg.OpenSubKey($SoftwareRegKey) 
 
-    #Retrieve an array of string that contain all the subkey names
-    $subkeys=$regkey.GetSubKeyNames() 
+    #Create a string array containing all the subkey names
+    [String[]]$SubKeys = $RegKey.GetSubKeyNames() 
 
-    #Open each Subkey and use GetValue Method to return the required values for each
-    foreach($key in $subkeys){
-        $thisKey=$UninstallKey+”\\”+$key 
-        $thisSubKey=$reg.OpenSubKey($thisKey) 
-        $obj = New-Object PSObject
-        $obj | Add-Member -MemberType NoteProperty -Name “ComputerName” -Value $computername
-        $obj | Add-Member -MemberType NoteProperty -Name “DisplayName” -Value $($thisSubKey.GetValue(“DisplayName”))
-        $obj | Add-Member -MemberType NoteProperty -Name “DisplayVersion” -Value $($thisSubKey.GetValue(“DisplayVersion”))
-        $obj | Add-Member -MemberType NoteProperty -Name “InstallLocation” -Value $($thisSubKey.GetValue(“InstallLocation”))
-        $obj | Add-Member -MemberType NoteProperty -Name “Publisher” -Value $($thisSubKey.GetValue(“Publisher”))
-        $array += $obj
+    #Open each Subkey and use its GetValue method to return the required values
+    foreach($key in $SubKeys)
+    {
+        $UninstallKey = $SoftwareRegKey + ”\\” + $key 
+        $UninstallSubKey = $reg.OpenSubKey($UninstallKey) 
+        $obj = [PSCustomObject]@{
+                Computer_Name = $ComputerName
+                DisplayName = $($UninstallSubKey.GetValue(“DisplayName”))
+                DisplayVersion = $($UninstallSubKey.GetValue(“DisplayVersion”))
+                InstallLocation = $($UninstallSubKey.GetValue(“InstallLocation”))
+                Publisher = $($UninstallSubKey.GetValue(“Publisher”))
+        }
+        $SoftwareArray += $obj
     } 
+  }
+  End
+  {
+    $SoftwareArray | Where-Object { $_.DisplayName } | Select-Object ComputerName, DisplayName, DisplayVersion, Publisher | Format-Table -AutoSize
+  }
 }
-
-$array | Where-Object { $_.DisplayName } | select ComputerName, DisplayName, DisplayVersion, Publisher | ft -auto
+Get-SoftwareInventory
 ```
 {% endtab %}
 
@@ -450,7 +477,7 @@ wmic product get name /value
 
 ### Uninstall Software <a href="#cfde" id="cfde"></a>
 
-```
+```powershell
 wmic product where name="$name" call uninstall /INTERACTIVE:OFF
 ```
 
@@ -514,9 +541,19 @@ If you are having this error (for example with SSDPSRV):
 {% tab title="PowerShell" %}
 `Get-Process`
 
-With usernames of process owner `Get-WmiObject -Query "Select * from Win32_Process" | where {$_.Name -notlike "svchost*"} | Select Name, Handle, @{Label="Owner";Expression={$_.GetOwner().User}} | ft -AutoSize`
+With usernames of process owner&#x20;
 
-Without usernames `Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id`
+```powershell
+Get-CimInstance -Query "Select * from Win32_Process" | where {$_.Name -notlike "svchost*"} | Select Name, Handle, @{Label="Owner";Expression={$_.GetOwner().User}} | ft -AutoSize
+```
+
+\*Admin rights needed to pull owner information
+
+Without usernames&#x20;
+
+```powershell
+Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
+```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
