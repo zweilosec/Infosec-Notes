@@ -299,7 +299,7 @@ Add the `-Name $KeyName` property to get the value of a specific key.
 {% endtab %}
 {% endtabs %}
 
-### AV
+### Antivirus
 
 Check if there is any antivirus installed:&#x20;
 
@@ -307,30 +307,38 @@ Check if there is any antivirus installed:&#x20;
 {% tab title="PowerShell" %}
 
 
-```bash
+```powershell
 function Get-AntivirusName { 
-[cmdletBinding()]     
-param ( 
-[string]$ComputerName = "$env:computername" , 
-$Credential 
-) 
-    BEGIN  
-        { 
-            $wmiQuery = "SELECT * FROM AntiVirusProduct" 
-        } 
-    PROCESS  
-        {    
-            $AntivirusProduct = Get-CimInstance -Namespace "root\SecurityCenter2" -Query $wmiQuery @psboundparameters         
-            [array]$AntivirusNames = $AntivirusProduct.displayName    
+  #Enable -Verbose output, piping of input from other comdlets, and more
+  [CmdletBinding()]
+  #List of input parameters
+  Param
+  (   
+    #List of ComputerNames to process
+    [Parameter(ValueFromPipeline=$true,
+    ValueFromPipelineByPropertyName=$true)]
+    [ValidateNotNullOrEmpty()]
+    [alias('Name')] #Allows for piping in of computers by name from Active Directory (Get-ADComputer)
+    [string[]]
+    $ComputerName = "$env:computername", 
+    $Credential 
+  ) 
+  Begin  
+  { 
+    $wmiQuery = "SELECT * FROM AntiVirusProduct" 
+  } 
+  Process  
+  {    
+    $AntivirusProduct = Get-CimInstance -Namespace "root\SecurityCenter2" -Query $wmiQuery @psboundparameters         
+    [array]$AntivirusNames = $AntivirusProduct.displayName    
                
-            foreach ($av in $AntivirusNames) 
-            {
-            echo "The installed AV products are:"
-            echo $av
-            }
-         }
+    foreach ($av in $AntivirusNames) 
+    {
+      Out-Host "The installed antivirus products are:"
+      Out-Host $av
+    }
+  }
 } 
-
 Get-AntivirusName
 ```
 {% endtab %}
@@ -414,12 +422,10 @@ function Get-SoftwareInventory
     [string[]]
     $ComputerName
   )
-
   Begin
   {
     $SoftwareArray = @()
   }
-
   Process
   {
     #Variable to hold the location of Currently Installed Programs
@@ -477,9 +483,33 @@ wmic product get name /value
 
 ### Uninstall Software <a href="#cfde" id="cfde"></a>
 
+{% tabs %}
+{% tab title="PowerShell" %}
 ```powershell
-wmic product where name="$name" call uninstall /INTERACTIVE:OFF
+$Program = Read-Host "[Type the program to uninstall here]:"
+$MyProgram = Get-CimInstance -Class Win32_Product | Where-Object {$_.Name -eq “$Program”}
+$MyProgram.uninstall()
 ```
+
+If **`Get-CimInstance`** is not able to find your software, you can try this instead:
+
+```powershell
+Get-Package -Provider Programs -IncludeWindowsInstaller -Name “$Program” | Uninstall-Package
+```
+
+To get PowerShell to display all the programs in the _**Control Panel**_, use an asterisk in place of the Name parameter.&#x20;
+
+{% hint style="info" %}
+This command only uninstalls the latest version of a program.  If you’ve installed multiple versions use the **`-RequiredVersion 2.0`** property of **`Get-Package`** to specify the version to uninstall.
+{% endhint %}
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```powershell
+wmic product where name="$program" call uninstall /INTERACTIVE:OFF
+```
+{% endtab %}
+{% endtabs %}
 
 ### Services
 
@@ -1742,6 +1772,7 @@ done
 * [https://techexpert.tips/powershell/powershell-list-open-udp-ports/](https://techexpert.tips/powershell/powershell-list-open-udp-ports/)
 * [https://www.lepide.com/how-to/list-all-user-accounts-on-a-windows-system-using-powershell.html](https://www.lepide.com/how-to/list-all-user-accounts-on-a-windows-system-using-powershell.html)
 * [http://www.fuzzysecurity.com/tutorials/16.html](http://www.fuzzysecurity.com/tutorials/16.html)
+* [https://techgenix.com/how-to-uninstall-software-using-powershell/](https://techgenix.com/how-to-uninstall-software-using-powershell/)
 
 
 
