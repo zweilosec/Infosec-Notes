@@ -570,26 +570,34 @@ Get-Process | where {$_.ProcessName -notlike "svchost*"} | ft ProcessName, Id
 {% endtab %}
 {% endtabs %}
 
-#### Check permissions of the process binaries
+#### Get permissions of running process binaries
 
+{% tabs %}
+{% tab title="PowerShell" %}
+```powershell
+$process = (Get-Process | Where-Object {$_.Path -NotMatch "system32"} ).Path
+$process | Where-Object { $_ -NE $null } | Foreach-Object {
+  Get-Acl $_ -ErrorAction SilentlyContinue
+} |
+Out-GridView
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
 ```
 for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v "system32"^|find ":"') do (
-    for /f eol^=^"^ delims^=^" %%z in ('echo %%x') do (
-        icacls "%%z" 
-2>nul | findstr /i "(F) (M) (W) :\\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo.
-    )
+  for /f eol^=^"^ delims^=^" %%z in ('echo %%x') do (
+    icacls "%%z" 2>nul | findstr /i "(F) (M) (W) :\\" | findstr /i ":\\ everyone authenticated users todos %username%" && echo.
+  )
 )
+pause
 ```
 
-#### Check permissions of the folders of the process binaries (useful for dll injection)
+Put this inside a batch script.  Do not try to run from the command line otherwise it will not function.
+{% endtab %}
+{% endtabs %}
 
-```
-for /f "tokens=2 delims='='" %%x in ('wmic process list full^|find /i "executablepath"^|find /i /v 
-"system32"^|find ":"') do for /f eol^=^"^ delims^=^" %%y in ('echo %%x') do (
-    icacls "%%~dpy\" 2>nul | findstr /i "(F) (M) (W) :\\" | findstr /i ":\\ everyone authenticated users 
-todos %username%" && echo.
-)
-```
+Make sure to also check permissions of the folders of the process binaries (useful for dll injection!)
 
 ### Get current network connections
 
