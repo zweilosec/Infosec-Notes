@@ -17,7 +17,7 @@ TODO: Add more information about Microsoft Sysinternals (issue [#23](https://git
 * Add examples of how to use each in a command-line only environment
 * Link to relevant sections (privilege escalation, enumeration, etc.)
 
-Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
+Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com)
 
 ## CMD.EXE
 
@@ -91,28 +91,13 @@ attrib -h <C:\path\filename>
 
 ## Shared Folders/SMB
 
-### Mount a remote CIFS/SMB share&#x20;
+Mount a remote CIFS/SMB share `net use z: \\$ip\$sharename`.
 
-```
-net use z: \\$ip\$sharename
-#Adding /persistent:yes will make this survive reboots.
-```
+Adding `/persistent:yes` will make this survive reboots.
 
-A great example is to mount the Sysinternals Live drive to use the tools directly from Microsoft:&#x20;
+A great example is: `net use z: \live.sysinternals.com\tools\ /persistent:yes` You can thank me later.
 
-```
-net use z: \live.sysinternals.com\tools\ /persistent:yes
-```
-
-You can thank me later.
-
-### To remove a previously mounted share:
-
-```
-net use z: /delete
-```
-
-
+To remove a previously mounted share: `"net use z: /delete"`
 
 ## **Environment Variables**
 

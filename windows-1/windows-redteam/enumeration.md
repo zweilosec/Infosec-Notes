@@ -16,7 +16,7 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 ## User Enumeration
 
-### Get current user information:
+### Get user information:
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -38,7 +38,7 @@ $tableLayout = @{Expression={((New-Object System.Security.Principal.SecurityIden
 ([Security.Principal.WindowsIdentity]::GetCurrent()).Claims | Format-Table $tableLayout -AutoSize
 ```
 
-#### List user's home folders
+#### List users' home folders
 
 ```bash
 Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
@@ -46,25 +46,30 @@ Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' |
 
 #### Using WMI
 
-Use the below one-liner to pull information about all all local accounts.  This can also be used remotely, and to query information about AD accounts.
+Use either `Get-WmiObject` or `Get-CimInstance` to pull information about all local accounts.  This can also be used remotely, and to query information about AD accounts.
 
 ```bash
 Get-WmiObject -ComputerName $env:computername -Class Win32_UserAccount -Filter "LocalAccount=True" | Select PSComputername, Name, Status, Disabled, AccountType, Lockout, PasswordRequired, PasswordChangeable | Out-GridView
+
+#Get Current or last logged in username
+$CurrentUser = Get-CimInstance -ComputerName $Computer -Class Win32_ComputerSystem | Select-Object -ExpandProperty UserName
 ```
 
+`Get-WmiObject` has been deprecated.  Only use it if `Get-CimInstance` is not available due to outdated PowerShell version or problems with Windows Remoting.  In most cases the two command names should be replaceable with no issues.
+
 #### Using ADSI
-
-Can be run on remote machines by substituting `$env:computername` with the computer name of the remote machine. This returns a large amount of useful information.&#x20;
-
-{% hint style="info" %}
-There is a property called Password, though this did not return anything on my Windows Account-enabled machine. Will have to try this on a domain or local account
-{% endhint %}
 
 ```bash
 $adsi = [ADSI]"WinNT://$env:computername"
 $Users = $adsi.Children | where {$_.SchemaClassName -eq 'user'}
 $Users | Select *
 ```
+
+Can be run on remote machines by substituting `$env:computername` with the computer name of the remote machine. This returns a large amount of useful information on all users.&#x20;
+
+{% hint style="info" %}
+There is a property called Password, though this did not return anything on my Microsoft Account-enabled machine. Will have to try this on a domain or local account.
+{% endhint %}
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -80,19 +85,30 @@ $Users | Select *
 
 {% tabs %}
 {% tab title="PowerShell" %}
-`Get-WmiObject -class Win32_UserAccount`&#x20;
+```
+Get-CimInstance -class Win32_UserAccount
+```
 
-\#if run on a domain connected machine dumps all accounts on the whole domain!
+Gets display name, description, lockout status, password requirements, login name and domain, and SID.
+
+If run on a domain connected machine dumps all accounts on the whole domain! On a non-domain joined machine lists all local users.  Includes Service Accounts. &#x20;
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 ### Local machine Users & Groups Enumeration
 
 ```
-net user %username% #Me 
-net users #All local users 
-net localgroup #Groups 
-net localgroup Administrators #Who is inside Administrators group 
+#Show current user name
+net user %username%
+
+#show all local users
+net users
+
+#Show all local groups
+net localgroup 
+
+#Show who is inside Administrators group 
+net localgroup Administrators 
 ```
 
 ### Active Directory Users & Groups Enumeration
