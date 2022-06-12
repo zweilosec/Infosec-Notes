@@ -7,8 +7,6 @@ description: >-
 
 # Hardening & Setup
 
-Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
-
 ## Hardening the OS
 
 ### Disable unused services
@@ -26,8 +24,9 @@ disable location, telemetry, etc
 * [notepad++](https://notepad-plus-plus.org/)
 * [Visual Studio Code](https://code.visualstudio.com/)
 * [Tor Browser](https://www.torproject.org/)
-  * Based on Firefox.  Be careful of settings and extensions used as these can break the protection provided by the VPN. &#x20;
+  * Based on Firefox.  Be careful of settings and extensions used as these can break the protection provided by the VPN.  
 
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+
