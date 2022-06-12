@@ -552,19 +552,6 @@ If you are having this error (for example with SSDPSRV):
 >
 > Note: In Windows XP SP1, the service upnphost depends on SSDPSRV to work
 
-#### Enable a disabled service
-
-If you are having this error (for example with SSDPSRV):
-
-> System error 1058 has occurred. The service cannot be started, either because it is disabled or because it has no enabled devices associated with it. You can enable it using:
->
-> ```
-> sc config SSDPSRV start= demand
-> sc config SSDPSRV obj= ".\LocalSystem" password= ""
-> ```
->
-> Note: In Windows XP SP1, the service upnphost depends on SSDPSRV to work
-
 ### Get running processes
 
 {% tabs %}
@@ -638,18 +625,18 @@ Make sure to also check permissions of the folders of the process binaries (usef
 `Get-NetTCPConnection`
 
 {% hint style="warning" %}
-`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See`` `**`Get-NetUDPEndpoint` ** `below.`
+`This cmdlet is for TCP connections ONLY! UDP information must be queried separately. See`**`Get-NetUDPEndpoint` ** `below.`
 {% endhint %}
 
 Get listening connections:
 
-```
+```powershell
 Get-NetTCPConnection | ? {$_.State -eq "Listen"}
 ```
 
 Check for anything that’s listening from any remote address:
 
-```
+```powershell
 Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}
 ```
 
@@ -657,25 +644,26 @@ To get connection information for a specific port use the `-LocalPort $port` att
 
 Since this cmdlet returns objects, you can use these objects to return other information, such as getting the process ID associated with each connection:
 
-```
+```powershell
 $processes = (Get-NetTCPConnection | ? {($_.State -eq "Listen") -and ($_.RemoteAddress -eq "0.0.0.0")}).OwningProcess
-
 foreach ($process in $processes) {Get-Process -PID $process | select ID,ProcessName}
 ```
 
+###
+
 ### View UDP port connections with PowerShell
 
-```
+```powershell
 Get-NetUDPEndpoint | Select-Object -Property LocalAddress,LocalPort,OwningProcess |ft 
 ```
 
 To show listening ports filter for the address 0.0.0.0:
 
-```
+```powershell
 Get-NetUDPEndpoint | Where {$_.LocalAddress -eq "0.0.0.0"}
 ```
 
-Use the `-CimSession $CimSession` Parameter to run this on a remote computer.
+Use the `-CimSession $CimSession` Parameter to run this on a remote computer after creating a **`New-CimSession`**.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
@@ -689,7 +677,7 @@ Shows TCP and UDP connections, with the following properties: Local Address, Loc
 
 TODO: Make this fully PowerShell implemented, without netstat
 
-```
+```powershell
 function Get-NetworkStatistics 
     { 
         $properties = ‘Protocol’,’LocalAddress’,’LocalPort’ 
@@ -742,15 +730,15 @@ function Get-NetworkStatistics
 
 UDP info for updating above script (this example only shows connections for port 1900)
 
-```
+```powershell
 $LOCALPORT = "1900"
-$CONNECTIONS = Get-NetUDPEndpoint |Select-Object -Property LocalPort, @{name='ProcessID';expression={(Get-Process -Id $_.OwningProcess). ID}}, @{name='ProcessName';expression={(Get-Process -Id $_.OwningProcess). Path}}
-Foreach ($I in $CONNECTIONS)
+$CONNECTIONS = Get-NetUDPEndpoint | Select-Object -Property LocalPort, @{name='ProcessID';expression={(Get-Process -Id $_.OwningProcess). ID}}, @{name='ProcessName';expression={(Get-Process -Id $_.OwningProcess).Path}}
+ForEach ($Connection in $CONNECTIONS)
 {
-If ($I.LocalPort -eq $LOCALPORT)
-{
-$I
-}
+    If ($Connection.LocalPort -eq $LOCALPORT)
+    {
+        $Connection
+    }
 }
 ```
 
@@ -764,7 +752,7 @@ Check which files are executed when the computer is started. Components that are
 {% tab title="PowerShell" %}
 
 
-```
+```powershell
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
@@ -803,9 +791,11 @@ To run this from a command prompt without popup windows:
 
 `autorunsc.exe -m -nobanner -a * -ct /accepteula`
 
-## SMB
+## SMB/Samba
 
-Port 139 and 445- SMB/Samba. Server Message Block is a service that enables the user to share files with other machines. Works the same as a command line FTP client, may browse files without even having credentials
+Port 139 and 445
+
+Server Message Block is a service that enables the user to share files with other machines. May be able to browse files without having credentials (Null Session).
 
 ### SMB Enumeration Checklist
 
@@ -835,7 +825,7 @@ smbclient -L $ip
 smbmap -H $computer
 ```
 
-### Check SMB vulnerabilities:
+### Check for SMB vulnerabilities:
 
 ```bash
 nmap --script=smb-check-vulns.nse $ip -p 445
@@ -860,7 +850,7 @@ smbclient \\\\$ip\\$ShareName
 smbclient \\\\$ip\\$ShareName -U $UserName
 ```
 
-### Enumerate with smb-shares
+### Enumerate SMB shares
 
 ```bash
 enum4linux -a $ip
@@ -877,7 +867,7 @@ smbclient -L $server_name -I $ip
 
 ### rpcclient
 
-#### Connect with a null-session
+#### Connect with a null session
 
 ```bash
 rpcclient -U $UserName $ip
@@ -1419,7 +1409,7 @@ C:\> curl -v -H "Range: bytes=234234-28768768" "http://host/a.png" -o a.png
 #### Get a list of all open Named pipes via Powershell
 
 ```
-PS C:\> [http://System.IO.Directory ]::GetFiles("\\.\\pipe\\")
+PS C:\> [System.IO.Directory ]::GetFiles("\\.\\pipe\\")
 ```
 
 #### Possible `VENOM` detection on VirtualBox
