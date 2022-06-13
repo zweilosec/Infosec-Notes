@@ -916,57 +916,6 @@ sleep 0.5 && echo ""
 
 To get Windows SMB information open the pcap in Wireshark and filter on `ntlmssp.ntlmv2_response`
 
-## SNMP
-
-SNMP is based on UDP, a simple, stateless protocol, and is therefore susceptible to IP spoofing, and replay attacks.  In addition, the commonly used SNMP protocols 1, 2, and 2c offer no traffic encryption, meaning SNMP information and credentials can be easily intercepted over a local network.
-
-#### MIB Tree (Management Information Base)
-
-* (MIB) is a database containing information usually related to network management.
-* The database is organized like a tree, where branches represent different organizations or network functions. The leaves of the tree (final endpoints) correspond to specific variable values that can then be accessed, and probed, by an external user.
-* [https://docs.microsoft.com/en-us/windows/win32/snmp/the-snmp-management-information-base-mib-](https://docs.microsoft.com/en-us/windows/win32/snmp/the-snmp-management-information-base-mib-)
-
-#### Scanning for SNMP
-
-SNMP most often uses UDP port 161.
-
-```
-nmap -sU --open -p 161 192.168.11.200-254 -oN snmp.txt
-```
-
-You can use a tool such as **onesixtyone**, which will check for given community strings against an IP list, allowing you to brute force various community strings from a list.
-
-```
-echo public > community
-echo private >> community
-echo manager >> community
-for ip in $(seq 1 254);do echo 10.10.10.$ip;done > ips
-onesixtyone -c community i ips
-```
-
-We can probe and query SNMP values using a tool such as **snmpwalk** once you know the SNMP read-only community string (which in most cases is “public”). &#x20;
-
-You can try to use **snmpwalk** and **snmpcheck** to gather information.
-
-```
-# Enumerating the Entire MIB Tree
-snmpwalk  c public -v1 $ip
-
-# Enumerating Windows Users:
-snmpwalk -c public -v1 $ip 1.3.6.1.4.1.77.1.2.25
-
-# Enumerating Running Windows Processes:
-snmpwalk -c public -v1 $ip 1.3.6.1.2.1.25.4.2.1.2
-
-# Enumerating Open TCP Ports:
-snmpwalk -c public -v1 $ip 1.3.6.1.2.1.6.13.1.3
-
-# Enumerating Installed Software:
-snmpwalk -c public -v1 $ip 1.3.6.1.2.1.25.6.3.1.2
-```
-
-The notation **`1.3.6.1.2.1.25.6.3.1.2`** is the MIB, which is the shorthand SNMP uses to perform queries.
-
 ## [madhuakula](https://github.com/madhuakula)/[**wincmdfu**](https://github.com/madhuakula/wincmdfu)
 
 * TODO: Everything below from the above site...in the process of verification, cleanup, and assimilation.
