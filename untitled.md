@@ -21,9 +21,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ```
 
 {% hint style="danger" %}
-Text between these will show up in a Warning box. Looks nice!
-
-_Can click on the icon to change it to something appropriate ( Changes style, I think. Gitbook only?)._
+Text between these will show up in a Warning box. Looks nice! (Gitbook only!)
 {% endhint %}
 
 ## -----
@@ -33,10 +31,6 @@ _Can click on the icon to change it to something appropriate ( Changes style, I 
 ## SSH Keys
 
 `` ` extract public key from private key: ``openssl rsa -in privkey.pem -pubout -out key.pub\`
-
-## -----
-
-Firefox Browser plugins:Tampermonkey (userscript manager); Cookie Manager+;
 
 ## HEX
 
@@ -51,10 +45,6 @@ custom exploit making:\[Ippsec:HacktheBox - Granny & Grandpa]
 ```bash
 msfvenom -p <payload> LHOST=<lhost> etc... -f <filetype [use --help-formats first]>
 ```
-
-## -----
-
-injecting IPs when '.' is disallowed: convert dotted\_decimal to decimal value -[ip2dh](https://github.com/4ndr34z/MyScripts/blob/master/ip2dh.py)
 
 ## -----
 
@@ -78,25 +68,6 @@ recursively download all files in hosted folder: `wget -r <ip:port>`
 
 [Hurricane Electric ISP](http://he.net/): Ippsec uses with IPv6 as a psuedo-VPN in [HTB:Sneaky](https://www.youtube.com/watch?v=1UGxjqTnuyo)
 
-## IPv6
-
-primer: [Ippsec:HacktheBox - Sneaky](https://www.youtube.com/watch?v=1UGxjqTnuyo)
-
-```
-fe80::/10 - febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Link Local 169.254.x.x APIPA 
-(built from MAC address on Linux, 7th bit flips, adds ff:fe in the center)
-
-fc00::/7 - fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Local Unicast 10.x.x.x, 172.16.x.x, 192.168.x.x 
-
-2000::/3 - Global Unicast routable 
-
-ff02::1 - Multicast All Nodes 
-
-ff02::2 Multicast ROUTER nodes
-```
-
-ip6tables - iptables for ipv6
-
 ## -----
 
 `ls /usr/share/nmap/scripts/ |grep smb` - find nmap scripts related to smb, search this folder for any scripts for a service you want to enumerate
@@ -115,33 +86,7 @@ Defense:[https://github.com/Neo23x0/sigma/blob/master/rules/windows/builtin/win\
 
 ## -----
 
-Plumhound -
-
-## -----
-
 Bad blood - create domain for your (defense tool, or lab setup) fills AD with objects, don't use in production! (cant create sessions)
-
-## Winpeas
-
-#### Windows icacls file permissions
-
-[https://ss64.com/nt/icacls.html](https://ss64.com/nt/icacls.html) Interesting permissions
-
-D - Delete access F - Full access (Edit\_Permissions+Create+Delete+Read+Write) N - No access M - Modify access (Create+Delete+Read+Write) RX - Read and eXecute access R - Read-only access W - Write-only access
-
-winpeas.exe cmd searchall searchfast #cmd commands, search all filenames and avoid sleeping (noisy - CTFs)
-
-winpeas.exe #Will execute all checks except the ones that use a CMD
-
-winpeas.exe cmd #All checks
-
-winpeas.exe systeminfo userinfo #Only systeminfo and userinfo checks executed
-
-winpeas.exe notcolor #Do not color the output
-
-winpeas.exe cmd wait #cmd commands and wait between tests
-
-In Linux the ouput will be colored using ANSI colors. If you are executing winpeas.exe from a Windows console, you need to set a registry value to see the colors (and open a new CMD): `REG ADD HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1`
 
 ### -----
 

