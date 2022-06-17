@@ -240,6 +240,10 @@ The command `set` will display all current environment variables and their value
 
 Many of the environment variables in the cmd.exe column can be used in other places inside Windows as well, such as the Address Bar of a browser or Explorer window.
 
+You can find more about Windows environment variables on the [PowerShell page](powershell.md#environment-variables).
+
+Below is a comparison between the environment variables used in PowerShell versus those used in the classic cmd.exe environment (which are also used in many other places throughout Windows, such as Task Scheduler, Event logs, and more). &#x20;
+
 | Meaning                                           | PowerShell                      | cmd.exe                      |
 | ------------------------------------------------- | ------------------------------- | ---------------------------- |
 | C:\ProgramData                                    | $env:ALLUSERSPROFILE            | %ALLUSERSPROFILE%            |
