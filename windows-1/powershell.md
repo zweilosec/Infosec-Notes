@@ -695,6 +695,26 @@ You can change the Execution Policy for the current user by using the `-Scope Cu
 
 The second easiest method is to simply copy and paste the code from the script into a PowerShell console.  It may prompt you to verify that you intend to paste multiple lines, simply click "yes".  As long as the code does not have any strange formatting that prevents it from running line by line, the whole script will run.  If the script contains a function, you can continue to use this function simply by calling its name.
 
+#### `Echo` the script code into PowerShell
+
+This technique is similar to the previous, in that you must copy and paste the code from the script into a PowerShell console.  However, you must prefix your code with the `echo` (Alias for `Write-Output`) command and then pipe the copied code into `PowerShell.exe`, like below:
+
+```powershell
+echo Test-YourCode | PowerShell -NoProfile -
+```
+
+If your code contains multiple lines, quotes, or is contained within a function it may not execute properly, or at all.  You will have to experiment with wrapping the code in quotes or escaping certain characters.  This may seem like a pain, but the upside to this technique is that it requires no configuration changes, and the code is run entirely in memory. &#x20;
+
+#### Read the contents of a file and pipe code into PowerShell
+
+Similar to the previous example, but with the major advantage of not having to do any complicated nested quoting or escaping to get the code to function normally.  However, this technique does rely on the file being either on disk, or accessible through a network share.
+
+```powershell
+Get-Content "\\RemoteComp\Test-YourCode.ps1" | PowerShell -NoProfile -
+```
+
+
+
 ...more to come!
 
 ```bash
