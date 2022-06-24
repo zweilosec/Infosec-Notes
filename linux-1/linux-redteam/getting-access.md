@@ -320,6 +320,14 @@ ruby -e 'exec "/bin/sh"'
 lua -e "os.execute('/bin/sh')"
 ```
 
+### Using "Script" to upgrade to a TTY
+
+Upgrade from a basic shell to a bash TTY using `script`.
+
+```bash
+SHELL=/bin/bash script -q /dev/null
+```
+
 ### Using “Expect” To Get A TTY
 
 If you’re lucky enough to have the [Expect](http://en.wikipedia.org/wiki/Expect) language installed just a few lines of code will get you a good enough TTY to run useful tools such as “ssh”, “su” and “login”.
