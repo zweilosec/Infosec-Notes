@@ -1,3 +1,7 @@
+---
+description: Active Directory-Specific commands and strategies
+---
+
 # Active Directory
 
 {% hint style="success" %}
@@ -8,10 +12,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## Table of Contents
 
-* [Enumeration](enumeration.md)
-* [Getting Access](getting-access.md)
-* [Privilege Escalation](privilege-escalation.md)
-* [Persistence](persistence.md)
+### [Enumeration](enumeration.md)
+
+### [Getting Access](getting-access.md)
+
+### [Privilege Escalation](privilege-escalation.md)
+
+### [Persistence](persistence.md)
 
 ## Tools
 
