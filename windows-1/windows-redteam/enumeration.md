@@ -120,6 +120,60 @@ net group /domain
 {% endtab %}
 {% endtabs %}
 
+### Active Directory
+
+{% tabs %}
+{% tab title="PowerShell" %}
+#### Enumeration without Active Directory module installed
+
+```powershell
+# current domain info
+[System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+# domain trusts
+([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
+
+# current forest info
+[System.DirectoryServices.ActiveDirectory.Forest]::GetCurrentForest()
+
+# get forest trust relationships
+([System.DirectoryServices.ActiveDirectory.Forest]::GetForest((New-Object System.DirectoryServices.ActiveDirectory.DirectoryContext('Forest', 'forest-of-interest.local')))).GetAllTrustRelationships()
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```bash
+# list all DCs of a domain
+nltest /dclist:test.local
+net group "domain controllers" /domain
+
+# get DC for currently authenticated session
+nltest /dsgetdc:test.local
+
+# get domain trusts from cmd shell
+nltest /domain_trusts
+
+# get user info
+nltest /user:"Administrator"
+
+# get DC for currently authenticated session
+set l
+
+# get domain name and DC the user authenticated to
+klist
+
+# get all logon sessions. Includes NTLM authenticated sessions
+klist sessions
+
+# kerberos tickets for the session
+klist
+
+# cached krbtgt
+klist tgt
+```
+{% endtab %}
+{% endtabs %}
+
 ### Using WMI Query Language (WQL)
 
 WQL is an entire subject on its own.  If you want to know the full extent of the capabilities of this powerful query language, type `Get-Help WQL` in a PowerShell prompt.  Below are a few examples of queries to pull lists of users from both local machines and from the domain.
