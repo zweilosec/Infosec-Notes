@@ -6,7 +6,7 @@ description: >-
 
 # Hacker's Rest
 
-These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag \(CTF\) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.github.io/).
+These are my publicly accessible notes from various sources for penetration testing, red-teaming, OSCP, Capture the Flag (CTF) challenges, and my [Vulnhub](https://www.vulnhub.com/)/ [Hack the Box](https://hackthebox.eu) machine [write-ups](https://zweilosec.github.io/).
 
 {% hint style="warning" %}
 Warning - These notes are largely unformatted right now. They are based on my way of learning things - by reading, doing, studying, exploring, and taking notes. Cleaning up and formatting comes later.
@@ -24,7 +24,7 @@ Warning - These notes are largely unformatted right now. They are based on my wa
 
 If you would like to give suggestions or even commit changes to these pages feel free to head to my GitHub page at:
 
-{% embed url="https://github.com/zweilosec/Infosec-Notes" caption="" %}
+{% embed url="https://github.com/zweilosec/Infosec-Notes" %}
 
 ### How to contribute
 
@@ -69,13 +69,13 @@ Always ensure you have **explicit** permission to access any computer system **b
 ### Windows
 
 * [Windows Basics](windows-1/windows-basics.md)
-* [Hardening & Configuration Guide](windows-1/windows-hardening.md)  
+* [Hardening & Configuration Guide](windows-1/windows-hardening.md) &#x20;
 * [Red Team Notes](windows-1/windows-redteam/)
   * [Enumeration](windows-1/windows-redteam/enumeration.md)
   * [Getting Access](windows-1/windows-redteam/getting-access.md)
   * [Privilege Escalation](windows-1/windows-redteam/privilege-escalation.md)
   * [Persistence](windows-1/windows-redteam/persistence.md)
-  * [Active Directory](windows-1/windows-redteam/active-directory.md)
+  * [Active Directory](windows-1/windows-redteam/active-directory/)
   * [PowerShell](windows-1/powershell.md)
 
 ### MacOS
@@ -104,7 +104,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 * [Cryptography & Encryption](os-agnostic/password-cracking/)
 * [Network Hardware](os-agnostic/network-hardware.md)
-* [OS Agnostic](os-agnostic/os_agnostic.md)
+* [OS Agnostic](os-agnostic/os\_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/)
   * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
@@ -128,4 +128,3 @@ Always ensure you have **explicit** permission to access any computer system **b
 See my [list of outside sources](tools-cheatsheets.md)!
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-

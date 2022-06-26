@@ -2,13 +2,15 @@
 
 ## OSINT Multitool
 
-{% embed url="https://osintframework.com/" caption="Mind map of many many OSINT tools and websites" %}
+{% embed url="https://osintframework.com/" %}
+Mind map of many many OSINT tools and websites
+{% endembed %}
 
 ## Google Account Enumeration
 
 {% embed url="https://medium.com/week-in-osint/getting-a-grasp-on-googleids-77a8ab707e43" %}
 
-This writeup from Sector035 gives a detailed walk through of how to get a wealth of information from a Google account such as a @gmail.com email address.  
+This writeup from Sector035 gives a detailed walk through of how to get a wealth of information from a Google account such as a @gmail.com email address. &#x20;
 
 {% hint style="danger" %}
 Some of the steps for doing this require you to actually sign in to a Google account, and to add the target as a contact.  A burner account or sock puppet are recommended if you are doing this for a real engagement.
@@ -26,7 +28,7 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 * https://pentest-tools.com/
 * [https://osintframework.com/](https://osintframework.com/)
 
-[RiskIQ’s Community Edition](https://www.riskiq.com/products/community-edition/) - 
+[RiskIQ’s Community Edition](https://www.riskiq.com/products/community-edition/) -&#x20;
 
 > Threat Hunter
 >
@@ -42,7 +44,7 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 > * Get alerts when your brand or trademarked terms appear in new domains and WHOIS contact information
 > * View digital assets details such as domain attributes, IP address, and registrant details
 
- [https://censys.io/](https://censys.io/) - Attack surface enumeration
+&#x20;[https://censys.io/](https://censys.io/) - Attack surface enumeration
 
 > Discover every asset in your attack surface, known or unknown.
 
@@ -54,19 +56,19 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 * https://rapiddns.io/
 * https://dnsdumpster.com/
 * https://www.whoxy.com/
-*  [http://whois.domaintools.com/](http://whois.domaintools.com/)
+* &#x20;[http://whois.domaintools.com/](http://whois.domaintools.com/)
 
- [https://www.robtex.com/](https://www.robtex.com/) - Good for geo-location of IP origin
+&#x20;[https://www.robtex.com/](https://www.robtex.com/) - Good for geo-location of IP origin
 
 > Robtex is used for various kinds of research of IP numbers, Domain names, etc
 >
 > Robtex uses various sources to gather public information about IP numbers, domain names, host names, Autonomous systems, routes etc. It then indexes the data in a big database and provide free access to the data.
 
-[https://opendata.rapid7.com/sonar.fdns\_v2/](https://opendata.rapid7.com/sonar.fdns_v2/)
+[https://opendata.rapid7.com/sonar.fdns\_v2/](https://opendata.rapid7.com/sonar.fdns\_v2/)
 
-> Project Sonar produces a [Forward DNS](https://scans.io/study/sonar.fdns_v2) dataset every week or so. This data is created by extracting domain names from a number of sources and then sending an `ANY` query for each domain. The sources used to build the list of domains include:
+> Project Sonar produces a [Forward DNS](https://scans.io/study/sonar.fdns\_v2) dataset every week or so. This data is created by extracting domain names from a number of sources and then sending an `ANY` query for each domain. The sources used to build the list of domains include:
 >
-> * Reverse DNS \(PTR\) Records
+> * Reverse DNS (PTR) Records
 > * Common Name and SubjectAltName fields from SSL Certificates
 > * HTML elements and Location headers seen in HTTP responses
 > * Zone files from COM, INFO, ORG, NET, BIZ, INFO and other TLDs
@@ -154,7 +156,7 @@ Some of the steps for doing this require you to actually sign in to a Google acc
 
 {% embed url="https://haveibeenpwned.com" %}
 
-Run by Troy Hunt, haveibeenpwned.com is one of the best for checking whether an email address has been involved in a credential breach.  
+Run by Troy Hunt, haveibeenpwned.com is one of the best for checking whether an email address has been involved in a credential breach. &#x20;
 
 {% hint style="danger" %}
 Not all of these sites below are trustworthy.  Do not enter any credentials that are in use, or you plan to use into any searches!
@@ -177,9 +179,9 @@ Not all of these sites below are trustworthy.  Do not enter any credentials that
 * http://scatteredsecrets.com
 * https://joe.black/leakengine.html
 * https://services.normshield.com/data-breach
-* https://leakedsource.ru/main/ 
-* https://leaked.site/ 
-* https://ghostproject.fr/ 
+* https://leakedsource.ru/main/&#x20;
+* https://leaked.site/&#x20;
+* https://ghostproject.fr/&#x20;
 * https://haveibeensold.app/
 * https://vigilante.pw/
 * https://nuclearleaks.com/
@@ -194,4 +196,3 @@ Not all of these sites below are trustworthy.  Do not enter any credentials that
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-

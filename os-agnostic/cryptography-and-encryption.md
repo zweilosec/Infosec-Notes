@@ -6,15 +6,15 @@
 
 ## Ciphers
 
-* [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking) &lt;-- useful site which can help identify type of cipher. 
-* [https://www.dcode.fr](https://www.dcode.fr) &lt;-- one of the best sites I have found with many decoders for many types of ciphers.
-* [Cyber Chef](https://gchq.github.io/CyberChef/) &lt;-- very useful for chained ciphers which require different steps to solve. Can decrypt certificates.
+* [https://www.boxentriq.com/code-breaking](https://www.boxentriq.com/code-breaking) <-- useful site which can help identify type of cipher.&#x20;
+* [https://www.dcode.fr](https://www.dcode.fr) <-- one of the best sites I have found with many decoders for many types of ciphers.
+* [Cyber Chef](https://gchq.github.io/CyberChef/) <-- very useful for chained ciphers which require different steps to solve. Can decrypt certificates.
 
 ### Fernet
 
-Fernet \(symmetric encryption\) - **looks like base64** but decodes to garbage, in two parts. First part \(32 bytes\) is the key. Uses 128-bit AES in CBC mode and PKCS7 padding, with HMAC using SHA256 for authentication. IV is created from `os.random()`.
+Fernet (symmetric encryption) - **looks like base64** but decodes to garbage, in two parts. First part (32 bytes) is the key. Uses 128-bit AES in CBC mode and PKCS7 padding, with HMAC using SHA256 for authentication. IV is created from `os.random()`.
 
-Decode fernet @ [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode) &lt;-- Will also give the IV and timestamp \(could be useful!\) more info about this @ [https://cryptography.io/en/latest/fernet](https://cryptography.io/en/latest/fernet)
+Decode fernet @ [https://asecuritysite.com/encryption/ferdecode](https://asecuritysite.com/encryption/ferdecode) <-- Will also give the IV and timestamp (could be useful!) more info about this @ [https://cryptography.io/en/latest/fernet](https://cryptography.io/en/latest/fernet)
 
 ```python
 from cryptography.fernet import Fernet
@@ -33,25 +33,25 @@ print(f.decrypt(token))
 
 ### Malbolge
 
-Esoteric inferno encryption. Used in some CTF challenges. Malbolge programming language - **text from base64 looks like random text**, but complete garbage \(much of it unprintable.\) . Read for at [https://en.wikipedia.org/wiki/Malbolge](https://en.wikipedia.org/wiki/Malbolge) and [https://www.tutorialspoint.com/execute\_malbolge\_online.php](https://www.tutorialspoint.com/execute_malbolge_online.php)
+Esoteric inferno encryption. Used in some CTF challenges. Malbolge programming language - **text from base64 looks like random text**, but complete garbage (much of it unprintable.) . Read for at [https://en.wikipedia.org/wiki/Malbolge](https://en.wikipedia.org/wiki/Malbolge) and [https://www.tutorialspoint.com/execute\_malbolge\_online.php](https://www.tutorialspoint.com/execute\_malbolge\_online.php)
 
 ### BrainFuck
 
 A programming language that uses a series of only `+-.[]<>` characters.
 
-++++++++++\[&gt;+&gt;+++&gt;+++++++&gt;++++++++++&lt;&lt;&lt;&lt;-\]&gt;&gt;&gt;----.&gt;++++++++++++++.-----------------.++++++++.+++++.--------.+++++++++++++++.------------------.++++++++.  = BrainFuck 
+\++++++++++\[>+>+++>+++++++>++++++++++<<<<-]>>>----.>++++++++++++++.-----------------.++++++++.+++++.--------.+++++++++++++++.------------------.++++++++.  = BrainFuck&#x20;
 
 Decode using [https://www.dcode.fr/brainfuck-language](https://www.dcode.fr/brainfuck-language)
 
 ### OOK!
 
-Uses only the word `ook` paired with punctuation marks \(`.!?`\).  Shorthand leaves out `ook`.
+Uses only the word `ook` paired with punctuation marks (`.!?`).  Shorthand leaves out `ook`.
 
-....................!?.?...?.......?...............?....................?.?.?.?.!!?!.?.?.?..................!.!.!!!!!!!!!.?.......!. = OOK! 
+....................!?.?...?.......?...............?....................?.?.?.?.!!?!.?.?.?..................!.!.!!!!!!!!!.?.......!. = OOK!&#x20;
 
 Decode using [https://www.dcode.fr/ook-language](https://www.dcode.fr/ook-language)
 
-## Test for Plaintext Output from a \(Python\) Script
+## Test for Plaintext Output from a (Python) Script
 
 ```python
 #checks the output from crypto and sees if at least 60% is ascii letters and returns true for possible plaintext
@@ -61,7 +61,7 @@ def is_plaintext(ptext):
       return True
 ```
 
-If this function is giving false positives/negatives, it can be tweaked by altering the number in the line: 
+If this function is giving false positives/negatives, it can be tweaked by altering the number in the line:&#x20;
 
 ```python
 if num_letters / len(ptext) >= .6:
@@ -77,9 +77,9 @@ X.509
 
 ## SSH Keys
 
-For those interested in the details - you can see what's inside the public key file \(generated as explained above\), by doing this:- \`\`\`openssl rsa -noout -text -inform PEM -in key.pub -pubin or for the private key file, this:- openssl rsa -noout -text -in key.private which outputs as text on the console the actual components of the key \(modulus, exponents, primes, ...\)
+For those interested in the details - you can see what's inside the public key file (generated as explained above), by doing this:- \`\`\`openssl rsa -noout -text -inform PEM -in key.pub -pubin or for the private key file, this:- openssl rsa -noout -text -in key.private which outputs as text on the console the actual components of the key (modulus, exponents, primes, ...)
 
-````` extract public key from private key:```openssl rsa -in privkey.pem -pubout -out key.pub\`
+` `` extract public key from private key: `openssl rsa -in privkey.pem -pubout -out key.pub\`
 
 ## Encryption/Decryption
 
@@ -91,9 +91,9 @@ good cipher tools: [http://rumkin.com/](http://rumkin.com/)
 
 one time pad: `pt - ct = key`
 
-decrypt rsa private key: `openssl rsautl -decrypt -inkey $key_file < $pass.crypt` \($pass.crypt is hex file? encrypted contents of pub key?\)
+decrypt rsa private key: `openssl rsautl -decrypt -inkey $key_file < $pass.crypt` ($pass.crypt is hex file? encrypted contents of pub key?)
 
-* [Ippsec:HacktheBox - Charon](https://www.youtube.com/watch?v=_csbKuOlmdE)
+* [Ippsec:HacktheBox - Charon](https://www.youtube.com/watch?v=\_csbKuOlmdE)
 
 ### Decrypt LDAP Passwords
 
@@ -146,4 +146,3 @@ Decodes to: `w3lc0meFr31nd`
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-

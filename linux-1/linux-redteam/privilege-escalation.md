@@ -109,13 +109,13 @@ sha1pass $mypassword
 
 ## GTFOBins
 
-[https://gtfobins.github.io/](https://gtfobins.github.io)
+[https://gtfobins.github.io/](https://gtfobins.github.io/)
 
 > GTFOBins is a curated list of Unix binaries that can be exploited by an attacker to bypass local security restrictions. The project collects legitimate functions of Unix binaries that can be abused to break out restricted shells, escalate or maintain elevated privileges, transfer files, spawn bind and reverse shells, and facilitate the other post-exploitation tasks.
 
 After finding binaries with SUID or other possible root permissions, you can search this site for privilege escalation methods.
 
-You can also find a similar project for Windows at [LOLBAS](https://lolbas-project.github.io).
+You can also find a similar project for Windows at [LOLBAS](https://lolbas-project.github.io/).
 
 #### Examples:
 
@@ -205,7 +205,7 @@ void _init() {
 
 &#x20; 3\. Execute any binary along with the LD\_PRELOAD shared object to spawn a shell : `sudo LD_PRELOAD=</path/to/malicious/shell.so> <program>`
 
-### **LD\_LIBRARY\_PATH **
+### **LD\_LIBRARY\_PATH**&#x20;
 
 **LD\_LIBRARY\_PATH** provides a list of directories where shared libraries are searched for first.
 
@@ -490,7 +490,7 @@ mawk 'BEGIN {system("/bin/sh")}'
 * [https://unix.stackexchange.com/questions/52108/how-to-create-sha512-password-hashes-on-command-line](https://unix.stackexchange.com/questions/52108/how-to-create-sha512-password-hashes-on-command-line)
 * [https://linux-audit.com/linux-capabilities-101/](https://linux-audit.com/linux-capabilities-101/)
 * [https://resources.whitesourcesoftware.com/blog-whitesource/new-vulnerability-in-sudo-cve-2019-14287](https://resources.whitesourcesoftware.com/blog-whitesource/new-vulnerability-in-sudo-cve-2019-14287)
-* [https://gtfobins.github.io/](https://gtfobins.github.io)
+* [https://gtfobins.github.io/](https://gtfobins.github.io/)
 * [https://payatu.com/guide-linux-privilege-escalation](https://payatu.com/guide-linux-privilege-escalation)
 * [https://touhidshaikh.com/blog/2018/04/sudo-ld\_preload-linux-privilege-escalation/](https://touhidshaikh.com/blog/2018/04/sudo-ld\_preload-linux-privilege-escalation/)
 * [https://www.baeldung.com/linux/ld\_preload-trick-what-is](https://www.baeldung.com/linux/ld\_preload-trick-what-is)

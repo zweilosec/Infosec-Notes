@@ -3,13 +3,13 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
 {% endhint %}
 
 ## Wordlists
 
 * [https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS](https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS)
-* [https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056\#file-all-txt](https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056#file-all-txt)
+* [https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056#file-all-txt](https://gist.github.com/jhaddix/86a06c5dc309d08580a018c66354a056#file-all-txt)
 
 ## OWASP `amass`
 
@@ -20,13 +20,13 @@ The OWASP Amass Project performs network mapping of attack surfaces and external
 
 **Information Gathering Techniques:**
 
-| Technique | Data Sources |
-| :--- | :--- |
-| DNS | Brute forcing, Reverse DNS sweeping, NSEC zone walking, Zone transfers, FQDN alterations/permutations, FQDN Similarity-based Guessing |
-| Scraping | Ask, Baidu, Bing, BuiltWith, DNSDumpster, HackerOne, IPv4Info, RapidDNS, Riddler, SiteDossier, Yahoo |
-| Certificates | Active pulls \(optional\), Censys, CertSpotter, Crtsh, FacebookCT, GoogleCT |
-| APIs | AlienVault, Anubis, BinaryEdge, BGPView, BufferOver, C99, CIRCL, Cloudflare, CommonCrawl, DNSDB, GitHub, HackerTarget, Mnemonic, NetworksDB, PassiveTotal, Pastebin, RADb, ReconDev, Robtex, SecurityTrails, ShadowServer, Shodan, SonarSearch, Spyse, Sublist3rAPI, TeamCymru, ThreatBook, ThreatCrowd, ThreatMiner, Twitter, Umbrella, URLScan, VirusTotal, WhoisXML, ZETAlytics, ZoomEye |
-| Web Archives | ArchiveIt, ArchiveToday, Wayback |
+| Technique    | Data Sources                                                                                                                                                                                                                                                                                                                                                                                |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DNS          | Brute forcing, Reverse DNS sweeping, NSEC zone walking, Zone transfers, FQDN alterations/permutations, FQDN Similarity-based Guessing                                                                                                                                                                                                                                                       |
+| Scraping     | Ask, Baidu, Bing, BuiltWith, DNSDumpster, HackerOne, IPv4Info, RapidDNS, Riddler, SiteDossier, Yahoo                                                                                                                                                                                                                                                                                        |
+| Certificates | Active pulls (optional), Censys, CertSpotter, Crtsh, FacebookCT, GoogleCT                                                                                                                                                                                                                                                                                                                   |
+| APIs         | AlienVault, Anubis, BinaryEdge, BGPView, BufferOver, C99, CIRCL, Cloudflare, CommonCrawl, DNSDB, GitHub, HackerTarget, Mnemonic, NetworksDB, PassiveTotal, Pastebin, RADb, ReconDev, Robtex, SecurityTrails, ShadowServer, Shodan, SonarSearch, Spyse, Sublist3rAPI, TeamCymru, ThreatBook, ThreatCrowd, ThreatMiner, Twitter, Umbrella, URLScan, VirusTotal, WhoisXML, ZETAlytics, ZoomEye |
+| Web Archives | ArchiveIt, ArchiveToday, Wayback                                                                                                                                                                                                                                                                                                                                                            |
 
 #### The 5 Subcommands
 
@@ -71,16 +71,16 @@ TODO: Add examples, link to relevant Hack the Box writeups
 
 #### Available Modes
 
-* **`dir`** - the classic directory brute-forcing mode
+* **`dir` ** - the classic directory brute-forcing mode
 * **`dns`** - DNS subdomain brute-forcing mode
-* **`s3`** - Enumerate open S3 buckets and look for existence and bucket listings
-* **`vhost`** - virtual host brute-forcing mode \(not the same as DNS!\)
+* **`s3` ** - Enumerate open S3 buckets and look for existence and bucket listings
+* **`vhost`** - virtual host brute-forcing mode (not the same as DNS!)
 
 #### Wordlists via STDIN
 
 Wordlists can be piped into `gobuster` via stdin by providing a `-` to the `-w` option:
 
-```text
+```
 hashcat -a 3 --stdout ?l | gobuster dir -u https://mysite.com -w -
 ```
 
@@ -96,7 +96,7 @@ You can supply pattern files that will be applied to every word from the wordlis
 
 #### Example file:
 
-```text
+```
 {GOBUSTER}Partial
 {GOBUSTER}Service
 PRE{GOBUSTER}POST
@@ -117,7 +117,7 @@ While navigating through target website with Burp try each of these in order of 
 1. Without passive scanner
 2. Set forms to auto submit
 3. Change Scope in Advanced settings, any protocol and one relevant keyword
-4. Select all sitemap, Engagement Tools -&gt; Analyze target
+4. Select all sitemap, Engagement Tools -> Analyze target
 
 ## dnsrecon
 
@@ -209,18 +209,18 @@ Can send output to a specified directory with the `-out $directory` argument.
 
 By default, `aquatone` will scan target hosts with a small list of commonly used HTTP ports: 80, 443, 8000, 8080 and 8443. You can change this to your own list of ports with the `-ports` flag:
 
-```text
+```
 cat targets.txt | aquatone -ports 80,443,3000,3001
 ```
 
 `aquatone` also supports aliases of built-in port lists to make it easier for you:
 
 * **small**: 80, 443
-* **medium**: 80, 443, 8000, 8080, 8443 \(same as default\)
+* **medium**: 80, 443, 8000, 8080, 8443 (same as default)
 * **large**: 80, 81, 443, 591, 2082, 2087, 2095, 2096, 3000, 8000, 8001, 8008, 8080, 8083, 8443, 8834, 8888
 * **xlarge**: 80, 81, 300, 443, 591, 593, 832, 981, 1010, 1311, 2082, 2087, 2095, 2096, 2480, 3000, 3128, 3333, 4243, 4567, 4711, 4712, 4993, 5000, 5104, 5108, 5800, 6543, 7000, 7396, 7474, 8000, 8001, 8008, 8014, 8042, 8069, 8080, 8081, 8088, 8090, 8091, 8118, 8123, 8172, 8222, 8243, 8280, 8281, 8333, 8443, 8500, 8834, 8880, 8888, 8983, 9000, 9043, 9060, 9080, 9090, 9091, 9200, 9443, 9800, 9981, 12443, 16080, 18091, 18092, 20720, 28017
 
-```text
+```
 cat targets.txt | aquatone -ports large
 ```
 
@@ -228,7 +228,7 @@ cat targets.txt | aquatone -ports large
 
 `aquatone` can make a report on hosts scanned with the [Nmap](https://nmap.org/) or [Masscan](https://github.com/robertdavidgraham/masscan) port scanners. Simply feed `aquatone` the XML output and give it the `-nmap` flag to tell it to parse the input as `Nmap/Masscan` XML:
 
-```text
+```
 nmap $ip -oX scan
 cat scan.xml | aquatone -nmap
 ```
@@ -236,4 +236,3 @@ cat scan.xml | aquatone -nmap
 
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-

