@@ -343,6 +343,16 @@ This will recursively (`/T`) search the "C:\Program Files\\" folder, ignoring er
 
 &#x20;More good groups to search for would be the "BUILTIN\Users" or "Domain Users" groups.
 
+#### Using accesschk.exe (SysInternals)
+
+You can also use `accesschk.exe` from Sysinternals to check for writeable folders and files.
+
+```
+accesschk.exe -qwsu "Everyone" *
+accesschk.exe -qwsu "Authenticated Users" *
+accesschk.exe -qwsu "Users" *
+```
+
 ## OS Information
 
 ### Get OS Version information
