@@ -114,6 +114,38 @@ By default, these keys are ignored when the computer is started in Safe Mode. Th
 [Microsoft](https://docs.microsoft.com/en-us/windows/win32/setupapi/run-and-runonce-registry-keys)
 {% endhint %}
 
+#### Persistence via cmd.exe
+
+If you want a defined set of commands to run every time a command prompt is launched, you can specify an init script in the Command Processor AutoRun registry value.  Use an expandable string value (`REG_EXPAND_SZ`), which allows you to use environment variables like `%USERPROFILE%`.
+
+```
+reg.exe add "HKCU\Software\Microsoft\Command Processor" /v AutoRun /t REG_EXPAND_SZ /d "%"USERPROFILE"%\init.cmd" /f
+```
+
+Then create a file called `init.cmd` in your `%USERPROFILE%` folder:
+
+```
+@echo off
+
+command_A
+command_B
+...
+```
+
+These commands will be run every time a cmd prompt is started. &#x20;
+
+{% hint style="danger" %}
+**Warning!**&#x20;
+
+This can cause an infinite loop if your **`init.cmd`** causes another cmd window to be launched, as each one will again run all of the commands in the init file!
+{% endhint %}
+
+To disable this, delete the registry key.
+
+```
+reg.exe delete "HKCU\Software\Microsoft\Command Processor" /v AutoRun
+```
+
 ### Startup Folder
 
 Create a batch script in the user startup folder to run when the user logs in.
@@ -138,11 +170,15 @@ start /b $env:USERPROFILE\AppData\Local\Temp\backdoor.bat
 {% endtab %}
 {% endtabs %}
 
+A better alternative would be to create a .lnk file in the startup folder which points to your script in another location.  This may be more OPSEC-safe, especially if the link is disguised. Use the PowerShell script linked below to create a (potentially hidden?) .lnk file using an icon appropriate for the environment:
+
+[https://github.com/zweilosec/PowerShell-Administration-Tools/blob/master/New-Shortcut.ps1](https://github.com/zweilosec/PowerShell-Administration-Tools/blob/master/New-Shortcut.ps1)
+
 ### Scheduled Tasks
 
 {% tabs %}
 {% tab title="PowerShell" %}
-These commands will allow your backdoor to be run when the specified user logs into the machine. &#x20;
+These commands will allow your backdoor to be run when the specified user logs into the machine.  Combined with the cmd init autorun above this scheduled task could do something helpful or innocuous to avoid suspicion.
 
 ```powershell
 $action = New-ScheduledTaskAction -Execute "cmd.exe" -Argument "/c $backdoor_path"
@@ -155,7 +191,7 @@ Register-ScheduledTask $taskname -InputObject $task
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-This command will allow your backdoor to be run at a specified time.&#x20;
+This command will allow your backdoor to be run at a specified time. Combined with the cmd init autorun above this scheduled task could do something helpful or innocuous to avoid suspicion.
 
 ```
 C:\Windows\system32\schtasks.exe"  /Create /F /RU System /SC DAILY /ST 10:39 /TN Updater /TR "C:\backdoor.exe"
@@ -645,6 +681,7 @@ for /F "tokens=*" %1 in ('wevtutil.exe el') DO wevtutil.exe cl "%1"
 * [http://vcloud-lab.com/entries/powershell/microsoft-powershell-remotely-write-edit-modify-new-registry-key-and-data-value](http://vcloud-lab.com/entries/powershell/microsoft-powershell-remotely-write-edit-modify-new-registry-key-and-data-value) - [@KunalAdapi](https://twitter.com/kunalUdapi)
 * [https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html](https://www.tenforums.com/tutorials/16588-clear-all-event-logs-event-viewer-windows.html) - [Shawn Brink](https://www.tenforums.com/members/brink.html?s=c4719816f0e7a9450a073c5aeafb6024)
 * [https://techibee.com/powershell/use-wmi-powershell-to-enable-or-disable-rdp-on-windows-server/3071](https://techibee.com/powershell/use-wmi-powershell-to-enable-or-disable-rdp-on-windows-server/3071)
+* [https://stackoverflow.com/questions/17404165/how-to-run-a-command-on-command-prompt-startup-in-windows](https://stackoverflow.com/questions/17404165/how-to-run-a-command-on-command-prompt-startup-in-windows)
 
 
 
