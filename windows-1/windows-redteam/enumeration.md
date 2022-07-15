@@ -734,6 +734,24 @@ If you are having this error (for example with SSDPSRV):
 >
 > Note: In Windows XP SP1, the service upnphost depends on SSDPSRV to work
 
+### Unquoted service paths
+
+Unquoted service paths are paths to services that contain a space in them, that are not surrounded by quotes.  These paths can be hijacked to run arbitrary code if the break in the path is a writeable location.
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```powershell
+Get-CimInstance -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```
+wmic service get name,displayname,pathname,startmode 2>nul |findstr /i "Auto" 2>nul |findstr /i /v "C:\Windows\\" 2>nul |findstr /i /v """
+```
+{% endtab %}
+{% endtabs %}
+
 ### Get running processes
 
 {% tabs %}
