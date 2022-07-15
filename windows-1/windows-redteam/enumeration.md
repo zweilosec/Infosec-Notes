@@ -16,7 +16,7 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 ## User Enumeration
 
-### Get user information:
+### Get user information
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -85,6 +85,20 @@ There is a property called Password, though this did not return anything on my M
 
 {% tabs %}
 {% tab title="PowerShell" %}
+Get list of local users
+
+```powershell
+Get-LocalUser | Format-Table Name,Enabled,LastLogon,SID
+```
+
+Inferring from user's home folders
+
+```powershell
+Get-ChildItem C:\Users -Force | select Name
+```
+
+Using WMI
+
 ```powershell
 Get-CimInstance -class Win32_UserAccount
 ```
@@ -92,23 +106,55 @@ Get-CimInstance -class Win32_UserAccount
 Gets display name, description, lockout status, password requirements, login name and domain, and SID.
 
 If run on a domain connected machine dumps all accounts on the whole domain! On a non-domain joined machine lists all local users.  Includes Service Accounts. &#x20;
+
+### Groups
+
+Get list of local groups
+
+```powershell
+Get-LocalGroup | Format-Table Name,SID,Description
+```
+
+List group members
+
+```powershell
+Get-LocalGroupMember Administrators | Format-Table Name,PrincipalSource,SID
+```
+
+PrincipleSource will tell you whether the account is a local, domain, or Microsoft account.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 ### Local machine Users & Groups Enumeration
 
+Show current username
+
 ```
-#Show current user name
 net user %username%
+```
 
-#show all local users
+Show all local users
+
+```
 net users
+```
 
-#Show all local groups
-net localgroup 
+Show all local groups
 
-#Show who is inside Administrators group 
-net localgroup Administrators 
+```
+net localgroup
+```
+
+Show who is inside Administrators group
+
+```
+net localgroup Administrators
+```
+
+Show who is currently logged in
+
+```
+qwinsta
 ```
 
 ### Active Directory Users & Groups Enumeration
@@ -116,6 +162,22 @@ net localgroup Administrators
 ```
 net user /domain
 net group /domain
+```
+{% endtab %}
+{% endtabs %}
+
+#### Check for AutoLogon accounts
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```powershell
+Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon' | select "Default*"
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>null | findstr "DefaultUserName DefaultDomainName DefaultPassword"
 ```
 {% endtab %}
 {% endtabs %}
@@ -212,17 +274,47 @@ Many administrators set their account passwords to never expire, so searching fo
 Search-ADAccount -PasswordNeverExpires
 ```
 
-### Find AutoLogon passwords
+### Search for passwords
 
-```
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>null | findstr "DefaultUserName DefaultDomainName DefaultPassword"
-```
-
-### Search for "password" in registry
+#### Search for keyword in registry
 
 ```
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
+```
+
+The `/f` flag specifies the keyword to search for.  In this case the word "password".
+
+#### Search in Credential Manager
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```powershell
+Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
+Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
+```
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```
+cmdkey /list
+dir C:\Users\username\AppData\Local\Microsoft\Credentials\
+dir C:\Users\username\AppData\Roaming\Microsoft\Credentials\
+```
+{% endtab %}
+{% endtabs %}
+
+#### Check SAM and SYSTEM registry hives
+
+If you can access these files and copy them, you can dump credentials for the system.
+
+```
+%SYSTEMROOT%\repair\SAM
+%SYSTEMROOT%\System32\config\RegBack\SAM
+%SYSTEMROOT%\System32\config\SAM
+%SYSTEMROOT%\repair\system
+%SYSTEMROOT%\System32\config\SYSTEM
+%SYSTEMROOT%\System32\config\RegBack\system
 ```
 
 ## OS Information
