@@ -871,13 +871,23 @@ Server Message Block is a service that enables the user to share files with othe
   * `smbver.sh $ip $port`&#x20;
   * Use Wireshark to check pcap
 
-### Share List:
+### List share drives
 
 ```bash
 smbclient --list $ip
 smbclient -L $ip
 smbmap -H $computer
 ```
+
+#### Find all connected drives
+
+This can show all connected hard drives, not only network fileshares
+
+```powershell
+Get-PSDrive | where {$_.Provider -like "Microsoft.PowerShell.Core\FileSystem"}| ft Name,Root
+```
+
+Listing all PSDrives can also give you valuable information, showing how to access environment variables, certificates, registry keys, temp folders, and more.
 
 ### Check for SMB vulnerabilities:
 
