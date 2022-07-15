@@ -471,6 +471,36 @@ TODO: add more
 {% endtab %}
 {% endtabs %}
 
+### Execute (remote) commands with DCOM
+
+[https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
+
+Win32\_DCOMApplication class. This COM object allows you to script components of MMC snap-in operations.
+
+```powershell
+$com = [type]::GetTypeFromCLSID("C08AFD90-F2A1-11D1-8455-00A0C91F3880","$env:COMPUTERNAME")
+$obj = [System.Activator]::CreateInstance($com)
+$obj.Document.application.ExecuteShellCommand("C:\Windows\System32\Calc.exe",$null,$null,"7")
+```
+
+For this to work, you must also be local administrator of the remote system, Windows Defender must be bypassed or disabled, and (to do this remotely) the Windows Advanced Security Firewall must have the following rules enabled:
+
+* COM+ Network Access (port 135)
+* A rule to let dynamic ports for C:\windows\system32\mmc.exe in. Regular RPC-EPMAP rules from other services won’t work as they only allow traffic to svchost.exe.
+
+If the firewall doesn’t let you in, you may receive messages such as:
+
+> Exception calling “CreateInstance” with “1” argument(s): “Retrieving the COM class factory for remote component with CLSID {C08AFD90-F2A1-11D1-8455-00A0C91F3880} from machine target failed due to the following error: 800706ba target.”
+
+The ShellExecute method of the object takes 4 parameters:
+
+1. The complete path to the executable
+2. The directory to be considered as current directory; you may want to usually pass NULL
+3. A list of arguments to pass along to the executable. In case there is none, you can also pass NULL
+4. The state of the windows (1 - Normal, 3 - maximized, 7 - minimized).&#x20;
+
+Usually, you will want to use 7 as a value (minimized). You do not get any output back.
+
 ### Replacing Windows Binaries
 
 Replace these binaries with your backdoor to enable easy persistence with minimal interference with normal users.  However, beware using these on systems where the user needs these accessibility tools!
