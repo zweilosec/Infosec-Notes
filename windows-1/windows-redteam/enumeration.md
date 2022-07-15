@@ -317,6 +317,32 @@ If you can access these files and copy them, you can dump credentials for the sy
 %SYSTEMROOT%\System32\config\RegBack\system
 ```
 
+### File Permissions
+
+Find files/folders where the "Everyone" group has permissions. &#x20;
+
+{% tabs %}
+{% tab title="PowerShell" %}
+```powershell
+Get-ChildItem 'C:\Program Files\','C:\Program Files (x86)\' -Recurse | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'Everyone'} } catch {}} 
+
+Get-ChildItem 'C:\Program Files\','C:\Program Files (x86)\' -Recurse | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'BUILTIN\Users'} } catch {}} 
+```
+
+This will recursively search the "Program Files" folders, ignoring (most) errors.&#x20;
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```
+icacls "C:\Program Files\" /T /C 2>nul | findstr "Everyone"
+```
+
+This will recursively (`/T`) search the "C:\Program Files\\" folder, ignoring errors (`/C`).
+{% endtab %}
+{% endtabs %}
+
+&#x20;More good groups to search for would be the "BUILTIN\Users" or "Domain Users" groups.
+
 ## OS Information
 
 ### Get OS Version information
