@@ -944,30 +944,27 @@ ForEach ($Connection in $CONNECTIONS)
 
 [https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) (TODO:check for more network enumeration info here)
 
-### AutoRuns
+### Startup/AutoRuns
 
-Check which files are executed when the computer is started. Components that are executed when a user logins can be exploited to execute malicious code when the administrator logins. (cmd.exe)
+Check which files are executed when the computer is started, or a user is logged in.&#x20;
 
 {% tabs %}
 {% tab title="PowerShell" %}
-
-
 ```powershell
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
 Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run'
 Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce'
-Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
-Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
+Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup" -Force
+Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup" -Force
+Get-ChildItem "C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" -Force
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
-
-
 ```
-wmic startup get caption,command 2>nul & ^
+wmic startup get caption,command 2>nul
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run 2>nul & ^
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce 2>nul & ^
 reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run 2>nul & ^
