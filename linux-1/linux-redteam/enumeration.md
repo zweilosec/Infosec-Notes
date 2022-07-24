@@ -96,6 +96,34 @@ file $file
 lsof +L1
 ```
 
+### Read extended attributes of a file
+
+```
+lsattr $file
+```
+
+Normally, using this command on a directory will cause it to list the attributes of the files inside that directory.  However, you can force `lsattr` to treat a directory as a file and produce file attribute information for it by using the `-d` command line option.
+
+```
+lsattr -d /home/user
+```
+
+### Change attributes of a file
+
+```
+chattr $file
+```
+
+> The format of a symbolic mode is `+-=[aAcCdDeijsStTu]`
+>
+> The operator `'+'` causes the selected attributes to be added to the existing attributes of the files; `'-'` causes them to be removed; and `'='` causes them to be the only attributes that the files have.
+>
+> The letters `'aAcCdDeijsStTu'` select the new attributes for the files: append only (a), no atime updates (A), compressed (c), no copy-on-write (C), no dump (d), synchronous directory updates (D), extent format (e), immutable (i), data journalling (j), secure deletion (s), synchronous updates (S), no tail-merging (t), top of directory hierarchy (T), and undeletable (u).
+>
+> The following attributes are read-only and may be listed by `lsattr` but not modified by `chattr`: compression error (E), huge file (h), indexed directory (I), inline data (N), compression raw access (X), and compressed dirty file (Z).
+>
+> Not all flags are supported or utilized by all filesystems; refer to filesystem-specific man pages such as btrfs, ext4, and xfs for more filesystem-specific details.
+
 ## Process Enumeration
 
 ## ps
@@ -723,5 +751,9 @@ find / -name ftp
 * [https://metasploit.com/modules/](https://metasploit.com/modules/)
 * [https://securityreason.com](https://securityreason.com)
 * [https://seclists.org/fulldisclosure/](https://seclists.org/fulldisclosure/)
+
+## References
+
+* [https://howtoforge.com/linux-lsattr-command/](https://howtoforge.com/linux-lsattr-command/)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!

@@ -16,7 +16,7 @@ Most commands that run in cmd.exe will also run in PowerShell! This gives many m
 
 ## User Enumeration
 
-### Get user information
+### Get user information:
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -85,20 +85,6 @@ There is a property called Password, though this did not return anything on my M
 
 {% tabs %}
 {% tab title="PowerShell" %}
-Get list of local users
-
-```powershell
-Get-LocalUser | Format-Table Name,Enabled,LastLogon,SID
-```
-
-Inferring from user's home folders
-
-```powershell
-Get-ChildItem C:\Users -Force | select Name
-```
-
-Using WMI
-
 ```powershell
 Get-CimInstance -class Win32_UserAccount
 ```
@@ -106,55 +92,23 @@ Get-CimInstance -class Win32_UserAccount
 Gets display name, description, lockout status, password requirements, login name and domain, and SID.
 
 If run on a domain connected machine dumps all accounts on the whole domain! On a non-domain joined machine lists all local users.  Includes Service Accounts. &#x20;
-
-### Groups
-
-Get list of local groups
-
-```powershell
-Get-LocalGroup | Format-Table Name,SID,Description
-```
-
-List group members
-
-```powershell
-Get-LocalGroupMember Administrators | Format-Table Name,PrincipalSource,SID
-```
-
-PrincipleSource will tell you whether the account is a local, domain, or Microsoft account.
 {% endtab %}
 
 {% tab title="cmd.exe" %}
 ### Local machine Users & Groups Enumeration
 
-Show current username
-
 ```
+#Show current user name
 net user %username%
-```
 
-Show all local users
-
-```
+#show all local users
 net users
-```
 
-Show all local groups
+#Show all local groups
+net localgroup 
 
-```
-net localgroup
-```
-
-Show who is inside Administrators group
-
-```
-net localgroup Administrators
-```
-
-Show who is currently logged in
-
-```
-qwinsta
+#Show who is inside Administrators group 
+net localgroup Administrators 
 ```
 
 ### Active Directory Users & Groups Enumeration
@@ -162,22 +116,6 @@ qwinsta
 ```
 net user /domain
 net group /domain
-```
-{% endtab %}
-{% endtabs %}
-
-#### Check for AutoLogon accounts
-
-{% tabs %}
-{% tab title="PowerShell" %}
-```powershell
-Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\WinLogon' | select "Default*"
-```
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-```
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>null | findstr "DefaultUserName DefaultDomainName DefaultPassword"
 ```
 {% endtab %}
 {% endtabs %}
@@ -274,83 +212,17 @@ Many administrators set their account passwords to never expire, so searching fo
 Search-ADAccount -PasswordNeverExpires
 ```
 
-### Search for passwords
+### Find AutoLogon passwords
 
-#### Search for keyword in registry
+```
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\Currentversion\Winlogon" 2>null | findstr "DefaultUserName DefaultDomainName DefaultPassword"
+```
+
+### Search for "password" in registry
 
 ```
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
-```
-
-The `/f` flag specifies the keyword to search for.  In this case the word "password".
-
-#### Search in Credential Manager
-
-{% tabs %}
-{% tab title="PowerShell" %}
-```powershell
-Get-ChildItem -Hidden C:\Users\username\AppData\Local\Microsoft\Credentials\
-Get-ChildItem -Hidden C:\Users\username\AppData\Roaming\Microsoft\Credentials\
-```
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-```
-cmdkey /list
-dir C:\Users\username\AppData\Local\Microsoft\Credentials\
-dir C:\Users\username\AppData\Roaming\Microsoft\Credentials\
-```
-{% endtab %}
-{% endtabs %}
-
-#### Check SAM and SYSTEM registry hives
-
-If you can access these files and copy them, you can dump credentials for the system.
-
-```
-%SYSTEMROOT%\repair\SAM
-%SYSTEMROOT%\System32\config\RegBack\SAM
-%SYSTEMROOT%\System32\config\SAM
-%SYSTEMROOT%\repair\system
-%SYSTEMROOT%\System32\config\SYSTEM
-%SYSTEMROOT%\System32\config\RegBack\system
-```
-
-### File Permissions
-
-Find files/folders where the "Everyone" group has permissions. &#x20;
-
-{% tabs %}
-{% tab title="PowerShell" %}
-```powershell
-Get-ChildItem 'C:\Program Files\','C:\Program Files (x86)\' -Recurse | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'Everyone'} } catch {}} 
-
-Get-ChildItem 'C:\Program Files\','C:\Program Files (x86)\' -Recurse | % { try { Get-Acl $_ -EA SilentlyContinue | Where {($_.Access|select -ExpandProperty IdentityReference) -match 'BUILTIN\Users'} } catch {}} 
-```
-
-This will recursively search the "Program Files" folders, ignoring (most) errors.&#x20;
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-```
-icacls "C:\Program Files\" /T /C 2>nul | findstr "Everyone"
-```
-
-This will recursively (`/T`) search the "C:\Program Files\\" folder, ignoring errors (`/C`).
-{% endtab %}
-{% endtabs %}
-
-&#x20;More good groups to search for would be the "BUILTIN\Users" or "Domain Users" groups.
-
-#### Using accesschk.exe (SysInternals)
-
-You can also use `accesschk.exe` from Sysinternals to check for writeable folders and files.
-
-```
-accesschk.exe -qwsu "Everyone" *
-accesschk.exe -qwsu "Authenticated Users" *
-accesschk.exe -qwsu "Users" *
 ```
 
 ## OS Information
@@ -734,24 +606,6 @@ If you are having this error (for example with SSDPSRV):
 >
 > Note: In Windows XP SP1, the service upnphost depends on SSDPSRV to work
 
-### Unquoted service paths
-
-Unquoted service paths are paths to services that contain a space in them, that are not surrounded by quotes.  These paths can be hijacked to run arbitrary code if the break in the path is a writeable location.
-
-{% tabs %}
-{% tab title="PowerShell" %}
-```powershell
-Get-CimInstance -class Win32_Service -Property Name, DisplayName, PathName, StartMode | Where {$_.StartMode -eq "Auto" -and $_.PathName -notlike "C:\Windows*" -and $_.PathName -notlike '"*'} | select PathName,DisplayName,Name
-```
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-```
-wmic service get name,displayname,pathname,startmode 2>nul |findstr /i "Auto" 2>nul |findstr /i /v "C:\Windows\\" 2>nul |findstr /i /v """
-```
-{% endtab %}
-{% endtabs %}
-
 ### Get running processes
 
 {% tabs %}
@@ -944,27 +798,30 @@ ForEach ($Connection in $CONNECTIONS)
 
 [https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network](https://github.com/carlospolop/hacktricks/blob/master/windows/basic-cmd-for-pentesters.md#network) (TODO:check for more network enumeration info here)
 
-### Startup/AutoRuns
+### AutoRuns
 
-Check which files are executed when the computer is started, or a user is logged in.&#x20;
+Check which files are executed when the computer is started. Components that are executed when a user logins can be exploited to execute malicious code when the administrator logins. (cmd.exe)
 
 {% tabs %}
 {% tab title="PowerShell" %}
+
+
 ```powershell
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run'
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce'
 Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run'
 Get-ItemProperty -Path 'Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce'
-Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup" -Force
-Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup" -Force
-Get-ChildItem "C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup" -Force
+Get-ChildItem "C:\Users\All Users\Start Menu\Programs\Startup"
+Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ```
 {% endtab %}
 
 {% tab title="cmd.exe" %}
+
+
 ```
-wmic startup get caption,command 2>nul
+wmic startup get caption,command 2>nul & ^
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run 2>nul & ^
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce 2>nul & ^
 reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run 2>nul & ^
@@ -1014,23 +871,13 @@ Server Message Block is a service that enables the user to share files with othe
   * `smbver.sh $ip $port`&#x20;
   * Use Wireshark to check pcap
 
-### List share drives
+### Share List:
 
 ```bash
 smbclient --list $ip
 smbclient -L $ip
 smbmap -H $computer
 ```
-
-#### Find all connected drives
-
-This can show all connected hard drives, not only network fileshares
-
-```powershell
-Get-PSDrive | where {$_.Provider -like "Microsoft.PowerShell.Core\FileSystem"}| ft Name,Root
-```
-
-Listing all PSDrives can also give you valuable information, showing how to access environment variables, certificates, registry keys, temp folders, and more.
 
 ### Check for SMB vulnerabilities:
 
