@@ -254,6 +254,78 @@ chown $user $group $file
 
 The above command would change the owner of the file to `$user` and also the group to `$group`.
 
+### Read attributes of files on Linux with lsattr
+
+`lsattr` lists the file attributes on a second extended file system.  See `chattr` below for a description of each attribute.  
+
+Useful options:
+
+```
+-R     Recursively list attributes of directories and their
+        contents.
+
+-a     List all files in directories, including files that start
+        with '.'
+
+-d     List directories like other files, rather than listing
+        their contents.
+
+-l     Print the options using long names instead of single
+        character abbreviations.
+```
+
+You can chain together these options to recursively list the attributes of all files and folders in a directory with long names:
+
+```
+lsattr -Ral /home/
+```
+
+### Change attributes of files on Linux with chattr
+
+`chattr` changes the file attributes on a Linux file system.
+
+> The format of a symbolic mode is `+-=[aAcCdDeFijmPsStTux]`.
+
+| Symbol | Meaning |
+| ------ | ------------------------------------------------------------ |
+| `+`    | Add the following attributes the to specified file           |
+| `-`    | Remove the following attributes from the specified file      |
+| `=`    | Set the attributes of the specified file to be the following |
+
+The letters 'aAcCdDeFijmPsStTux' select the new attributes for the specified files: 
+
+| Attribute | Description                        |
+| --------- | ---------------------------------- |
+| `a`       | append only                        |
+| `A`       | no atime updates                   |
+| `c`       | compressed                         |
+| `C`       | no copy on write                   |
+| `d`       | no dump                            |
+| `D`       | synchronous directory updates      |
+| `e`       | extent format                      |
+| `F`       | case-insensitive directory lookups |
+| `i`       | immutable                          |
+| `j`       | data journaling                    |
+| `m`       | don't compress                     |
+| `P`       | project hierarchy                  |
+| `s`       | secure deletion                    |
+| `S`       | synchronous updates                |
+| `t`       | tail-merging                       |
+| `T`       | top of directory hierarchy         |
+| `u`       | undeletable                        |
+| `x`       | direct access for files            |
+
+The following attributes are read-only and may be listed by `lsattr` but not modified by `chattr`: 
+
+| Attribute | Description       |
+| --------- | ----------------- |
+| `E`       | encrypted         |
+| `I`       | indexed directory |
+| `N`       | inline data       |
+| `V`       | verity            |
+
+See the [chattr manpage](https://www.man7.org/linux/man-pages/man1/chattr.1.html) for more detailed descriptions of each attribute.
+
 ### File compression and encryption
 
 | Command | Description |
