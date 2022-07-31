@@ -47,7 +47,7 @@ TODO: Add screenshots/code examples for each command; put commands in tables; cl
 | `[ ]`    | Match any one of the enclosed characters in file name.                              |
 | `;`      | Run commands in sequence, regardless if the previous succeeded.                     |
 | `( )`    | Group commands.                                                                     |
-| `{ }`    | Used to feed multiple parameters to a single command.  Separate parameters by `,`   |
+| `{ }`    | Used to feed multiple parameters to a single command. Separate parameters by `,`    |
 | `!`      | Followed by a digit will repeat the command from the history file that corresponds. |
 | `!!`     | Repeat the previous command.                                                        |
 | `0`      | Shortcut that stands for Standard Input (STDIN)                                     |
@@ -82,32 +82,32 @@ Everything in Linux is a file, even directories and devices. Directories have so
 
 ### File and directory creation and deletion
 
-| Command                          | Description                                                                                                                                                                                                 |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `touch $fileName`                | Create a new blank file with this name                                                                                                                                                                      |
-| `cp $file [/path/to/]$newFile`   | Copy file from one location to another.  If no location is specified, creates the copy in the same directory. \[Path optional]                                                                              |
-| `mv $file [/path/to/]$newFile`   | Move file from one location to another.  If no location is specified, renames the file in same directory (removes the old file).                                                                            |
-| `rm $file`                       | Removes (deletes) a file.                                                                                                                                                                                   |
-| `rm *`                           | Removes (deletes) all files in the directory.                                                                                                                                                               |
-| `rm -rf *`                       | Recursively deletes all files in the directory and all subdirectories and files.  Will not prompt for approval with `-f`.                                                                                   |
-| `mkdir [/path/to/]$dir`          | Makes a new empty directory                                                                                                                                                                                 |
-| `mkdir -p test/{test1,test2}`    | The `-p` flag creates multiple directories at once.  In this example we use brace expansion to create `test/` and two subdirectories under it simultaneously.                                               |
-| `rmdir $dir`                     | Deletes an (empty) directory                                                                                                                                                                                |
-| `sudo rm --force $(which $file)` | Removes all instances of a specified filename.  Only searches PATH directories.  You could also use `find` or `locate` instead of `which` to find more files.  With `--force` will not prompt for approval! |
+| Command                          | Description                                                                                                                                                                                              |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `touch $fileName`                | Create a new blank file with this name                                                                                                                                                                   |
+| `cp $file [/path/to/]$newFile`   | Copy file from one location to another. If no location is specified, creates the copy in the same directory. \[Path optional]                                                                            |
+| `mv $file [/path/to/]$newFile`   | Move file from one location to another. If no location is specified, renames the file in same directory (removes the old file).                                                                          |
+| `rm $file`                       | Removes (deletes) a file.                                                                                                                                                                                |
+| `rm *`                           | Removes (deletes) all files in the directory.                                                                                                                                                            |
+| `rm -rf *`                       | Recursively deletes all files in the directory and all subdirectories and files. Will not prompt for approval with `-f`.                                                                                 |
+| `mkdir [/path/to/]$dir`          | Makes a new empty directory                                                                                                                                                                              |
+| `mkdir -p test/{test1,test2}`    | The `-p` flag creates multiple directories at once. In this example we use brace expansion to create `test/` and two subdirectories under it simultaneously.                                             |
+| `rmdir $dir`                     | Deletes an (empty) directory                                                                                                                                                                             |
+| `sudo rm --force $(which $file)` | Removes all instances of a specified filename. Only searches PATH directories. You could also use `find` or `locate` instead of `which` to find more files. With `--force` will not prompt for approval! |
 
 ### File & text manipulation
 
 | Command                 | Description                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `cat $file1 $file2`     | Concatenates the contents of two files                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `wc`                    | Counts the lines, words, and bytes in a file.  `-l` will count only lines, `-m` will count only characters, `-c` will count only bytes,  `-w` will count only words                                                                                                                                                                                                                                                                                 |
+| `wc`                    | Counts the lines, words, and bytes in a file. `-l` will count only lines, `-m` will count only characters, `-c` will count only bytes, `-w` will count only words                                                                                                                                                                                                                                                                                   |
 | `awk`                   | A programming language for text processing. Can do many many things.                                                                                                                                                                                                                                                                                                                                                                                |
 | `sed`                   | <p>Performs text editing on a stream of text. Useful for replacing text in a file and much more. Example:</p><p>Replace all occurrences of 1001 with 0 in /etc/passwd.</p><p><code>sed -i -e 's/1001/0/g' /etc/passwd</code></p>                                                                                                                                                                                                                    |
-| `cut`                   | Extract a section of text.  **`-f`** selects the field, **`-d`** sets the delimiter.                                                                                                                                                                                                                                                                                                                                                                |
+| `cut`                   | Extract a section of text. **`-f`** selects the field, **`-d`** sets the delimiter.                                                                                                                                                                                                                                                                                                                                                                 |
 | `sort`                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `uniq`                  |                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `comm $file1 $file2`    | <p>Compare two files and show differences.  Output is in three columns:</p><ul><li>Lines that are unique to the first file </li><li>Lines that are unique to the second file </li><li>Lines that are shared by both files.</li></ul>                                                                                                                                                                                                                |
-| `diff $file1 $file2`    | <p>Compare two files and show differences. Has two modes: </p><ul><li><code>-c</code> Context format</li><li><code>-u</code> Unified Format</li></ul>                                                                                                                                                                                                                                                                                               |
+| `comm $file1 $file2`    | <p>Compare two files and show differences. Output is in three columns:</p><ul><li>Lines that are unique to the first file</li><li>Lines that are unique to the second file</li><li>Lines that are shared by both files.</li></ul>                                                                                                                                                                                                                   |
+| `diff $file1 $file2`    | <p>Compare two files and show differences. Has two modes:</p><ul><li><code>-c</code> Context format</li><li><code>-u</code> Unified Format</li></ul>                                                                                                                                                                                                                                                                                                |
 | `vimdiff $file1 $file2` | <p>Opens two files in Vim side-by-side and highlight the differences. Some shortcuts:</p><ul><li><code>[ctrl] w</code> - Switch to the other split window</li><li><code>do</code> - Gets changes from the other window into the current one</li><li><code>dp</code> - Puts the changes from the current window into the other one</li><li><code>]c</code> - Jump to the next change</li><li><code>[c</code> - Jump to the previous change</li></ul> |
 
 ```
@@ -118,7 +118,7 @@ cat > $fileName
 
 ### File Permissions
 
-The permissions for a file (for example, viewed with the `ls -l` command) are typically written as:&#x20;
+The permissions for a file (for example, viewed with the `ls -l` command) are typically written as:
 
 ```bash
 -rwxrwxrwx owner group [metadata] $filename
@@ -126,20 +126,20 @@ The permissions for a file (for example, viewed with the `ls -l` command) are ty
 
 **`r`** = read **`w`** = write **`x`** = execute
 
-Breaking down this format gives us four parts:&#x20;
+Breaking down this format gives us four parts:
 
-1. The first character tells if it is a file or a directory.  if it is a **`-`** (hyphen) then it is a file. However if the first character is a **`d`**, then the file is a directory.  (Remember, technically everything in Linux is a file, even directories).
+1. The first character tells if it is a file or a directory. if it is a **`-`** (hyphen) then it is a file. However if the first character is a **`d`**, then the file is a directory. (Remember, technically everything in Linux is a file, even directories).
 2. The next three characters specify the permissions of the owner of the file.
 3. The following three characters specify the permissions of the group that owns the file.
 4. The final three characters specify the permissions of all other users.
 
-The permissions `-rwxrwxrwx` mean that the anyone can read, write and execute the file.&#x20;
+The permissions `-rwxrwxrwx` mean that the anyone can read, write and execute the file.
 
 In the above example, the owner, group, and everyone permissions are all `rwx`; hence anyone can read, write, and execute this file.
 
 #### The chmod command
 
-The `chmod` command is used to set the permissions on a file.  This is usually expressed in one of two different formats, ugoa+rwx and octal notation.  The command is used as follows:
+The `chmod` command is used to set the permissions on a file. This is usually expressed in one of two different formats, ugoa+rwx and octal notation. The command is used as follows:
 
 ```bash
 chmod [permissions] $file
@@ -147,7 +147,7 @@ chmod [permissions] $file
 
 #### Octal notation
 
-In octal notation, the permissions are assigned using triple octal (base8) digits.  The first digit is the cumulative permissions for the owner, the second for the group, and the third for everyone else.
+In octal notation, the permissions are assigned using triple octal (base8) digits. The first digit is the cumulative permissions for the owner, the second for the group, and the third for everyone else.
 
 | Permissions | Binary notation | Octal notation | Description                 |
 | ----------- | --------------- | -------------- | --------------------------- |
@@ -166,9 +166,9 @@ From the above table we can easily derive :
 Read = 4    Write = 2     Execute = 1
 ```
 
-Therefore, if you want to give only the owner read and write permissions, they would be assigned `600` (4+2=6). &#x20;
+Therefore, if you want to give only the owner read and write permissions, they would be assigned `600` (4+2=6).
 
-Taking the same example from above, to assign the permissions `-rwxrwxrwx` the command would be:&#x20;
+Taking the same example from above, to assign the permissions `-rwxrwxrwx` the command would be:
 
 ```bash
 chmod 777 $file
@@ -180,13 +180,13 @@ That is: read (4), write (2), and execute (1) permissions for the owner, group, 
 
 In this notation format, there are three main components:
 
-1. _Who._ The users to modify permissions for: `u` = user (owner), `g` = group, `o` = others, and finally  `a` = u+g+o (all).
+1. _Who._ The users to modify permissions for: `u` = user (owner), `g` = group, `o` = others, and finally `a` = u+g+o (all).
 2. _What._ The modifier: `=` to set permissions, `+` for adding permissions, `-` for removing permissions.
 3. _Which._ The permissions to set, add, or remove: one or more of `rwx` as above.
 
 As you can see, this notations allows for easier and more explicit control over exactly which permissions are given to whom.
 
-Examples:&#x20;
+Examples:
 
 To give all users the write permission:
 
@@ -200,7 +200,7 @@ To remove write and execute permissions from the 'other' group:
 chmod o-wx $file
 ```
 
-These permission changes can also be chained by adding a comma between the permission changes. &#x20;
+These permission changes can also be chained by adding a comma between the permission changes.
 
 To add read/write permissions for the file owner and group, while making it read only for everyone else:
 
@@ -208,7 +208,7 @@ To add read/write permissions for the file owner and group, while making it read
 chmod ug+rw,o=r $file
 ```
 
-#### Advanced permissions (TODO: Finish cleaning this up.  Add descriptions of SUID/GUID)
+#### Advanced permissions (TODO: Finish cleaning this up. Add descriptions of SUID/GUID)
 
 Other than just read and write, you can also set some other permissions like SUID and GUID.
 
@@ -254,25 +254,20 @@ chown $user $group $file
 
 The above command would change the owner of the file to `$user` and also the group to `$group`.
 
-### Read attributes of files on Linux with lsattr
+### File Attributes
 
-`lsattr` lists the file attributes on a second extended file system.  See `chattr` below for a description of each attribute.  
+#### Read attributes of files on Linux with lsattr
+
+`lsattr` lists the file attributes on a second extended file system. See `chattr` below for a description of each attribute.
 
 Useful options:
 
-```
--R     Recursively list attributes of directories and their
-        contents.
-
--a     List all files in directories, including files that start
-        with '.'
-
--d     List directories like other files, rather than listing
-        their contents.
-
--l     Print the options using long names instead of single
-        character abbreviations.
-```
+| Argument | Description                                                                        |
+| -------- | ---------------------------------------------------------------------------------- |
+| `-R`     | Recursively list attributes of directories and their contents.                     |
+| `-a`     | List all files in directories, including files that start with `.` (hidden files). |
+| `-d`     | List directories like other files, rather than listing their contents.             |
+| `-l`     | Print the options using long names instead of single character abbreviations.      |
 
 You can chain together these options to recursively list the attributes of all files and folders in a directory with long names:
 
@@ -280,19 +275,19 @@ You can chain together these options to recursively list the attributes of all f
 lsattr -Ral /home/
 ```
 
-### Change attributes of files on Linux with chattr
+#### Change attributes of files on Linux with chattr
 
 `chattr` changes the file attributes on a Linux file system.
 
 > The format of a symbolic mode is `+-=[aAcCdDeFijmPsStTux]`.
 
-| Symbol | Meaning |
+| Symbol | Meaning                                                      |
 | ------ | ------------------------------------------------------------ |
 | `+`    | Add the following attributes the to specified file           |
 | `-`    | Remove the following attributes from the specified file      |
 | `=`    | Set the attributes of the specified file to be the following |
 
-The letters 'aAcCdDeFijmPsStTux' select the new attributes for the specified files: 
+The letters `aAcCdDeFijmPsStTux` select the new attributes for the specified files:
 
 | Attribute | Description                        |
 | --------- | ---------------------------------- |
@@ -315,7 +310,7 @@ The letters 'aAcCdDeFijmPsStTux' select the new attributes for the specified fil
 | `u`       | undeletable                        |
 | `x`       | direct access for files            |
 
-The following attributes are read-only and may be listed by `lsattr` but not modified by `chattr`: 
+The following attributes are read-only and may be listed by `lsattr` but not modified by `chattr`:
 
 | Attribute | Description       |
 | --------- | ----------------- |
@@ -326,7 +321,7 @@ The following attributes are read-only and may be listed by `lsattr` but not mod
 
 See the [chattr manpage](https://www.man7.org/linux/man-pages/man1/chattr.1.html) for more detailed descriptions of each attribute.
 
-### File compression and encryption
+### File compression and encryption (TODO:)
 
 | Command | Description |
 | ------- | ----------- |
@@ -405,19 +400,19 @@ TODO: add more information on mounting and using network shares (issue [#10](htt
 
 ## Installing and Managing Programs
 
-| Command                            | Description                                                                                                                                                                                                                |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sudo apt update`                  | Update repository database                                                                                                                                                                                                 |
-| `sudo apt upgrade`                 | Update installed programs and packages (must update repository database first).  Adding `-y` will accept all prompts and install automatically.  Specifying a package name after "upgrade" will upgrade only that package. |
-| `sudo apt dist-upgrade`            |                                                                                                                                                                                                                            |
-| `sudo apt full-upgrade`            |                                                                                                                                                                                                                            |
-| `apt search $keyword`              | Search for packages (unknown name) to install from repositories                                                                                                                                                            |
-| `apt-cache search $keyword`        | Search for package in repositories                                                                                                                                                                                         |
-| `apt show $package`                | Show details about the specified package                                                                                                                                                                                   |
-| `sudo apt install $package`        | Installs the specified package (and any dependencies).                                                                                                                                                                     |
-| `sudo apt remove --purge $package` | Uninstalls the specified package                                                                                                                                                                                           |
-| `dpkg -i $deb_file`                | Installs the specified `.deb` package file (Does not install dependencies).                                                                                                                                                |
-| `alien $file.rpm`                  | Convert rpm to Debian packages                                                                                                                                                                                             |
+| Command                            | Description                                                                                                                                                                                                              |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `sudo apt update`                  | Update repository database                                                                                                                                                                                               |
+| `sudo apt upgrade`                 | Update installed programs and packages (must update repository database first). Adding `-y` will accept all prompts and install automatically. Specifying a package name after "upgrade" will upgrade only that package. |
+| `sudo apt dist-upgrade`            |                                                                                                                                                                                                                          |
+| `sudo apt full-upgrade`            |                                                                                                                                                                                                                          |
+| `apt search $keyword`              | Search for packages (unknown name) to install from repositories                                                                                                                                                          |
+| `apt-cache search $keyword`        | Search for package in repositories                                                                                                                                                                                       |
+| `apt show $package`                | Show details about the specified package                                                                                                                                                                                 |
+| `sudo apt install $package`        | Installs the specified package (and any dependencies).                                                                                                                                                                   |
+| `sudo apt remove --purge $package` | Uninstalls the specified package                                                                                                                                                                                         |
+| `dpkg -i $deb_file`                | Installs the specified `.deb` package file (Does not install dependencies).                                                                                                                                              |
+| `alien $file.rpm`                  | Convert rpm to Debian packages                                                                                                                                                                                           |
 
 ## Users and Groups
 
@@ -458,16 +453,16 @@ Add a new user: `adduser`
 
 ## Environment Variables
 
-| Command                  | Action                                                                                                                                                                    |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `env`                    | List all current environment variables and their values.                                                                                                                  |
-| `export [variable_name]` | <p>Define the value of an environment variable. Can be a new or existing variable.  </p><p><em>Exported variables only work in the context of the current shell.</em></p> |
-| `echo $PATH`             | List the values in the PATH environment variable.                                                                                                                         |
-| `echo $USER`             | Show the current username.                                                                                                                                                |
-| `echo $PWD`              | Show the current working directory.                                                                                                                                       |
-| `echo $HOME`             | Show the current user's home directory                                                                                                                                    |
-| `echo "$$"`              | Show the process ID of the current shell.                                                                                                                                 |
-| `stty size`              | Show number of rows and columns in the current shell.                                                                                                                     |
+| Command                  | Action                                                                                                                                                                  |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `env`                    | List all current environment variables and their values.                                                                                                                |
+| `export [variable_name]` | <p>Define the value of an environment variable. Can be a new or existing variable.</p><p><em>Exported variables only work in the context of the current shell.</em></p> |
+| `echo $PATH`             | List the values in the PATH environment variable.                                                                                                                       |
+| `echo $USER`             | Show the current username.                                                                                                                                              |
+| `echo $PWD`              | Show the current working directory.                                                                                                                                     |
+| `echo $HOME`             | Show the current user's home directory                                                                                                                                  |
+| `echo "$$"`              | Show the process ID of the current shell.                                                                                                                               |
+| `stty size`              | Show number of rows and columns in the current shell.                                                                                                                   |
 
 ### $PATH
 
@@ -487,7 +482,7 @@ export PATH="~/opt/bin${PATH:+:${PATH}}"
 
 ### $HISTCONTROL
 
-The HISTCONTROL environment variable can be used to whether the bash history removes duplicate commands, commands that start with a space, or both.  The default behavior is to remove both.
+The HISTCONTROL environment variable can be used to whether the bash history removes duplicate commands, commands that start with a space, or both. The default behavior is to remove both.
 
 ```bash
 export HISTCONTROL=ignoredups
@@ -503,7 +498,7 @@ The HISTIGNORE environment variable can be used to filter commands so they do no
 export HISTIGNORE="ls:[bf]g:exit:history"
 ```
 
-This example causes the history command to not log common commands such as `ls`,`bg`,`fg`,`exit`,and `history`.  Uses standard bash text shortcuts such as \[ ] to indicate options.
+This example causes the history command to not log common commands such as `ls`,`bg`,`fg`,`exit`,and `history`. Uses standard bash text shortcuts such as \[ ] to indicate options.
 
 ### $HISTTIMEFORMAT
 
