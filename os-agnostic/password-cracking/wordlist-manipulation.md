@@ -3,7 +3,7 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here.  
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
 {% endhint %}
 
 ## Wordlist Manipulation
@@ -32,7 +32,7 @@ find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o $out_file
 
 ### Convert uppercase to lowercase and the opposite
 
-```text
+```
 # tr [A-Z] [a-z] < file.txt > lower-case.txt
 # tr [a-z] [A-Z] < file.txt > upper-case.txt
 ```
@@ -63,11 +63,11 @@ cat $text_file | sed -e "s/$string//g" > $out_text_file
 
 `# awk -F "," '{print $3}' infile.csv > outfile.csv` OR `# cut -d "," -f 3 infile.csv > outfile.csv`
 
-> **Note:** if you want to isolate all columns after column 3 put a `-` \(dash\) after the number: `# cut -d "," -f 3- infile.csv > outfile.csv`
+> **Note:** if you want to isolate all columns after column 3 put a `-` (dash) after the number: `# cut -d "," -f 3- infile.csv > outfile.csv`
 
 ### Generate Random Passwords with /dev/urandom
 
-```text
+```
 tr -dc 'a-zA-Z0-9._!@#$%^&*()' < /dev/urandom | fold -w 8 | head -n 500000 > wordlist.txt
 tr -dc 'a-zA-Z0-9-_!@#$%^&*()_+{}|:<>?=' < /dev/urandom | fold -w 12 | head -n 4
 base64 /dev/urandom | tr -d '[^:alnum:]' | cut -c1-10 | head -2
@@ -129,13 +129,64 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n2
 
 `# awk '{ print NR, $0 }' file.txt | grep "string-to-grep"`
 
-## Crunch
+## **Create your own Dictionaries**
+
+Find as much information about the target as you can and generate a custom dictionary. Tools that may help:
+
+### Crunch
+
+Create a wordlist with lengths from 4 to 6 using a specified character set
+
+```bash
+crunch 4 6 0123456789ABCDEF -o crunch1.txt
+```
+
+Create a list of 4 character "words" using the character set mixalpha (inside file charset.lst)
+
+<pre><code><strong>crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha </strong></code></pre>
+
+Character set examples:
+
+```
+@ Lower case alpha characters
+, Upper case alpha characters
+% Numeric characters
+^ Special characters including spaces
+```
+
+Using this you can make wordlists using custom character sets with shortcuts
+
+```
+crunch 6 8 -t ,@@^^%%
+```
+
+### Cewl
+
+Generate a wordlist based on a target website
+
+```bash
+cewl example.com -m 5 -w words.txt
+```
+
+### CUPP
+
+Generate passwords based on your knowledge of the victim (names, significant dates, etc...)
+
+```
+python3 cupp.py -h
+```
+
+* [https://github.com/Mebus/cupp](https://github.com/Mebus/cupp)
+
+### [pydictor](https://github.com/LandGrey/pydictor)
 
 ## Hashcat
 
+TODO: add more
+
 ## Rules
 
-[https://github.com/NotSoSecure/password\_cracking\_rules/blob/master/OneRuleToRuleThemAll.rule](https://github.com/NotSoSecure/password_cracking_rules/blob/master/OneRuleToRuleThemAll.rule)
+* TODO: add more
+* [https://github.com/NotSoSecure/password\_cracking\_rules/blob/master/OneRuleToRuleThemAll.rule](https://github.com/NotSoSecure/password\_cracking\_rules/blob/master/OneRuleToRuleThemAll.rule)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
-
