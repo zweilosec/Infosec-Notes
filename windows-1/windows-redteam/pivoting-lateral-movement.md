@@ -61,3 +61,59 @@ netsh interface portproxy add v4tov4 listenport=$lport connectport=$rport connec
 ```
 
 Substitute **`$lport`**, **`$rport`**, and **`$ip`** with the local port, remote port, and IP to forward to, respectively.
+
+## SMB Shares
+
+You can use the command `net use` to start a session on a remote computer
+
+```batch
+net use \\$target
+```
+
+Typing the command without specifying credentials will use SSO with your current user's credentials. To connect as a specific user, use the below command
+
+```batch
+net use \\$target $password /u:$user
+```
+
+If remote sessions are alllowed you should see "Command completed successfully."
+
+If you don't specify a share, as above, it will access the first available share on the remote system (typically IPC$). Since this likely won't have access to the file system directly, you will need to specify a share to connect to. Use the command `net view` to list out the available shares.
+
+```batch
+PS c:/> net view \\$target /all
+Shared resources at \\COMPUTER
+Share name   Resource                        Remark
+
+-------------------------------------------------------------------------------
+C$           C:\                             Default share
+ADMIN$       C:\WINDOWS                      Remote Admin
+Users        C:\Users
+The command completed successfully.
+```
+
+Next, pick a share you want to connect to and specify it in the command to connect.
+
+```batch
+net use * \\$target\$share $passwd /u:$user
+```
+
+The `*` indicates that you want the remote share mounted locally. It will choose the first available drive letter and mount the share to it. You can also specify a letter instead (e.g. `net use z:`)
+
+Note: sometimes you need to specify the hostname or domain with the username in order for the login to work properly.
+
+```batch
+net use * \\$target\$share $passwd /u:$host_or_domain\$user
+```
+
+Warning: Windows machines only allow a single SMB session with a target machine at a time. You will need to drop the first session in order to open a new one.
+
+```batch
+net use \\$target /del /y
+```
+
+Or quickly drop all SMB sessions with the below command.
+
+```batch
+net use * /del /y
+```
