@@ -157,3 +157,26 @@ sc.exe config \\$target $service_name start= demand
 ```
 
 The different startup types are boot, system, auto, demand, disabled, and delayed-auto.
+
+## PSEXEC
+
+Signed Microsoft binary, part of the Sysinternals toolkit.  Connects to the remote system through SMB, then creates a service on the remote system which runs the command specified. Some AV/EDR products automatically flag this as malicious now. Basic syntax is below:
+
+```powershell
+psexec.exe \\$target "$command"
+```
+
+You can also specify more than one target by separating them by a comma or replacing the target with a text file with `@target_file`. Some other advanced options:
+
+| Option | Definition                                                                      |
+| ------ | ------------------------------------------------------------------------------- |
+| `-c`   | Copy specified executable to remote system before execution, will not overwrite |
+| `-d`   | Disconnected mode. Does not channelize stdin/stdout. Use with nc listeners      |
+| `-f`   | Force overwrite of copied executable                                            |
+| `-h`   | Run with elevated privileges                                                    |
+| `-u`   | Username                                                                        |
+| `-p`   | Password                                                                        |
+| `-s`   | Run as SYSTEM                                                                   |
+| `-i`   | Run interactively (i.e. with cmd.exe or PowerShell)                             |
+
+Make sure to add the option `-accepteula` the first time you run PsExec against a system. Otherwise, your command will not run, and the user will see a prompt to accept the license agreement.
