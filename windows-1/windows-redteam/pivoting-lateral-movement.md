@@ -117,3 +117,43 @@ Or quickly drop all SMB sessions with the below command.
 ```batch
 net use * /del /y
 ```
+
+## Service Controller (sc.exe)
+
+If you have an active administrator SMB session with a remote computer you can use `sc.exe` to query, configure, start, or stop services on that computer.  This can enable you to use other methods on that machine without having to get a shell (or allow shell access by enabling WinRM, for example). &#x20;
+
+To run `sc.exe` against a remote machine use the syntax below
+
+```
+sc.exe \\$target
+```
+
+With this you can do any other `sc.exe` command, such as listing the state of all installed services.  Make sure to note the space after `state=` in the command below.
+
+```
+sc.exe \\$target query state= all
+```
+
+This gives detailed information about each service installed on the system such as state (STOPPED, RUNNING, etc.), type, service name, and display name.  The service name is needed to interact with a specific service.  With this you can start, stop, or change startup type of a service.
+
+```
+#start a service
+sc.exe \\$target start $service_name
+
+#stop a service
+sc.exe \\$target stop $service_name
+```
+
+To start a service, you might need to know its current startup type.  Unfortunately, the command above does not list this, so you need to query the specific service individually.
+
+```
+sc.exe \\$target qc $service_name
+```
+
+This gives additional information such as the `START_TYPE` and `BINARY_PATH_NAME`.  The main reason you need to know the `START_TYPE` is that when the startup type is `DISABLED` you must change it to `DEMAND` ("Manual" in the GUI) before you can start the service.  Change the `START_TYPE` of a service using the command below.
+
+```
+sc.exe config \\$target $service_name start= demand
+```
+
+The different startup types are boot, system, auto, demand, disabled, and delayed-auto.
