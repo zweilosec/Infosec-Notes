@@ -42,11 +42,13 @@ Invoke-Command -ComputerName $computername -Port 5985 -ScriptBlock { $cmd }
 
 Run a command on the system by specifying credentials
 
+{% code overflow="wrap" lineNumbers="true" %}
 ```powershell
 $passwd = ConvertTo-SecureString '$passwd' -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential ('$user', $passwd)
 Invoke-Command -ComputerName $computername -Port 5985 -ScriptBlock { $cmd } -Credential $cred -Authentication Negotiate
 ```
+{% endcode %}
 
 If you have a GUI logon such as through RDP you can simplify the credential request by using `Get-Credential`. This way you do not need to type the password into the cmdline, which is likely being logged.
 
@@ -56,9 +58,11 @@ If you have a GUI logon such as through RDP you can simplify the credential requ
 
 To set up a port forwarder using `netsh` run the below commands as an administrator.
 
+{% code overflow="wrap" lineNumbers="true" %}
 ```batch
 netsh interface portproxy add v4tov4 listenport=$lport connectport=$rport connectaddress=$ip
 ```
+{% endcode %}
 
 Substitute **`$lport`**, **`$rport`**, and **`$ip`** with the local port, remote port, and IP to forward to, respectively.
 
@@ -118,7 +122,7 @@ Or quickly drop all SMB sessions with the below command.
 net use * /del /y
 ```
 
-## Service Controller (sc.exe)
+### Service Controller (sc.exe)
 
 If you have an active administrator SMB session with a remote computer you can use `sc.exe` to query, configure, start, or stop services on that computer.  This can enable you to use other methods on that machine without having to get a shell (or allow shell access by enabling WinRM, for example). &#x20;
 
@@ -157,6 +161,30 @@ sc.exe config \\$target $service_name start= demand
 ```
 
 The different startup types are boot, system, auto, demand, disabled, and delayed-auto.
+
+### at/schtasks
+
+The `at.exe` and `schtasks.exe` programs are another set of built-in Windows commands that can be run on a remote system once an administrator SMB session has been created (such as with `net use` above). &#x20;
+
+{% hint style="info" %}
+You will also need to use `sc.exe` to ensure the Scheduler service is running!
+
+```
+sc.exe \\$target query schedule
+```
+
+If the service is not running, start it, then optionally set it to automatically startup as well (see [previous section](pivoting-lateral-movement.md#service-controller-sc.exe)).
+{% endhint %}
+
+
+
+{% hint style="info" %}
+You will also likely need to know the current time on the system you are scheduling the task on, as it might not be the same as your current system.
+
+```powershell
+net time \\$target
+```
+{% endhint %}
 
 ## PSEXEC
 
