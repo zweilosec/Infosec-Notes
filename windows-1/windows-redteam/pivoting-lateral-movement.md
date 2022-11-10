@@ -186,6 +186,66 @@ net time \\$target
 ```
 {% endhint %}
 
+#### at.exe
+
+{% hint style="warning" %}
+This command may not work on your target system anymore, as it has been deprecated by Microsoft. On my Windows 10 22H2 machine I received the message:
+
+```
+The AT command has been deprecated. Please use schtasks.exe instead.
+
+The request is not supported.
+```
+{% endhint %}
+
+The syntax for scheduling a command to run with `at.exe` is as below
+
+```powershell
+at.exe \\$target $time $command
+```
+
+The time must be in the format `HH:MM A` where `A` represents AM and `P` in its place would represent PM.  Some versions of Windows support 24-hour time, but not all.  It is better to use AM/PM as all versions support this. &#x20;
+
+To check the status of the new service just run the command by itself against the remote machine.
+
+```
+at.exe //$target
+```
+
+This will show all tasks scheduled through the `at.exe` command, but not `schtasks`. &#x20;
+
+#### schtasks.exe
+
+The basic syntax for `schtasks.exe` is much more customizable that `at.exe`.
+
+{% code overflow="wrap" lineNumbers="true" %}
+```powershell
+schtasks.exe /create /tn $task_name /s $target /u $user /p $password /sc $frequency /st $start_time /tr $command
+```
+{% endcode %}
+
+* `/st`: As with `at.exe` there is a specific formation the start time needs to follow, or the command will fail.  In this case the start time must be in the format `HH:MM:SS`. &#x20;
+* `/sc`: The frequency can be set to repeat the command according to a number of values:&#x20;
+  * **MINUTE** - Specifies the number of minutes before the task should run.
+  * **HOURLY** - Specifies the number of hours before the task should run.
+  * **DAILY** - Specifies the number of days before the task should run.
+  * **WEEKLY** Specifies the number of weeks before the task should run.
+  * **MONTHLY** - Specifies the number of months before the task should run.
+  * **ONCE** - Specifies that that task runs once at a specified date and time.
+  * **ONSTART** - Specifies that the task runs every time the system starts. You can specify a start date, or run the task the next time the system starts.
+  * **ONLOGON** - Specifies that the task runs whenever a user (any user) logs on. You can specify a date, or run the task the next time the user logs on.
+  * **ONIDLE** - Specifies that the task runs whenever the system is idle for a specified period of time. You can specify a date, or run the task the next time the system is idle.
+
+If you want to run the command as SYSTEM rather than with a specific user's credentials replace the `/u` and `/p` options with `/ru SYSTEM`. &#x20;
+
+For many more advanced options check out [Microsoft's documentation](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/schtasks-create).
+
+To check the status of tasks scheduled with both `at.exe` and `schtasks` use this command:
+
+```powershell
+schtasks.exe /query /s $target
+```
+
 ## PSEXEC
 
 Signed Microsoft binary, part of the Sysinternals toolkit.  Connects to the remote system through SMB, then creates a service on the remote system which runs the command specified. Some AV/EDR products automatically flag this as malicious now. Basic syntax is below:
