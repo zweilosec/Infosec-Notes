@@ -162,6 +162,36 @@ sc.exe config \\$target $service_name start= demand
 
 The different startup types are boot, system, auto, demand, disabled, and delayed-auto.
 
+#### Run remote commands with sc.exe
+
+In addition to querying and configuring services, `sc.exe` can also be used to run remote commands with SYSTEM privileges through an administrative SMB session. &#x20;
+
+{% hint style="warning" %}
+There is one main restriction with this technique. &#x20;
+
+Commands run will be killed by the services controller after 30 seconds.  This happens because when a service is started, it is put into a START\_PENDING status.  If it does not report to the controller that is has fully initialized within 30 seconds, it is killed.
+
+Since any commands you will run with this method were not built as Windows services, they will not send the correct status report to the service controller and will be killed after 30 seconds. You can get around this by making your backdoor payload a valid Windows service, or by using a trick with `cmd.exe`.
+
+```
+sc.exe \\$target create $service_name binpath= "cmd.exe /k $command"
+```
+
+Running `cmd.exe` with the `/k` flag indicates that you want to run the command and keep the shell open.  This will allow any long-running programs (such as a netcat reverse shell) to continue after the 30 second kill. &#x20;
+{% endhint %}
+
+To create a service with `sc.exe` which can be used to run any command as SYSTEM, first create the service.  Next start the service to run your command.  You can also add an element of persistence by using the `start= auto` option.  By default, a new service is created with a start type of `DEMAND`.&#x20;
+
+```powershell
+sc.exe \\$target create $service_name binpath= "$command"
+sc.exe \\$target start $service_name
+sc.exe \\$target config $service_name start= auto
+```
+
+{% hint style="info" %}
+Make sure the command to be run in enclosed in quotes if it includes any spaces or special characters, otherwise it might get interpreted as part of the arguments for **`sc.exe`**. &#x20;
+{% endhint %}
+
 ### at/schtasks
 
 The `at.exe` and `schtasks.exe` programs are another set of built-in Windows commands that can be run on a remote system once an administrator SMB session has been created (such as with `net use` above). &#x20;
