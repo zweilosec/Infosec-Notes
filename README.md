@@ -125,6 +125,6 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ## OSCP/CTF Tools and Cheatsheets
 
-See my [list of outside sources](tools-cheatsheets.md)!
+See my [list of outside sources](tools-cheatsheets/)!
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!

