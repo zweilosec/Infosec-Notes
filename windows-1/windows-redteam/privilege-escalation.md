@@ -14,6 +14,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `Set-Executionpolicy Bypass`                                                                                                                                                            | Administrator rights are required.                                                                                                                                                                                       |
 | `Set-ExecutionPolicy -Scope CurrentUser Bypass`                                                                                                                                         | Only works in the context of the current user but requires no Administrator rights.                                                                                                                                      |
+| `Set-ExecutionPolicy Bypass -Scope Process`                                                                                                                                             | Works without Administrator rights and lasts for the duration of the current session.                                                                                                                                    |
 | <ol><li>Open .ps1 file in text editor.</li><li>Copy all text in the file</li><li>Paste into PowerShell</li></ol>                                                                        | PowerShell will run each line of the script one at a time, essentially the same as running the script.                                                                                                                   |
 | `Echo <script_code> \| PowerShell.exe -noprofile -`                                                                                                                                     | Similar to simply pasting the code.                                                                                                                                                                                      |
 | `cat $script.ps1 \| PowerShell.exe -noprofile -`                                                                                                                                        | Effectively the same as the previous example, but the code is read from a script file instead of being pasted. `cat` is an alias for `Get-Content`.                                                                      |
@@ -117,6 +118,12 @@ function Disable-ExecutionPolicy
 
 #Finally run the function to effectively disable the Execution Policy
 Disable-ExecutionPolicy
+```
+
+#### Change Execution Policy in the Registry
+
+```powershell
+Set-ItemProperty HKCU:\Software\Microsoft\PowerShell\1\ShellIds\Microsoft.PowerShell -Name ExecutionPolicy -Value Unrestricted
 ```
 
 ### Sudo for Windows
