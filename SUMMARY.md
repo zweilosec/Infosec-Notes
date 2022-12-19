@@ -19,7 +19,6 @@
   * [Data Exfiltration](linux-1/linux-redteam/exfiltration.md)
   * [Persistence](linux-1/linux-redteam/persistance.md)
 * [Vim](linux-1/vim.md)
-* [Test](linux-1/test.md)
 
 ## Windows <a href="#windows-1" id="windows-1"></a>
 

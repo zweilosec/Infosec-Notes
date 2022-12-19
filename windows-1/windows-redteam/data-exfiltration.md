@@ -6,8 +6,9 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.‌
 {% endhint %}
 
-\
-Not much here yet...please feel free to contribute at [https://www.github.com/zweilosec](https://github.com/zweilosec)
+{% hint style="danger" %}
+Not much here yet...please feel free to contribute at [my GitHub page](https://github.com/zweilosec/Infosec-Notes).
+{% endhint %}
 
 ### BITS Jobs
 
