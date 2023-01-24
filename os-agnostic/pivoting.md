@@ -164,4 +164,36 @@ Target: Most platforms
 ./chisel client 127.0.0.1:8001 socks
 ```
 
-##
+## Public key Authentication
+
+With OpenSSH, the authorized keys are by default configured in `.ssh/authorized_keys` in the user's home directory. Many OpenSSH versions also look for `ssh/authorized_keys2`.
+
+You are able to [add options to the authorized key file](https://www.ssh.com/academy/ssh/authorized-keys-openssh#format-of-the-authorized-keys-file)
+
+Example `authorized_keys` file to allow only port forwarding with no shell access
+
+```bash
+command="echo 'This account is only for port forwarding!'",from="10.10.0.1,10.10.0.2",no-user-rc,no-agent-forwarding,no-X11-forwarding,no-pty ssh-$keyType $publicKey
+```
+
+`command="cmd"` - Forces a command to be executed when this key is used for authentication. This is also called command restriction or forced command. The effect is to limit the privileges given to the key, and specifying this options is often important for implementing the principle of least privilege. Without this option, the key grants unlimited access as that user, including obtaining shell access.
+
+It is a common error when configuring SFTP file transfers to accidentally omit this option and permit shell access.
+
+`from="pattern-list"` - Specifies a source restriction or from-stanza, restricting the set of IP addresses or host names from which the reverse-mapped DNS names from which the key can be used.
+
+The patterns may use * as wildcard, and may specify IP addresses using * or in CIDR address/masklen notation. Only hosts whose IP address or DNS name matches one of the patterns are allowed to use the key.
+
+More than one pattern may be specified by separating them by commas. An exclamation mark ! can be used in front of a pattern to negate it.
+
+`no-pty` - Prevents allocation of a pseudo-tty for connections using the key.
+
+`no-user-rc` - Disables execution of .ssh/rc when using the key.
+
+`no-x11-forwarding` - Prevents X11 forwarding.
+
+## References
+
+* <https://notes.benheater.com/books/network-pivoting/page/ssh-port-forwarding>
+* <https://iximiuz.com/en/posts/ssh-tunnels/>
+* <https://ironhackers.es/en/cheatsheet/port-forwarding-cheatsheet/>
