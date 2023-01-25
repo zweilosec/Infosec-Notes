@@ -77,7 +77,7 @@
   * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
   * [Wordlist Manipulation](os-agnostic/password-cracking/wordlist-manipulation.md)
   * [Cracking the Hashes](os-agnostic/password-cracking/cracking-the-hashes.md)
-* [Pivoting](os-agnostic/pivoting/README.md)
+* [Pivoting](os-agnostic/pivoting.md)
   * [Chisel](os-agnostic/pivoting/chisel.md)
   * [Plink.exe](os-agnostic/pivoting/plink.exe.md)
   * [SSH](os-agnostic/pivoting/ssh.md)
