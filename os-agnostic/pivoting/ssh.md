@@ -21,11 +21,12 @@ Now `curl localhost:$LPORT` will fetch whatever is hosted on `$RPORT` which is o
 
 ▶ SSH remote port forward to send traffic back to our attacker's remote port from a local port of a reachable server.
 
-<pre class="language-bash"><code class="lang-bash"><strong># On Reachable system
-</strong><strong>ssh -N $attack_user@$attack_system -R $RPORT:localhost:$LPORT
-</strong></code></pre>
+```bash
+# On Reachable system
+ssh -N $attack_user@$attack_system -R $RPORT:localhost
+```
 
-This will open `$RPORT` on the attacker system and tunnel the traffic back to us through `$LPORT`
+This will open `$RPORT` on the attacker system and tunnel any traffic back to the reachable system. &#x20;
 
 ▶ Use dynamic port forwarding to create a SOCKS proxy to send traffic bound for any remote port through `$LPORT`
 
@@ -232,4 +233,4 @@ References
 
 * [https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies\_and\_Jump\_Hosts](https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Proxies\_and\_Jump\_Hosts)
 * [https://medium.com/maverislabs/proxyjump-the-ssh-option-you-probably-never-heard-of-2d7e41d43464](https://medium.com/maverislabs/proxyjump-the-ssh-option-you-probably-never-heard-of-2d7e41d43464)
-*
+* [https://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxy](https://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxy)
