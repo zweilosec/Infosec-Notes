@@ -7,7 +7,14 @@ description: Pivoting Using SSH
 ## SSH Tunneling 101
 
 {% hint style="info" %}
-Note: The option (`-N`) makes SSH not execute any commands (such as creating a shell). This is perfect for creating port forwarding tunnels.
+The following are helpful options for creating port forwarding tunnels.
+
+| Option | Description |
+|:------ | :---------- |
+| `-N`   | Makes SSH not execute any commands (such as creating a shell) |
+| `-T`   | Prevents a pseudo terminal from being allocated for the connection; however, commands can still be issued |
+| `-f`   | Forks the SSH client process into the background right after authentication; keeps the tunnel from blocking continued use of the current terminal |
+
 {% endhint %}
 
 ▶ SSH local port forward to reach an internal server via a reachable server
@@ -40,8 +47,15 @@ Now you can configure proxychains to send all (TCP) traffic through this as a So
 ▶ Use ProxyJump (`-J`) to tunnel traffic through one host to another
 
 ```bash
+# On Attacker system
 ssh -N -J $user1@$reachable_host:$SSH_PORT $user2@$internal_host
+# Using inline ssh_config (-o)
+scp -oProxyJump=userB@hostB,userC@hostC infile.txt userD@hostD:"~/outfile.txt"
+# With multiple hops use a comma (,) between, except for the last hop: put a space before it
+scp -J userB@hostB,userC@hostC userD@hostD:~/infile.txt outfile.txt
 ```
+
+These hops can be chained by using a comma (`,`) to separate them (no spaces, except for the last hop!). This also works with SCP to pull or push files through multiple hops.
 
 You can also combine this with Dynamic port forwarding to make your socks proxy reach the remote internal system.
 
