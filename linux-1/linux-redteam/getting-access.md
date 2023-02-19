@@ -291,7 +291,7 @@ ctrl-z #send to background
 
 #On attacker's machine
 stty raw -echo #https://stackoverflow.com/questions/22832933/what-does-stty-raw-echo-do-on-os-x
-stty -a #get local number of rows & columns
+stty size #get local number of rows & columns
 fg #to return shell to foreground
 
 #On victim machine
@@ -299,6 +299,14 @@ export SHELL=bash
 stty rows $x columns $y #Set remote shell to x number of rows & y columns
 export TERM=xterm-256color #allows you to clear console, and have color output
 ```
+
+When using some shells such as `zsh` or `fish` on the attacking machine your shell will break after you try to upgrade it using this method.  Some of the things I have found that help mitigate this are:
+
+1. Use `rlwrap nc -lvnp` when setting up your listener,
+2. make sure not to put a space in your python pty command after the import,
+3. type `stty size;stty raw -echo;fg` all on one line.
+
+Finally, as a last resort, you could just switch to `bash` instead when setting up your `nc` listener.
 
 ### Other Languages:
 
@@ -380,7 +388,8 @@ export TERM=xterm-256color
 stty rows <num> columns <cols>
 ```
 
-Misc unsorted
+
+Misc unsorted
 -------------
 
 ```bash
