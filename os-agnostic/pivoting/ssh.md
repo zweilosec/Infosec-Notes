@@ -8,14 +8,13 @@ description: Pivoting Using SSH
 
 {% hint style="info" %}
 The following are helpful options for creating port forwarding tunnels.
+{% endhint %}
 
 | Option | Description                                                                                                                                       |
-| :----- | :------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `-N` | Makes SSH not execute any commands (such as creating a shell)                                                                                     |
-| `-T` | Prevents a pseudo terminal from being allocated for the connection; however, commands can still be issued                                         |
-| `-f` | Forks the SSH client process into the background right after authentication; keeps the tunnel from blocking continued use of the current terminal |
-
-{% endhint %}
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-N`   | Makes SSH not execute any commands (such as creating a shell)                                                                                     |
+| `-T`   | Prevents a pseudo terminal from being allocated for the connection; however, commands can still be issued                                         |
+| `-f`   | Forks the SSH client process into the background right after authentication; keeps the tunnel from blocking continued use of the current terminal |
 
 ### ▶ SSH local port forward
 
@@ -65,6 +64,24 @@ sudo passwd sshpivot
 
 #On the pivot machine
 ssh sshpivot@192.168.2.149 -R 127.0.0.1:14000:10.42.42.2:80 -N
+```
+
+### ▶Listener plus reverse at same time (middle-man)
+
+```bash
+ssh -L 9999:host2:80 -R 9999:localhost:9999 host1
+```
+
+`-L 9999:host2:80` Means bind to localhost:9999 and any packet sent to localhost:9999 forward it to host2:80
+
+`-R 9999:localhost:9999` Means any packet received by host1:9999 forward it back to localhost:9999
+
+One way to make a tunnel so you can access the application on host2 directly from localhost:9999
+
+```bash
+ssh -L 6010:localhost:6010 user1@host1 \
+-t ssh -L 6010:localhost:6010 user2@host2 \
+-t ssh -L 6010:localhost:6010 user3@host3
 ```
 
 ### ▶ Use dynamic port forwarding to create a SOCKS proxy
@@ -160,24 +177,6 @@ sftp hop3 # for file transfers between your PC and host3
 ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no"
 ```
 
-### ▶Listener plus reverse at same time (middle-man)
-
-```bash
-ssh -L 9999:host2:80 -R 9999:localhost:9999 host1
-```
-
-`-L 9999:host2:80` Means bind to localhost:9999 and any packet sent to localhost:9999 forward it to host2:80
-
-`-R 9999:localhost:9999` Means any packet received by host1:9999 forward it back to localhost:9999
-
-One way to make a tunnel so you can access the application on host2 directly from localhost:9999
-
-```bash
-ssh -L 6010:localhost:6010 user1@host1 \
--t ssh -L 6010:localhost:6010 user2@host2 \
--t ssh -L 6010:localhost:6010 user3@host3
-```
-
 ## SSH Configuration File
 
 * [https://www.man7.org/linux/man-pages/man5/ssh\_config.5.html](https://www.man7.org/linux/man-pages/man5/ssh\_config.5.html)
@@ -243,7 +242,7 @@ ssh -F /dev/null $user@$remote
 
 ## ssh-copy-id
 
-Add SSH key to an `authorized_users` file remotely using the `ssh-copy-id` command. &#x20;
+Add SSH key to an `authorized_keys` file remotely using the `ssh-copy-id` command.
 
 ```bash
 ssh-copy-id $user@$ip
@@ -264,14 +263,13 @@ ssh-copy-id $user@$ip
 
 ### Dynamic Port Forwarding (Single port to any remote port)
 
-* setup proxychains with socks5 on 127.0.0.1:1080
+*   setup proxychains with socks5 on 127.0.0.1:1080
 
-  * Or set up socks5 proxy on firefox
+    * Or set up socks5 proxy on firefox
 
-  > For nmap use `-Pn -sT` or use tcp scanner in msf
-  >
+    > For nmap use `-Pn -sT` or use tcp scanner in msf
 
-```sh
+```
 ssh -i bobs.key -p 2222 bob@10.10.10.123 -D1080
 ```
 
@@ -298,17 +296,17 @@ ssh - -R 12345:192.168.122.228:5986 test@10.1.1.1
 
 ### Use local forwarding on an ad hoc basis
 
-* https://thegreycorner.com/2021/12/15/hackthebox_dante-review.html
+* https://thegreycorner.com/2021/12/15/hackthebox\_dante-review.html
 
-Use the ssh escape sequence (which by default is `<enter>`, then `~C `or `shift-~`then `shift-c`.) to access the ssh command line and create them as needed. If you’re not familiar with the ssh escape sequence, when the appropriate key combination is pressed at the regular ssh command prompt as the next keypress after Enter it drops you to a special prompt like so:
+Use the ssh escape sequence (which by default is `<enter>`, then `~C` or `shift-~`then `shift-c`.) to access the ssh command line and create them as needed. If you’re not familiar with the ssh escape sequence, when the appropriate key combination is pressed at the regular ssh command prompt as the next keypress after Enter it drops you to a special prompt like so:
 
-```text
+```
 ssh>
 ```
 
 At this prompt, you gain the ability to enable a number of ssh options without having to enable them from the command line when establishing a new session. You can, for example, create a local port forward from port 8888 to the remote host and port 172.16.1.1:8000 in the current session like so:
 
-```text
+```
 ssh> -L 8888:172.16.1.1:8000
 ```
 
@@ -316,7 +314,7 @@ ssh> -L 8888:172.16.1.1:8000
 
 * [https://www.adamcouch.co.uk/tunnel-snmp-check-udp-over-ssh/](https://www.adamcouch.co.uk/tunnel-snmp-check-udp-over-ssh/)
 
-Begin on the Attack machine by creating an SSH port forward.  Send TCP port 6666 on localhost to TCP 9999 on the remote pivot server:
+Begin on the Attack machine by creating an SSH port forward. Send TCP port 6666 on localhost to TCP 9999 on the remote pivot server:
 
 ```powershell
 ssh -L 6666:localhost:9999 user@192.168.100.10
@@ -336,4 +334,4 @@ mkfifo /tmp/fifo
 nc -l -u -p 161 < /tmp/fifo | nc localhost 6666 > /tmp/fifo
 ```
 
-Now tools that use UDP (such as nmap UDP scans or snmp_check) can communicate through the tunnel!
+Now tools that use UDP (such as nmap UDP scans or snmp\_check) can communicate through the tunnel!
