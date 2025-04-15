@@ -92,104 +92,83 @@ ClientAliveCountMax 2
 
 ### SSH Keys
 
-TODO: Clean and organize this section - issue [\#28](https://github.com/zweilosec/Infosec-Notes/issues/28)
+SSH keys are a secure way to authenticate to remote systems as a second authentication factor, or without using passwords. 
 
-To generate a new SSH key for remote access:
+#### Generating SSH Keys
 
-From [https://www.ssh.com/ssh/keygen/](https://www.ssh.com/ssh/keygen/):
+To generate a new SSH key for remote access, use the `ssh-keygen` command with the desired algorithm and key size:
 
-```text
-SSH supports several public key algorithms for authentication keys. These include:
-
-rsa - an old algorithm based on the difficulty of factoring large numbers. A key size of at least 2048 bits is recommended for RSA; 4096 bits is better. RSA is getting old and significant advances are being made in factoring. Choosing a different algorithm may be advisable. It is quite possible the RSA algorithm will become practically breakable in the foreseeable future. All SSH clients support this algorithm.
-
-dsa - an old US government Digital Signature Algorithm. It is based on the difficulty of computing discrete logarithms. A key size of 1024 would normally be used with it. DSA in its original form is no longer recommended.
-
-ecdsa - a new Digital Signature Algorithm standarized by the US government, using elliptic curves. This is probably a good algorithm for current applications. Only three key sizes are supported: 256, 384, and 521 (sic!) bits. We would recommend always using it with 521 bits, since the keys are still small and probably more secure than the smaller keys (even though they should be safe as well). Most SSH clients now support this algorithm.
-
-ed25519 - this is a new algorithm added in OpenSSH. Support for it in clients is not yet universal. Thus its use in general purpose applications may not yet be advisable.
-
-The algorithm is selected using the -t option and key size using the -b option. The following commands illustrate:
-
+```bash
+# Generate an RSA key with 4096 bits
 ssh-keygen -t rsa -b 4096
-ssh-keygen -t dsa
+
+# Generate an ECDSA key with 521 bits
 ssh-keygen -t ecdsa -b 521
+
+# Generate an Ed25519 key (recommended for modern use)
 ssh-keygen -t ed25519
 ```
 
-### Log into remote server using SSH Key
+#### Key Algorithms Comparison
 
-```bash
-ssh-keygen -f $key_file -t ed25519 #use the ed25519 algorithm, which is much smaller than default rsa, more secure than ECDSA
-cat $key_file.pub
-#copy public key to remote host
-#if characters are a premium you can chop of the user@host portion, but all users will be able to use this key!
-echo $pub_key > $victim_homeDir/.ssh/authorized_keys #on remote host in /home/<user>/
-chmod 600 $key_file 
-ssh -i $key_file $user@$remote_host
-```
+| Algorithm   | Key Size (bits) | Strength         | Pros                          | Cons                          |
+|-------------|-----------------|------------------|-------------------------------|-------------------------------|
+| RSA         | 2048/4096       | Strong (4096 recommended) | Widely supported, secure    | Larger key size, slower      |
+| DSA         | 1024            | Weak             | Legacy support               | Deprecated, insecure         |
+| ECDSA       | 256/384/521     | Strong           | Smaller keys, faster         | Requires good randomness     |
+| Ed25519     | Fixed (256)     | Very Strong      | Fast, secure, small key size | Limited client compatibility |
 
-{% hint style="danger" %}
-**Note**: AWS will _NOT_ accept this file. You have to strip off the `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` from the file. Save it and import and it should work in AWS.
-{% endhint %}
+#### Using SSH Keys
 
-and if you need to convert this format to ssh-rsa run : `ssh-keygen -f PublicKey.pub -i -mPKCS8`
+1. **Generate a Key Pair**: Use `ssh-keygen` as shown above.
+2. **Copy Public Key to Remote Host**:
+   ```bash
+   ssh-copy-id -i $key_file $user@$remote_host
+   ```
+3. **Connect Using the Key**:
+   ```bash
+   ssh -i $key_file $user@$remote_host
+   ```
 
-Prior to using a new SSH key file it is necessary to change the permissions: `chmod 600 <keyfile>`
+#### Key File Details
 
-Using an SSH key to login to a remote computer: `ssh -i <keyfile> <username>@<IP>`
+To inspect the details of a key file:
 
-However, before you can use the key to login to a remote computer, the public key must be placed in the `AuthorizedKeys` file on the remote system. You can do this with the `ssh-copy-id` command.
+- Public key:
+  ```bash
+  openssl rsa -in $priv_key -pubout -out $pub_key_name
+  ```
+- Private key:
+  ```bash
+  openssl rsa -noout -text -in key.private
+  ```
 
-```bash
-ssh-copy-id $user@$remote_host -i $key_file
-```
+#### Notes on Key Usage
 
-#### Key file details
+- **Permissions**: Ensure private keys have proper permissions:
+  ```bash
+  chmod 600 $key_file
+  ```
+- **AWS Compatibility**: AWS requires keys without `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` headers. Use:
+  ```bash
+  ssh-keygen -f PublicKey.pub -i -mPKCS8
+  ```
 
-For those interested in the details inside the key file \(generated as explained above\): `openssl rsa -noout -text -inform PEM -in key.pub -pubin`; or for the private key file: `openssl rsa -noout -text -in key.private` which outputs as text on the console the actual components of the key \(modulus, exponents, primes, etc.\)
+#### Troubleshooting
 
-### SSH Key Algorithms
+- If connection drops, try using a different shell:
+  ```bash
+  ssh 127.0.0.1 /bin/dash
+  ```
+- Disable startup files:
+  ```bash
+  ssh 127.0.0.1 "bash --noprofile --norc"
+  ```
 
-OpenSSH 8.0 supports four different types of signatures:
+#### Resources
 
-* rsa; ssh-rsa
-* dsa; ssh-dss
-* ecdsa; ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, ecdsa-sha2-nistp521
-* ed25519; ssh-ed25519
-
-TODO:Write number of characters, key strength, show algorithm name, default file name, give pros & cons; make this a table
-
-* [https://goteleport.com/blog/comparing-ssh-keys/](https://goteleport.com/blog/comparing-ssh-keys/)
-* [https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh\#:~:text=SSH supports several public key algorithms for authentication,significant advances are being  made in factoring](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh#:~:text=SSH%20supports%20several%20public%20key%20algorithms%20for%20authentication,significant%20advances%20are%20being%20%20made%20in%20factoring).
-
-#### RSA
-
-id\_rsa - default, uses RSA 2048 bits \(double check to be sure\) Implementation RSA libraries can be found for all major languages, including in-depth libraries \(JS, Python, Go, Rust, C\). Compatibility Usage of SHA-1 \(OpenSSH\) or public keys under 2048-bits may be unsupported.
-
-#### DSA
-
-DSA is not considered secure any more and should not be used. Implementation DSA was adopted by FIPS-184 in 1994. It has ample representation in major crypto libraries, similar to RSA. Compatibility While DSA enjoys support for PuTTY-based clients, OpenSSH 7.0 disables DSA by default.
-
-ECDSA - small and strong, eliptical curve digital signature algorithm; benefits, uses less characters when transferring on the wire ECDSA suffers from the same random number risk as DSA E...something TODO:look it up \(I used in recent HTB machines\); very short key, very useful for transferring when limited on characters to send TODO:research more
-
-#### ECDSA & EdDSA
-
-* [https://blog.peterruppel.de/ed25519-for-ssh/](https://blog.peterruppel.de/ed25519-for-ssh/)
-
-  The two examples above are not entirely sincere. Both Sony and the Bitcoin protocol employ ECDSA, not DSA proper. ECDSA is an elliptic curve implementation of DSA. Functionally, where RSA and DSA require key lengths of 3072 bits to provide 128 bits of security, ECDSA can accomplish the same with only 256-bit keys. However, ECDSA relies on the same level of randomness as DSA, so the only gain is speed and length, not security.
-
-In response to the desired speeds of elliptic curves and the undesired security risks, another class of curves has gained some notoriety. EdDSA solves the same discrete log problem as DSA/ECDSA, but uses a different family of elliptic curves known as the Edwards Curve \(EdDSA uses a Twisted Edwards Curve\). While offering slight advantages in speed over ECDSA, its popularity comes from an improvement in security. Instead of relying on a random number for the nonce value, EdDSA generates a nonce deterministically as a hash making it collision resistant.
-
-Taking a step back, the use of elliptic curves does not automatically guarantee some level of security. Not all curves are the same. Only a few curves have made it past rigorous testing. Luckily, the PKI industry has slowly come to adopt Curve25519 in particular for EdDSA. Put together that makes the public-key signature algorithm, Ed25519.
-
-Implementation EdDSA is fairly new. Crypto++ and cryptlib do not currently support EdDSA. Compatibility Compatible with newer clients, Ed25519 has seen the largest adoption among the Edward Curves, though NIST also proposed Ed448 in their recent draft of SP 800-186. Performance Ed25519 is the fastest performing algorithm across all metrics. As with ECDSA, public keys are twice the length of the desired bit security. Security EdDSA provides the highest security level compared to key length. It also improves on the insecurities found in ECDSA.
-
-```text
-ssh-keygen -t ed25519 -a 200 -C "you@host" -f ~/.ssh/my_new_id_ed25519
-```
-
-The parameter `-a` defines the number of rounds for the key derivation function. The higher this number, the harder it will be for someone trying to brute-force the password of your private key — but also the longer you will have to wait during the initialization of an SSH login session.
+- [Comparing SSH Keys](https://goteleport.com/blog/comparing-ssh-keys/)
+- [Which Host Key Algorithm is Best?](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh)
 
 ### Extract the public key from a private key
 
