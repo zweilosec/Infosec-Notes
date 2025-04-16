@@ -16,8 +16,8 @@ TODO: update and clean syntax and examples \(issue [\#18](https://github.com/zwe
 
 ## SSH/SCP into victim without password
 
-1. From the attacker machine generate a keypair: `ssh-keygen -t ed25519`
-2. Copy the contents from public key `$keyfile.pub` into the `.ssh/authorized_keys` file of the victim
+1. From the `attacker_machine`, generate a keypair: `ssh-keygen -t ed25519`
+2. Copy the contents from the public key `$keyfile.pub` into the `.ssh/authorized_keys` file of the `target_machine`
 3. Connect with the argument `-i $keyfile`
 
 ## SSH
@@ -56,10 +56,10 @@ Host jumpBox-2
     IdentityFile /home/kali/.ssh/to_jumpbox-2.key
     ProxyJump jumpBox-1
 
-Host raspPi-1
+Host target-1
     HostName 192.168.221.32
     User piUser
-    IdentityFile /home/kali/.ssh/to_raspPi-1.key
+    IdentityFile /home/kali/.ssh/to_target-1.key
     ProxyJump jumpBox-2
 ```
 
@@ -71,7 +71,7 @@ The above configuration shows an example of allowing a user to use a simplified 
 
 By having SSH keys for each of our jump boxes and the target device on our local machine, we can simplify the process of logging in through each machine quite a bit. The `ProxyJump` directive signifies which machine you need to jump through to get to the next machine in the proxy chain.
 
-This simple change allows a user to simply give the command `ssh raspPi-1`, wait a bit for all of the connections to be made, and pop a shell on the `raspPi-1` device.
+This simple change allows a user to simply give the command `ssh target-1`, wait a bit for all of the connections to be made, and pop a shell on the `target-1` device.
 
 ### Keep Alive
 
@@ -92,7 +92,7 @@ ClientAliveCountMax 2
 
 ### SSH Keys
 
-SSH keys are a secure way to authenticate to remote systems as a second authentication factor, or without using passwords. 
+SSH keys are a secure way to authenticate to remote systems, either as a second authentication factor or as a replacement for passwords. Below is a guide to generating, using, and managing SSH keys effectively.
 
 #### Generating SSH Keys
 
@@ -170,23 +170,27 @@ To inspect the details of a key file:
 - [Comparing SSH Keys](https://goteleport.com/blog/comparing-ssh-keys/)
 - [Which Host Key Algorithm is Best?](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh)
 
-### Extract the public key from a private key
+#### Extracting Public Key from Private Key
 
-```text
+To extract the public key from a private key:
+
+```bash
 openssl rsa -in $priv_key -pubout -out $pub_key_name
 ```
 
-### Generate a public key from the private key
+#### Generating Public Key from Private Key
+
+To generate a public key from a private key:
 
 ```bash
 ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
+```
 
-#As a side note, the comment of the public key is lost,
-# so you need to edit ~/.ssh/id_rsa.pub 
-#Append a comment to the first line with a space between the comment and key data.
-#An example public key is shown truncated below.
+> **Note**: The comment of the public key is lost during this process. You may need to manually append a comment to the first line of the public key file (ex: ~/.ssh/id_rsa.pub). Append a comment to the first line with a space between the comment and key data. An example public key is shown truncated below.
 
-"ssh-rsa <key_data AAAA..snipped../VqDjtS5> user@hostname"
+Example:
+```bash
+ssh-rsa <key_data AAAA..snipped../VqDjtS5> user@hostname
 ```
 
 ### Troubleshooting SSH
@@ -196,9 +200,9 @@ If connection is dropped upon connect:
 * Don't use bash for this session, try dash \(or /bin/sh\): `ssh 127.0.0.1 /bin/dash`
 * Use bash with command options to disable processing startup files:
 
-  ```bash
+```bash
   ssh 127.0.0.1 "bash --noprofile --norc"
-  ```
+```
 
 ## Remote Code Execution
 
@@ -253,6 +257,51 @@ scp -c blowfish $local_file $username@$ip:$directory
 scp -i $keyfile [other parameters]
 ```
 
+## Local Forward Tunnels
+
+Local forward tunnels allow you to forward a port from your local machine to a remote server. This is useful for accessing services on a remote server that are not directly accessible from your local machine.
+
+### Setting Up a Local Forward Tunnel
+
+To set up a local forward tunnel, use the `-L` option with the `ssh` command. The syntax is as follows:
+
+```bash
+ssh -L [local_port]:[remote_host]:[remote_port] [user]@[remote_server]
+```
+
+- **local_port**: The port on your local machine that you want to forward.
+- **remote_host**: The host on the remote server to which you want to forward traffic.
+- **remote_port**: The port on the remote host to which you want to forward traffic.
+- **user**: The username for the remote server.
+- **remote_server**: The address of the remote server.
+
+### Example
+
+Suppose you want to access a web application running on port 8080 of a `target_machine` through an intermediate SSH server (`intermediate_server`). You can set up a local forward tunnel as follows:
+
+```bash
+ssh -L 8080:target_machine:8080 user@intermediate_server
+```
+
+After running this command, you can access the web application by navigating to `http://localhost:8080` in your web browser.
+
+### Notes
+
+- The local port (e.g., 8080) must not be in use on your local machine.
+- You can use `-N` to prevent the SSH session from executing commands, keeping the tunnel open:
+
+```bash
+ssh -L 8080:target_machine:8080 user@intermediate_server -N
+```
+
+- Use `-f` to run the SSH session in the background:
+
+```bash
+ssh -L 8080:target_machine:8080 user@intermediate_server -N -f
+```
+
+Local forward tunnels are particularly useful for securely accessing internal services or databases on a remote network.
+
 ## Reverse Tunnels
 
 [https://medium.com/@ryanwendel/forwarding-reverse-shells-through-a-jump-box-using-ssh-7111f1d55e3a](https://medium.com/@ryanwendel/forwarding-reverse-shells-through-a-jump-box-using-ssh-7111f1d55e3a)
@@ -261,43 +310,43 @@ scp -i $keyfile [other parameters]
 
 [https://www.howtoforge.com/reverse-ssh-tunneling](https://www.howtoforge.com/reverse-ssh-tunneling)
 
-* Let's assume that Destination's IP is 192.168.20.55 \(Linux box that you want to access\).
-* You want to access from Linux client with IP 178.27.99.99.
-* Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(178.27.99.99\)
-* SSH from the destination to the source \(with public IP\) using the command below:
+* Let's assume that the `target_machine`'s IP is 192.168.20.55 (Linux box that you want to access).
+* You want to access it from the `local_machine` with IP 178.27.99.99.
+* `target_machine` <- |NAT| <- `local_machine`
+* SSH from the `target_machine` to the `local_machine` (with public IP) using the command below:
 
 ```text
-ssh -R 19999:localhost:22 sourceuser@178.27.99.99
+ssh -R 19999:localhost:22 sourceuser@local_machine
 ```
 
 {% hint style="info" %}
 \* port 19999 can be any unused local port.
 {% endhint %}
 
-1. Now you can SSH from source to destination through SSH tunneling:
+1. Now you can SSH from `local_machine` to `target_machine` through SSH tunneling:
 
 ```text
 ssh localhost -p 19999
 ```
 
-1. 3rd party servers can also access 192.168.20.55 through Destination \(178.27.99.99\).
+1. 3rd party servers can also access `target_machine` through `local_machine`.
 
-Destination \(192.168.20.55\) &lt;- \|NAT\| &lt;- Source \(178.27.99.99\) &lt;- Bob's server
+`target_machine` <- |NAT| <- `local_machine` <- Target web server
 
-3.1 From Bob's server:
+3.1 From the Target web server:
 
 ```text
-ssh sourceuser@178.27.99.99
+ssh sourceuser@local_machine
 ```
 
-3.2 After the successful login to Source:
+3.2 After the successful login to `local_machine`:
 
 ```text
 ssh localhost -p 19999
 ```
 
 {% hint style="info" %}
-\* the connection between destination and source must be alive at all times. Tip: you may run a command \(e.g. watch, top\) on Destination to keep the connection active.
+\* the connection between `target_machine` and `local_machine` must be alive at all times. Tip: you may run a command \(e.g. watch, top\) on `target_machine` to keep the connection active.
 {% endhint %}
 
 ### Dynamic Reverse Tunnels
