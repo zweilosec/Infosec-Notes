@@ -154,22 +154,6 @@ To inspect the details of a key file:
   ssh-keygen -f PublicKey.pub -i -mPKCS8
   ```
 
-#### Troubleshooting
-
-- If connection drops, try using a different shell:
-  ```bash
-  ssh 127.0.0.1 /bin/dash
-  ```
-- Disable startup files:
-  ```bash
-  ssh 127.0.0.1 "bash --noprofile --norc"
-  ```
-
-#### Resources
-
-- [Comparing SSH Keys](https://goteleport.com/blog/comparing-ssh-keys/)
-- [Which Host Key Algorithm is Best?](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh)
-
 #### Extracting Public Key from Private Key
 
 To extract the public key from a private key:
@@ -191,17 +175,6 @@ ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
 Example:
 ```bash
 ssh-rsa <key_data AAAA..snipped../VqDjtS5> user@hostname
-```
-
-### Troubleshooting SSH
-
-If connection is dropped upon connect:
-
-* Don't use bash for this session, try dash \(or /bin/sh\): `ssh 127.0.0.1 /bin/dash`
-* Use bash with command options to disable processing startup files:
-
-```bash
-  ssh 127.0.0.1 "bash --noprofile --norc"
 ```
 
 ## Remote Code Execution
@@ -353,6 +326,73 @@ ssh localhost -p 19999
 
 [https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/](https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/)
 
+## Troubleshooting
+
+#### Troubleshooting Connection Drops
+
+- If connection drops immediately after connecting:
+  - Don't use bash for this session, try another shell such as dash \(or /bin/sh\):
+    ```bash
+    ssh 127.0.0.1 /bin/dash
+    ```
+  - Use bash with command options to disable processing startup files (.profile, .bashrc):
+    ```bash
+    ssh 127.0.0.1 "bash --noprofile --norc"
+    ```
+
+- **Permission Denied Errors**:
+  - **Issue**: Encountering "Permission denied" when trying to SSH or SCP.
+  - **Workaround**: Ensure the private key file has the correct permissions:
+    ```bash
+    chmod 600 ~/.ssh/id_rsa
+    ```
+    Verify the username and hostname are correct, and ensure the public key is added to the `~/.ssh/authorized_keys` file on the remote server.
+
+- **Connection Timeout**:
+  - **Issue**: SSH connection times out.
+  - **Workaround**: Check if the remote server is reachable using `ping` or `traceroute`. Ensure the SSH port (default 22) is open and not blocked by a firewall. Use the `-v` flag with SSH for verbose output to debug:
+    ```bash
+    ssh -v user@hostname
+    ```
+
+- **Host Key Verification Failed**:
+  - **Issue**: SSH fails due to a changed host key.
+  - **Workaround**: This usually happens if the server's SSH key has changed. Remove the old key from the `~/.ssh/known_hosts` file:
+    ```bash
+    ssh-keygen -R hostname
+    ```
+    Then reconnect to add the new key.
+
+- **Too Many Authentication Failures**:
+  - **Issue**: SSH fails with "Too many authentication failures".
+  - **Workaround**: This can occur if the SSH client tries multiple keys before the correct one. Use the `-i` option to specify the correct key explicitly:
+    ```bash
+    ssh -i ~/.ssh/id_rsa user@hostname
+    ```
+
+- **Broken Pipe Errors**:
+  - **Issue**: SSH session disconnects with a "broken pipe" error.
+  - **Workaround**: Increase the `ServerAliveInterval` and `ServerAliveCountMax` settings in your SSH config to keep the connection alive:
+    ```text
+    Host *
+        ServerAliveInterval 60
+        ServerAliveCountMax 5
+    ```
+
+#### Additional Common Issues and Workarounds
+
+- **SCP File Transfer Fails**:
+  - **Issue**: SCP fails with "No such file or directory".
+  - **Workaround**: Double-check the file paths on both the local and remote systems. Use absolute paths to avoid ambiguity.
+
+- **SSH Hangs on Connection**:
+  - **Issue**: SSH hangs indefinitely when trying to connect.
+  - **Workaround**: Use the `-vvv` flag for detailed debugging output. Check for DNS resolution issues and try connecting using the server's IP address instead of the hostname.
+
+- **Key Mismatch Errors**:
+  - **Issue**: Public key authentication fails due to a key mismatch.
+  - **Workaround**: Ensure the correct private key is being used and that the corresponding public key is present in the `~/.ssh/authorized_keys` file on the remote server. Verify the key format and regenerate the key pair if necessary.
+
 ## Resources
 
 * [https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/](https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/)
@@ -360,6 +400,9 @@ ssh localhost -p 19999
 * [https://softeng.oicr.on.ca/chen\_chen/2017/06/27/Using-Jump-Servers-in-SSH/](https://softeng.oicr.on.ca/chen_chen/2017/06/27/Using-Jump-Servers-in-SSH/)
 * [https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/)
 * [https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/](https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/)
+* [Comparing SSH Keys](https://goteleport.com/blog/comparing-ssh-keys/)
+* [Which Host Key Algorithm is Best?](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh)
+
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
