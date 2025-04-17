@@ -174,44 +174,40 @@ httpd.serve_forever()
 {% tab title="Python" %}
 ### Python FTP server
 
-```bash
+```python
 #!/usr/bin/env python3
-
-
-##Author : Paranoid Ninja
-#Modified: Zweilos
-##Descr  : Creates a Simple FTP Server in the tmp directory
+# Author : Paranoid Ninja
+# Modified: Zweilos
+# Description  : Creates a Simple FTP Server in the specified directory
 
 from pyftpdlib.authorizers import DummyAuthorizer
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.servers import FTPServer
-
-FTP_PORT = 2121
-FTP_USER = "ninja"
-FTP_PASSWORD = "ninja"
-FTP_DIRECTORY = "."
-
+import argparse
 
 def main():
-    dir = input("Run in the current directory? [y/n]\n")
-    if (dir != "y") or (dir != "Y"):
-        FTP_DIRECTORY = input("Please enter a directory:")
+    parser = argparse.ArgumentParser(description="Simple FTP Server for file sharing.")
+    parser.add_argument("--port", type=int, default=2121, help="Port to run the FTP server on (default: 2121)")
+    parser.add_argument("--user", type=str, default="ninja", help="Username for FTP login (default: ninja)")
+    parser.add_argument("--password", type=str, default="ninja", help="Password for FTP login (default: ninja)")
+    parser.add_argument("--directory", type=str, default=".", help="Directory to serve files from (default: current directory)")
+    args = parser.parse_args()
 
     authorizer = DummyAuthorizer()
-    authorizer.add_user(FTP_USER, FTP_PASSWORD, FTP_DIRECTORY, perm='elradfmw')
+    authorizer.add_user(args.user, args.password, args.directory, perm='elradfmw')
 
     handler = FTPHandler
     handler.authorizer = authorizer
     handler.banner = "Ninja FTP Server"
 
-    address = ('', FTP_PORT)
+    address = ('', args.port)
     server = FTPServer(address, handler)
 
     server.max_cons = 256
     server.max_cons_per_ip = 5
 
+    print(f"Starting FTP server on port {args.port}, serving files from {args.directory}")
     server.serve_forever()
-
 
 if __name__ == '__main__':
     main()
@@ -304,88 +300,50 @@ nc $target_ip 55555 < file
 
 ## Python HTTP server script
 
-TODO: add --help to python file sharing scripts (issue [#14](https://github.com/zweilosec/Infosec-Notes/issues/14))
+```python
+#!/usr/bin/env python3
 
-* Add argument parsing capability
-* add `--help` argument for getting usage description
-* add arguments for all user input variables
-* FTP Server script has hardcoded values that need to be replaceable
+import argparse
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+import os
+import signal
+import sys
 
-Script for listing and sharing files in a folder. Uses python3's `http.server` module.
+def list_files(directory, port):
+    GN = '\033[92m'  # Green
+    CYAN = '\033[96m'  # Cyan
+    RES = '\033[0m'  # Reset
 
-```bash
-#!/bin/bash
+    print(f"{GN}Files available for download:{RES}")
+    for file in os.listdir(directory):
+        if os.path.isfile(os.path.join(directory, file)):
+            print(f"{CYAN}wget http://localhost:{port}/{file} -O {file}{RES}")
 
-#Makes different colored text
-GN="\e[32m"
-RES="\e[0m"
-CYAN="\e[1;36m"
+def handle_interrupt(signal, frame):
+    print("\nServer has been shut down gracefully.")
+    sys.exit(0)
 
-#font=Big http://www.patorjk.com/software/taag/
-echo -e "\n$CYAN""
-  _____       _   _                   ______ _ _       _____                          
- |  __ \     | | | |                 |  ____(_) |     / ____|                         
- | |__) |   _| |_| |__   ___  _ __   | |__   _| | ___| (___   ___ _ ____   _____ _ __ 
- |  ___/ | | | __| '_ \ / _ \| '_ \  |  __| | | |/ _ \\___ \ / _ \ '__\ \ / / _ \ '__|
- | |   | |_| | |_| | | | (_) | | | | | |    | | |  __/____) |  __/ |   \ V /  __/ |   
- |_|    \__, |\__|_| |_|\___/|_| |_| |_|    |_|_|\___|_____/ \___|_|    \_/ \___|_|   
-         __/ |                                                                        
-        |___/                                                                         
-$RES"
-echo -e "Created By$GN Ac1d $RES\n"
-echo -e "Updated by$CYAN zweilos $RES\n"
+def main():
+    parser = argparse.ArgumentParser(description="Simple HTTP Server for file sharing.")
+    parser.add_argument("-p", "--port", type=int, default=8099, help="Port to run the HTTP server on (default: 8099)")
+    parser.add_argument("-d", "--directory", type=str, default=os.getcwd(), help="Directory to serve files from (default: current working directory)")
+    parser.add_argument("-l", "--links", action="store_true", help="Show wget links for files being served")
+    args = parser.parse_args()
 
-#list IPs associated with current hostname
-HN="hostname -I"
-#put the IPs into a list
-res=$(eval $HN)
-arrIN=(${res// / })
-IP=""
+    signal.signal(signal.SIGINT, handle_interrupt)
 
-#if there is more than one IP available, list the first two as options
-#TODO: make a way to list all options
-if [ ${#arrIN[@]} -gt 1 ]; then
-        PS3='Which IP address?: '
-        options=("${arrIN[0]}" "${arrIN[1]}" "Quit")
-        select opt in "${options[@]}"
-        do
-        case $opt in
-                "${arrIN[0]}")
-                        IP="${arrIN[0]}"
-                        break
-                ;;
+    print(f"\nStarting HTTP server on port {args.port}, serving files from {args.directory}\n")
+    os.chdir(args.directory)
+    server_address = ('', args.port)
+    httpd = HTTPServer(server_address, SimpleHTTPRequestHandler)
 
-                "${arrIN[1]}")
-                        IP="${arrIN[1]}"
-                        break
-                ;;
-                "Quit")
-                break
-                ;;
-                *) echo "Invalid option: $REPLY";;
-        esac
-        done
-else
-       IP=$arrIN
+    if args.links:
+        list_files(args.directory, args.port)
 
-fi
-echo ""
-echo "IP: "$IP
-echo ""
-echo -e "File links...\n"
-for entry in `ls`;do
-        if  [  ! -d $entry  ];then
-                wgetCmd=$(echo "wget http://${IP##*( )}:8099/$entry" | xargs)
-                echo -e "\t$GN$wgetCmd$RES"
-        fi
-done
-echo ""
-echo -e "\nCurrent Directory Contents"
-ls --color .
-echo ""
-echo -e "\nStarting Server"
+    httpd.serve_forever()
 
-python3 -m http.server 8099  -d .
+if __name__ == "__main__":
+    main()
 ```
 
 ## Other Programs
