@@ -379,16 +379,139 @@ nc listener: `nc -lvnp <port>`
 
 ### Shared folders
 
-| Command                 | Description                         |
-| ----------------------- | ----------------------------------- |
-| `showmount -e $ip`      | Show available shares to mount      |
-| `smb://$ip/$share_name` | Connect to Windows SMB share folder |
+| Command                 | Description                                                                 |
+|----------------------- |---------------------------------------------------------------------------|
+| `showmount -e $ip`      | Show available shares to mount                                              |
+| `smb://$ip/$share_name` | Connect to Windows SMB share folder                                        |
+| `smbclient -L //server_ip -U username` | List available shares on a server                                         |
+| `smbclient //server_ip/share_name -U username` | Connect to a share using smbclient                                      |
+| `smbclient //server_ip/share_name -U username -c "prompt OFF; recurse ON; mget *"` | Recursively download files from a share using smbclient |
+| `smbmap -H server_ip`   | Enumerate SMB shares and permissions                                       |
+| `sudo mount -t cifs -o username=your_username,password=your_password //server_ip/share_name /mnt/shared` | Mount a CIFS/SMB share manually                          |
+| `sudo mount server_ip:/share_name /mnt/shared` | Mount an NFS share manually                                              |
 
-TODO: add more information on mounting and using network shares (issue [#10](https://github.com/zweilosec/Infosec-Notes/issues/10))
+### Mounting and Using Network Shares
 
-* Add information on creating, mounting, and connecting to network shares (Samba, SMB, etc.)
-* pull more information from HTB Writeups ([Resolute](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/resolute-write-up.md), [Remote](https://github.com/zweilosec/htb-writeups/blob/da514f8ff85dfaf164f78e776b8b987e6e346f14/windows-machines/easy/remote-write-up.md), and [Fuse](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/fuse-write-up.md) for example, as well as outside sources)
-* Add commands such as `smbclient`, `smbpass`, `showmount`, `mount`, [Downloading Files](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/nest-write-up.md#copying-an-entire-smb-folder-recursively-using-smbclient), [Detecting ADS](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/nest-write-up.md#useful-skills-and-tools), [`smbmap`](https://github.com/zweilosec/htb-writeups/blob/f1424824de53334bfff1a62ace34f6d23e77cfef/windows-machines/medium/cascade-write-up.md#useful-skills-and-tools),
+Network shares allow multiple users or systems to access shared files and directories over a network. Below are some common tools and commands for working with network shares, particularly Samba (SMB) shares.
+
+#### Creating a Network Share (Samba)
+1. Install Samba:
+   ```bash
+   sudo apt update
+   sudo apt install samba
+   ```
+
+2. Edit the Samba configuration file:
+   ```bash
+   sudo vim /etc/samba/smb.conf
+   ```
+
+   Add a section for the shared folder:
+   ```
+   [shared_folder_name]
+   path = /path/to/shared/folder
+   browseable = yes
+   read only = no
+   writable = yes
+   ```
+
+3. Restart the Samba service:
+   ```bash
+   sudo systemctl restart smbd
+   ```
+
+4. Set permissions for the shared folder:
+   ```bash
+   sudo chmod 777 /path/to/shared/folder
+   ```
+
+#### Mounting a Network Share
+
+1. Install the required tools:
+   ```bash
+   sudo apt install cifs-utils
+   ```
+
+2. Create a mount point:
+   ```bash
+   sudo mkdir /mnt/shared
+   ```
+
+3. Mount the share:
+   ```bash
+   sudo mount -t cifs -o username=your_username,password=your_password //server_ip/share_name /mnt/shared
+   ```
+
+   Replace `server_ip`, `share_name`, `your_username`, and `your_password` with the appropriate values.
+
+4. To make the mount persistent, add an entry to `/etc/fstab`:
+   ```
+   //server_ip/share_name /mnt/shared cifs username=your_username,password=your_password 0 0
+   ```
+
+#### Useful Commands for Network Shares
+
+- **List available shares on a server:**
+  ```bash
+  smbclient -L //server_ip -U username
+  ```
+
+- **Connect to a share using smbclient:**
+  ```bash
+  smbclient //server_ip/share_name -U username
+  ```
+
+- **Recursively download files from a share:**
+  ```bash
+  smbclient //server_ip/share_name -U username -c "prompt OFF; recurse ON; mget *"
+  ```
+
+#### Additional Tools
+
+- **smbmap:** Enumerate SMB shares and permissions.
+  ```bash
+  smbmap -H server_ip
+  ```
+
+- **showmount:** List NFS shares:
+  ```bash
+  showmount -e server_ip
+  ```
+
+- **mount:** Mount NFS shares:
+  ```bash
+  sudo mount server_ip:/share_name /mnt/shared
+  ```
+
+#### Identifying Mounted Shared Folders/Drives
+
+Linux provides built-in tools to identify and manage mounted shared folders or drives. Below are some commonly used commands:
+
+- **`mount`**: Displays all currently mounted filesystems, including network shares.
+  ```bash
+  mount
+  ```
+  Look for entries with `cifs` or `nfs` to identify SMB or NFS shares.
+
+- **`df`**: Reports disk space usage for mounted filesystems.
+  ```bash
+  df -h
+  ```
+  Use the `-h` flag for human-readable output. Network shares will typically appear with their mount points and remote server paths.
+
+- **`findmnt`**: Provides a tree view of mounted filesystems.
+  ```bash
+  findmnt
+  ```
+  This command is particularly useful for visualizing the hierarchy of mounted filesystems.
+
+- **`lsblk`**: Lists information about block devices, including mounted filesystems.
+  ```bash
+  lsblk
+  ```
+  Use this to identify devices and their mount points.
+
+These tools are essential for troubleshooting and verifying the status of mounted shared folders or drives.
 
 ### DNS
 
