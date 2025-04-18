@@ -416,40 +416,158 @@ TODO: add more information on mounting and using network shares (issue [#10](htt
 
 ## Users and Groups
 
-TODO: Add information about Linux Users and Groups (issue [#11](https://github.com/zweilosec/Infosec-Notes/issues/11))
+Linux provides robust tools for managing users and groups. Below are commands and examples for creating, modifying, and deleting users and groups, as well as managing passwords and viewing user-related information.
 
-* Add information about creating, modifying, and deleting users and passwords
-* Add information about use, creation, modification, and deletion of groups
-* Add commands such as `adduser`, `groups`, `passwd`, etc.
-* Add commands related to listing users, seeing who is logged in, etc. (`id`, `w`, `last -a`)
-* add descriptions and examples
+### Managing Users
 
-| Command | Description                                                 |
-| ------- | ----------------------------------------------------------- |
-|         |                                                             |
-| `env`   | Displays all environment variables for the current context. |
+| Command                          | Description                                                                 |
+|----------------------------------|-----------------------------------------------------------------------------|
+| `adduser $username`              | Add a new user with a home directory and default settings.                  |
+| `userdel $username`              | Delete a user. Use `-r` to remove the user's home directory as well.        |
+| `usermod -l $newname $oldname`   | Rename a user.                                                              |
+| `passwd $username`               | Set or change the password for a user.                                      |
 
-`groups`
+**Examples:**
+```bash
+# Add a new user named 'john'
+sudo adduser john
 
-Add a new user: `adduser`
+# Delete the user 'john' and their home directory
+sudo userdel -r john
 
-`addgroup`
+# Change the password for 'john'
+sudo passwd john
+```
 
-`id`
+### Managing Groups
 
-`w`
+| Command                          | Description                                                                 |
+|----------------------------------|-----------------------------------------------------------------------------|
+| `addgroup $groupname`            | Create a new group.                                                         |
+| `groupdel $groupname`            | Delete a group.                                                             |
+| `usermod -aG $groupname $username`| Add a user to a group.                                                      |
+| `gpasswd -d $username $groupname`| Remove a user from a group.                                                 |
 
-`last -a`
+**Examples:**
+```bash
+# Create a new group named 'developers'
+sudo addgroup developers
+
+# Add 'john' to the 'developers' group
+sudo usermod -aG developers john
+
+# Remove 'john' from the 'developers' group
+sudo gpasswd -d john developers
+```
+
+### Viewing User and Group Information
+
+| Command         | Description                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| `id $username`  | Display user ID (UID), group ID (GID), and group memberships.              |
+| `groups $username` | Show groups a user belongs to.                                           |
+| `who`           | Show who is currently logged in.                                           |
+| `w`             | Display who is logged in and what they are doing.                         |
+| `last -a`       | Show the login history of users.                                           |
+
+**Examples:**
+```bash
+# Display information about the current user
+id
+
+# Show groups for 'john'
+groups john
+
+# See who is logged in
+who
+
+# View login history
+last -a
+```
 
 ### User Privileges
 
 | Command                      | Description                                             |
-| ---------------------------- | ------------------------------------------------------- |
-| `sudo $command`              | Execute commands with elevated privileges               |
-| `sudo -u $username $command` | Execute `sudo` command using another user's privileges  |
-| `sudo -l`                    | List `sudo` privileges for current user with            |
-| `sudo -k`                    | Stop remembering credentials and re-prompt for password |
-| `/etc/sudoers`               | Configuration file for `sudo`                           |
+|------------------------------|---------------------------------------------------------|
+| `sudo $command`              | Execute commands with elevated privileges.             |
+| `sudo -u $username $command` | Execute a command as another user.                     |
+| `sudo -l`                    | List `sudo` privileges for the current user.           |
+| `sudo -k`                    | Stop remembering credentials and re-prompt for password.|
+
+**Examples:**
+```bash
+# Run a command as another user
+sudo -u john whoami
+
+# List sudo privileges for the current user
+sudo -l
+```
+
+## Using `getent`
+
+The `getent` command is a versatile tool for querying entries from the system's databases, such as users, groups, and more. It is particularly useful for retrieving information about users and groups from `/etc/passwd`, `/etc/group`, or even network-based databases like LDAP or NIS.
+
+| Command                     | Description                                                                 |
+|-----------------------------|-----------------------------------------------------------------------------|
+| `getent passwd $username`   | Retrieve information about a specific user from the passwd database.        |
+| `getent group $groupname`   | Retrieve information about a specific group from the group database.        |
+| `getent passwd`             | List all users in the passwd database.                                     |
+| `getent group`              | List all groups in the group database.                                     |
+| `getent hosts $hostname`    | Query the hosts database for a specific hostname.                          |
+| `getent services $service`  | Query the services database for a specific service.                        |
+| `getent protocols $protocol`| Query the protocols database for a specific protocol.                      |
+
+**Examples:**
+```bash
+# Retrieve information about the user 'john'
+getent passwd john
+
+# Retrieve information about the group 'developers'
+getent group developers
+
+# List all users
+getent passwd
+
+# List all groups
+getent group
+
+# Query the hosts database for 'example.com'
+getent hosts example.com
+
+# Query the services database for 'http'
+getent services http
+
+# Query the protocols database for 'tcp'
+getent protocols tcp
+```
+
+### Querying LDAP or NIS Databases
+
+When configured, `getent` can also query network-based databases like LDAP or NIS. This is particularly useful in enterprise environments where user and group information is managed centrally.
+
+**Examples:**
+```bash
+# Query LDAP for a specific user
+getent passwd john
+
+# Query LDAP for all users
+getent passwd
+
+# Query NIS for a specific group
+getent group developers
+
+# Query NIS for all groups
+getent group
+```
+
+> **Note:** To enable LDAP or NIS queries, ensure that the appropriate Name Service Switch (NSS) modules are configured in `/etc/nsswitch.conf`. For example:
+> ```
+> passwd: files ldap
+> group: files ldap
+> hosts: files dns nis
+> ```
+
+The `getent` command is particularly useful in environments where user and group information is managed centrally, as it queries the system's Name Service Switch (NSS) configuration.
 
 ## Environment Variables
 
@@ -482,7 +600,7 @@ export PATH="~/opt/bin${PATH:+:${PATH}}"
 
 ### $HISTCONTROL
 
-The HISTCONTROL environment variable can be used to whether the bash history removes duplicate commands, commands that start with a space, or both. The default behavior is to remove both.
+The HISTCONTROL environment variable can be used to control whether the bash history removes duplicate commands, commands that start with a space, or both. The default behavior is to remove both.
 
 ```bash
 export HISTCONTROL=ignoredups
@@ -543,7 +661,9 @@ For Kali live persistent boot USBs you will need the additional step of adding a
     umount /dev/sdb3
     ```
 
-## Recover an unresponsive terminal
+## Troublshooting 
+
+### Recover an unresponsive terminal
 
 1.  Press the **RETURN/ENTER** key.
 
@@ -566,7 +686,7 @@ For Kali live persistent boot USBs you will need the additional step of adding a
     Some programs (like **mail**) expect text from the user. A program may be waiting for an end-of-input character from you to tell it that you’ve finished entering text. However, typing **CTRL-D** may cause you to log out, so you should only try this as a last resort.
 8. If you’re using a windowing system, close (or terminate) the terminal window and open a new one.
 
-## Fixing `command-not-found` errors
+### Fixing `command-not-found` errors
 
 [https://stackoverflow.com/questions/19873430/command-not-found-message-when-i-try-to-add-command-in-bashrc/26976325](https://stackoverflow.com/questions/19873430/command-not-found-message-when-i-try-to-add-command-in-bashrc/26976325)
 
