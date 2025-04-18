@@ -6,20 +6,6 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-TODO: update and clean syntax and examples \(issue [\#18](https://github.com/zweilosec/Infosec-Notes/issues/18)\)
-
-* Prep code examples for scripting \(as appropriate, descriptive examples may not need this\)
-* Standardize variable names across examples
-* Split up [SCP](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#scp) examples for readability
-* Move links to "[References](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#resources)" section or make cleaner looking if belongs
-* Expand "[Dynamic Reverse Tunnels](https://github.com/zweilosec/Infosec-Notes/blob/master/os-agnostic/ssh-and-scp.md#dynamic-reverse-tunnels)" section
-
-## SSH/SCP into victim without password
-
-1. From the `attacker_machine`, generate a keypair: `ssh-keygen -t ed25519`
-2. Copy the contents from the public key `$keyfile.pub` into the `.ssh/authorized_keys` file of the `target_machine`
-3. Connect with the argument `-i $keyfile`
-
 ## SSH
 
 ### sshd
@@ -40,7 +26,7 @@ sudo systemctl enable sshd
 
 The `$HOME/.ssh/config` file allows for custom configurations and aliases to be specified for SSH connection profiles. The example below sets up `TCPKeepAlive` and `ServerAliveInterval` for all hosts, and sets up aliases for a few servers.
 
-```text
+```bash
 Host *
     ServerAliveInterval 60
     TCPKeepAlive no
@@ -77,7 +63,7 @@ This simple change allows a user to simply give the command `ssh target-1`, wait
 
 If you want to set the keep alive [for the server](https://www.freebsd.org/cgi/man.cgi?sshd_config%285%29), add this to `/etc/ssh/sshd_config`:
 
-```text
+```bash
 ClientAliveInterval 60
 ClientAliveCountMax 2
 ```
@@ -90,11 +76,11 @@ ClientAliveCountMax 2
 * Should I use `ClientAliveInterval` to let the server check for client alive, or should I let the client "ping" the server with `ServerAliveInterval` repeatedly? Both seems not to make sense – [qrtLs](https://stackoverflow.com/users/4933053/qrtls) [Jun 2 '17 at 14:08](https://stackoverflow.com/questions/25084288/keep-ssh-session-alive#comment75665824_37330274)
 * Only set the `ClientAliveInterval` on the server if you want the server to disconnect on dead connections that do not respond, and you can customize how often and when that happens. – [Jeff Davenport](https://stackoverflow.com/users/4756398/jeff-davenport) [Jul 25 '17 at 20:22](https://stackoverflow.com/questions/25084288/keep-ssh-session-alive#comment77588141_37330274) 
 
-### SSH Keys
+## SSH Keys
 
 SSH keys are a secure way to authenticate to remote systems, either as a second authentication factor or as a replacement for passwords. Below is a guide to generating, using, and managing SSH keys effectively.
 
-#### Generating SSH Keys
+### Generating SSH Keys
 
 To generate a new SSH key for remote access, use the `ssh-keygen` command with the desired algorithm and key size:
 
@@ -109,7 +95,7 @@ ssh-keygen -t ecdsa -b 521
 ssh-keygen -t ed25519
 ```
 
-#### Key Algorithms Comparison
+### Key Algorithms Comparison
 
 | Algorithm   | Key Size (bits) | Strength         | Pros                          | Cons                          |
 |-------------|-----------------|------------------|-------------------------------|-------------------------------|
@@ -118,7 +104,7 @@ ssh-keygen -t ed25519
 | ECDSA       | 256/384/521     | Strong           | Smaller keys, faster         | Requires good randomness     |
 | Ed25519     | Fixed (256)     | Very Strong      | Fast, secure, small key size | Limited client compatibility |
 
-#### Using SSH Keys
+### Using SSH Keys
 
 1. **Generate a Key Pair**: Use `ssh-keygen` as shown above.
 2. **Copy Public Key to Remote Host**:
@@ -130,7 +116,7 @@ ssh-keygen -t ed25519
    ssh -i $key_file $user@$remote_host
    ```
 
-#### Key File Details
+### Key File Details
 
 To inspect the details of a key file:
 
@@ -143,7 +129,7 @@ To inspect the details of a key file:
   openssl rsa -noout -text -in key.private
   ```
 
-#### Notes on Key Usage
+### Notes on Key Usage
 
 - **Permissions**: Ensure private keys have proper permissions:
   ```bash
@@ -154,7 +140,7 @@ To inspect the details of a key file:
   ssh-keygen -f PublicKey.pub -i -mPKCS8
   ```
 
-#### Extracting Public Key from Private Key
+### Extracting Public Key from Private Key
 
 To extract the public key from a private key:
 
@@ -162,7 +148,7 @@ To extract the public key from a private key:
 openssl rsa -in $priv_key -pubout -out $pub_key_name
 ```
 
-#### Generating Public Key from Private Key
+### Generating Public Key from Private Key
 
 To generate a public key from a private key:
 
@@ -176,6 +162,13 @@ Example:
 ```bash
 ssh-rsa <key_data AAAA..snipped../VqDjtS5> user@hostname
 ```
+
+### Summary: SSH/SCP into target using a keyfile
+
+1. From the `attacker_machine`, generate a keypair: `ssh-keygen -t ed25519`
+2. Copy the contents from the public key `$keyfile.pub` into the `.ssh/authorized_keys` file of the `target_machine`
+3. Connect with the argument `-i $keyfile`
+
 
 ## Remote Code Execution
 
@@ -226,7 +219,7 @@ scp -c blowfish $local_file $username@$ip:$directory
 
 \(`-i` must be the first parameter\)
 
-```text
+```bash
 scp -i $keyfile [other parameters]
 ```
 
@@ -277,18 +270,12 @@ Local forward tunnels are particularly useful for securely accessing internal se
 
 ## Reverse Tunnels
 
-[https://medium.com/@ryanwendel/forwarding-reverse-shells-through-a-jump-box-using-ssh-7111f1d55e3a](https://medium.com/@ryanwendel/forwarding-reverse-shells-through-a-jump-box-using-ssh-7111f1d55e3a)
-
-[https://0xdf.gitlab.io/2020/08/10/tunneling-with-chisel-and-ssf-update.html](https://0xdf.gitlab.io/2020/08/10/tunneling-with-chisel-and-ssf-update.html)
-
-[https://www.howtoforge.com/reverse-ssh-tunneling](https://www.howtoforge.com/reverse-ssh-tunneling)
-
 * Let's assume that the `target_machine`'s IP is 192.168.20.55 (Linux box that you want to access).
 * You want to access it from the `local_machine` with IP 178.27.99.99.
 * `target_machine` <- |NAT| <- `local_machine`
 * SSH from the `target_machine` to the `local_machine` (with public IP) using the command below:
 
-```text
+```bash
 ssh -R 19999:localhost:22 sourceuser@local_machine
 ```
 
@@ -298,7 +285,7 @@ ssh -R 19999:localhost:22 sourceuser@local_machine
 
 1. Now you can SSH from `local_machine` to `target_machine` through SSH tunneling:
 
-```text
+```bash
 ssh localhost -p 19999
 ```
 
@@ -308,13 +295,13 @@ ssh localhost -p 19999
 
 3.1 From the Target web server:
 
-```text
+```bash
 ssh sourceuser@local_machine
 ```
 
 3.2 After the successful login to `local_machine`:
 
-```text
+```bash
 ssh localhost -p 19999
 ```
 
@@ -322,9 +309,116 @@ ssh localhost -p 19999
 \* the connection between `target_machine` and `local_machine` must be alive at all times. Tip: you may run a command \(e.g. watch, top\) on `target_machine` to keep the connection active.
 {% endhint %}
 
+## Dynamic Tunnels
+
+Dynamic tunnels allow you to create a SOCKS proxy on a remote machine, enabling dynamic port forwarding. This is particularly useful for accessing multiple services on a remote network without setting up individual tunnels for each service.
+
+### Setting Up a Dynamic Tunnel
+
+To set up a dynamic reverse tunnel, use the `-D` option with the `ssh` command. The syntax is as follows:
+
+```bash
+ssh -D [local_port] [user]@[remote_server]
+```
+
+- **local_port**: The port on your local machine that will act as the SOCKS proxy.
+- **user**: The username for the remote server.
+- **remote_server**: The address of the remote server.
+
+### Example
+
+Suppose you want to create a SOCKS proxy on port 1080 of your local machine to access services on a remote network through an intermediate SSH server (`intermediate_server`). You can set up a dynamic reverse tunnel as follows:
+
+```bash
+ssh -D 1080 user@intermediate_server
+```
+
+After running this command, configure your applications (e.g., web browsers) to use `localhost:1080` as a SOCKS proxy. This will route all traffic through the SSH tunnel to the remote network.
+
+### Notes
+
+- The local port (e.g., 1080) must not be in use on your local machine.
+- You can use `-N` to prevent the SSH session from executing commands, keeping the tunnel open:
+
+```bash
+ssh -D 1080 user@intermediate_server -N
+```
+
+- Use `-f` to run the SSH session in the background:
+
+```bash
+ssh -D 1080 user@intermediate_server -N -f
+```
+
+Dynamic tunnels are particularly useful for scenarios where you need to access multiple services on a remote network without knowing the specific ports in advance.
+
+### Using Dynamic Tunnels with Proxychains and Other Applications
+
+Dynamic tunnels can be used in conjunction with tools like `proxychains` or by configuring a browser's proxy settings to route traffic through the SOCKS proxy created by the tunnel. This allows you to access remote services as if they were local.
+
+#### Using Proxychains
+
+`proxychains` is a tool that forces any TCP connection made by a given application to go through a proxy, such as the SOCKS proxy created by a dynamic reverse tunnel.
+
+1. Install `proxychains` if it is not already installed:
+   ```bash
+   sudo apt install proxychains
+   ```
+
+2. Edit the `proxychains` configuration file (usually located at `/etc/proxychains.conf`) to add the SOCKS proxy:
+   ```text
+   socks5  127.0.0.1 1080
+   ```
+
+3. Use `proxychains` to run any application through the proxy. For example, to use `curl`:
+   ```bash
+   proxychains curl http://example.com
+   ```
+
+#### Configuring a Browser
+
+To use the SOCKS proxy with a web browser:
+
+1. Open your browser's network or proxy settings.
+2. Set the proxy type to SOCKS5.
+3. Enter `127.0.0.1` as the proxy address and `1080` as the port (or the port you specified when setting up the dynamic tunnel).
+4. Save the settings and browse as usual. All traffic will be routed through the SOCKS proxy.
+
+#### Using Built-in Proxy Options in Tools
+
+Many command-line tools have built-in options to use a proxy. For example:
+
+- **`curl`**:
+  ```bash
+  curl --socks5 127.0.0.1:1080 http://example.com
+  ```
+
+- **`wget`**:
+  ```bash
+  wget --execute="socks_proxy = 127.0.0.1:1080" http://example.com
+  ```
+
+- **`git`**:
+  Configure Git to use the SOCKS proxy:
+  ```bash
+  git config --global http.proxy socks5://127.0.0.1:1080
+  ```
+
+These configurations allow you to leverage the dynamic reverse tunnel for a wide range of applications, enhancing your ability to access remote resources securely and efficiently.
+
 ### Dynamic Reverse Tunnels
 
-[https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/](https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/)
+A bonus feature added in OpenSSH version 7.6 (released in late 2017) is the ability to create Dynamic Reverse Tunnels. The feature works as long as the client supports it, even if the server is running an older version. 
+
+If you're performing a security audit and need to access an internal network from outside, but firewalls block inbound SSH connections, you can use a dynamic reverse tunnel to securely route traffic inside.
+
+This allows tools like Burp Suite or Nessus to scan internal assets even when direct access isn’t possible.
+
+Example command (`-R $port` without other port/ip arguments creates a dynamic reverse tunnel):
+
+```
+ssh user@target_machine -R 2222
+```
 
 ## Troubleshooting
 
@@ -395,14 +489,16 @@ ssh localhost -p 19999
 
 ## Resources
 
-* [https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/](https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/)
-* [https://stackoverflow.com/questions/25084288/keep-ssh-session-alive](https://stackoverflow.com/questions/25084288/keep-ssh-session-alive)
-* [https://softeng.oicr.on.ca/chen\_chen/2017/06/27/Using-Jump-Servers-in-SSH/](https://softeng.oicr.on.ca/chen_chen/2017/06/27/Using-Jump-Servers-in-SSH/)
-* [https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/)
-* [https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/](https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/)
-* [Comparing SSH Keys](https://goteleport.com/blog/comparing-ssh-keys/)
-* [Which Host Key Algorithm is Best?](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh)
-
+* [https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/](https://starkandwayne.com/blog/jumping-seamlessly-thorough-tunnels-a-guide-to-ssh-proxy/) (ProxyJump)
+* [https://stackoverflow.com/questions/25084288/keep-ssh-session-alive](https://stackoverflow.com/questions/25084288/keep-ssh-session-alive) (Keep Alive)
+* [https://softeng.oicr.on.ca/chen_chen/2017/06/27/Using-Jump-Servers-in-SSH/](https://softeng.oicr.on.ca/chen_chen/2017/06/27/Using-Jump-Servers-in-SSH/) (Jump Servers)
+* [https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/](https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/) (Remote Commands)
+* [https://medium.com/@ryanwendel/forwarding-reverse-shells-through-a-jump-box-using-ssh-7111f1d55e3a](https://medium.com/@ryanwendel/forwarding-reverse-shells-through-a-jump-box-using-ssh-7111f1d55e3a) (Reverse Tunnels)
+* [https://0xdf.gitlab.io/2020/08/10/tunneling-with-chisel-and-ssf-update.html](https://0xdf.gitlab.io/2020/08/10/tunneling-with-chisel-and-ssf-update.html) (Reverse Tunnels)
+* [https://www.howtoforge.com/reverse-ssh-tunneling](https://www.howtoforge.com/reverse-ssh-tunneling) (Reverse Tunnels)
+* [https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/](https://blog.benpri.me/blog/2019/05/25/dynamic-reverse-tunnels-in-ssh/) (Dynamic Reverse Tunnels)
+* [Comparing SSH Keys](https://goteleport.com/blog/comparing-ssh-keys/) (SSH Keys)
+* [Which Host Key Algorithm is Best?](https://security.stackexchange.com/questions/131010/which-host-key-algorithm-is-best-to-use-for-ssh) (SSH Keys)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 
