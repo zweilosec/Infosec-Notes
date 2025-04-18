@@ -258,125 +258,224 @@ Run `Get-Help $cmdlet_name -Examples` for usage
 
 ### Functions
 
-TODO: (issue [#25](https://github.com/zweilosec/Infosec-Notes/issues/25))
+PowerShell functions are reusable blocks of code that can be executed by calling their name. They are similar to cmdlets but are user-defined and can include custom logic. Functions are a core part of PowerShell scripting and automation.
 
-* Break PowerShell Functions section up by Category
-* Add description of difference between cmdlets and functions
-* Add information about creating functions, anonymous functions
+#### Difference Between Cmdlets and Functions
 
-Run PowerShell scripts or C# code directly from the terminal!
+| Feature                | Cmdlets                                                                 | Functions                                                                 |
+|------------------------|------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| **Definition**         | Predefined commands written in .NET, provided by PowerShell or modules | User-defined commands written in PowerShell scripts                      |
+| **Performance**        | Optimized for performance                                              | May be slower depending on implementation                                |
+| **Customization**      | Limited to parameters and pipeline                                    | Fully customizable, including logic and structure                       |
+| **Examples**           | `Get-Process`, `Set-Item`                                             | Custom scripts like `function MyFunction { Write-Output 'Hello' }`       |
 
-Run `Get-Help $function_name -Examples` for usage
+#### Creating Functions
 
-| Function Name                                                                                | Description                                                                                                                            | Category |
-| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| [Add-MpPreference](https://www.pdq.com/powershell/add-mppreference/)                         | Modifies settings for Windows Defender.                                                                                                | Security |
-| [Add-VpnConnection](https://www.pdq.com/powershell/add-vpnconnection/)                       | Adds a VPN connection to the Connection Manager phone book.                                                                            | Network  |
-| [Add-VpnConnectionRoute](https://www.pdq.com/powershell/add-vpnconnectionroute/)             | Adds a route to a VPN connection.                                                                                                      | Network  |
-| [Add-Printer](https://www.pdq.com/powershell/add-printer/)                                   | Adds a printer to the specified computer.                                                                                              | Printer  |
-| [Add-PrinterDriver](https://www.pdq.com/powershell/add-printerdriver/)                       | Installs a printer driver on the specified computer.                                                                                   | Printer  |
-| [Add-PrinterPort](https://www.pdq.com/powershell/add-printerport/)                           | Installs a printer port on the specified computer.                                                                                     | Printer  |
-| [Clear-Disk](https://www.pdq.com/powershell/clear-disk/)                                     | Cleans a disk by removing all partition information and un-initializing it, erasing all data on the disk.                              | Storage  |
-| [Clear-Host](https://www.pdq.com/powershell/clear-host/)                                     | Clears the display in the host program.  Alias: **`clear`** or **`cls`**                                                               | Utility  |
-| [Compress-Archive](https://www.pdq.com/powershell/compress-archive/)                         | Creates an archive, or zipped file, from specified files and folders.                                                                  | Utility  |
-| [Disable-NetAdapterBinding](https://www.pdq.com/powershell/disable-netadapterbinding/)       | Disables a binding to a network adapter.                                                                                               | Network  |
-| [Enable-BitLocker](https://www.pdq.com/powershell/enable-bitlocker/)                         | Enables encryption for a BitLocker volume.                                                                                             | Security |
-| [Enable-NetFirewallRule](https://www.pdq.com/powershell/enable-netfirewallrule/)             | Enables a previously disabled firewall rule.                                                                                           | Security |
-| [Expand-Archive](https://www.pdq.com/powershell/expand-archive/)                             | Extracts files from a specified archive (zipped) file.                                                                                 | Utility  |
-| [Find-Module](https://www.pdq.com/powershell/find-module/)                                   | Finds modules from an online gallery that match specified criteria.                                                                    | PoSh     |
-| [Format-Volume](https://www.pdq.com/powershell/format-volume/)                               | Formats one or more existing volumes or a new volume on an existing partition.                                                         | Storage  |
-| [Get-BitLockerVolume](https://www.pdq.com/powershell/get-bitlockervolume/)                   | Gets information about volumes that BitLocker can protect.                                                                             | Security |
-| [Get-Disk](https://www.pdq.com/powershell/get-disk/)                                         | Gets one or more disks visible to the operating system.                                                                                | Storage  |
-| [Get-DnsClientServerAddress](https://www.pdq.com/powershell/get-dnsclientserveraddress/)     | Gets DNS server IP addresses from the TCP/IP properties on an interface.                                                               | Network  |
-| [Get-FileHash](https://www.pdq.com/powershell/get-filehash/)                                 | Computes the hash value for a file by using a specified hash algorithm.                                                                | Utility  |
-| [Get-InitiatorPort](https://www.pdq.com/powershell/get-initiatorport/)                       | Gets one or more host bus adapter (HBA) initiator ports.                                                                               | Network  |
-| [Get-InstalledModule](https://www.pdq.com/powershell/get-installedmodule/)                   | Gets installed modules on a computer.                                                                                                  | PoSh     |
-| [Get-NetAdapter](https://www.pdq.com/powershell/get-netadapter/)                             | Gets the basic network adapter properties.                                                                                             | Network  |
-| [Get-NetAdapterVmq](https://www.pdq.com/powershell/get-netadaptervmq/)                       | Gets the VMQ properties of a network adapter.                                                                                          | Network  |
-| [Get-NetConnectionProfile](https://www.pdq.com/powershell/get-netconnectionprofile/)         | Gets a connection profile.                                                                                                             | Network  |
-| [Get-NetFirewallRule](https://www.pdq.com/powershell/get-netfirewallrule/)                   | Retrieves firewall rules from the target computer.                                                                                     | Security |
-| [Get-NetIPConfiguration](https://www.pdq.com/powershell/get-netipconfiguration/)             | Gets IP network configuration.                                                                                                         | Network  |
-| [Get-NetIPAddress](https://www.pdq.com/powershell/get-netipaddress/)                         | Gets the IP address configuration.                                                                                                     | Network  |
-| [Get-NetIPInterface](https://www.pdq.com/powershell/get-netipinterface/)                     | Gets an IP interface.                                                                                                                  | Network  |
-| [Get-NetTCPConnection](https://www.pdq.com/powershell/get-nettcpconnection/)                 | Gets TCP connections.                                                                                                                  | Network  |
-| [Get-Partition](https://www.pdq.com/powershell/get-partition/)                               | Returns a list of all partition objects visible on all disks, or optionally a filtered list using specifiedparameters.                 | Storage  |
-| [Get-PhysicalDisk](https://www.pdq.com/powershell/get-physicaldisk/)                         | Gets a list of all PhysicalDisk objects visible across any available Storage Management Providers, or optionally afiltered list.       | Storage  |
-| [Get-PnpDevice](https://www.pdq.com/powershell/get-pnpdevice/)                               | Returns information about PnP devices.                                                                                                 | Hardware |
-| [Get-Printer](https://www.pdq.com/powershell/get-printer/)                                   | Retrieves a list of printers installed on a computer.                                                                                  | Printer  |
-| [Get-PSRepository](https://www.pdq.com/powershell/get-psrepository/)                         | Gets PowerShell repositories.                                                                                                          | PoSh     |
-| [Get-ScheduledTask](https://www.pdq.com/powershell/get-scheduledtask/)                       | Gets the task definition object of a scheduled task that is registered on the local computer.                                          | SchTask  |
-| [Get-ScheduledTaskInfo](https://www.pdq.com/powershell/get-scheduledtaskinfo/)               | Gets run-time information for a scheduled task.                                                                                        | SchTask  |
-| [Get-SmbConnection](https://www.pdq.com/powershell/get-smbconnection/)                       | Retrieves the connections established from the SMB client to the SMB servers.                                                          | SMB      |
-| [Get-SmbOpenFile](https://www.pdq.com/powershell/get-smbopenfile/)                           | Retrieves basic information about the files that are open on behalf of the clients of the SMB server.                                  | SMB      |
-| [Get-SmbServerConfiguration](https://www.pdq.com/powershell/get-smbserverconfiguration/)     | Retrieves the SMB server configuration.                                                                                                | SMB      |
-| [Get-SmbSession](https://www.pdq.com/powershell/get-smbsession/)                             | Retrieves information about the SMB sessions that are currently established between the SMB server and the associated clients.         | SMB      |
-| [Get-SmbShare](https://www.pdq.com/powershell/get-smbshare/)                                 | Retrieves the SMB shares on the computer.                                                                                              | SMB      |
-| [Get-SmbShareAccess](https://www.pdq.com/powershell/get-smbshareaccess/)                     | Retrieves the ACL of the SMB share.                                                                                                    | SMB      |
-| [Get-StartApps](https://www.pdq.com/powershell/get-startapps/)                               | Gets the names and AppIDs of installed apps.                                                                                           | Apps     |
-| [Get-StorageJob](https://www.pdq.com/powershell/get-storagejob/)                             | Returns information about long-running Storage module jobs, such as a repair task.                                                     | Storage  |
-| [Get-TlsCipherSuite](https://www.pdq.com/powershell/get-tlsciphersuite/)                     | Gets the list of cipher suites for TLS for a computer.                                                                                 | Network  |
-| [Get-VirtualDisk](https://www.pdq.com/powershell/get-virtualdisk/)                           | Returns a list of VirtualDisk objects. This can be across all storage pools, across all providers, or optionally as a filtered subset. | Storage  |
-| [Get-Volume](https://www.pdq.com/powershell/get-volume/)                                     | Gets the specified Volume object, or all Volume objects if no filter is provided.                                                      | Storage  |
-| [Get-VpnConnection](https://www.pdq.com/powershell/get-vpnconnection/)                       | Retrieves the specified VPN connection profile information.                                                                            | Network  |
-| [Get-WindowsUpdateLog](https://www.pdq.com/powershell/get-windowsupdatelog/)                 | Merges Windows Update .etl files into a single log file.                                                                               | Security |
-| [Grant-SmbShareAccess](https://www.pdq.com/powershell/grant-smbshareaccess/)                 | Adds an allow ACE for a trustee to the security descriptor of the SMB share.                                                           | SMB      |
-| [Install-Module](https://www.pdq.com/powershell/install-module/)                             | Downloads one or more modules from an online gallery, and installs them on the local computer.                                         | PoSh     |
-| [Invoke-Pester](https://www.pdq.com/powershell/invoke-pester/)                               | Invokes Pester to run all tests (files containing \*.Tests.ps1) recursively under the Path                                             | PoSh     |
-| [Initialize-Disk](https://www.pdq.com/powershell/initialize-disk/)                           | Initializes a RAW disk for first time use, enabling the disk to be formatted and used to store data.                                   | Storage  |
-| [Mount-DiskImage](https://www.pdq.com/powershell/mount-diskimage/)                           | Mounts a previously created disk image (virtual hard disk or ISO), making it appear as a normal disk.                                  | Storage  |
-| [New-Guid](https://www.pdq.com/powershell/new-guid/)                                         | Creates a GUID.                                                                                                                        | Utility  |
-| [New-NetFirewallRule](https://www.pdq.com/powershell/new-netfirewallrule/)                   | Creates a new inbound or outbound firewall rule and adds the rule to the target computer.                                              | Security |
-| [New-NetIPAddress](https://www.pdq.com/powershell/new-netipaddress/)                         | Creates and configures an IP address.                                                                                                  | Network  |
-| [New-NetLbfoTeam](https://www.pdq.com/powershell/new-netlbfoteam/)                           | Creates a new NIC team.                                                                                                                | Network  |
-| [New-NetNat](https://www.pdq.com/powershell/new-netnat/)                                     | Creates a NAT object.                                                                                                                  | Network  |
-| [New-NetRoute](https://www.pdq.com/powershell/new-netroute/)                                 | Creates a route in the IP routing table.                                                                                               | Network  |
-| [New-Partition](https://www.pdq.com/powershell/new-partition/)                               | Creates a new partition on an existing Disk object.                                                                                    | Storage  |
-| [New-ScheduledTask](https://www.pdq.com/powershell/new-scheduledtask/)                       | Creates a scheduled task instance.                                                                                                     | SchTask  |
-| [New-ScheduledTaskAction](https://www.pdq.com/powershell/new-scheduledtaskaction/)           | Creates a scheduled task action.                                                                                                       | SchTask  |
-| [New-ScheduledTaskPrincipal](https://www.pdq.com/powershell/new-scheduledtaskprincipal/)     | Creates an object that contains a scheduled task principal.                                                                            | SchTask  |
-| [New-ScheduledTaskSettingsSet](https://www.pdq.com/powershell/new-scheduledtasksettingsset/) | Creates a new scheduled task settings object.                                                                                          | SchTask  |
-| [New-ScheduledTaskTrigger](https://www.pdq.com/powershell/new-scheduledtasktrigger/)         | Creates a scheduled task trigger object.                                                                                               | SchTask  |
-| [New-SmbMapping](https://www.pdq.com/powershell/new-smbmapping/)                             | Creates an SMB mapping.                                                                                                                | SMB      |
-| [New-SmbShare](https://www.pdq.com/powershell/new-smbshare/)                                 | Creates an SMB share.                                                                                                                  | SMB      |
-| [New-StoragePool](https://www.pdq.com/powershell/new-storagepool/)                           | Creates a new storage pool using a group of physical disks.                                                                            | Storage  |
-| [New-VirtualDisk](https://www.pdq.com/powershell/new-virtualdisk/)                           | Creates a new virtual disk in the specified storage pool.                                                                              | Storage  |
-| [New-Volume](https://www.pdq.com/powershell/new-volume/)                                     | Creates a volume with the specified file system.                                                                                       | Storage  |
-| [Optimize-Volume](https://www.pdq.com/powershell/optimize-volume/)                           | Optimizes a storage volume.                                                                                                            | Storage  |
-| [Register-PSRepository](https://www.pdq.com/powershell/register-psrepository/)               | Registers a PowerShell repository.                                                                                                     | PoSh     |
-| [Register-ScheduledTask](https://www.pdq.com/powershell/register-scheduledtask/)             | Registers a scheduled task definition on a local computer.                                                                             | SchTask  |
-| [Remove-NetIPAddress](https://www.pdq.com/powershell/remove-netipaddress/)                   | Removes an IP address and its configuration.                                                                                           | Network  |
-| [Remove-PhysicalDisk](https://www.pdq.com/powershell/remove-physicaldisk/)                   | Removes a physical disk from a specified storage pool.                                                                                 | Storage  |
-| [Remove-Printer](https://www.pdq.com/powershell/remove-printer/)                             | Removes a printer from the specified computer.                                                                                         | Printer  |
-| [Repair-Volume](https://www.pdq.com/powershell/repair-volume/)                               | Performs repairs on a volume.                                                                                                          | Storage  |
-| [Resize-Partition](https://www.pdq.com/powershell/resize-partition/)                         | Resizes a partition and the underlying file system.                                                                                    | Storage  |
-| [Save-Module](https://www.pdq.com/powershell/save-module/)                                   | Saves a module locally without installing it.                                                                                          | PoSh     |
-| [Set-Clipboard](https://www.pdq.com/powershell/set-clipboard/)                               | Sets the current Windows clipboard entry.                                                                                              | Utility  |
-| [Set-Disk](https://www.pdq.com/powershell/set-disk/)                                         | Takes a Disk object or unique disk identifiers and a set of attributes, and updates the physical disk on thesystem.                    | Storage  |
-| [Set-DnsClientServerAddress](https://www.pdq.com/powershell/set-dnsclientserveraddress/)     | Sets DNS server addresses associated with the TCP/IP properties on an interface.                                                       | Network  |
-| [Set-MpPreference](https://www.pdq.com/powershell/set-mppreference/)                         | Configures preferences for Windows Defender scans and updates.                                                                         | Security |
-| [Set-NetAdapter](https://www.pdq.com/powershell/set-netadapter/)                             | Sets the basic network adapter properties.                                                                                             | Network  |
-| [Set-NetAdapterVmq](https://www.pdq.com/powershell/set-netadaptervmq/)                       | Sets the VMQ properties of a network adapter.                                                                                          | Network  |
-| [Set-NetConnectionProfile](https://www.pdq.com/powershell/set-netconnectionprofile/)         | Changes the network category of a connection profile.                                                                                  | Network  |
-| [Set-NetFirewallProfile](https://www.pdq.com/powershell/set-netfirewallprofile/)             | Configures settings that apply to the per-profile configurations of the Windows Firewall with Advanced Security.                       | Security |
-| [Set-NetFirewallRule](https://www.pdq.com/powershell/set-netfirewallrule/)                   | Modifies existing firewall rules.                                                                                                      | Security |
-| [Set-NetIPAddress](https://www.pdq.com/powershell/set-netipaddress/)                         | Modifies the configuration of an IP address.                                                                                           | Network  |
-| [Set-NetIPInterface](https://www.pdq.com/powershell/set-netipinterface/)                     | Modifies an IP interface.                                                                                                              | Network  |
-| [Set-Partition](https://www.pdq.com/powershell/set-partition/)                               | Sets attributes of a partition, such as active, read-only, and offline states.                                                         | Storage  |
-| [Set-PhysicalDisk](https://www.pdq.com/powershell/set-physicaldisk/)                         | Sets attributes on a specific physical disk.                                                                                           | Storage  |
-| [Set-Printer](https://www.pdq.com/powershell/set-printer/)                                   | Updates the configuration of an existing printer.                                                                                      | Printer  |
-| [Set-PSRepository](https://www.pdq.com/powershell/set-psrepository/)                         | Sets values for a registered repository.                                                                                               | PoSh     |
-| [Set-ScheduledTask](https://www.pdq.com/powershell/set-scheduledtask/)                       | Modifies a scheduled task.                                                                                                             | SchTask  |
-| [Set-SmbClientConfiguration](https://www.pdq.com/powershell/set-smbclientconfiguration/)     | Sets the SMB client configuration.                                                                                                     | SMB      |
-| [Set-SmbShare](https://www.pdq.com/powershell/set-smbshare/)                                 | Modifies the properties of the SMB share.                                                                                              | SMB      |
-| [Set-SmbServerConfiguration](https://www.pdq.com/powershell/set-smbserverconfiguration/)     | Sets the SMB Service configuration.                                                                                                    | SMB      |
-| [Set-VpnConnection](https://www.pdq.com/powershell/set-vpnconnection/)                       | Changes the configuration settings of an existing VPN connection profile.                                                              | Network  |
-| [Start-ScheduledTask](https://www.pdq.com/powershell/start-scheduledtask/)                   | Starts one or more instances of a scheduled task.                                                                                      | SchTask  |
-| [Suspend-BitLocker](https://www.pdq.com/powershell/suspend-bitlocker/)                       | Suspends Bitlocker encryption for the specified volume.                                                                                | Security |
-| [Test-NetConnection](https://www.pdq.com/powershell/test-netconnection/)                     | Displays diagnostic information for a connection.                                                                                      | Network  |
-| [Uninstall-Module](https://www.pdq.com/powershell/uninstall-module/)                         | Uninstalls a module.                                                                                                                   | PoSh     |
-| [Unregister-ScheduledTask](https://www.pdq.com/powershell/unregister-scheduledtask/)         | Unregisters a scheduled task.                                                                                                          | SchTask  |
-| [Update-Module](https://www.pdq.com/powershell/update-module/)                               | Downloads and installs the newest version of specified modules from an online gallery to the local computer.                           | PoSh     |
-| [Update-Script](https://www.pdq.com/powershell/update-script/)                               | Updates a script.                                                                                                                      | PoSh     |
+To create a function in PowerShell, use the `function` keyword followed by the function name and a script block:
+
+```powershell
+function Greet {
+    param (
+        [string]$Name
+    )
+    Write-Output "Hello, $Name!"
+}
+
+# Usage
+Greet -Name "World"
+# Output: Hello, World!
+```
+
+#### Anonymous Functions
+
+Anonymous functions, also known as script blocks, are unnamed blocks of code that can be assigned to variables or passed as arguments:
+
+```powershell
+# Assigning a script block to a variable
+$myScriptBlock = {
+    param($x, $y)
+    $x + $y
+}
+
+# Invoking the script block
+$myScriptBlock.Invoke(5, 10)  # Output: 15
+```
+
+#### Categorized Functions
+
+
+#### Security Functions
+
+The following table lists PowerShell functions categorized under Security:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Add-MpPreference](https://www.pdq.com/powershell/add-mppreference/)                         | Modifies settings for Windows Defender.                                                                                                |
+| [Enable-BitLocker](https://www.pdq.com/powershell/enable-bitlocker/)                         | Enables encryption for a BitLocker volume.                                                                                             |
+| [Enable-NetFirewallRule](https://www.pdq.com/powershell/enable-netfirewallrule/)             | Enables a previously disabled firewall rule.                                                                                           |
+| [Get-BitLockerVolume](https://www.pdq.com/powershell/get-bitlockervolume/)                   | Gets information about volumes that BitLocker can protect.                                                                             |
+| [Get-NetFirewallRule](https://www.pdq.com/powershell/get-netfirewallrule/)                   | Retrieves firewall rules from the target computer.                                                                                     |
+| [Get-WindowsUpdateLog](https://www.pdq.com/powershell/get-windowsupdatelog/)                 | Merges Windows Update .etl files into a single log file.                                                                               |
+| [New-NetFirewallRule](https://www.pdq.com/powershell/new-netfirewallrule/)                   | Creates a new inbound or outbound firewall rule and adds the rule to the target computer.                                              |
+| [Set-MpPreference](https://www.pdq.com/powershell/set-mppreference/)                         | Configures preferences for Windows Defender scans and updates.                                                                         |
+| [Set-NetFirewallProfile](https://www.pdq.com/powershell/set-netfirewallprofile/)             | Configures settings that apply to the per-profile configurations of the Windows Firewall with Advanced Security.                       |
+| [Set-NetFirewallRule](https://www.pdq.com/powershell/set-netfirewallrule/)                   | Modifies existing firewall rules.                                                                                                      |
+| [Suspend-BitLocker](https://www.pdq.com/powershell/suspend-bitlocker/)                       | Suspends Bitlocker encryption for the specified volume.                                                                                |
+
+#### Network Functions
+
+The following table lists PowerShell functions categorized under Network:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Add-VpnConnection](https://www.pdq.com/powershell/add-vpnconnection/)                       | Adds a VPN connection to the Connection Manager phone book.                                                                            |
+| [Add-VpnConnectionRoute](https://www.pdq.com/powershell/add-vpnconnectionroute/)             | Adds a route to a VPN connection.                                                                                                      |
+| [Disable-NetAdapterBinding](https://www.pdq.com/powershell/disable-netadapterbinding/)       | Disables a binding to a network adapter.                                                                                               |
+| [Get-DnsClientServerAddress](https://www.pdq.com/powershell/get-dnsclientserveraddress/)     | Gets DNS server IP addresses from the TCP/IP properties on an interface.                                                               |
+| [Get-InitiatorPort](https://www.pdq.com/powershell/get-initiatorport/)                       | Gets one or more host bus adapter (HBA) initiator ports.                                                                               |
+| [Get-NetAdapter](https://www.pdq.com/powershell/get-netadapter/)                             | Gets the basic network adapter properties.                                                                                             |
+| [Get-NetAdapterVmq](https://www.pdq.com/powershell/get-netadaptervmq/)                       | Gets the VMQ properties of a network adapter.                                                                                          |
+| [Get-NetConnectionProfile](https://www.pdq.com/powershell/get-netconnectionprofile/)         | Gets a connection profile.                                                                                                             |
+| [Get-NetIPConfiguration](https://www.pdq.com/powershell/get-netipconfiguration/)             | Gets IP network configuration.                                                                                                         |
+| [Get-NetIPAddress](https://www.pdq.com/powershell/get-netipaddress/)                         | Gets the IP address configuration.                                                                                                     |
+| [Get-NetIPInterface](https://www.pdq.com/powershell/get-netipinterface/)                     | Gets an IP interface.                                                                                                                  |
+| [Get-NetTCPConnection](https://www.pdq.com/powershell/get-nettcpconnection/)                 | Gets TCP connections.                                                                                                                  |
+| [New-NetIPAddress](https://www.pdq.com/powershell/new-netipaddress/)                         | Creates and configures an IP address.                                                                                                  |
+| [New-NetLbfoTeam](https://www.pdq.com/powershell/new-netlbfoteam/)                           | Creates a new NIC team.                                                                                                                |
+| [New-NetNat](https://www.pdq.com/powershell/new-netnat/)                                     | Creates a NAT object.                                                                                                                  |
+| [New-NetRoute](https://www.pdq.com/powershell/new-netroute/)                                 | Creates a route in the IP routing table.                                                                                               |
+| [Remove-NetIPAddress](https://www.pdq.com/powershell/remove-netipaddress/)                   | Removes an IP address and its configuration.                                                                                           |
+| [Set-DnsClientServerAddress](https://www.pdq.com/powershell/set-dnsclientserveraddress/)     | Sets DNS server addresses associated with the TCP/IP properties on an interface.                                                       |
+| [Set-NetAdapter](https://www.pdq.com/powershell/set-netadapter/)                             | Sets the basic network adapter properties.                                                                                             |
+| [Set-NetAdapterVmq](https://www.pdq.com/powershell/set-netadaptervmq/)                       | Sets the VMQ properties of a network adapter.                                                                                          |
+| [Set-NetConnectionProfile](https://www.pdq.com/powershell/set-netconnectionprofile/)         | Changes the network category of a connection profile.                                                                                  |
+| [Set-NetIPAddress](https://www.pdq.com/powershell/set-netipaddress/)                         | Modifies the configuration of an IP address.                                                                                           |
+| [Set-NetIPInterface](https://www.pdq.com/powershell/set-netipinterface/)                     | Modifies an IP interface.                                                                                                              |
+| [Test-NetConnection](https://www.pdq.com/powershell/test-netconnection/)                     | Displays diagnostic information for a connection.                                                                                      |
+
+#### PoSh Functions
+
+The following table lists PowerShell functions categorized as PowerShell-specific):
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Find-Module](https://www.pdq.com/powershell/find-module/)                                   | Finds modules from an online gallery that match specified criteria.                                                                    |
+| [Get-InstalledModule](https://www.pdq.com/powershell/get-installedmodule/)                   | Gets installed modules on a computer.                                                                                                  |
+| [Get-PSRepository](https://www.pdq.com/powershell/get-psrepository/)                         | Gets PowerShell repositories.                                                                                                          |
+| [Install-Module](https://www.pdq.com/powershell/install-module/)                             | Downloads one or more modules from an online gallery, and installs them on the local computer.                                         |
+| [Invoke-Pester](https://www.pdq.com/powershell/invoke-pester/)                               | Invokes Pester to run all tests (files containing \*.Tests.ps1) recursively under the Path                                             |
+| [Register-PSRepository](https://www.pdq.com/powershell/register-psrepository/)               | Registers a PowerShell repository.                                                                                                     |
+| [Save-Module](https://www.pdq.com/powershell/save-module/)                                   | Saves a module locally without installing it.                                                                                          |
+| [Set-PSRepository](https://www.pdq.com/powershell/set-psrepository/)                         | Sets values for a registered repository.                                                                                               |
+| [Uninstall-Module](https://www.pdq.com/powershell/uninstall-module/)                         | Uninstalls a module.                                                                                                                   |
+| [Update-Module](https://www.pdq.com/powershell/update-module/)                               | Downloads and installs the newest version of specified modules from an online gallery to the local computer.                           |
+| [Update-Script](https://www.pdq.com/powershell/update-script/)                               | Updates a script.                                                                                                                      |
+
+#### Scheduled Tasks Functions
+
+The following table lists PowerShell functions categorized under Scheduled Tasks:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Get-ScheduledTask](https://www.pdq.com/powershell/get-scheduledtask/)                       | Gets the task definition object of a scheduled task that is registered on the local computer.                                          |
+| [Get-ScheduledTaskInfo](https://www.pdq.com/powershell/get-scheduledtaskinfo/)               | Gets run-time information for a scheduled task.                                                                                        |
+| [New-ScheduledTask](https://www.pdq.com/powershell/new-scheduledtask/)                       | Creates a scheduled task instance.                                                                                                     |
+| [New-ScheduledTaskAction](https://www.pdq.com/powershell/new-scheduledtaskaction/)           | Creates a scheduled task action.                                                                                                       |
+| [New-ScheduledTaskPrincipal](https://www.pdq.com/powershell/new-scheduledtaskprincipal/)     | Creates an object that contains a scheduled task principal.                                                                            |
+| [New-ScheduledTaskSettingsSet](https://www.pdq.com/powershell/new-scheduledtasksettingsset/) | Creates a new scheduled task settings object.                                                                                          |
+| [New-ScheduledTaskTrigger](https://www.pdq.com/powershell/new-scheduledtasktrigger/)         | Creates a scheduled task trigger object.                                                                                               |
+| [Register-ScheduledTask](https://www.pdq.com/powershell/register-scheduledtask/)             | Registers a scheduled task definition on a local computer.                                                                             |
+| [Set-ScheduledTask](https://www.pdq.com/powershell/set-scheduledtask/)                       | Modifies a scheduled task.                                                                                                             |
+| [Unregister-ScheduledTask](https://www.pdq.com/powershell/unregister-scheduledtask/)         | Unregisters a scheduled task.                                                                                                          |
+
+#### Printer Functions
+
+The following table lists PowerShell functions categorized under Printer:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Add-Printer](https://www.pdq.com/powershell/add-printer/)                                   | Adds a printer to the specified computer.                                                                                              |
+| [Add-PrinterDriver](https://www.pdq.com/powershell/add-printerdriver/)                       | Installs a printer driver on the specified computer.                                                                                   |
+| [Add-PrinterPort](https://www.pdq.com/powershell/add-printerport/)                           | Installs a printer port on the specified computer.                                                                                     |
+| [Get-Printer](https://www.pdq.com/powershell/get-printer/)                                   | Retrieves a list of printers installed on a computer.                                                                                  |
+| [Remove-Printer](https://www.pdq.com/powershell/remove-printer/)                             | Removes a printer from the specified computer.                                                                                         |
+| [Set-Printer](https://www.pdq.com/powershell/set-printer/)                                   | Updates the configuration of an existing printer.                                                                                      |
+
+#### Storage Functions
+
+The following table lists PowerShell functions categorized under Storage:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Clear-Disk](https://www.pdq.com/powershell/clear-disk/)                                     | Cleans a disk by removing all partition information and un-initializing it, erasing all data on the disk.                              |
+| [Format-Volume](https://www.pdq.com/powershell/format-volume/)                               | Formats one or more existing volumes or a new volume on an existing partition.                                                         |
+| [Get-Disk](https://www.pdq.com/powershell/get-disk/)                                         | Gets one or more disks visible to the operating system.                                                                                |
+| [Get-Partition](https://www.pdq.com/powershell/get-partition/)                               | Returns a list of all partition objects visible on all disks, or optionally a filtered list using specified parameters.                |
+| [Get-PhysicalDisk](https://www.pdq.com/powershell/get-physicaldisk/)                         | Gets a list of all PhysicalDisk objects visible across any available Storage Management Providers, or optionally a filtered list.       |
+| [Get-StorageJob](https://www.pdq.com/powershell/get-storagejob/)                             | Returns information about long-running Storage module jobs, such as a repair task.                                                     |
+| [Get-VirtualDisk](https://www.pdq.com/powershell/get-virtualdisk/)                           | Returns a list of VirtualDisk objects. This can be across all storage pools, across all providers, or optionally as a filtered subset. |
+| [Get-Volume](https://www.pdq.com/powershell/get-volume/)                                     | Gets the specified Volume object, or all Volume objects if no filter is provided.                                                      |
+| [Initialize-Disk](https://www.pdq.com/powershell/initialize-disk/)                           | Initializes a RAW disk for first time use, enabling the disk to be formatted and used to store data.                                   |
+| [Mount-DiskImage](https://www.pdq.com/powershell/mount-diskimage/)                           | Mounts a previously created disk image (virtual hard disk or ISO), making it appear as a normal disk.                                  |
+| [New-Partition](https://www.pdq.com/powershell/new-partition/)                               | Creates a new partition on an existing Disk object.                                                                                    |
+| [New-StoragePool](https://www.pdq.com/powershell/new-storagepool/)                           | Creates a new storage pool using a group of physical disks.                                                                            |
+| [New-VirtualDisk](https://www.pdq.com/powershell/new-virtualdisk/)                           | Creates a new virtual disk in the specified storage pool.                                                                              |
+| [New-Volume](https://www.pdq.com/powershell/new-volume/)                                     | Creates a volume with the specified file system.                                                                                       |
+| [Optimize-Volume](https://www.pdq.com/powershell/optimize-volume/)                           | Optimizes a storage volume.                                                                                                            |
+| [Remove-PhysicalDisk](https://www.pdq.com/powershell/remove-physicaldisk/)                   | Removes a physical disk from a specified storage pool.                                                                                 |
+| [Repair-Volume](https://www.pdq.com/powershell/repair-volume/)                               | Performs repairs on a volume.                                                                                                          |
+| [Resize-Partition](https://www.pdq.com/powershell/resize-partition/)                         | Resizes a partition and the underlying file system.                                                                                    |
+| [Set-Disk](https://www.pdq.com/powershell/set-disk/)                                         | Takes a Disk object or unique disk identifiers and a set of attributes, and updates the physical disk on the system.                   |
+| [Set-Partition](https://www.pdq.com/powershell/set-partition/)                               | Sets attributes of a partition, such as active, read-only, and offline states.                                                         |
+| [Set-PhysicalDisk](https://www.pdq.com/powershell/set-physicaldisk/)                         | Sets attributes on a specific physical disk.                                                                                           |
+
+#### Utility Functions
+
+The following table lists PowerShell functions categorized under Utility:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Clear-Host](https://www.pdq.com/powershell/clear-host/)                                     | Clears the display in the host program. Alias: **`clear`** or **`cls`**                                                                |
+| [Compress-Archive](https://www.pdq.com/powershell/compress-archive/)                         | Creates an archive, or zipped file, from specified files and folders.                                                                  |
+| [Expand-Archive](https://www.pdq.com/powershell/expand-archive/)                             | Extracts files from a specified archive (zipped) file.                                                                                 |
+| [Get-FileHash](https://www.pdq.com/powershell/get-filehash/)                                 | Computes the hash value for a file by using a specified hash algorithm.                                                                |
+| [New-Guid](https://www.pdq.com/powershell/new-guid/)                                         | Creates a GUID.                                                                                                                        |
+| [Set-Clipboard](https://www.pdq.com/powershell/set-clipboard/)                               | Sets the current Windows clipboard entry.                                                                                              |
+
+#### SMB Functions
+
+The following table lists PowerShell functions categorized under SMB:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Get-SmbConnection](https://www.pdq.com/powershell/get-smbconnection/)                       | Retrieves the connections established from the SMB client to the SMB servers.                                                          |
+| [Get-SmbOpenFile](https://www.pdq.com/powershell/get-smbopenfile/)                           | Retrieves basic information about the files that are open on behalf of the clients of the SMB server.                                  |
+| [Get-SmbServerConfiguration](https://www.pdq.com/powershell/get-smbserverconfiguration/)     | Retrieves the SMB server configuration.                                                                                                |
+| [Get-SmbSession](https://www.pdq.com/powershell/get-smbsession/)                             | Retrieves information about the SMB sessions that are currently established between the SMB server and the associated clients.         |
+| [Get-SmbShare](https://www.pdq.com/powershell/get-smbshare/)                                 | Retrieves the SMB shares on the computer.                                                                                              |
+| [Get-SmbShareAccess](https://www.pdq.com/powershell/get-smbshareaccess/)                     | Retrieves the ACL of the SMB share.                                                                                                    |
+| [Grant-SmbShareAccess](https://www.pdq.com/powershell/grant-smbshareaccess/)                 | Adds an allow ACE for a trustee to the security descriptor of the SMB share.                                                           |
+| [New-SmbMapping](https://www.pdq.com/powershell/new-smbmapping/)                             | Creates an SMB mapping.                                                                                                                |
+| [New-SmbShare](https://www.pdq.com/powershell/new-smbshare/)                                 | Creates an SMB share.                                                                                                                  |
+| [Set-SmbClientConfiguration](https://www.pdq.com/powershell/set-smbclientconfiguration/)     | Sets the SMB client configuration.                                                                                                     |
+| [Set-SmbShare](https://www.pdq.com/powershell/set-smbshare/)                                 | Modifies the properties of the SMB share.                                                                                              |
+| [Set-SmbServerConfiguration](https://www.pdq.com/powershell/set-smbserverconfiguration/)     | Sets the SMB Service configuration.                                                                                                    |
+
+#### Apps Functions
+
+The following table lists PowerShell functions categorized under Apps:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Get-StartApps](https://www.pdq.com/powershell/get-startapps/)                               | Gets the names and AppIDs of installed apps.                                                                                           |
+
+#### Hardware Functions
+
+The following table lists PowerShell functions categorized under Hardware:
+
+| Function Name                                                                                | Description                                                                                                                            |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [Get-PnpDevice](https://www.pdq.com/powershell/get-pnpdevice/)                               | Returns information about PnP devices.                                                                                                 |
 
 ### Aliases
 
