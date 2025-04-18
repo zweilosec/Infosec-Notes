@@ -135,7 +135,8 @@ To inspect the details of a key file:
   ```bash
   chmod 600 $key_file
   ```
-- **AWS Compatibility**: AWS requires keys without `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` headers. Use:
+- **AWS Compatibility**:
+  AWS requires keys without `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----` headers.
   ```bash
   ssh-keygen -f PublicKey.pub -i -mPKCS8
   ```
@@ -422,7 +423,7 @@ This allows tools like Burp Suite or Nessus to scan internal assets even when di
 
 Example command (`-R $port` without other port/ip arguments creates a dynamic reverse tunnel):
 
-```
+```bash
 ssh user@target_machine -R 2222
 ```
 
@@ -484,6 +485,7 @@ ssh user@target_machine -R 2222
 - **SCP File Transfer Fails**:
   - **Issue**: SCP fails with "No such file or directory".
   - **Workaround**: Double-check the file paths on both the local and remote systems. Use absolute paths to avoid ambiguity.
+  - Another common issue is not having the correct file/folder permissions to read and/or write the files in question.
 
 - **SSH Hangs on Connection**:
   - **Issue**: SSH hangs indefinitely when trying to connect.
