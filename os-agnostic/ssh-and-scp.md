@@ -170,10 +170,16 @@ ssh-rsa <key_data AAAA..snipped../VqDjtS5> user@hostname
 3. Connect with the argument `-i $keyfile`
 
 
-## Remote Code Execution
+## Remote Command Execution
 
-Run commands on remote system without a shell through SSH with a "Herefile". `HERE` can be anything, but it must begin and end with the same word.
+Run a command on remote system without a shell through SSH by appending it to the end of the line, or, run multiple commands at once with a "Herefile". `HERE` can be anything, but it must begin and end with the same word.
 
+Single Command:
+```bash
+ssh $user@$hostname $command_to_run
+```
+
+Multiple Commands:
 ```bash
 ssh $user@$hostname << HERE
  $command1
