@@ -5,41 +5,184 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
 * Add syntax examples for Bash and Windows Batch scripting
 * Add example output for all
 
-## Basic syntax examples for Python, PowerShell, Bash, and Windows cmd.exe batch
+Basic syntax examples for Python, PowerShell, Bash, and Windows cmd.exe batch scripting languages.
 
-### Variables
+## Variables
+
+TODO: variable basic description
+
+In most programming languages, there is an option to mark variables as having a scope, i.e. the sections of code in which they can be accessed. Variables with a global scope can be accessed anywhere in a program whereas local scoped variables have a defined boundary in which they can be accessed.
 
 {% tabs %}
 {% tab title="Python" %}
-TODO: this
-| Type                         | Code Examples                                                   |
-| ---------------------------- | --------------------------------------------------------------- |
-| Standard Variable            | `var = "Hello"`                                                 |
-| Global Variable              | <p><code>global var</code></p><p><code>var = "Hello"</code></p> |
-| Environment Variables        |                                                                 |
-| Retrieving Variable Contents |                                                                 |
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Declare Variable | `x = 10` (Integer) <br> `name = "Alice"` (String) |
+| Assign Multiple Variables | `a, b, c = 1, 2, 3` |
+| Check Variable Type | `type(x)` |
+| String Formatting | `f"Hello, {name}!"` |
+| List Variables | `my_list = [1, 2, 3]` |
+| Dictionary Variables | `my_dict = {"key": "value"}` |
+| Boolean Variables | `is_active = True` |
+| Constants (Convention) | `PI = 3.14159` (Uppercase naming for constants) |
+
+Python variables are dynamic, meaning their type can change based on assignment. You can find more details on Python variables [here](https://pythonguides.com/python-variables/) and [here](https://www.w3schools.com/python/python_variables.asp). 
+
+### Python variable scope
+
+Python follows the **LEGB rule** (Local, Enclosing, Global, Built-in) to determine variable scope. 
+
+| Scope Type      | Description | Code Example |
+|---------------|-------------|--------------|
+| **Local Scope** | Variables declared inside a function, accessible only within that function. | ```python def my_function(): x = 10  # Local variable print(x) my_function() print(x)  # Error: x is not defined outside the function ``` |
+| **Global Scope** | Variables declared outside any function, accessible throughout the script. | ```python x = 10  # Global variable def my_function(): print(x)  # Accessible inside function my_function() print(x)  # Accessible outside function too ``` |
+| **Enclosing Scope** | Variables in an outer function, accessible by inner functions (nested functions). | ```python def outer_function(): x = 10  # Enclosing variable def inner_function(): print(x)  # Accessible from outer function inner_function() outer_function() ``` |
+| **Built-in Scope** | Variables and functions built into Python, available everywhere. | ```python print(len([1, 2, 3]))  # 'len' is a built-in function ``` |
+| **Using `global` Keyword** | Allows modification of a global variable inside a function. | ```python x = 10 def my_function(): global x x = 20  # Modifies global variable my_function() print(x)  # Output: 20 ``` |
+| **Using `nonlocal` Keyword** | Allows modification of an enclosing variable inside a nested function. | ```python def outer_function(): x = 10 def inner_function(): nonlocal x x = 20  # Modifies enclosing variable inner_function() print(x)  # Output: 20 outer_function() ``` |
+
+You can find more details on Python variable scopes [here](https://www.w3schools.com/PYTHON/python_scope.asp) and [here](https://pythongeeks.org/python-variable-scope/).
+
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
-TODO: this
-| Type                         | Code Examples           |
-| ---------------------------- | ----------------------- |
-| Standard Variable            | `$var = "Hello"`        |
-| Global Variable              | `$global:var = "Hello"` |
-| Environment Variables        |                         |
-| Retrieving Variable Contents |                         |
+
+Certainly! Here are **PowerShell variable-related tables**, covering different aspects of variable management:
+
+### **Basic Variable Operations**
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Declare Variable | `$x = 10` (Integer) <br> `$name = "Alice"` (String) |
+| Assign Multiple Variables | `$a, $b, $c = 1, 2, 3` |
+| Change Variable Type | `$x = "Hello"` (Changes `x` from int to str) |
+| Check Variable Type | `$x.GetType()` |
+| String Formatting | `"Hello, $name!"` |
+| List Variables | `Get-Variable` |
+| Dictionary Variables | `$myDict = @{"key" = "value"}` |
+| Boolean Variables | `$isActive = $true` |
+| Constants (Convention) | `$PI = 3.14159` (Uppercase naming for constants) |
+
+### **Variable Scopes in PowerShell**
+
+PowerShell follows a **hierarchical scope system**, allowing fine control over variable accessibility. 
+
+| Scope Type      | Description | Code Example |
+|---------------|-------------|--------------|
+| **Local Scope** | Variables declared inside a function, accessible only within that function. | ```powershell function MyFunction { $x = 10  # Local variable Write-Output $x } MyFunction Write-Output $x  # Error: x is not defined outside the function ``` |
+| **Global Scope** | Variables declared outside any function, accessible throughout the script. | ```powershell $x = 10  # Global variable function MyFunction { Write-Output $x } MyFunction Write-Output $x  # Accessible outside function too ``` |
+| **Script Scope** | Variables accessible only within a script file. | ```powershell $script:x = 10 function MyFunction { Write-Output $script:x } MyFunction ``` |
+| **Using `global` Keyword** | Allows modification of a global variable inside a function. | ```powershell $global:x = 10 function MyFunction { $global:x = 20 } MyFunction Write-Output $global:x  # Output: 20 ``` |
+| **Using `private` Keyword** | Restricts variable access to the current scope only. | ```powershell private $x = 10 Write-Output $x  # Works here, but not outside ``` |
+
+You can find more details on PowerShell variable scopes [here](https://lazyadmin.nl/powershell/powershell-variables/) and [here](https://powershellfaqs.com/powershell-local-variables/). 
+
+Great question! **Automatic** and **preference** variables in PowerShell serve different purposes:
+
+### **Automatic Variables**
+
+**Automatic variables** are predefined by PowerShell and store state information about the session. They are created and maintained by PowerShell itself. Some key examples include:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `$?` | Stores the success (`True`) or failure (`False`) of the last command. | `Write-Output "Hello"; $?` |
+| `$Error` | Contains an array of error objects from the session. | `$Error[0]` (Gets the most recent error) |
+| `$PID` | Stores the process ID of the current PowerShell session. | `Write-Output $PID` |
+| `$PSVersionTable` | Displays PowerShell version details. | `Write-Output $PSVersionTable` |
+| `$HOME` | Stores the path to the user's home directory. | `Write-Output $HOME` |
+
+You can find a full list of automatic variables [here](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-7.5).
+
+### **Preference Variables**
+
+**Preference variables** control PowerShell’s behavior and allow customization of how commands execute. Some key examples include:
+
+| Variable | Description | Default Value |
+|----------|-------------|--------------|
+| `$ErrorActionPreference` | Controls how PowerShell handles errors (`Continue`, `Stop`, `SilentlyContinue`, `Ignore`). | `Continue` |
+| `$ConfirmPreference` | Determines when PowerShell prompts for confirmation. | `High` |
+| `$VerbosePreference` | Controls verbosity of output (`SilentlyContinue`, `Continue`). | `SilentlyContinue` |
+| `$ProgressPreference` | Controls whether progress bars are displayed. | `Continue` |
+| `$PSModuleAutoLoadingPreference` | Determines whether PowerShell automatically loads modules. | `All` |
+
+You can find more details on preference variables [here](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7.5).
+
 {% endtab %}
 
 {% tab title="Bash" %}
-| Type                         | Code Examples               |
-| ---------------------------- | --------------------------- |
-| Standard Variable            | `var="Hello"`             |
-| Global Variable              | `export var="Hello"`      |
-| Environment Variables        | `echo $HOME`                |
-| Retrieving Variable Contents | `echo $var`                 |
+
+Bash variables are **untyped**, meaning they can store any value without explicit type declaration. 
+
+### **Basic Variable Operations**
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Declare Variable | `x=10` (Integer) <br> `name="Alice"` (String) |
+| Assign Multiple Variables | `a=1; b=2; c=3` |
+| Change Variable Type | `x="Hello"` (Changes `x` from int to str) |
+| Check Variable Type | `echo $((x+0))` (Checks if `x` is numeric) |
+| String Formatting | `echo "Hello, $name!"` |
+| List Variables | `declare -p` (Lists all declared variables) |
+| Dictionary Variables | `declare -A myDict; myDict[key]="value"` |
+| Boolean Variables | `isActive=true` (Bash treats non-empty values as `true`) |
+| Constants (Convention) | `readonly PI=3.14159` (Prevents modification) |
+
+### **Variable Scopes in Bash**
+
+| Scope Type      | Description | Code Example |
+|---------------|-------------|--------------|
+| **Local Scope** | Variables declared inside a function, accessible only within that function. | ```bash function my_function { local x=10  # Local variable echo $x } my_function echo $x  # Error: x is not defined outside the function ``` |
+| **Global Scope** | Variables declared outside any function, accessible throughout the script. | ```bash x=10  # Global variable function my_function { echo $x } my_function echo $x  # Accessible outside function too ``` |
+| **Using `export` Keyword** | Allows a variable to be accessible by child processes. | ```bash export x=10 bash -c 'echo $x'  # Output: 10 ``` |
+
+### **Special Variables in Bash**
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `$?` | Stores the exit status of the last command. | `echo $?` |
+| `$0` | Stores the name of the script. | `echo $0` |
+| `$1, $2, ...` | Stores positional arguments passed to the script. | `echo $1` (First argument) |
+| `$#` | Stores the number of arguments passed to the script. | `echo $#` |
+| `$@` | Expands to all arguments as separate words. | `echo $@` |
+| `$*` | Expands to all arguments as a single word. | `echo $*` |
+
+You can find more details on Bash variables [here](https://tecadmin.net/bash-scripting-examples/) and [here](https://ryanstutorials.net/bash-scripting-tutorial/bash-variables.php). 
+
+Certainly! Here’s an expanded table including **environment variables** in Bash scripting:
+
+### **Environment Variables in Bash**
+
+Environment variables are **global variables** that affect the behavior of processes and scripts. They can be set, modified, and accessed within Bash.
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Set Environment Variable | `export MY_VAR="Hello"` |
+| Access Environment Variable | `echo $MY_VAR` |
+| List All Environment Variables | `printenv` or `env` |
+| Remove Environment Variable | `unset MY_VAR` |
+| Persist Environment Variable | Add `export MY_VAR="Hello"` to `~/.bashrc` or `~/.profile` |
+| Use in a Script | `#!/bin/bash` <br> `echo "The value is $MY_VAR"` |
+
+### **Common Environment Variables**
+
+| Variable | Description |
+|----------|-------------|
+| `$HOME` | User's home directory |
+| `$PATH` | Directories where executables are searched |
+| `$USER` | Current username |
+| `$PWD` | Current working directory |
+| `$SHELL` | Default shell |
+| `$LANG` | Language settings |
+| `$EDITOR` | Default text editor |
+
+You can find more details on environment variables in Bash [here](https://stackoverflow.com/questions/1464253/global-environment-variables-in-a-shell-script) and [here](https://stackoverflow.com/questions/12351702/how-to-write-a-bash-script-to-set-global-environment-variable). 
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
+
 | Type                         | Code Examples               |
 | ---------------------------- | --------------------------- |
 | Standard Variable            | `set var=Hello`             |
@@ -49,19 +192,18 @@ TODO: this
 
 ### Set Command
 
-The other way in which variables can be initialized is via the 'set' command. Following is the syntax of the set command.
+Variables can be initialized via the `set` command. 
 
 #### Syntax
 
 ```bat
-set /A variable-name=value
+set variable-name=value
 ```
 
 where,
 
 * **variable-name** is the name of the variable you want to set.
 * **value** is the value which needs to be set against the variable.
-* **/A –** This switch is used if the value needs to be numeric in nature.
 
 The following example shows a simple way the set command can be used.
 
@@ -75,9 +217,7 @@ echo %message%
 
 ### Working with Numeric Values
 
-In batch script, it is also possible to define a variable to hold a numeric value. This can be done by using the /A switch.
-
-The following code shows a simple way in which numeric values can be set with the /A switch.
+In batch scripting, it is also possible to define a variable to hold a numeric value. This can be done by using the `/A` switch.
 
 ```bat
 @echo off 
@@ -89,84 +229,401 @@ echo %c%
 
 ### Local vs Global Variables
 
-In any programming language, there is an option to mark variables as having some sort of scope, i.e. the section of code on which they can be accessed. Normally, variable having a global scope can be accessed anywhere from a program whereas local scoped variables have a defined boundary in which they can be accessed.
+By default in Windows **Batch scripting**, variables are global to your entire command prompt session.  `SETLOCAL` and `ENDLOCAL` control variable scope, allowing temporary changes to variables within a script.
 
-DOS scripting also has a definition for locally and globally scoped variables. By default, variables are global to your entire command prompt session. Call the SETLOCAL command to make variables local to the scope of your script. After calling SETLOCAL, any variable assignments revert upon calling ENDLOCAL, calling EXIT, or when execution reaches the end of file (EOF) in your script. The following example shows the difference when local and global variables are set in the script.
+Use the `SETLOCAL` command to make variables local to the scope of your script. After calling `SETLOCAL`, any variable assignments are cleared upon calling `ENDLOCAL`, calling `EXIT`, or when execution reaches the end of file (EOF) in your script. 
+
+### **Understanding `SETLOCAL` and `ENDLOCAL` in Batch Scripting**
+
+#### **How `SETLOCAL` Works**
+- When `SETLOCAL` is used, any changes to variables **inside** that block remain **local** to the script.
+- Once the script exits or reaches `ENDLOCAL`, the variables revert to their previous values.
+- This helps prevent accidental modifications to global environment variables.
+
+#### **How `ENDLOCAL` Works**
+- `ENDLOCAL` **restores** the previous environment state, discarding any changes made after `SETLOCAL`.
+- If `ENDLOCAL` is omitted, the local scope still ends when the script exits.
+
+**Key Takeaways**
+- `SETLOCAL` creates **temporary** changes that are **discarded** after `ENDLOCAL`.
+- Variables declared inside **SETLOCAL** are **not accessible** outside of it.
+- Modifications to **global variables inside `SETLOCAL`** are reverted after `ENDLOCAL`.
+- This is useful for **avoiding unintended changes** to system environment variables.
 
 #### Example
 
-```bat
-@echo off 
-set globalvar = 5
+```
+@echo off
+REM Define a global variable (note: no spaces around '=')
+set globalvar=5
+
+REM Start a local scope
 SETLOCAL
-set var = 13145
-set /A var = %var% + 5
-echo %var%
-echo %globalvar%
+
+REM Define a local variable
+set var=13145
+set /A var+=5
+
+REM Display local variable
+echo Local variable: %var%
+
+REM Display global variable (accessible inside local scope)
+echo Global variable: %globalvar%
+
+REM End local scope
 ENDLOCAL
+
+REM Calling 'var' outside this scope will result in an error
+echo Trying to access local variable: %var%  (This will be empty)
+echo Global variable still accessible: %globalvar%
 ```
 
-Few key things to note about the above program.
+### **Using `SETLOCAL ENABLEDELAYEDEXPANSION` in Batch Scripts**
 
-* The 'globalvar' is defined with a global scope and is available throughout the entire script.
-* The 'var' variable is defined in a local scope because it is enclosed between a 'SETLOCAL' and 'ENDLOCAL' block. Hence, this variable will be destroyed as soon the 'ENDLOCAL' statement is executed.
+In **Windows Batch scripting**, variable expansion behaves differently in loops. Normally, variables are expanded **before** the loop starts, meaning their values may not update within the loop dynamically. To solve this issue, **delayed expansion** using `SETLOCAL ENABLEDELAYEDEXPANSION` allows real-time updates.
+
+#### **Why is Delayed Expansion Needed?**
+Without delayed expansion, a variable inside a loop **does not update** until after the loop completes. Using **`!variable!` instead of `%variable%`** allows the script to expand the variable dynamically.
+
+---
+
+### **Example Without Delayed Expansion (Incorrect Behavior)**
+```bat
+@echo off
+set count=0
+for /L %%i in (1,1,5) do (
+    set count=%%i
+    echo Value inside loop: %count%
+)
+```
+#### **Expected Output:**
+```
+Value inside loop:
+Value inside loop:
+Value inside loop:
+Value inside loop:
+Value inside loop:
+```
+#### **Why This Fails?**
+- `%count%` gets expanded **before the loop starts**, meaning it remains **empty** throughout execution.
+
+---
+
+### **Example With `SETLOCAL ENABLEDELAYEDEXPANSION` (Correct Behavior)**
+```bat
+@echo off
+SETLOCAL ENABLEDELAYEDEXPANSION
+set count=0
+for /L %%i in (1,1,5) do (
+    set count=%%i
+    echo Value inside loop: !count!
+)
+ENDLOCAL
+```
+#### **Expected Output:**
+```
+Value inside loop: 1
+Value inside loop: 2
+Value inside loop: 3
+Value inside loop: 4
+Value inside loop: 5
+```
+#### **Why This Works?**
+- `!count!` is expanded **during** each loop iteration, reflecting the correct values.
+
+---
+
+### **Key Takeaways**
+* **Use `SETLOCAL ENABLEDELAYEDEXPANSION`** before loops where variables need real-time updates.  
+* **Use `!variable!` instead of `%variable%`** when accessing updated values in loops or conditional blocks.  
+* **Avoid delayed expansion for static variables** (values that don't change inside loops).  
+
+This technique is essential for scripts involving **counters**, **user input**, or **dynamic updates**. 
 
 ### Working with Environment Variables
 
-If you have variables that would be used across batch files, then it is always preferable to use environment variables. Once the environment variable is defined, it can be accessed via the % sign. The following example shows how to see the JAVA\_HOME defined on a system. The JAVA\_HOME variable is a key component that is normally used by a wide variety of applications.
+If you have variables that you want to use across batch files, then it is always preferable to use environment variables. Once an environment variable is defined, it can be accessed via the % sign like any other variable. 
 
 ```bat
 @echo off 
-echo %JAVA_HOME%
+echo %USERNAME%
 ```
 
-The output would show the JAVA\_HOME directory which would depend from system to system. Following is an example of an output.
+The `%USERNAME%` environment variable is a built-in standard Windows variable that holds the current user's username.
 
-```
-C:\Atlassian\Bitbucket\4.0.1\jre
-```
 {% endtab %}
 {% endtabs %}
 
-### Strings
+## Strings
 
 {% tabs %}
 {% tab title="Python" %}
-| Method                              | Code Examples                                                                                                                                                                                |
-| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Normal String                       | <p><code>"Hello World"</code></p><p><code>'Hello World'</code></p>                                                                                                                           |
-| Empty String                        | <p><code>""</code></p><p><code>''</code></p>                                                                                                                                                 |
-| Multiline String                    | <p><code>"""Hello</code></p><p><code>World"""</code></p>                                                                                                                                     |
-| Select Character from String        | <p><code>str = 'Hello'</code></p><p><code>str[1]</code></p><p><strong><code># 'e'</code></strong></p>                                                                                        |
-| Get Length                          | <p><code>str = 'Hello'</code></p><p><code>len(str)</code></p><p><strong><code># 5</code></strong></p>                                                                                        |
-| Remove whitespace at front and back | <p><code>str = ' Hello World '</code></p><p><code>str.strip()</code></p><p><strong><code># 'Hello World'</code></strong></p>                                                                 |
-| To Lowercase                        | <p><code>str = 'HELLO WORLD'</code></p><p><code>str.lower()</code></p><p><strong><code># 'hello world'</code></strong></p>                                                                   |
-| To Uppercase                        | <p><code>str = 'hello world'</code></p><p><code>str.upper()</code></p><p><strong><code># 'HELLO WORLD'</code></strong></p>                                                                   |
-| Replace                             | <p><code>str = 'Hello'</code></p><p><code>str.replace('H', 'Y')</code></p><p><strong><code># 'Yello'</code></strong></p>                                                                     |
-| Split                               | <p><code>str = 'Hello, World'</code></p><p><code>str.split(',')</code></p><p><strong><code># ['Hello', ' World']</code></strong></p>                                                         |
-| Join                                | <p><code>list = ["Hello", "World"]</code></p><p><code>", ".join(list)</code></p><p><strong><code># 'Hello World'</code></strong></p>                                                         |
-| Formatting                          | <p><code>price = 42</code></p><p><code>txt = "The price is {} dollars"</code></p><p><code>print(txt.format(price))</code></p><p><strong><code># The price is 42 dollars</code></strong></p>  |
-| Formatting by Index                 | <p><code>price = 42</code></p><p><code>txt = "The price is {0} dollars"</code></p><p><code>print(txt.format(price))</code></p><p><strong><code># The price is 42 dollars</code></strong></p> |
-| Formatting Strings                  | <p><code>price = 42</code></p><p><code>f"The price is {price} dollars"</code></p><p><strong><code># The price is 42 dollars</code></strong></p>                                              |
+
+Here's a **corrected and improved** version of your **Python string methods table**, with accurate formatting and more relevant examples:
+
+| Method                            | Code Examples |
+|-----------------------------------|--------------|
+| **Normal String**                 | `"Hello World"` or `'Hello World'` |
+| **Empty String**                  | `""` or `''` |
+| **Multiline String**              | `"""Hello\nWorld"""` or `'''Hello\nWorld'''` |
+| **Select Character from String**  | `str = "Hello"`<br>`print(str[1])`<br>**Output:** `'e'` |
+| **Get Length**                     | `str = "Hello"`<br>`print(len(str))`<br>**Output:** `5` |
+| **Remove Whitespace**              | `str = "  Hello World  "`<br>`print(str.strip())`<br>**Output:** `'Hello World'` |
+| **To Lowercase**                   | `str = "HELLO WORLD"`<br>`print(str.lower())`<br>**Output:** `'hello world'` |
+| **To Uppercase**                   | `str = "hello world"`<br>`print(str.upper())`<br>**Output:** `'HELLO WORLD'` |
+| **Replace Characters**             | `str = "Hello"`<br>`print(str.replace("H", "Y"))`<br>**Output:** `'Yello'` |
+| **Split String**                   | `str = "Hello, World"`<br>`print(str.split(","))`<br>**Output:** `['Hello', ' World']` |
+| **Join List into String**          | `words = ["Hello", "World"]`<br>`print(" ".join(words))`<br>**Output:** `'Hello World'` |
+| **String Formatting (`.format()`)** | `price = 42`<br>`txt = "The price is {} dollars".format(price)`<br>`print(txt)`<br>**Output:** `'The price is 42 dollars'` |
+| **String Formatting with Index**   | `price = 42`<br>`txt = "The price is {0} dollars".format(price)`<br>`print(txt)`<br>**Output:** `'The price is 42 dollars'` |
+| **f-Strings (Modern Formatting)**  | `price = 42`<br>`txt = f"The price is {price} dollars"`<br>`print(txt)`<br>**Output:** `'The price is 42 dollars'` |
+| **Check If Substring Exists**      | `str = "Hello World"`<br>`print("Hello" in str)`<br>**Output:** `True` |
+| **Reverse String**                 | `str = "Hello"`<br>`print(str[::-1])`<br>**Output:** `'olleH'` |
+| **Repeat String**                  | `print("Hello " * 3)`<br>**Output:** `'Hello Hello Hello '` |
+
+### **Advanced String Manipulation in Python**
+
+Python provides powerful tools for **string manipulation**, including **regular expressions**, **string slicing**, and other advanced techniques for text processing.
+
+---
+
+### **1. Regular Expressions (`re` module)**
+
+Regular expressions (**regex**) allow pattern-based searching and manipulation of strings.
+
+#### **Example: Extracting Email Addresses**
+
+```python
+import re
+
+text = "Contact us at support@example.com or sales@example.com"
+emails = re.findall(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}", text)
+
+print(emails)  # Output: ['support@example.com', 'sales@example.com']
+```
+
+* **Uses regex to find all email addresses in a string.**  
+* **Flexible for extracting structured data from text.**  
+
+---
+
+### **String Slicing**
+
+String slicing allows extracting specific parts of a string using index ranges.
+
+#### **Example: Extracting Substrings**
+
+```python
+text = "Python Programming"
+print(text[0:6])   # Output: 'Python'
+print(text[-11:])  # Output: 'Programming'
+print(text[::-1])  # Output: 'gnimmargorP nohtyP' (Reversed)
+```
+
+* **Supports positive and negative indexing.**  
+* **Allows reversing strings easily.**  
+
+---
+
+### **3. Advanced String Manipulation Techniques**
+
+Python offers additional methods for **efficient text processing**.
+
+#### **Example: Removing Unwanted Characters**
+
+```python
+text = "  Hello, World!  "
+cleaned_text = text.strip()  # Removes leading/trailing spaces
+print(cleaned_text)  # Output: 'Hello, World!'
+```
+
+#### **Example: Replacing Words Using `re.sub()`**
+
+```python
+import re
+
+text = "The price is $100."
+updated_text = re.sub(r"\$\d+", "affordable", text)
+print(updated_text)  # Output: 'The price is affordable.'
+```
+
+* **Uses regex for complex replacements.**  
+* **Great for cleaning up messy text.**  
+
+---
+
+### **4. Combining Multiple String Operations**
+
+#### **Example: Extracting and Formatting Data**
+
+```python
+import re
+
+text = "User: John Doe, Age: 30, Email: john@example.com"
+match = re.search(r"User: (\w+ \w+), Age: (\d+), Email: (\S+)", text)
+
+if match:
+    name, age, email = match.groups()
+    print(f"Name: {name}, Age: {age}, Email: {email}")
+```
+* **Extracts structured data using regex.**  
+* **Formats extracted values using `f-strings`.**  
+
+---
+
+### **Want More?**
+You can explore more **advanced string manipulation techniques** [here](https://tutedude.com/blogs/python-string-manipulation/) and [here](https://boyu374.com/advanced-string-manipulation-in-python-techniques-for-text-processing/).
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
-| Method                              | Code Examples                                                                                                                                                                           |
-| ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Normal String                       | <p><code>"Hello World"</code></p><p><code>'Hello World'</code></p>                                                                                                                      |
-| Empty String                        | <p><code>""</code></p><p><code>''</code></p>                                                                                                                                            |
-| Multiline String                    | <p><code>"Hello</code></p><p><code>World</code></p><p><code>"</code></p>                                                                                                                |
-| Select Character from String        | <p><code>$str = 'Hello'</code></p><p><code>$str[1]</code></p><p><strong><code># e</code></strong></p>                                                                                   |
-| Get Length                          | <p><code>$str = 'Hello'</code></p><p><code>$str.Length</code></p><p><strong><code># 5</code></strong></p>                                                                               |
-| Remove whitespace at front and back | <p><code>$str = ' Hello World '</code></p><p><code>$str.Trim()</code></p><p><strong><code># 'Hello World'</code></strong></p>                                                           |
-| To Lowercase                        | <p><code>$str = 'HELLO WORLD'</code></p><p><code>$str.ToLower()</code></p><p><strong><code># hello world</code></strong></p>                                                            |
-| To Uppercase                        | <p><code>$str = 'hello world'</code></p><p><code>$str.ToUpper()</code></p><p><strong><code># HELLO WORLD</code></strong></p>                                                            |
-| Replace                             | <p><code>$str = 'Hello'</code></p><p><code>$str.Replace('H', 'Y')</code></p><p><strong><code># Yello</code></strong></p>                                                                |
-| Split                               | <p><code>'Hello, World' -split ','</code></p><p><strong><code># @('Hello', ' World')</code></strong></p>                                                                                |
-| Join                                | <p><code>$array = @("Hello", "World")</code></p><p><code>$array -join ", "</code></p><p><code>[String]::Join(', ', $array)</code></p><p><strong><code># Hello World</code></strong></p> |
-| Formatting                          | <p><code>$price = 42</code></p><p><code>$txt = "The price is {0} dollars"</code></p><p><code>$txt -f $price</code></p><p><strong><code># The price is 42 dollars</code></strong></p>    |
-| Formatting by Index                 | <p><code>$price = 42</code></p><p><code>$txt = "The price is {0} dollars"</code></p><p><code>$txt -f $price</code></p><p><strong><code># The price is 42 dollars</code></strong></p>    |
-| Formatting Strings                  | <p><code>$price = 42</code></p><p><code>$txt = "The price is $price dollars"</code></p><p><strong><code># The price is 42 dollars</code></strong></p>                                   |
+
+PowerShell provides **robust string manipulation capabilities**, making it easy to process and format text efficiently. 
+---
+
+### **Basic String Operations**
+| Activity      | Code Examples |
+|--------------|--------------|
+| Declare String | `$str = "Hello World"` |
+| Empty String | `$empty = ""` |
+| Multiline String | `$multiline = @"`<br>`Hello`<br>`World`<br>`"@` |
+| Select Character | `$str[1]` **Output:** `'e'` |
+| Get Length | `$str.Length` **Output:** `11` |
+| Remove Whitespace | `$str.Trim()` **Output:** `'Hello World'` |
+| Convert to Lowercase | `$str.ToLower()` **Output:** `'hello world'` |
+| Convert to Uppercase | `$str.ToUpper()` **Output:** `'HELLO WORLD'` |
+| Replace Characters | `$str.Replace("Hello", "Hi")` **Output:** `'Hi World'` |
+| Split String | `$str -split " "` **Output:** `@("Hello", "World")` |
+| Join Strings | `-join @("Hello", "World")` **Output:** `'HelloWorld'` |
+| Formatting | `"The price is {0} dollars" -f 42` **Output:** `'The price is 42 dollars'` |
+| f-String Equivalent | `"$($str) is great"` **Output:** `'Hello World is great'` |
+
+---
+
+### **Advanced String Manipulation**
+| Activity | Code Examples |
+|--------------|--------------|
+| Check If Substring Exists | `$str -match "Hello"` **Output:** `$true` |
+| Reverse String | `-join ($str.ToCharArray() | Reverse)` **Output:** `'dlroW olleH'` |
+| Repeat String | `"$str " * 3` **Output:** `'Hello World Hello World Hello World '` |
+| Extract Substring | `$str.Substring(0, 5)` **Output:** `'Hello'` |
+| Find Index of Character | `$str.IndexOf("W")` **Output:** `6` |
+| Remove Specific Characters | `$str -replace "o", ""` **Output:** `'Hell Wrld'` |
+
+---
+
+### **Regular Expressions (`-match`, `-replace`)**
+| Activity | Code Examples |
+|--------------|--------------|
+| Find Pattern | `$str -match "Hello"` **Output:** `$true` |
+| Extract Email | `$text -match "(\w+@\w+\.\w+)"` **Output:** `$matches[0]` |
+| Replace Using Regex | `$str -replace "Hello", "Hi"` **Output:** `'Hi World'` |
+
+You can find more details on PowerShell string operations [here](https://devblogs.microsoft.com/powershell/parsing-text-with-powershell-1-3/) and [here](https://4sysops.com/archives/strings-in-powershell-replace-compare-concatenate-split-substring/).
+
+### **PowerShell String Parsing, Special Characters, and JSON/XML Handling**
+
+PowerShell provides robust tools for **string parsing**, **handling special characters**, and **working with JSON/XML data**. Here’s how you can effectively manage these tasks.
+
+---
+
+### **String Parsing in PowerShell**
+
+String parsing allows extracting and manipulating text efficiently.
+
+#### **Example: Extracting Substrings**
+```powershell
+$text = "PowerShell is powerful"
+$substring = $text.Substring(0, 10)
+Write-Output $substring  # Output: 'PowerShell'
+```
+* **Extracts a portion of a string using `.Substring()`**  
+* **Useful for processing structured text**  
+
+#### **Example: Splitting a String**
+```powershell
+$text = "apple,banana,grape"
+$words = $text -split ","
+Write-Output $words  # Output: 'apple', 'banana', 'grape'
+```
+* **Splits a string into an array using `-split`**  
+* **Great for handling CSV-style data**  
+
+---
+
+### **Handling Special Characters**
+
+PowerShell requires escaping certain characters when working with strings.
+
+#### **Example: Escaping Special Characters**
+```powershell
+$text = "This is a `"$quoted text`""
+Write-Output $text  # Output: 'This is a "quoted text"'
+```
+* **Uses backticks (`) to escape double quotes**  
+* **Prevents syntax errors when handling special characters**  
+
+#### **Example: Removing Special Characters**
+```powershell
+$text = "Hello!@#World"
+$cleaned = $text -replace "[^a-zA-Z0-9]", ""
+Write-Output $cleaned  # Output: 'HelloWorld'
+```
+* **Uses regex (`-replace`) to remove non-alphanumeric characters**  
+* **Useful for sanitizing user input**  
+
+---
+
+### **Working with JSON in PowerShell**
+
+PowerShell can **convert objects to JSON** and **parse JSON data**.
+
+#### **Example: Convert Object to JSON**
+```powershell
+$data = @{ Name="Alice"; Age=30 }
+$json = $data | ConvertTo-Json
+Write-Output $json
+```
+* **Converts a PowerShell object into a JSON string**  
+* **Useful for API interactions**  
+
+#### **Example: Parse JSON Data**
+```powershell
+$json = '{ "Name": "Alice", "Age": 30 }'
+$data = $json | ConvertFrom-Json
+Write-Output $data.Name  # Output: 'Alice'
+```
+* **Parses JSON into a PowerShell object**  
+* **Allows easy data extraction**  
+
+---
+
+### **Working with XML in PowerShell**
+
+PowerShell can **parse XML files** and **extract structured data**.
+
+#### **Example: Load and Parse XML**
+```powershell
+[xml]$xmlData = Get-Content "data.xml"
+Write-Output $xmlData.Root.ElementName
+```
+* **Loads XML content into a PowerShell object**  
+* **Allows structured data access**  
+
+#### **Example: Convert Object to XML**
+
+```powershell
+$data = @{ Name="Alice"; Age=30 }
+$xml = $data | ConvertTo-Xml
+Write-Output $xml
+```
+* **Converts a PowerShell object into XML format**  
+* **Useful for configuration files**  
+
+---
+
+You can explore more **advanced PowerShell string manipulation techniques** [here](https://stackoverflow.com/questions/47779157/convertto-json-and-convertfrom-json-with-special-characters) and [here](https://stackoverflow.com/questions/19176024/how-to-escape-special-characters-in-building-a-json-string).
+
 {% endtab %}
 
 {% tab title="Bash" %}
@@ -187,7 +644,7 @@ C:\Atlassian\Bitbucket\4.0.1\jre
 | Formatting by Index                 | `printf "Hello %s\n" "$name"` |
 | Formatting Strings                  | `name="World"; echo "Hello $name"` |
 
-#### Basics <a href="#basics" id="basics"></a>
+### Bash String Basics
 
 ```
 name="John"
@@ -206,7 +663,7 @@ length=2
 echo ${name:0:length}  #=> "Jo"
 ```
 
-See: [Parameter expansion](http://wiki.bash-hackers.org/syntax/pe)
+### Bash Parameter Expansion
 
 ```
 STR="/path/to/foo.cpp"
@@ -223,11 +680,15 @@ echo ${STR##*/}     # foo.cpp
 echo ${STR/foo/bar} # /path/to/bar.cpp
 ```
 
+### Accessing substrings
+
 ```
 STR="Hello world"
 echo ${STR:6:5}   # "world"
 echo ${STR: -5:5}  # "world"
 ```
+
+#### Directory substrings
 
 ```
 SRC="/path/to/foo.cpp"
@@ -235,7 +696,7 @@ BASE=${SRC##*/}   #=> "foo.cpp" (basepath)
 DIR=${SRC%$BASE}  #=> "/path/to/" (dirpath)
 ```
 
-#### Default values <a href="#default-values" id="default-values"></a>
+### Default values
 
 | `${FOO:-val}`     | `$FOO`, or `val` if unset (or null)                      |
 | ----------------- | -------------------------------------------------------- |
@@ -245,7 +706,7 @@ DIR=${SRC%$BASE}  #=> "/path/to/" (dirpath)
 
 Omitting the `:` removes the (non)nullity checks, e.g. `${FOO-val}` expands to `val` if unset otherwise `$FOO`.
 
-#### Substitution <a href="#substitution" id="substitution"></a>
+### Substitution
 
 | `${FOO%suffix}`   | Remove suffix       |
 | ----------------- | ------------------- |
@@ -257,18 +718,18 @@ Omitting the `:` removes the (non)nullity checks, e.g. `${FOO-val}` expands to `
 | `${FOO/%from/to}` | Replace suffix      |
 | `${FOO/#from/to}` | Replace prefix      |
 
-#### Substrings <a href="#substrings" id="substrings"></a>
+### Substrings
 
 | `${FOO:0:3}`    | Substring _(position, length)_ |
 | --------------- | ------------------------------ |
 | `${FOO:(-3):3}` | Substring from the right       |
 
-#### Length <a href="#length" id="length"></a>
+### Length
 
 | `${#FOO}` | Length of `$FOO` |
 | --------- | ---------------- |
 
-#### Manipulation <a href="#manipulation" id="manipulation"></a>
+### Manipulation
 
 ```
 STR="HELLO WORLD!"
@@ -280,7 +741,7 @@ echo ${STR^}   #=> "Hello world!" (uppercase 1st letter)
 echo ${STR^^}  #=> "HELLO WORLD!" (all uppercase)
 ```
 
-#### String quotes <a href="#string-quotes" id="string-quotes"></a>
+### String quotes
 
 ```
 NAME="John"
@@ -321,7 +782,7 @@ To check for an existence of an empty string, you need to encompass the variable
 
 The following example shows how an empty string can be created and how to check for the existence of an empty string.
 
-### Example
+## Example
 
 ```bat
 @echo off 
@@ -333,7 +794,7 @@ if [%b%]==[] echo "String B is empty "
 
 A string can be created in DOS in the following way.
 
-### Example
+## Example
 
 ```bat
 @echo off 
@@ -344,7 +805,7 @@ echo %message%
 {% endtab %}
 {% endtabs %}
 
-### Type Casting
+## Type Casting
 
 {% tabs %}
 {% tab title="Python" %}
@@ -386,7 +847,7 @@ TODO:
 {% endtab %}
 {% endtabs %}
 
-### Arrays
+## Arrays
 
 {% tabs %}
 {% tab title="Python" %}
@@ -423,7 +884,7 @@ TODO:
 | Remove Element by Value | `arr=("${arr[@]/World}")`|
 
 
-#### Working with arrays <a href="#working-with-arrays" id="working-with-arrays"></a>
+### Working with arrays
 
 ```
 echo ${Fruits[0]}           # Element #0
@@ -436,7 +897,7 @@ echo ${Fruits[@]:3:2}       # Range (from position 3, length 2)
 echo ${!Fruits[@]}          # Keys of all elements, space-separated
 ```
 
-#### Operations <a href="#operations" id="operations"></a>
+### Operations
 
 ```
 Fruits=("${Fruits[@]}" "Watermelon")    # Push
@@ -448,7 +909,7 @@ Fruits=("${Fruits[@]}" "${Veggies[@]}") # Concatenate
 lines=(`cat "logfile"`)                 # Read from file
 ```
 
-#### Iteration <a href="#iteration" id="iteration"></a>
+### Iteration
 
 ```
 for i in "${arrayName[@]}"; do
@@ -456,7 +917,7 @@ for i in "${arrayName[@]}"; do
 done
 ```
 
-#### Defining arrays <a href="#defining-arrays" id="defining-arrays"></a>
+### Defining arrays
 
 ```
 Fruits=('Apple' 'Banana' 'Orange')
@@ -485,7 +946,7 @@ Arrays are not specifically defined as a type in Batch Script but can be impleme
 * Each element of the array needs to be defined with the set command.
 * The 'for' loop would be required to iterate through the values of the array.
 
-### Creating an Array
+## Creating an Array
 
 An array is created by using the `set` command.
 
@@ -497,7 +958,7 @@ Where 0 is the index of the array and 1 is the value assigned to the first eleme
 
 Another way to implement arrays is to define a list of values and iterate through the list of values. The following example show how this can be implemented.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -507,7 +968,7 @@ set list = 1 2 3 4
 ))
 ```
 
-#### Output
+### Output
 
 The above command produces the following output.
 
@@ -518,11 +979,11 @@ The above command produces the following output.
 4
 ```
 
-### Accessing Arrays
+## Accessing Arrays
 
 You can retrieve a value from the array by using subscript syntax, passing the index of the value you want to retrieve within square brackets immediately after the name of the array.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -550,11 +1011,11 @@ The second element of the array is 2
 The third element of the array is 3
 ```
 
-### Modifying an Array
+## Modifying an Array
 
 To add an element to the end of the array, you can use the `set` command along with the new final index of the array element.  There is no append function as in other languages.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -590,7 +1051,7 @@ The above command produces the following output.
 The new value of the second element of the array is 5
 ```
 
-### Iterating Over an Array
+## Iterating Over an Array
 
 Iterating over an array is achieved by using a 'for' loop and stepping through each element of the array. 
 
@@ -614,7 +1075,7 @@ for /l %%n in (0,1,5) do (
 * Each element of the array needs to be specifically defined using the set command.
 * The 'for' loop with the /L parameter for moving through ranges is used to iterate through the array.
 
-#### Output
+### Output
 
 The above command produces the following output.
 
@@ -627,7 +1088,7 @@ Time and date
 Operators
 ```
 
-### Length of an Array
+## Length of an Array
 
 The length of an array is found by iterating over the list of values in the array since there is no direct function to determine the number of elements in an array.
 
@@ -648,7 +1109,7 @@ if defined Arr[%x%] (
 echo "The length of the array is" %x%
 ```
 
-#### Output
+### Output
 
 Output The above command produces the following output.
 
@@ -658,7 +1119,7 @@ The length of the array is 4
 {% endtab %}
 {% endtabs %}
 
-### Conditionals
+## Conditionals
 
 {% tabs %}
 {% tab title="Python" %}
@@ -682,7 +1143,7 @@ The length of the array is 4
 | If / ElseIf / Else | `if [ "$var" = "value" ]; then echo "Match"; elif [ "$var" = "other" ]; then echo "Other"; else echo "No Match"; fi` |
 | Case               | `case "$var" in value) echo "Match" ;; other) echo "Other" ;; *) echo "No Match" ;; esac` |
 
-#### Case/switch <a href="#caseswitch" id="caseswitch"></a>
+### Case/switch
 
 ```bash
 case "$1" in
@@ -723,11 +1184,11 @@ if(condition) do_something
 
 First, a condition is evaluated in the 'if' statement. If the condition is true, it then executes the statements. 
 
-### Checking Variables
+## Checking Variables
 
 One of the common uses for the 'if' statement in Batch Script is for checking variables which are set in the Batch Script itself. The evaluation of the 'if' statement can be done for both strings and numbers.
 
-#### Checking Integer Variables
+### Checking Integer Variables
 
 The following example shows how the 'if' statement can be used for numbers.
 
@@ -755,7 +1216,7 @@ The above command produces the following output.
 15
 ```
 
-#### Checking String Variables
+### Checking String Variables
 
 The following example shows how the 'if' statement can be used for strings.
 
@@ -794,7 +1255,7 @@ if %str2%==String3 echo "The value of variable c is String3"
 {% endtab %}
 {% endtabs %}
 
-### Loops
+## Loops
 
 {% tabs %}
 {% tab title="Python" %}
@@ -824,7 +1285,7 @@ if %str2%==String3 echo "The value of variable c is String3"
 | Break     | `for i in 1 2 3; do [ "$i" = "2" ] && break; echo $i; done` |
 | Continue  | `for i in 1 2 3; do [ "$i" = "2" ] && continue; echo $i; done` |
 
-#### Basic for loop <a href="#basic-for-loop" id="basic-for-loop"></a>
+### Basic for loop
 
 ```bash
 for i in /etc/rc.*; do
@@ -832,7 +1293,7 @@ for i in /etc/rc.*; do
 done
 ```
 
-#### C-like for loop <a href="#c-like-for-loop" id="c-like-for-loop"></a>
+### C-like for loop
 
 ```bash
 for ((i = 0 ; i < 100 ; i++)); do
@@ -840,7 +1301,7 @@ for ((i = 0 ; i < 100 ; i++)); do
 done
 ```
 
-#### Ranges <a href="#ranges" id="ranges"></a>
+### Ranges
 
 ```bash
 for i in {1..5}; do
@@ -856,7 +1317,7 @@ for i in {5..50..5}; do
 done
 ```
 
-#### Reading lines <a href="#reading-lines" id="reading-lines"></a>
+### Reading lines
 
 ```bash
 cat file.txt | while read line; do
@@ -864,7 +1325,7 @@ cat file.txt | while read line; do
 done
 ```
 
-#### Forever <a href="#forever" id="forever"></a>
+### Forever
 
 ```bash
 while true; do
@@ -885,17 +1346,17 @@ TODO: this
 | Break     |               |
 | Continue  |               |
 
-### Loops
+## Loops
 
 In the decision making chapter, we have seen statements which have been executed one after the other in a sequential manner. Additionally, implementations can also be done in Batch Script to alter the flow of control in a program's logic. They are then classified into flow of control statements.
 
-### `While` Statement Implementation
+## `While` Statement Implementation
 
 There is no direct `while` statement available in Batch Scripting but we can do an implementation of this loop very easily by using the if statement and labels.
 
 The first part of the while implementation is to set the counters which will be used to control the evaluation of the 'if' condition. We then define our label which will be used to embody the entire code for the while loop implementation. The 'if' condition evaluates an expression. If the expression evaluates to true, the code block is executed. If the condition evaluates to false then the loop is exited. When the code block is executed, it will return back to the label statement for execution again.
 
-#### Syntax
+### Syntax
 
 ```bat
 Set counters
@@ -915,7 +1376,7 @@ If (expression) (
 
 Following is an example of a while loop statement.
 
-#### Example
+### Example
 
 ```bat
 @echo off
@@ -931,11 +1392,11 @@ if %index% leq %count% (
 
 In the above example, we are first initializing the value of an index integer variable to 1. Then our condition in the 'if' loop is that we are evaluating the condition of the expression to be that index should it be less than the value of the count variable. Till the value of index is less than 5, we will print the value of index and then increment the value of index.
 
-### `For` Statement - `List Implementations`
+## `For` Statement - `List Implementations`
 
 The "FOR" construct offers looping capabilities for batch files. Following is the common construct of the 'for' statement for working with a list of values.
 
-#### Syntax
+### Syntax
 
 ```bat
 FOR %%variable IN list DO do_something
@@ -949,7 +1410,7 @@ The classic 'for' statement consists of the following parts −
 
 Following is an example of how the 'goto' statement can be used.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -962,11 +1423,11 @@ The key thing to note about the above program is −
 * The list of values is defined after the IN clause.
 * The do\_something code is defined after the echo command. Thus for each value in the list, the echo command will be executed.
 
-### Looping through Ranges
+## Looping through Ranges
 
 The 'for' statement also has the ability to move through a range of values. Following is the general form of the statement.
 
-### Syntax
+## Syntax
 
 ```bat
 FOR /L %%variable IN (lowerlimit,Increment,Upperlimit) DO do_something
@@ -981,18 +1442,18 @@ Where
 
 Following is an example of how the looping through ranges can be carried out.
 
-#### Example
+### Example
 
 ```bat
 @ECHO OFF 
 FOR /L %%X IN (0,1,5) DO ECHO %%X
 ```
 
-### Classic for Loop Implementation
+## Classic for Loop Implementation
 
 Following is the classic 'for' statement which is available in most programming languages.
 
-#### Typical 'for' loop Syntax
+### Typical 'for' loop Syntax
 
 ```
 for(variable declaration;expression;Increment) {
@@ -1024,7 +1485,7 @@ Go back to :label
 
 Following is an example of how to carry out the implementation of the classic 'for' loop statement.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -1038,11 +1499,11 @@ GOTO :LOOP
 :END
 ```
 
-### Looping through Command Line Arguments
+## Looping through Command Line Arguments
 
 The 'for' statement can also be used for checking command line arguments. The following example shows how the 'for' statement can be used to loop through the command line arguments.
 
-#### Example
+### Example
 
 ```bat
 @ECHO OFF 
@@ -1055,7 +1516,7 @@ GOTO Loop
 :completed
 ```
 
-#### Output
+### Output
 
 Let's assume that our above code is stored in a file called Test.bat. The above command will produce the following output if the batch file passes the command line arguments of 1,2 and 3 as Test.bat 1 2 3.
 
@@ -1065,7 +1526,7 @@ Let's assume that our above code is stored in a file called Test.bat. The above 
 3
 ```
 
-### `Break` Statement Implementation
+## `Break` Statement Implementation
 
 The break statement is used to alter the flow of control inside loops within any programming language. The break statement is normally used in looping constructs and is used to cause immediate termination of the innermost enclosing loop.
 
@@ -1073,7 +1534,7 @@ The break statement is used to alter the flow of control inside loops within any
 
 The Batch Script language does not have a direct 'for' statement which does a break but this can be implemented by using labels. The following example shows the diagrammatic explanation of the break statement implementation in Batch Script.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -1098,7 +1559,7 @@ The key thing to note about the above script is the addition of a label called :
 {% endtab %}
 {% endtabs %}
 
-### Functions
+## Functions
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1134,7 +1595,7 @@ The key thing to note about the above script is the addition of a label called :
 | Default Values     | `myfunc() { local var=${1:-default}; echo $var; }; myfunc` |
 | Return Values      | `myfunc() { return 42; }; myfunc; echo $?` |
 
-#### Arguments <a href="#arguments" id="arguments"></a>
+### Arguments
 
 Referencing arguments in a bash script:
 
@@ -1145,7 +1606,7 @@ Referencing arguments in a bash script:
 | `$1` | First argument, `$2` second, etc.     |
 | `$_` | Last argument of the previous command |
 
-#### Returning values <a href="#returning-values" id="returning-values"></a>
+### Returning values 
 
 ```bash
 myfunc() {
@@ -1195,7 +1656,7 @@ Basic functions can be defined in batch scripts, hoever they do not accept argum
 {% endtab %}
 {% endtabs %}
 
-### Classes
+## Classes
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1237,7 +1698,7 @@ TODO:
 {% endtab %}
 {% endtabs %}
 
-### Comments
+## Comments
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1261,7 +1722,7 @@ TODO:
 | Single line  | `# Single line comment` |
 | Multiline    |  See example below        |
 
-#### Comments <a href="#comments" id="comments"></a>
+### Comments
 
 ```bash
 # Single line comment
@@ -1283,17 +1744,17 @@ comment
 | Single line  |  `Rem This is a comment`             |
 | Multiline    |  Not implemented in batch scripts`             |
 
-### Comments Using the Rem Statement
+## Comments Using the Rem Statement
 
 There are two ways to create comments in Batch Script; one is via the Rem command. Any text which follows the Rem statement will be treated as comments and will not be executed. Following is the general syntax of this statement.
 
-#### Syntax
+### Syntax
 
 ```bat
 Rem This is a comment
 ```
 
-#### Example
+### Example
 
 The following example shows a simple way the **Rem** command can be used to explain the function of the code below it.
 
@@ -1304,7 +1765,7 @@ set message=Hello World
 echo %message%
 ```
 
-#### Output
+### Output
 
 The above command produces the following output. You will notice that the line with the Rem statement will not be executed.
 
@@ -1312,7 +1773,7 @@ The above command produces the following output. You will notice that the line w
 Hello World
 ```
 
-#### Notes:
+### Notes:
 
 1. `REM` command must be followed by a space or tab character.
 
@@ -1324,17 +1785,17 @@ Hello World
 
 5. If you have too many lines of Rem, it could slow down the code, because in the end each line of code in the batch file still needs to be executed.
 
-### Comments Using the :: Statement
+## Comments Using the :: Statement
 
 The other way to create comments in Batch Script is via the :: command. Any text which follows the :: statement will be treated as comments and will not be executed. Following is the general syntax of this statement.
 
-#### Syntax
+### Syntax
 
 ```bat
 :: This is a comment
 ```
 
-#### Example
+### Example
 
 The comment marker `::` is used exactly the same as `Rem`.
 
@@ -1360,7 +1821,7 @@ And this one...
 {% endtab %}
 {% endtabs %}
 
-### Data Types
+## Data Types
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1394,7 +1855,7 @@ TODO: this
 {% endtab %}
 {% endtabs %}
 
-### Dictionaries
+## Dictionaries
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1434,7 +1895,7 @@ TODO: this
 | Check if key exists |               |
 | Adding items        |               |
 
-#### Defining a dictionary <a href="#defining" id="defining"></a>
+### Defining a dictionary
 
 ```bash
 declare -A sounds
@@ -1449,7 +1910,7 @@ sounds[wolf]="howl"
 
 Declares `sound` as a Dictionary object (aka associative array).
 
-#### Working with dictionaries <a href="#working-with-dictionaries" id="working-with-dictionaries"></a>
+### Working with dictionaries
 
 ```bash
 echo ${sounds[dog]} # Dog's sound
@@ -1459,7 +1920,7 @@ echo ${#sounds[@]}  # Number of elements
 unset sounds[dog]   # Delete dog
 ```
 
-#### Iteration <a href="#iteration-1" id="iteration-1"></a>
+### Iteration 
 
 **Iterate over values**
 
@@ -1491,11 +1952,11 @@ TODO: this
 | Check if key exists |               |
 | Adding items        |               |
 
-### Creating Structures in Arrays
+## Creating Structures in Arrays
 
 Structures can also be implemented in batch files using a little bit of an extra coding for implementation. The following example shows how this can be achieved.
 
-#### Example
+### Example
 
 ```bat
 @echo off 
@@ -1529,7 +1990,7 @@ The following key things need to be noted about the above code:
 * We always check for the condition on whether the value of i is equal to the value of **len** and if not, we loop through the code.
 * We are able to access each element of the structure using the `obj\[%i%]` notation.
 
-#### Output
+### Output
 
 The above command produces the following output.
 
@@ -1544,7 +2005,7 @@ Value = 3
 {% endtab %}
 {% endtabs %}
 
-### Lambdas
+## Lambdas
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1578,7 +2039,7 @@ Batch scripting does not natively support lambda functions.
 {% endtab %}
 {% endtabs %}
 
-### Math Operators
+## Math Operators
 
 TODO: Add other operator types
 
@@ -1631,7 +2092,7 @@ In batch scripting, the following types of operators are possible:
 * Assignment operators
 * Bitwise operators
 
-### Arithmetic Operators
+## Arithmetic Operators
 
 Batch script language supports the normal Arithmetic operators as any language. Following are the Arithmetic operators available.
 
@@ -1647,7 +2108,7 @@ Batch script language supports the normal Arithmetic operators as any language. 
 
 Batch scripts do not natively support Floors or Exponents.
 
-### Relational Operators
+## Relational Operators
 
 Relational operators allow of the comparison of objects. Below are the relational operators available.
 
@@ -1662,7 +2123,7 @@ Relational operators allow of the comparison of objects. Below are the relationa
 | GTR      | Checks to see if the left object is greater than the right operand             | 3 GTR 2 will give true |
 | GEQ      | Checks to see if the left object is greater than or equal to the right operand | 3 GEQ 2 will give true |
 
-### Logical Operators
+## Logical Operators
 
 Logical operators are used to evaluate Boolean expressions. Following are the logical operators available.
 
@@ -1676,7 +2137,7 @@ The batch language is equipped with a full set of Boolean logic operators like A
 | OR       | This is the logical “or” operator  |
 | NOT      | This is the logical “not” operator |
 
-### Assignment Operators
+## Assignment Operators
 
 Batch Script language also provides assignment operators. Following are the assignment operators available.
 
@@ -1690,7 +2151,7 @@ Batch Script language also provides assignment operators. Following are the assi
 | /=       | This divides the left operand with the right operand and assigns the result to the left operand    | <p>Set /A a = 6</p><p>a/ = 3</p><p>Output will be 2</p>  |
 | %=       | This takes modulus using two operands and assigns the result to the left operand                   | <p>Set /A a = 5</p><p>a% = 3</p><p>Output will be 2</p>  |
 
-### Bitwise Operators
+## Bitwise Operators
 
 Bitwise operators are also possible in batch script. Following are the operators available.
 
@@ -1713,7 +2174,7 @@ Following is the truth table showcasing these operators.
 {% endtab %}
 {% endtabs %}
 
-### Error Handling
+## Error Handling
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1738,7 +2199,7 @@ TODO: this
 | -------------- | ------------- |
 | Try/Catch      |               |
 
-#### Trap errors <a href="#trap-errors" id="trap-errors"></a>
+### Trap errors
 
 ```
 trap 'echo Error at about $LINENO' ERR
@@ -1755,7 +2216,7 @@ set -o errtrace
 trap traperr ERR
 ```
 
-#### Raising errors <a href="#raising-errors" id="raising-errors"></a>
+### Raising errors 
 
 ```
 myfunc() {
@@ -1781,7 +2242,7 @@ TODO: this
 {% endtab %}
 {% endtabs %}
 
-### Shell Command Execution
+## Shell Command Execution
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1795,7 +2256,7 @@ IEX (Invoke-Expression)
 {% endtab %}
 
 {% tab title="Bash" %}
-#### Shell execution <a href="#shell-execution" id="shell-execution"></a>
+### Shell execution 
 
 ```
 pwd
@@ -1809,7 +2270,7 @@ echo "I'm in `pwd`"
 {% endtab %}
 {% endtabs %}
 
-### Output Redirection
+## Output Redirection
 
 {% tabs %}
 {% tab title="Python" %}
@@ -1817,7 +2278,7 @@ echo "I'm in `pwd`"
 {% endtab %}
 
 {% tab title="PowerShell" %}
-### Redirect Standard Error to the nether
+## Redirect Standard Error to the nether
 
 ```
 2>null
@@ -1843,7 +2304,7 @@ There are three universal “files” for keyboard input, printing text on the s
 
 Each of these three standard files, otherwise known as the standard streams, are referenced using the numbers 0, 1, and 2. Stdin is file 0, stdout is file 1, and stderr is file 2.
 
-### Redirecting Output (Stdout and Stderr)
+## Redirecting Output (Stdout and Stderr)
 
 One common practice in batch files is sending the output of a program to a log file. The > operator sends, or redirects, stdout or stderr to another file. The following example shows how this can be done.
 
@@ -1865,7 +2326,7 @@ One can even combine the **stdout** and **stderr** streams using the file number
 DIR C:\ > lists.txt 2>&1
 ```
 
-### Suppressing Program Output
+## Suppressing Program Output
 
 The pseudo file NUL is used to discard any output from a program. The following example shows that the output of the command DIR is discarded by sending the output to NUL.
 
@@ -1873,7 +2334,7 @@ The pseudo file NUL is used to discard any output from a program. The following 
 Dir C:\ > NUL
 ```
 
-#### Stdin
+### Stdin
 
 To work with the Stdin, you have to use a workaround to achieve this. This can be done by redirecting the command prompt's own stdin, called CON.
 
@@ -1885,69 +2346,189 @@ TYPE CON > lists.txt
 {% endtab %}
 {% endtabs %}
 
-### HERE docs
+## HERE docs
+
+In scripting, a heredoc (here document) is a way to feed a block of text into a command or script. It's often used to generate multi-line output or pass structured text to commands like cat, echo, or tee. Some benefits of using HERE docs:
+
+* Simplifies Multi-Line Input – Instead of writing multiple commands, you can provide large text blocks neatly to a single input.
+* Improves Readability – Using heredocs makes scripts easier to read and maintain, especially when handling structured data.
+* Supports Variable Expansion – In most languages, heredocs allow variables to be expanded dynamically.
 
 {% tabs %}
 {% tab title="Python" %}
+
+Python doesn't have a direct heredoc equivalent, but triple-quoted strings (`"""` or `'''`) serve a similar purpose.
+
+```python
+text = """This is a multi-line string.
+It works like a heredoc."""
+print(text)
+```
 
 {% endtab %}
 
 {% tab title="PowerShell" %}
 
+PowerShell uses here-strings, which are enclosed in `@"` and `"@`, which support expansion and variables (or `@'` and `'@` for literal strings).
+
+```powershell
+$text = @"
+This is a PowerShell here-string.
+It spans multiple lines.
+"@
+Write-Output $text
+```
+
+**Note**
+
+Here-strings in PowerShell are useful for handling multi-line text, but they come with some limitations:
+
+* Must Start on a New Line – The opening `@"` or `@'` must be on its own line, or PowerShell will throw an error.
+* No Indentation for Closing Marker – The closing `"@` or `'@` must start at the very beginning of a line, which can make formatting tricky.
+* Limited Formatting Control – Unlike heredocs in Bash, PowerShell here-strings don’t support indentation or trimming whitespace easily.
+
 {% endtab %}
 
 {% tab title="Bash" %}
-#### Heredoc <a href="#heredoc" id="heredoc"></a>
+### Heredoc 
+
+Heredocs in Bash scripting offer several additional benefits, making them a powerful tool for handling multi-line text inputs efficiently:
+
+* Avoids Escape Characters – Unlike inline strings, heredocs allow you to include quotes and special characters without excessive escaping.
+* Supports Variable Expansion – Unless explicitly prevented with `<<'EOF'`, heredocs expand variables, making dynamic content generation easier.
 
 ```
 cat <<HERE
-hello world
+hello
+world
 HERE
 ```
+
+Everything between `<<EOF` and `EOF` is treated as input for cat, allowing the script to process multi-line text without needing individual echo statements. `EOF` can be any unique string of ASCII characters.
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
+
+Batch scripting lacks a true heredoc feature, but workarounds exist using echo and parentheses.
+
+```bat
+(
+echo This is a simulated heredoc.
+echo Batch scripting doesn't support heredocs natively.
+) > output.txt
+```
 
 {% endtab %}
 {% endtabs %}
 
-### Package Management
+## Package Management
 
 {% tabs %}
 {% tab title="Python" %}
-| Activity | Code Examples          |
-| -------- | ---------------------- |
-| Install  | `pip install requests` |
-| Import   | `import requests`      |
-| List     | `pip list`             |
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Install      | `pip install <package-name>` |
+| Import       | `import <package-name>` |
+| List         | `pip list` |
+| Update       | `pip install --upgrade <package-name>` |
+| Uninstall    | `pip uninstall <package-name>` |
+| Search       | `pip search <package-name>` (Deprecated, use `pip install <package-name>` to check availability) |
+| Show Details | `pip show <package-name>` |
+| Freeze       | `pip freeze` (Lists installed packages in a format suitable for requirements.txt) |
+
+You can also check out [this guide](https://packaging.python.org/en/latest/tutorials/packaging-projects/) for more details!
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
-| Activity | Code Examples               |
-| -------- | --------------------------- |
-| Install  | `Install-Module Pester`     |
-| Import   | `Import-Module Pester`      |
-| List     | `Get-Module -ListAvailable` |
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Install      | `Install-Package <package-name>` - PowerShell | Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/packagemanagement/install-package?view=powershellget-2.x) |
+| Import       | `Import-Module <module-name>` |
+| List         | `Get-Package` - PowerShell | Microsoft Learn](https://learn.microsoft.com/en-us/powershell/module/packagemanagement/get-package?view=powershellget-2.x) |
+| Update       | `Update-Package <package-name>` |
+| Uninstall    | `Uninstall-Package <package-name>` |
+| Search       | `Find-Package <package-name>` |
+| Show Details | `Get-Package -Name <package-name>` |
+
+PowerShell uses **PackageManagement** to handle software packages, and it supports multiple providers like NuGet and Chocolatey. 
+
+{% endtab %}
+
+{% tab title="Winget" %}
+
+### Winget package management
+
+Winget is used for managing applications on Windows, similar to package managers on Linux and macOS. 
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Install      | `winget install <package-name>` |
+| List         | `winget list` |
+| Update       | `winget upgrade <package-name>` |
+| Update All   | `winget upgrade --all` |
+| Uninstall    | `winget uninstall <package-name>` |
+| Search       | `winget search <package-name>` |
+| Show Details | `winget show <package-name>` |
+
+You can find more details on Winget commands [here](https://learn.microsoft.com/en-us/windows/package-manager/winget/). 
+
+{% endtab %}
+
+{% tab title="Chocolatey" %}
+
+### Chocolatey package management
+
+Chocolatey is a powerful package manager for Windows, making software installation and updates much more efficient. 
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Install      | `choco install <package-name>` |
+| List         | `choco list --local-only` |
+| Update       | `choco upgrade <package-name>` |
+| Update All   | `choco upgrade all` |
+| Uninstall    | `choco uninstall <package-name>` |
+| Search       | `choco search <package-name>` |
+| Show Details | `choco info <package-name>` |
+| Check for Outdated Packages | `choco outdated` |
+
+You can find more details on Chocolatey commands [here](https://docs.chocolatey.org/en-us/choco/commands/). 
+
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Activity | Code Examples |
-| -------- | ------------- |
-| Install  |               |
-| Import   |               |
-| List     |               |
+| Activity      | Code Examples |
+|--------------|--------------|
+| Install      | `sudo apt install <package-name>` (Debian/Ubuntu) <br> `sudo dnf install <package-name>` (Fedora/RHEL) |
+| Import       | Not applicable in Bash package management (Packages are installed, not imported) |
+| List         | `apt list --installed` (Debian/Ubuntu) <br> `dnf list installed` (Fedora/RHEL) |
+| Update       | `sudo apt update` (Debian/Ubuntu) <br> `sudo dnf update` (Fedora/RHEL) |
+| Upgrade      | `sudo apt upgrade` (Debian/Ubuntu) <br> `sudo dnf upgrade` (Fedora/RHEL) |
+| Remove       | `sudo apt remove <package-name>` (Debian/Ubuntu) <br> `sudo dnf remove <package-name>` (Fedora/RHEL) |
+| Search       | `apt search <package-name>` (Debian/Ubuntu) <br> `dnf search <package-name>` (Fedora/RHEL) |
+| Clean Cache  | `sudo apt clean` (Debian/Ubuntu) <br> `sudo dnf clean all` (Fedora/RHEL) |
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
 
-| Activity | Code Examples |
-| -------- | ------------- |
-| Install  |               |
-| Import   |               |
-| List     |               |
+Windows lacks built-in package management, but has a somewhat similar feature using DISM (Deployment Image Servicing and Management) for managing additional features.  These features can also be installed/removed using PowerShell commands as well.
+
+| Activity      | Code Examples |
+|--------------|--------------|
+| Install Feature | `DISM /Online /Enable-Feature /FeatureName:<feature-name>` |
+| Remove Feature  | `DISM /Online /Disable-Feature /FeatureName:<feature-name>` |
+| List Installed Features | `DISM /Online /Get-Features` |
+| Check Feature Status | `DISM /Online /Get-FeatureInfo /FeatureName:<feature-name>` |
+| Install Feature via PowerShell | `Enable-WindowsOptionalFeature -Online -FeatureName <feature-name>` |
+| Remove Feature via PowerShell | `Disable-WindowsOptionalFeature -Online -FeatureName <feature-name>` |
+
+You can find more details on managing Windows features [here](https://learn.microsoft.com/en-us/windows/client-management/client-tools/add-remove-hide-features).
+
 {% endtab %}
 {% endtabs %}
 
