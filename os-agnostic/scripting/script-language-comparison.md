@@ -49,8 +49,6 @@ You can find more details on Python variable scopes [here](https://www.w3schools
 
 {% tab title="PowerShell" %}
 
-Certainly! Here are **PowerShell variable-related tables**, covering different aspects of variable management:
-
 ### **Basic Variable Operations**
 
 | Activity      | Code Examples |
@@ -78,8 +76,6 @@ PowerShell follows a **hierarchical scope system**, allowing fine control over v
 | **Using `private` Keyword** | Restricts variable access to the current scope only. | ```powershell private $x = 10 Write-Output $x  # Works here, but not outside ``` |
 
 You can find more details on PowerShell variable scopes [here](https://lazyadmin.nl/powershell/powershell-variables/) and [here](https://powershellfaqs.com/powershell-local-variables/). 
-
-Great question! **Automatic** and **preference** variables in PowerShell serve different purposes:
 
 ### **Automatic Variables**
 
@@ -150,8 +146,6 @@ Bash variables are **untyped**, meaning they can store any value without explici
 
 You can find more details on Bash variables [here](https://tecadmin.net/bash-scripting-examples/) and [here](https://ryanstutorials.net/bash-scripting-tutorial/bash-variables.php). 
 
-Certainly! Here’s an expanded table including **environment variables** in Bash scripting:
-
 ### **Environment Variables in Bash**
 
 Environment variables are **global variables** that affect the behavior of processes and scripts. They can be set, modified, and accessed within Bash.
@@ -183,16 +177,21 @@ You can find more details on environment variables in Bash [here](https://stacko
 
 {% tab title="CMD .bat" %}
 
+Batch scripting has limited variable handling compared to PowerShell or Python, but it remains useful for automation tasks.
+
 | Type                         | Code Examples               |
 | ---------------------------- | --------------------------- |
 | Standard Variable            | `set var=Hello`             |
-| Global Variable              | `set var=Hello`             |
-| Environment Variables        | `echo %PATH%`               |
+| Global Variable              | `set var=Hello` (variables are global by default)  |
+| Environment Variables        | `set USERNAME=bob` (These are treated the same as normal variables in batch scripting) |
 | Retrieving Variable Contents | `echo %var%`                |
+| Boolean Variables | Batch does not have native boolean types, but you can use a normal variable as a hack (e.g. `set isActive=true` and check with `if "%isActive%"=="true" echo Active`) |
+
+You can find more details on Batch scripting variables here and here.
 
 ### Set Command
 
-Variables can be initialized via the `set` command. 
+Variables can be initialized via the `set` command.  The `set` command by itself will list all currently set variables.
 
 #### Syntax
 
@@ -217,7 +216,22 @@ echo %message%
 
 ### Working with Numeric Values
 
-In batch scripting, it is also possible to define a variable to hold a numeric value. This can be done by using the `/A` switch.
+The `/A` switch specifies that the string to the right of the equal sign is a numerical expression that is evaluated.  The expression evaluator
+is pretty simple and supports the following operations, in decreasing order of precedence:
+
+    ()                  - grouping
+    ! ~ -               - unary operators
+    * / %               - arithmetic operators
+    + -                 - arithmetic operators
+    << >>               - logical shift
+    &                   - bitwise and
+    ^                   - bitwise exclusive or
+    |                   - bitwise or
+    = *= /= %= += -=    - assignment
+      &= ^= |= <<= >>=
+    ,                   - expression separator
+
+Example:
 
 ```bat
 @echo off 
@@ -225,6 +239,7 @@ SET /A a = 5
 SET /A b = 10 
 SET /A c = %a% + %b% 
 echo %c%
+:: 15
 ```
 
 ### Local vs Global Variables
@@ -288,6 +303,7 @@ Without delayed expansion, a variable inside a loop **does not update** until af
 ---
 
 ### **Example Without Delayed Expansion (Incorrect Behavior)**
+
 ```bat
 @echo off
 set count=0
@@ -296,7 +312,8 @@ for /L %%i in (1,1,5) do (
     echo Value inside loop: %count%
 )
 ```
-#### **Expected Output:**
+#### **Output:**
+
 ```
 Value inside loop:
 Value inside loop:
@@ -305,11 +322,13 @@ Value inside loop:
 Value inside loop:
 ```
 #### **Why This Fails?**
+
 - `%count%` gets expanded **before the loop starts**, meaning it remains **empty** throughout execution.
 
 ---
 
 ### **Example With `SETLOCAL ENABLEDELAYEDEXPANSION` (Correct Behavior)**
+
 ```bat
 @echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
@@ -320,7 +339,9 @@ for /L %%i in (1,1,5) do (
 )
 ENDLOCAL
 ```
+
 #### **Expected Output:**
+
 ```
 Value inside loop: 1
 Value inside loop: 2
@@ -334,6 +355,7 @@ Value inside loop: 5
 ---
 
 ### **Key Takeaways**
+
 * **Use `SETLOCAL ENABLEDELAYEDEXPANSION`** before loops where variables need real-time updates.  
 * **Use `!variable!` instead of `%variable%`** when accessing updated values in loops or conditional blocks.  
 * **Avoid delayed expansion for static variables** (values that don't change inside loops).  
@@ -344,12 +366,81 @@ This technique is essential for scripts involving **counters**, **user input**, 
 
 If you have variables that you want to use across batch files, then it is always preferable to use environment variables. Once an environment variable is defined, it can be accessed via the % sign like any other variable. 
 
+### Dynamic Environment Variables
+
+If Command Extensions are enabled, then there are several dynamic environment variables that can be expanded but which don't show up in the list of variables displayed by SET.  These variable values are computed dynamically each time the value of the variable is expanded. If the user explicitly defines a variable with one of these names, then that definition will override the dynamic one described below:
+
+| Environment Variable | Description |
+|---------------------|--------------|
+| `%CD%` | Expands to the current directory string. |
+| `%DATE%` | Expands to the current date using the same format as the `DATE` command. |
+| `%TIME%` | Expands to the current time using the same format as the `TIME` command. |
+| `%RANDOM%` | Expands to a random decimal number between `0` and `32767`. |
+| `%ERRORLEVEL%` | Expands to the current `ERRORLEVEL` value. |
+| `%CMDEXTVERSION%` | Expands to the current Command Processor Extensions version number. |
+| `%CMDCMDLINE%` | Expands to the original command line that invoked the Command Processor. |
+| `%HIGHESTNUMANODENUMBER%` | Expands to the highest NUMA node number on this machine. |
+
+### **`SET` vs. `SETX`**
+
+When working with environment variables in **Windows Batch scripting**, two commonly used commands are `SET` and `SETX`. While they may seem similar, they serve **different purposes** and have distinct behaviors.
+
+#### **`SET` – Temporary Variable Assignment**
+The `SET` command is used to define **temporary** environment variables that exist **only within the current command prompt session**.
+
+##### **Example: Using `SET`**
+
 ```bat
-@echo off 
-echo %USERNAME%
+@echo off
+set MY_VAR=Hello
+echo %MY_VAR%
 ```
 
-The `%USERNAME%` environment variable is a built-in standard Windows variable that holds the current user's username.
+**Output:**
+
+```
+Hello
+```
+
+* **Changes take effect immediately.**  
+* **Only available in the current session.**  
+* **Lost when the command prompt is closed.**  
+
+---
+
+#### **`SETX` – Permanent Variable Assignment**
+
+The `SETX` command **persists** environment variables across sessions by storing them in the Windows **registry**.
+
+##### **Example: Using `SETX`**
+
+```bat
+setx MY_VAR "Hello"
+```
+
+* **Changes persist across command prompt sessions.**  
+* **Requires reopening the command prompt to take effect.**  
+* **Modifies user or system environment variables.**  
+
+---
+
+#### **Key Differences Between `SET` and `SETX`**
+
+| Feature | `SET` | `SETX` |
+|---------|------|------|
+| **Scope** | Current session only | Permanent (stored in registry) |
+| **Availability** | Lost when CMD closes | Available in new CMD sessions |
+| **Immediate Effect** | Yes | No (requires restart of CMD) |
+| **Modifies Registry** | No | Yes |
+| **System-Level Changes** | No | Yes (with `/m` flag for system-wide variables) |
+
+---
+
+#### **When to Use Each Command**
+- **Use `SET`** for **temporary** variables needed only within a script or session.
+- **Use `SETX`** when defining **persistent** environment variables that should remain available across system reboots.
+
+For more details, check out [this discussion](https://superuser.com/questions/916649/what-is-the-difference-between-setx-and-set-in-environment-variables-in-windows) on `SET` vs `SETX`.
 
 {% endtab %}
 {% endtabs %}
@@ -358,8 +449,6 @@ The `%USERNAME%` environment variable is a built-in standard Windows variable th
 
 {% tabs %}
 {% tab title="Python" %}
-
-Here's a **corrected and improved** version of your **Python string methods table**, with accurate formatting and more relevant examples:
 
 | Method                            | Code Examples |
 |-----------------------------------|--------------|
@@ -387,7 +476,7 @@ Python provides powerful tools for **string manipulation**, including **regular 
 
 ---
 
-### **1. Regular Expressions (`re` module)**
+### **Regular Expressions (`re` module)**
 
 Regular expressions (**regex**) allow pattern-based searching and manipulation of strings.
 
@@ -425,7 +514,7 @@ print(text[::-1])  # Output: 'gnimmargorP nohtyP' (Reversed)
 
 ---
 
-### **3. Advanced String Manipulation Techniques**
+### **Advanced String Manipulation Techniques**
 
 Python offers additional methods for **efficient text processing**.
 
@@ -452,7 +541,7 @@ print(updated_text)  # Output: 'The price is affordable.'
 
 ---
 
-### **4. Combining Multiple String Operations**
+### **Combining Multiple String Operations**
 
 #### **Example: Extracting and Formatting Data**
 
@@ -472,6 +561,7 @@ if match:
 ---
 
 ### **Want More?**
+
 You can explore more **advanced string manipulation techniques** [here](https://tutedude.com/blogs/python-string-manipulation/) and [here](https://boyu374.com/advanced-string-manipulation-in-python-techniques-for-text-processing/).
 
 {% endtab %}
@@ -523,7 +613,7 @@ You can find more details on PowerShell string operations [here](https://devblog
 
 ### **PowerShell String Parsing, Special Characters, and JSON/XML Handling**
 
-PowerShell provides robust tools for **string parsing**, **handling special characters**, and **working with JSON/XML data**. Here’s how you can effectively manage these tasks.
+PowerShell provides robust tools for **string parsing**, **handling special characters**, and **working with JSON/XML data**. 
 
 ---
 
@@ -532,20 +622,24 @@ PowerShell provides robust tools for **string parsing**, **handling special char
 String parsing allows extracting and manipulating text efficiently.
 
 #### **Example: Extracting Substrings**
+
 ```powershell
 $text = "PowerShell is powerful"
 $substring = $text.Substring(0, 10)
 Write-Output $substring  # Output: 'PowerShell'
 ```
+
 * **Extracts a portion of a string using `.Substring()`**  
 * **Useful for processing structured text**  
 
 #### **Example: Splitting a String**
+
 ```powershell
 $text = "apple,banana,grape"
 $words = $text -split ","
 Write-Output $words  # Output: 'apple', 'banana', 'grape'
 ```
+
 * **Splits a string into an array using `-split`**  
 * **Great for handling CSV-style data**  
 
@@ -556,19 +650,23 @@ Write-Output $words  # Output: 'apple', 'banana', 'grape'
 PowerShell requires escaping certain characters when working with strings.
 
 #### **Example: Escaping Special Characters**
+
 ```powershell
 $text = "This is a `"$quoted text`""
 Write-Output $text  # Output: 'This is a "quoted text"'
 ```
+
 * **Uses backticks (`) to escape double quotes**  
 * **Prevents syntax errors when handling special characters**  
 
 #### **Example: Removing Special Characters**
+
 ```powershell
 $text = "Hello!@#World"
 $cleaned = $text -replace "[^a-zA-Z0-9]", ""
 Write-Output $cleaned  # Output: 'HelloWorld'
 ```
+
 * **Uses regex (`-replace`) to remove non-alphanumeric characters**  
 * **Useful for sanitizing user input**  
 
@@ -579,20 +677,24 @@ Write-Output $cleaned  # Output: 'HelloWorld'
 PowerShell can **convert objects to JSON** and **parse JSON data**.
 
 #### **Example: Convert Object to JSON**
+
 ```powershell
 $data = @{ Name="Alice"; Age=30 }
 $json = $data | ConvertTo-Json
 Write-Output $json
 ```
+
 * **Converts a PowerShell object into a JSON string**  
 * **Useful for API interactions**  
 
 #### **Example: Parse JSON Data**
+
 ```powershell
 $json = '{ "Name": "Alice", "Age": 30 }'
 $data = $json | ConvertFrom-Json
 Write-Output $data.Name  # Output: 'Alice'
 ```
+
 * **Parses JSON into a PowerShell object**  
 * **Allows easy data extraction**  
 
@@ -603,10 +705,12 @@ Write-Output $data.Name  # Output: 'Alice'
 PowerShell can **parse XML files** and **extract structured data**.
 
 #### **Example: Load and Parse XML**
+
 ```powershell
 [xml]$xmlData = Get-Content "data.xml"
 Write-Output $xmlData.Root.ElementName
 ```
+
 * **Loads XML content into a PowerShell object**  
 * **Allows structured data access**  
 
@@ -617,6 +721,7 @@ $data = @{ Name="Alice"; Age=30 }
 $xml = $data | ConvertTo-Xml
 Write-Output $xml
 ```
+
 * **Converts a PowerShell object into XML format**  
 * **Useful for configuration files**  
 
@@ -627,6 +732,7 @@ You can explore more **advanced PowerShell string manipulation techniques** [her
 {% endtab %}
 
 {% tab title="Bash" %}
+
 | Method                              | Code Examples               |
 | ----------------------------------- | --------------------------- |
 | Normal String                       | `str="Hello World"`       |
@@ -663,9 +769,36 @@ length=2
 echo ${name:0:length}  #=> "Jo"
 ```
 
+### String quotes
+
+Using double quotes around a string allows for variable and parameter expansion (as well as interpretation of other special bash characters such as `!`).  Use of single quotes around a string treats everything within as a literal string.
+
+```bash
+NAME="John"
+echo "Hi $NAME"  #=> Hi John
+echo 'Hi $NAME'  #=> Hi $NAME
+```
+
 ### Bash Parameter Expansion
 
-```
+Bash **parameter expansion** allows efficient manipulation of variables without requiring external commands. It enables **default values**, **substring extraction**, **string modifications**, and **indirect expansion**.
+
+- **Default values** ensure variables have fallback values when unset.
+- **Substring extraction** allows slicing parts of a string.
+- **String modification** enables prefix/suffix removal and replacements.
+- **Indirect expansion** retrieves the value of a variable whose name is stored in another variable.
+
+#### **Basic Parameter Expansion**
+
+| Description | Code Examples |
+|------------|--------------|
+| Retrieve the value of a variable | `${VAR}` |
+| Use default value if variable is unset or null | `${VAR:-default}` |
+| Assign default value if variable is unset or null | `${VAR:=default}` |
+| Return alternate value if variable is set | `${VAR:+alternate}` |
+| Display error message if variable is unset or null | `${VAR:?error message}` |
+
+```bash
 STR="/path/to/foo.cpp"
 echo ${STR%.cpp}    # /path/to/foo
 echo ${STR%.cpp}.o  # /path/to/foo.o
@@ -680,77 +813,176 @@ echo ${STR##*/}     # foo.cpp
 echo ${STR/foo/bar} # /path/to/bar.cpp
 ```
 
-### Accessing substrings
+#### **Default Values in Parameter Expansion**
 
-```
+| Description | Code Examples |
+| ----------------- |--------------------------------------------------------|
+| Use `$FOO`, or fallback to `val` if unset (or null)         | `${FOO:-val}` |
+| Assign `val` to `$FOO` if unset (or null)                 | `${FOO:=val}` |
+| Return `val` if `$FOO` is set (and not null)             | `${FOO:+val}` |
+| Display error message and exit if `$FOO` is unset (or null) | `${FOO:?message}` |
+
+** Note**
+
+These **parameter expansion** methods in Bash allow conditional substitution based on whether a variable is set or unset. The `:` ensures checks for both **unset and null** values. If omitted (e.g., `${FOO-val}`), the expansion applies only when `$FOO` is completely unset but **not when it is empty (`""`)**.
+
+### **Substitution**
+
+| Description        | Code Examples |
+|-------------------|--------------|
+| Remove suffix    | `${FOO%suffix}` |
+| Remove prefix    | `${FOO#prefix}` |
+| Remove long suffix  | `${FOO%%suffix}` |
+| Remove long prefix  | `${FOO##prefix}` |
+| Replace first match | `${FOO/from/to}` |
+| Replace all occurrences | `${FOO//from/to}` |
+| Replace suffix    | `${FOO/%from/to}` |
+| Replace prefix    | `${FOO/#from/to}` |
+
+### **Substrings**
+
+| Description               | Code Examples |
+|--------------------------|--------------|
+| Substring _(position, length)_ | `${FOO:0:3}` |
+| Substring from the right | `${FOO:(-3):3}` |
+
+#### Accessing Substrings
+
+```bash
 STR="Hello world"
 echo ${STR:6:5}   # "world"
 echo ${STR: -5:5}  # "world"
 ```
 
-#### Directory substrings
+#### **String Modification**
 
-```
+| Description | Code Examples |
+|------------|--------------|
+| Remove shortest matching prefix | `${VAR#prefix}` |
+| Remove longest matching prefix | `${VAR##prefix}` |
+| Remove shortest matching suffix | `${VAR%suffix}` |
+| Remove longest matching suffix | `${VAR%%suffix}` |
+| Replace first occurrence | `${VAR/from/to}` |
+| Replace all occurrences | `${VAR//from/to}` |
+
+#### Special Directory Substring Tricks
+
+```bash
 SRC="/path/to/foo.cpp"
 BASE=${SRC##*/}   #=> "foo.cpp" (basepath)
 DIR=${SRC%$BASE}  #=> "/path/to/" (dirpath)
 ```
 
-### Default values
+#### **Length and Indirection**
 
-| `${FOO:-val}`     | `$FOO`, or `val` if unset (or null)                      |
-| ----------------- | -------------------------------------------------------- |
-| `${FOO:=val}`     | Set `$FOO` to `val` if unset (or null)                   |
-| `${FOO:+val}`     | `val` if `$FOO` is set (and not null)                    |
-| `${FOO:?message}` | Show error message and exit if `$FOO` is unset (or null) |
+| Description | Code Examples |
+|------------|--------------|
+| Get length of variable | `${#VAR}` |
+| Indirect expansion (expand variable name stored in another variable) | `${!VAR}` |
 
-Omitting the `:` removes the (non)nullity checks, e.g. `${FOO-val}` expands to `val` if unset otherwise `$FOO`.
+### **Bash String Manipulation Tricks**
 
-### Substitution
+#### **Case Manipulation**
 
-| `${FOO%suffix}`   | Remove suffix       |
-| ----------------- | ------------------- |
-| `${FOO#prefix}`   | Remove prefix       |
-| `${FOO%%suffix}`  | Remove long suffix  |
-| `${FOO##prefix}`  | Remove long prefix  |
-| `${FOO/from/to}`  | Replace first match |
-| `${FOO//from/to}` | Replace all         |
-| `${FOO/%from/to}` | Replace suffix      |
-| `${FOO/#from/to}` | Replace prefix      |
+| Description | Code Example |
+|------------|--------------|
+| Lowercase first letter | `echo ${STR,}` → `"hELLO WORLD!"` |
+| Lowercase entire string | `echo ${STR,,}` → `"hello world!"` |
+| Uppercase first letter | `echo ${STR^}` → `"Hello world!"` |
+| Uppercase entire string | `echo ${STR^^}` → `"HELLO WORLD!"` |
 
-### Substrings
+#### **String Replacement**
 
-| `${FOO:0:3}`    | Substring _(position, length)_ |
-| --------------- | ------------------------------ |
-| `${FOO:(-3):3}` | Substring from the right       |
+| Description | Code Example |
+|------------|--------------|
+| Replace first occurrence | `echo ${STR/HELLO/HI}` → `"HI WORLD!"` |
+| Replace all occurrences | `echo ${STR//O/A}` → `"HELLA WARLD!"` |
+| Remove prefix | `echo ${STR#HELLO }` → `"WORLD!"` |
+| Remove suffix | `echo ${STR% WORLD!}` → `"HELLO"` |
 
-### Length
+#### **Additional Tricks**
 
-| `${#FOO}` | Length of `$FOO` |
-| --------- | ---------------- |
+- **Reverse String:** `echo $(rev <<< "$STR")` → `"!DLROW OLLEH"`
+- **Repeat String:** `echo "$STR " * 3` → `"HELLO WORLD! HELLO WORLD! HELLO WORLD!"`
+- **Remove Non-Alphanumeric Characters:** `echo ${STR//[^a-zA-Z0-9]/}` → `"HELLOWORLD"`
 
-### Manipulation
+### **Advanced String Formatting Using `printf` in Bash**
 
+The `printf` command in Bash provides **precise control** over formatted output, making it more powerful than `echo`. 
+
+---
+
+#### **Basic Formatting**
+
+| Description | Code Example |
+|------------|--------------|
+| Print a simple string | `printf "Hello, World!\n"` |
+| Print a formatted string with placeholders | `printf "Name: %s, Age: %d\n" "Alice" 30` |
+| Print multiple values | `printf "%s %s\n" "Hello" "World"` |
+
+---
+
+#### **Format Specifiers**
+
+| Description | Code Example |
+|------------|--------------|
+| Print a string | `printf "%s\n" "Hello"` |
+| Print an integer | `printf "%d\n" 42` |
+| Print a floating-point number | `printf "%.2f\n" 3.14159` |
+| Print a character | `printf "%c\n" 65` **(Outputs 'A')** |
+| Print a percentage symbol | `printf "Discount: %d%%\n" 50` |
+
+---
+
+#### **Alignment and Padding**
+
+| Description | Code Example |
+|------------|--------------|
+| Left-align text (width 10) | `printf "%-10s\n" "Hello"` |
+| Right-align text (width 10) | `printf "%10s\n" "Hello"` |
+| Pad numbers with leading zeros | `printf "%05d\n" 42` **(Outputs '00042')** |
+| Limit decimal places | `printf "%.2f\n" 3.14159` **(Outputs '3.14')** |
+
+---
+
+#### **Formatting Lists and Tables**
+
+| Description | Code Example |
+|------------|--------------|
+| Print a table with aligned columns | `printf "%-10s %-10s\n" "Name" "Age"; printf "%-10s %-10d\n" "Alice" 30` |
+| Print a list with numbered items | `printf "%d. %s\n" 1 "Apple"; printf "%d. %s\n" 2 "Banana"` |
+
+---
+
+#### **Using `printf` with Variables**
+
+```bash
+name="Alice"
+age=30
+printf "Name: %s, Age: %d\n" "$name" "$age"
 ```
-STR="HELLO WORLD!"
-echo ${STR,}   #=> "hELLO WORLD!" (lowercase 1st letter)
-echo ${STR,,}  #=> "hello world!" (all lowercase)
 
-STR="hello world!"
-echo ${STR^}   #=> "Hello world!" (uppercase 1st letter)
-echo ${STR^^}  #=> "HELLO WORLD!" (all uppercase)
+* **Uses variables inside formatted output.**  
+* **Ensures proper spacing and alignment.**  
+
+---
+
+#### **Formatting Output for Logs**
+
+```bash
+timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+printf "[%s] INFO: %s\n" "$timestamp" "Process started"
 ```
 
-### String quotes
+* **Use to add timestamps to logs dynamically.**  
+* **Useful for debugging and monitoring scripts.**  
 
-```
-NAME="John"
-echo "Hi $NAME"  #=> Hi John
-echo 'Hi $NAME'  #=> Hi $NAME
-```
+You can explore more **advanced `printf` formatting techniques** [here](https://linuxsimply.com/bash-scripting-tutorial/string/manipulation/format-string/) and [here](https://linuxhandbook.com/bash-printf/).
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
+
 | Method                              | Code Examples               |
 | ----------------------------------- | --------------------------- |
 | Normal String                       | `set str=Hello World`       |
@@ -768,21 +1000,32 @@ echo 'Hi $NAME'  #=> Hi $NAME
 | Formatting by Index                 | `set str=Hello %name%`      |
 | Formatting Strings                  | `set name=World & echo Hello %name%` |
 
+#### Creating and displaying the contents of a string
+
+```bat
+@echo off 
+:: This program just displays Hello World 
+set message = Hello World 
+echo %message%
+```
+
+#### Creating and checking for **empty strings**
+
 An empty string can be created in DOS Scripting by assigning it no value during it's initialization as shown in the following example.
 
-```
-Set a=
+```bat
+set a=
 ```
 
 To check for an existence of an empty string, you need to encompass the variable name in square brackets and also compare it against a value in square brackets as shown in the following example.
 
-```
+```bat
 [%a%]==[]
 ```
 
-The following example shows how an empty string can be created and how to check for the existence of an empty string.
+##### Empty Strings Example
 
-## Example
+This example shows how an empty string can be created, and how to check for the existence of an empty string.
 
 ```bat
 @echo off 
@@ -792,58 +1035,305 @@ if [%a%]==[] echo "String A is empty"
 if [%b%]==[] echo "String B is empty "
 ```
 
-A string can be created in DOS in the following way.
+This will print `String A is empty`.
 
-## Example
-
-```bat
-@echo off 
-:: This program just displays Hello World 
-set message = Hello World 
-echo %message%
-```
 {% endtab %}
 {% endtabs %}
 
 ## Type Casting
 
+Type casting is the process of converting a variable from one data type to another. This ensures compatibility between different types in operations and functions.
+
+#### **Types of Type Casting**
+1. **Implicit Casting** (Automatic Conversion)
+   - Happens when a smaller or less precise type is converted into a larger or more precise type.
+   - No risk of data loss.
+   - Example: Converting an integer to a floating-point number.
+
+2. **Explicit Casting** (Manual Conversion)
+   - Requires direct conversion using specific functions or operators.
+   - May lead to loss of data or precision.
+   - Example: Converting a floating-point number to an integer.
+
+#### **Common Use Cases**
+- **Mathematical Operations:** Ensuring consistency between integers and floats.
+- **User Input Handling:** Converting input into appropriate data types.
+- **Data Processing:** Handling different formats across APIs or databases.
+
+#### **Potential Risks**
+⚠️ **Data Loss:** Converting complex types to simpler ones can remove details.  
+⚠️ **Unexpected Behavior:** Incompatible conversions may lead to errors.  
+
+Type casting is essential for efficient data management in programming, ensuring smooth interactions between different types. 
+
 {% tabs %}
 {% tab title="Python" %}
-TODO:
-| Type       | Code Examples       |
-| ---------- | ------------------- |
-| As Integer | `i = int("10")`     |
-| As Float   | `i = float("10.5")` |
-| As String  | `i = str(10)`       |
-| As Char    |                     |
+
+Python's **type casting** allows flexible data manipulation, ensuring compatibility between different types. 
+
+### **Type Casting in Python**
+
+| Type | Code Examples |
+|------|--------------|
+| **As Integer** | `i = int("10")` → Converts string `"10"` to integer `10` |
+| **As Float** | `f = float("10.5")` → Converts string `"10.5"` to float `10.5` |
+| **As String** | `s = str(10)` → Converts integer `10` to string `"10"` |
+| **As Character** | `c = chr(65)` → Converts ASCII value `65` to character `'A'` |
+| **As Boolean** | `b = bool(0)` → Converts `0` to `False`, `bool(1)` → `True` |
+| **As List** | `lst = list("hello")` → Converts string `"hello"` to list `['h', 'e', 'l', 'l', 'o']` |
+| **As Tuple** | `tpl = tuple([1, 2, 3])` → Converts list `[1, 2, 3]` to tuple `(1, 2, 3)` |
+| **As Dictionary** | `d = dict([(1, "one"), (2, "two")])` → Converts list of tuples to dictionary `{1: "one", 2: "two"}` |
+| **As Set** | `s = set([1, 2, 2, 3])` → Converts list `[1, 2, 2, 3]` to set `{1, 2, 3}` |
+
+### **Converting Between Types**
+
+```python
+x = "42"
+y = int(x)  # Converts string to integer
+z = float(y)  # Converts integer to float
+print(y, z)  # Output: 42 42.0
+```
+
+#### **Limitations and Pitfalls of Type Conversion in Python**
+
+Type conversion in Python is useful for handling different data types, but it comes with **potential pitfalls** that can lead to unexpected behavior or errors.
+
+##### **Loss of Precision**
+
+- Converting **floats to integers** removes the decimal portion, potentially altering values.
+- Example:
+  ```python
+  num = int(3.9)
+  print(num)  # Output: 3 (decimal truncated)
+  ```
+
+##### **Type Errors**
+
+- Some conversions are **not allowed**, leading to `TypeError`.
+- Example:
+  ```python
+  num = int([1, 2, 3])  # Raises TypeError
+  ```
+
+##### **Value Errors**
+
+- Converting incompatible strings to numbers results in `ValueError`.
+- Example:
+  ```python
+  num = int("hello")  # Raises ValueError
+  ```
+
+##### **Unexpected Boolean Behavior**
+
+- Python treats **non-empty values as `True`** and empty values as `False`, which can cause logic errors.
+- Example:
+  ```python
+  print(bool("False"))  # Output: True (because it's a non-empty string)
+  ```
+
+##### **Implicit Conversions Can Lead to Bugs**
+
+- Mixing **integers and floats** in operations can cause unintended type changes.
+- Example:
+  ```python
+  result = 5 + 2.5  # Implicitly converts 5 to float
+  print(type(result))  # Output: <class 'float'>
+  ```
+
+### **Handling Type Casting Errors**
+
+```python
+try:
+    num = int("hello")  # Invalid conversion
+except ValueError:
+    print("Cannot convert 'hello' to an integer.")
+```
+
+### **Using `eval()` for Dynamic Type Casting**
+
+```python
+value = "3.14"
+converted = eval(value)  # Converts string `"3.14"` to float `3.14`
+print(type(converted))  # Output: <class 'float'>
+```
+
+⚠️ **Caution:** `eval()` can execute arbitrary code, so use it carefully.
+
 {% endtab %}
 
 {% tab title="PowerShell" %}
-TODO:
-| Type       | Code Examples        |
-| ---------- | -------------------- |
-| As Integer | `$i = [int]"10"`     |
-| As Float   | `$i = [float]"10.5"` |
-| As String  | `$i = [string]10`    |
-| As Char    |                      |
+
+### **Basic Type Conversion**
+
+| Description | Code Examples |
+|------------|--------------|
+| Convert string to integer | `[int]"42"` → `42` |
+| Convert string to float | `[double]"3.14"` → `3.14` |
+| Convert integer to string | `[string]42` → `"42"` |
+| Convert ASCII value to character | `[char]65` → `'A'` |
+| Convert boolean to integer | `[int]$true` → `1`, `[int]$false` → `0` |
+
+---
+
+### **Collection Type Conversion**
+
+| Description | Code Examples |
+|------------|--------------|
+| Convert string to array | `@("Hello", "World")` |
+| Convert list to hashtable | `@{Key1="Value1"; Key2="Value2"}` |
+| Convert array to string | `-join @("Hello", "World")` becomes `"HelloWorld"` |
+
+---
+
+### **Advanced Explicit Type Casting**
+
+| Description | Code Examples |
+|------------|--------------|
+| Force integer conversion | `[int]"3.9"` (becomes `3` i.e. truncates decimal) |
+| Convert object to XML | `[xml]$xmlString` |
+| Convert object to JSON | `$object | ConvertTo-Json` |
+| Convert JSON to object | `$json | ConvertFrom-Json` |
+
+---
+
+### **Handling Type Conversion Errors**
+
+Use `try-catch` blocks to handle conversion errors gracefully.
+
+```powershell
+try {
+    $num = [int]"hello"  # Invalid conversion
+} catch {
+    Write-Output "Error: Cannot convert 'hello' to an integer."
+}
+```
+
+---
+
+### **Potential Pitfalls**
+
+Similar to Python, there are a number of potential pitfalls to be aware of when comverting between different data types:
+
+* 🚨 **Loss of Precision:** Converting floats to integers removes decimals.  
+* 🚨 **Unexpected Boolean Behavior:** Non-empty strings evaluate as `$true`.  
+* 🚨 **Implicit Conversions:** Mixing types can lead to unintended results.  
+
+PowerShell’s type conversion system is powerful but requires careful handling to avoid unexpected behavior. 
+
+You can explore more details on PowerShell type conversion [here](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_type_conversion?view=powershell-7.5) and [here](https://adamtheautomator.com/powershell-convert-string-to-int/).
+
 {% endtab %}
 
 {% tab title="Bash" %}
-| Type       | Code Examples               |
-| ---------- | --------------------------- |
-| As Integer | `var=$((10))`               |
-| As Float   | `var=$(echo "10.5" | bc)` |
-| As String  | `var="10"`                |
-| As Char    | `var="a"`                 |
+
+Bash scripting does not have built-in type casting like some other languages, but it provides ways to convert and manipulate data types using arithmetic operations, commands, and built-in functions. Bash’s type conversion typically relies on **workarounds** and external tools like `bc`, `awk`, and `jq`. 
+
+---
+
+### **Basic Type Conversion**
+
+| Description | Code Examples |
+|------------|--------------|
+| Convert string to integer | `num=$(( "42" ))` → `42` |
+| Convert string to float (using `bc`) | `echo "3.14" | bc` → `3.14` |
+| Convert integer to string | `str="$num"` → `"42"` |
+| Convert ASCII value to character | `printf \\$(printf '%o' 65)` → `'A'` |
+| Convert boolean-like values | `[[ -n "$var" ]] && echo "True" || echo "False"` |
+
+---
+
+### **Collection Type Conversion**
+
+| Description | Code Examples |
+|------------|--------------|
+| Convert string to array | `IFS="," read -ra arr <<< "apple,banana,grape"` |
+| Convert array to string | `echo "${arr[*]}"` → `"apple banana grape"` |
+| Convert list to associative array | `declare -A myDict; myDict[key]="value"` |
+| Convert array to JSON (using `jq`) | `echo '{"name":"Alice","age":30}' | jq` |
+
+---
+
+### **Explicit Type Casting**
+
+| Description | Code Examples |
+|------------|--------------|
+| Force integer conversion | `num=$(( "3.9" ))` → `3` (truncates decimal) |
+| Convert object to JSON (using `jq`) | `echo '{"name":"Alice"}' | jq` |
+| Convert JSON to object (using `jq`) | `echo '{"name":"Alice"}' | jq -r '.name'` |
+
+---
+
+### **Handling Type Conversion Errors**
+
+Use regex to validate integer conversions before processing.
+
+```bash
+if [[ "$var" =~ ^[0-9]+$ ]]; then
+    echo "Valid integer: $var"
+else
+    echo "Error: Not a number"
+fi
+```
+
+---
+
+### **Potential Pitfalls**
+
+* 🚨 **Loss of Precision:** Bash does not support floating-point arithmetic natively.  
+* 🚨 **Unexpected Boolean Behavior:** Non-empty strings evaluate as `true`.  
+* 🚨 **Implicit Conversions:** Mixing types can lead to unintended results.  
+
+You can explore more details on Bash type conversion [here](https://stackoverflow.com/questions/11268437/how-to-convert-string-to-integer-in-unix-shelll) and [here](https://1library.net/article/type-casting-unix-shell-scripting.yex493rq). 
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-| Type       | Code Examples               |
-| ---------- | --------------------------- |
-| As Integer | `set /A var=10`             |
-| As Float   | `REM Not natively supported`|
-| As String  | `set var=10`                |
-| As Char    | `set var=a`                 |
+
+Windows Batch scripting does not have built-in type casting like higher-level languages, but it provides ways to **convert and manipulate data types** using arithmetic operations and string manipulation.
+
+---
+
+### **Basic Type Conversion**
+
+| Description | Code Examples |
+|------------|--------------|
+| Convert string to integer | `set /A num="42"` → `42` |
+| Convert integer to string | `set str=%num%` → `"42"` |
+| Convert ASCII value to character | `for /F %%A in ('cmd /c echo 65') do set char=%%A` → `'A'` |
+| Convert boolean-like values | `if "%var%"=="" (echo False) else (echo True)` |
+
+---
+
+### **Collection Type Conversion**
+| Description | Code Examples |
+|------------|--------------|
+| Convert comma-separated string to array | `for %%A in (%list%) do echo %%A` |
+| Convert array to string | `set str=%array[*]%` |
+| Convert list to dictionary-like structure | `set key1=value1 & set key2=value2` |
+
+---
+
+### **Handling Type Conversion Errors**
+
+Uses error redirection (`2>nul`) to handle conversion errors gracefully.
+
+```bat
+@echo off
+set var=hello
+set /A num=%var% 2>nul
+if "%num%"=="" echo "Error: Cannot convert '%var%' to an integer."
+```
+
+---
+
+### **Potential Pitfalls**
+
+* 🚨 **Loss of Precision:** Batch does not support floating-point arithmetic natively.  
+* 🚨 **Unexpected Boolean Behavior:** Non-empty strings evaluate as `true`.  
+* 🚨 **Implicit Conversions:** Mixing types can lead to unintended results.  
+
+You can explore more details on Batch type conversion [here](https://stackoverflow.com/questions/25166704/convert-a-string-to-integer-in-a-batch-file) and [here](https://stackoverflow.com/questions/14475829/convert-a-string-to-number). 
+
 {% endtab %}
 {% endtabs %}
 
