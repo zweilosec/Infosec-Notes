@@ -11,6 +11,7 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
 
 {% tabs %}
 {% tab title="Python" %}
+TODO: this
 | Type                         | Code Examples                                                   |
 | ---------------------------- | --------------------------------------------------------------- |
 | Standard Variable            | `var = "Hello"`                                                 |
@@ -20,6 +21,7 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
 {% endtab %}
 
 {% tab title="PowerShell" %}
+TODO: this
 | Type                         | Code Examples           |
 | ---------------------------- | ----------------------- |
 | Standard Variable            | `$var = "Hello"`        |
@@ -29,25 +31,21 @@ TODO: need syntax examples for Bash and Windows Batch scripting (issue [#22](htt
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
-
-| Type                         | Code Examples |
-| ---------------------------- | ------------- |
-| Standard Variable            |               |
-| Global Variable              |               |
-| Environment Variables        |               |
-| Retrieving Variable Contents |               |
+| Type                         | Code Examples               |
+| ---------------------------- | --------------------------- |
+| Standard Variable            | `var="Hello"`             |
+| Global Variable              | `export var="Hello"`      |
+| Environment Variables        | `echo $HOME`                |
+| Retrieving Variable Contents | `echo $var`                 |
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
-
-| Type                         | Code Examples |
-| ---------------------------- | ------------- |
-| Standard Variable            |               |
-| Global Variable              |               |
-| Environment Variables        |               |
-| Retrieving Variable Contents |               |
+| Type                         | Code Examples               |
+| ---------------------------- | --------------------------- |
+| Standard Variable            | `set var=Hello`             |
+| Global Variable              | `set var=Hello`             |
+| Environment Variables        | `echo %PATH%`               |
+| Retrieving Variable Contents | `echo %var%`                |
 
 ### Set Command
 
@@ -55,7 +53,7 @@ The other way in which variables can be initialized is via the ‘set’ command
 
 #### Syntax
 
-```
+```cmd
 set /A variable-name=value
 ```
 
@@ -69,7 +67,7 @@ The following example shows a simple way the set command can be used.
 
 #### Example
 
-```
+```cmd
 @echo off 
 set message=Hello World 
 echo %message%
@@ -81,7 +79,7 @@ In batch script, it is also possible to define a variable to hold a numeric valu
 
 The following code shows a simple way in which numeric values can be set with the /A switch.
 
-```
+```cmd
 @echo off 
 SET /A a = 5 
 SET /A b = 10 
@@ -97,7 +95,7 @@ DOS scripting also has a definition for locally and globally scoped variables. B
 
 #### Example
 
-```
+```cmd
 @echo off 
 set globalvar = 5
 SETLOCAL
@@ -117,7 +115,7 @@ Few key things to note about the above program.
 
 If you have variables that would be used across batch files, then it is always preferable to use environment variables. Once the environment variable is defined, it can be accessed via the % sign. The following example shows how to see the JAVA\_HOME defined on a system. The JAVA\_HOME variable is a key component that is normally used by a wide variety of applications.
 
-```
+```cmd
 @echo off 
 echo %JAVA_HOME%
 ```
@@ -172,24 +170,22 @@ C:\Atlassian\Bitbucket\4.0.1\jre
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
-
-| Method                              | Code Examples |
-| ----------------------------------- | ------------- |
-| Normal String                       |               |
-| Empty String                        |               |
-| Multiline String                    |               |
-| Select Character from String        |               |
-| Get Length                          |               |
-| Remove whitespace at front and back |               |
-| To Lowercase                        |               |
-| To Uppercase                        |               |
-| Replace                             |               |
-| Split                               |               |
-| Join                                |               |
-| Formatting                          |               |
-| Formatting by Index                 |               |
-| Formatting Strings                  |               |
+| Method                              | Code Examples               |
+| ----------------------------------- | --------------------------- |
+| Normal String                       | `str="Hello World"`       |
+| Empty String                        | `str=""`                  |
+| Multiline String                    | `str="Hello\nWorld"`     |
+| Select Character from String        | `echo ${str:1:1}`           |
+| Get Length                          | `echo ${#str}`              |
+| Remove whitespace at front and back | `echo "  Hello  " | xargs` |
+| To Lowercase                        | `echo ${str,,}`             |
+| To Uppercase                        | `echo ${str^^}`             |
+| Replace                             | `echo ${str/Hello/Hi}`      |
+| Split                               | `IFS=","; read -ra arr <<< "$str"` |
+| Join                                | `IFS=","; echo "${arr[*]}"` |
+| Formatting                          | `printf "Hello %s\n" "$name"` |
+| Formatting by Index                 | `printf "Hello %s\n" "$name"` |
+| Formatting Strings                  | `name="World"; echo "Hello $name"` |
 
 #### Basics <a href="#basics" id="basics"></a>
 
@@ -294,24 +290,22 @@ echo 'Hi $NAME'  #=> Hi $NAME
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
-
-| Method                              | Code Examples |
-| ----------------------------------- | ------------- |
-| Normal String                       |               |
-| Empty String                        |               |
-| Multiline String                    |               |
-| Select Character from String        |               |
-| Get Length                          |               |
-| Remove whitespace at front and back |               |
-| To Lowercase                        |               |
-| To Uppercase                        |               |
-| Replace                             |               |
-| Split                               |               |
-| Join                                |               |
-| Formatting                          |               |
-| Formatting by Index                 |               |
-| Formatting Strings                  |               |
+| Method                              | Code Examples               |
+| ----------------------------------- | --------------------------- |
+| Normal String                       | `set str=Hello World`       |
+| Empty String                        | `set str=`                  |
+| Multiline String                    | `set str=Hello^&echo World` |
+| Select Character from String        | `echo %str:~1,1%`           |
+| Get Length                          | `echo %str:~0,-1%`          |
+| Remove whitespace at front and back | `for /f "tokens=*" %%A in ("%str%") do set str=%%A` |
+| To Lowercase                        | `echo %str% | findstr /r "[A-Z]"` |
+| To Uppercase                        | `echo %str% | findstr /r "[a-z]"` |
+| Replace                             | `set str=%str:Hello=Hi%`    |
+| Split                               | `for %%A in (%str%) do echo %%A` |
+| Join                                | `set str=%str1% %str2%`     |
+| Formatting                          | `set str=Hello %name%`      |
+| Formatting by Index                 | `set str=Hello %name%`      |
+| Formatting Strings                  | `set name=World & echo Hello %name%` |
 
 An empty string can be created in DOS Scripting by assigning it no value during it’s initialization as shown in the following example.
 
@@ -329,7 +323,7 @@ The following example shows how an empty string can be created and how to check 
 
 ### Example
 
-```
+```cmd
 @echo off 
 SET a= 
 SET b=Hello 
@@ -341,7 +335,7 @@ A string can be created in DOS in the following way.
 
 ### Example
 
-```
+```cmd
 @echo off 
 :: This program just displays Hello World 
 set message = Hello World 
@@ -354,6 +348,7 @@ echo %message%
 
 {% tabs %}
 {% tab title="Python" %}
+TODO:
 | Type       | Code Examples       |
 | ---------- | ------------------- |
 | As Integer | `i = int("10")`     |
@@ -363,6 +358,7 @@ echo %message%
 {% endtab %}
 
 {% tab title="PowerShell" %}
+TODO:
 | Type       | Code Examples        |
 | ---------- | -------------------- |
 | As Integer | `$i = [int]"10"`     |
@@ -372,21 +368,21 @@ echo %message%
 {% endtab %}
 
 {% tab title="Bash" %}
-| Type       | Code Examples |
-| ---------- | ------------- |
-| As Integer |               |
-| As Float   |               |
-| As String  |               |
-| As Char    |               |
+| Type       | Code Examples               |
+| ---------- | --------------------------- |
+| As Integer | `var=$((10))`               |
+| As Float   | `var=$(echo "10.5" | bc)` |
+| As String  | `var="10"`                |
+| As Char    | `var="a"`                 |
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-| Type       | Code Examples |
-| ---------- | ------------- |
-| As Integer |               |
-| As Float   |               |
-| As String  |               |
-| As Char    |               |
+| Type       | Code Examples               |
+| ---------- | --------------------------- |
+| As Integer | `set /A var=10`             |
+| As Float   | `REM Not natively supported`|
+| As String  | `set var=10`                |
+| As Char    | `set var=a`                 |
 {% endtab %}
 {% endtabs %}
 
@@ -416,16 +412,16 @@ echo %message%
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Activity                | Code examples |
-| ----------------------- | ------------- |
-| Define                  |               |
-| Access Elements         |               |
-| Get Length              |               |
-| Adding Elements         |               |
-| Removing Elements       |               |
-| Remove Element by Value |               |
+| Activity                | Code examples               |
+| ----------------------- | --------------------------- |
+| Define                  | `arr=("Hello" "World")` |
+| Access Elements         | `echo ${arr[0]}`           |
+| Get Length              | `echo ${#arr[@]}`          |
+| Adding Elements         | `arr+=("NewElement")`    |
+| Removing Elements       | `unset arr[1]`             |
+| Remove Element by Value | `arr=("${arr[@]/World}")`|
+
 
 #### Working with arrays <a href="#working-with-arrays" id="working-with-arrays"></a>
 
@@ -474,16 +470,15 @@ Fruits[2]="Orange"
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
 
-| Activity                | Code examples |
-| ----------------------- | ------------- |
-| Define                  |               |
-| Access Elements         |               |
-| Get Length              |               |
-| Adding Elements         |               |
-| Removing Elements       |               |
-| Remove Element by Value |               |
+| Activity                | Code examples               |
+| ----------------------- | --------------------------- |
+| Define                  | `set arr[0]=Hello`         |
+| Access Elements         | `echo %arr[0]%`            |
+| Get Length              | `set count=0 & for /L %%i in (0,1,9) do if defined arr[%%i] set /A count+=1 & echo %count%` |
+| Adding Elements         | `set arr[1]=World`         |
+| Removing Elements       | `set arr[1]=`              |
+| Remove Element by Value | `for /F "tokens=*" %%i in ('set arr') do if not "%%i"=="World" echo %%i` |
 
 Arrays are not specifically defined as a type in Batch Script but can be implemented. The following things need to be noted when arrays are implemented in Batch Script.
 
@@ -504,7 +499,7 @@ Another way to implement arrays is to define a list of values and iterate throug
 
 #### Example
 
-```
+```cmd
 @echo off 
 set list = 1 2 3 4 
 (for %%a in (%list%) do ( 
@@ -529,7 +524,7 @@ You can retrieve a value from the array by using subscript syntax, passing the i
 
 #### Example
 
-```
+```cmd
 @echo off 
 set a[0]=1 
 echo %a[0]%
@@ -537,7 +532,7 @@ echo %a[0]%
 
 In this example, the index starts from 0 which means the first element can be accessed using index as 0, the second element can be accessed using index as 1 and so on. Let's check the following example to create, initialize and access arrays −
 
-```
+```cmd
 @echo off
 set a[0] = 1 
 set a[1] = 2 
@@ -561,7 +556,7 @@ To add an element to the end of the array, you can use the set element along wit
 
 #### Example
 
-```
+```cmd
 @echo off 
 set a[0] = 1  
 set a[1] = 2  
@@ -579,7 +574,7 @@ The last element of the array is 4
 
 You can modify an existing element of an Array by assigning a new value at a given index as shown in the following example −
 
-```
+```cmd
 @echo off 
 set a[0] = 1 
 set a[1] = 2  
@@ -599,7 +594,7 @@ The new value of the second element of the array is 5
 
 Iterating over an array is achieved by using the ‘for’ loop and going through each element of the array. The following example shows a simple way that an array can be implemented.
 
-```
+```cmd
 @echo off 
 setlocal enabledelayedexpansion 
 set topic[0] = comments 
@@ -636,7 +631,7 @@ Operators
 
 The length of an array is done by iterating over the list of values in the array since there is no direct function to determine the number of elements in an array.
 
-```
+```cmd
 @echo off 
 set Arr[0] = 1 
 set Arr[1] = 2 
@@ -681,16 +676,15 @@ The length of the array is 4
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Switch             | Code Examples |
-| ------------------ | ------------- |
-| If / ElseIf / Else |               |
-| Case               |               |
+| Switch             | Code Examples               |
+| ------------------ | --------------------------- |
+| If / ElseIf / Else | `if [ "$var" = "value" ]; then echo "Match"; elif [ "$var" = "other" ]; then echo "Other"; else echo "No Match"; fi` |
+| Case               | `case "$var" in value) echo "Match" ;; other) echo "Other" ;; *) echo "No Match" ;; esac` |
 
 #### Case/switch <a href="#caseswitch" id="caseswitch"></a>
 
-```
+```bash
 case "$1" in
   start | up)
     vagrant up
@@ -702,7 +696,7 @@ case "$1" in
 esac
 ```
 
-```
+```bash
 # String
 if [[ -z "$string" ]]; then
   echo "String is empty"
@@ -715,24 +709,23 @@ fi
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
 
-| Switch             | Code Examples |
-| ------------------ | ------------- |
-| If / ElseIf / Else |               |
-| Case               |               |
+| Switch             | Code Examples               |
+| ------------------ | --------------------------- |
+| If / ElseIf / Else | `if "%var%"=="value" (echo Match) else (echo No Match)` |
+| Case               | `REM Not natively supported in CMD` |
 
-The first decision-making statement is the ‘if’ statement. The general form of this statement in Batch Script is as follows −
+The first decision-making statement is the ‘if’ statement. The general form of this statement is as follows:
 
-```
+```bash
 if(condition) do_something
 ```
 
-The general working of this statement is that first a condition is evaluated in the ‘if’ statement. If the condition is true, it then executes the statements. The following diagram shows the flow of the **if** statement.
+First, a condition is evaluated in the ‘if’ statement. If the condition is true, it then executes the statements. 
 
 ### Checking Variables
 
-One of the common uses for the ‘if’ statement in Batch Script is for checking variables which are set in Batch Script itself. The evaluation of the ‘if’ statement can be done for both strings and numbers.
+One of the common uses for the ‘if’ statement in Batch Script is for checking variables which are set in the Batch Script itself. The evaluation of the ‘if’ statement can be done for both strings and numbers.
 
 #### Checking Integer Variables
 
@@ -740,7 +733,7 @@ The following example shows how the ‘if’ statement can be used for numbers.
 
 **Example**
 
-```
+```cmd
 @echo off 
 SET /A a = 5 
 SET /A b = 10 
@@ -749,10 +742,10 @@ if %c%==15 echo "The value of variable c is 15"
 if %c%==10 echo "The value of variable c is 10"
 ```
 
-The key thing to note about the above program is −
+The key things to note about the above script are:
 
 * The first ‘if’ statement checks if the value of the variable c is 15. If so, then it echo’s a string to the command prompt.
-* Since the condition in the statement - if %c% == 10 echo "The value of variable **c** is 10 evaluates to false, the echo part of the statement will not be executed.
+* Since the condition in the statement - `if %c% == 10 echo "The value of variable **c** is 10` evaluates to false, the echo part of the statement will not be executed.
 
 **Output**
 
@@ -768,7 +761,7 @@ The following example shows how the ‘if’ statement can be used for strings.
 
 **Example**
 
-```
+```cmd
 @echo off 
 SET str1 = String1 
 SET str2 = String2 
@@ -789,9 +782,9 @@ The above command produces the following output.
 "The value of variable String1"
 ```
 
-**Note** − One key thing to note is that the evaluation in the ‘if’ statement is "case-sensitive”. The same program as above is modified a little as shown in the following example. In the first statement, we have changed the comparison criteria. Because of the different casing, the output of the following program would yield nothing.
+**Note** − The evaluation in the ‘if’ statement is case-sensitive. The same program as above is modified a little as shown in the following example. In the first statement, we have changed the comparison criteria. Because of the different casing, the output of the following program would yield nothing.
 
-```
+```cmd
 @echo off 
 SET str1 = String1 
 SET str2 = String2 
@@ -823,18 +816,17 @@ if %str2%==String3 echo "The value of variable c is String3"
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Loop Type | Code Examples |
-| --------- | ------------- |
-| For       |               |
-| While     |               |
-| Break     |               |
-| Continue  |               |
+| Loop Type | Code Examples               |
+| --------- | --------------------------- |
+| For       | `for i in 1 2 3; do echo $i; done` |
+| While     | `while [ "$var" != "stop" ]; do echo $var; done` |
+| Break     | `for i in 1 2 3; do [ "$i" = "2" ] && break; echo $i; done` |
+| Continue  | `for i in 1 2 3; do [ "$i" = "2" ] && continue; echo $i; done` |
 
 #### Basic for loop <a href="#basic-for-loop" id="basic-for-loop"></a>
 
-```
+```bash
 for i in /etc/rc.*; do
   echo $i
 done
@@ -842,7 +834,7 @@ done
 
 #### C-like for loop <a href="#c-like-for-loop" id="c-like-for-loop"></a>
 
-```
+```bash
 for ((i = 0 ; i < 100 ; i++)); do
   echo $i
 done
@@ -850,7 +842,7 @@ done
 
 #### Ranges <a href="#ranges" id="ranges"></a>
 
-```
+```bash
 for i in {1..5}; do
     echo "Welcome $i"
 done
@@ -858,7 +850,7 @@ done
 
 **With step size**
 
-```
+```bash
 for i in {5..50..5}; do
     echo "Welcome $i"
 done
@@ -866,7 +858,7 @@ done
 
 #### Reading lines <a href="#reading-lines" id="reading-lines"></a>
 
-```
+```bash
 cat file.txt | while read line; do
   echo $line
 done
@@ -874,14 +866,16 @@ done
 
 #### Forever <a href="#forever" id="forever"></a>
 
-```
+```bash
 while true; do
-  ···
+  $commands_here
 done
 ```
 {% endtab %}
 
 {% tab title="CMD .bat" %}
+
+
 TODO: this
 
 | Loop Type | Code Examples |
@@ -907,7 +901,7 @@ Following is the syntax of the general implementation of the while statement.
 
 #### Syntax
 
-```
+```cmd
 Set counters
 :label
 If (expression) (
@@ -927,7 +921,7 @@ Following is an example of a while loop statement.
 
 #### Example
 
-```
+```cmd
 @echo off
 SET /A "index = 1"
 SET /A "count = 5"
@@ -947,7 +941,7 @@ The "FOR" construct offers looping capabilities for batch files. Following is th
 
 #### Syntax
 
-```
+```cmd
 FOR %%variable IN list DO do_something
 ```
 
@@ -961,7 +955,7 @@ Following is an example of how the ‘goto’ statement can be used.
 
 #### Example
 
-```
+```cmd
 @echo off 
 FOR %%F IN (1 2 3 4 5) DO echo %%F
 ```
@@ -978,7 +972,7 @@ The ‘for’ statement also has the ability to move through a range of values. 
 
 ### Syntax
 
-```
+```cmd
 FOR /L %%variable IN (lowerlimit,Increment,Upperlimit) DO do_something
 ```
 
@@ -993,7 +987,7 @@ Following is an example of how the looping through ranges can be carried out.
 
 #### Example
 
-```
+```cmd
 @ECHO OFF 
 FOR /L %%X IN (0,1,5) DO ECHO %%X
 ```
@@ -1002,7 +996,7 @@ FOR /L %%X IN (0,1,5) DO ECHO %%X
 
 Following is the classic ‘for’ statement which is available in most programming languages.
 
-#### Syntax
+#### Typical 'for' loop Syntax
 
 ```
 for(variable declaration;expression;Increment) {
@@ -1016,7 +1010,7 @@ The Batch Script language does not have a direct ‘for’ statement which is si
 
 Let’s look at the general syntax implementation of the classic for loop in batch scripting.
 
-```
+```cmd
 Set counter
 :label
 
@@ -1036,7 +1030,7 @@ Following is an example of how to carry out the implementation of the classic �
 
 #### Example
 
-```
+```cmd
 @echo off 
 SET /A i = 1 
 :loop 
@@ -1054,7 +1048,7 @@ The ‘for’ statement can also be used for checking command line arguments. Th
 
 #### Example
 
-```
+```cmd
 @ECHO OFF 
 :Loop 
 
@@ -1081,11 +1075,11 @@ The break statement is used to alter the flow of control inside loops within any
 
 The break statement is used to alter the flow of control inside loops within any programming language. The break statement is normally used in looping constructs and is used to cause immediate termination of the innermost enclosing loop.
 
-The Batch Script language does not have a direct ‘for’ statement which does a break but this can be implemented by using labels. The following diagram shows the diagrammatic explanation of the break statement implementation in Batch Script.
+The Batch Script language does not have a direct ‘for’ statement which does a break but this can be implemented by using labels. The following example shows the diagrammatic explanation of the break statement implementation in Batch Script.
 
 #### Example
 
-```
+```cmd
 @echo off 
 SET /A "index=1" 
 SET /A "count=5" 
@@ -1099,11 +1093,12 @@ if %index% leq %count% (
 )
 ```
 
-The key thing to note about the above implementation is the involvement of two ‘if’ conditions. The second ‘if’ condition is used to control when the break is implemented. If the second ‘if’ condition is evaluated to be true, then the code block is not executed and the counter is directly implemented.
+The key thing to note about the above implementation is the involvement of two ‘if' conditions. The second ‘if’ condition is used to control when the break is implemented. If the second ‘if’ condition is evaluated to be true, then the code block is not executed and the counter is directly implemented.
 
 Following is an example of how to carry out the implementation of the break statement.
 
-The key thing to note about the above program is the addition of a label called :Increment. When the value of index reaches 2, we want to skip the statement which echoes its value to the command prompt and directly just increment the value of index.
+The key thing to note about the above script is the addition of a label called :Increment. When the value of index reaches 2, we want to skip the statement which echoes its value to the command prompt and directly just increment the value of index.
+
 {% endtab %}
 {% endtabs %}
 
@@ -1133,70 +1128,74 @@ The key thing to note about the above program is the addition of a label called 
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Functions          | Code Examples |
-| ------------------ | ------------- |
-| Definition         |               |
-| Arguments          |               |
-| Variable Arguments |               |
-| Named Arguments    |               |
-| Default Values     |               |
-| Return Values      |               |
+| Functions          | Code Examples               |
+| ------------------ | --------------------------- |
+| Definition         | `myfunc() { echo "Hello"; }` |
+| Arguments          | `myfunc() { echo "Hello $1"; }; myfunc World` |
+| Variable Arguments | `myfunc() { for arg in "$@"; do echo $arg; done; }; myfunc a b c` |
+| Named Arguments    | `# Not natively supported in Bash` |
+| Default Values     | `myfunc() { local var=${1:-default}; echo $var; }; myfunc` |
+| Return Values      | `myfunc() { return 42; }; myfunc; echo $?` |
 
 #### Arguments <a href="#arguments" id="arguments"></a>
+
+Referencing arguments in a bash script:
 
 | `$#` | Number of arguments                   |
 | ---- | ------------------------------------- |
 | `$*` | All arguments                         |
 | `$@` | All arguments, starting from first    |
-| `$1` | First argument                        |
+| `$1` | First argument, `$2` second, etc.     |
 | `$_` | Last argument of the previous command |
 
 #### Returning values <a href="#returning-values" id="returning-values"></a>
 
-```
+```bash
 myfunc() {
     local myresult='some value'
     echo $myresult
 }
 ```
 
-```
+```bash
 result="$(myfunc)"
 ```
 
 Defining Functions
 
-```
+```bash
 myfunc() {
     echo "hello $1"
 }
 ```
 
-```
+```bash
 # Same as above (alternate syntax)
 function myfunc() {
     echo "hello $1"
 }
 ```
 
-```
+```bash
 myfunc "John"
 ```
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
 
-| Functions          | Code Examples |
-| ------------------ | ------------- |
-| Definition         |               |
-| Arguments          |               |
-| Variable Arguments |               |
-| Named Arguments    |               |
-| Default Values     |               |
-| Return Values      |               |
+Basic functions can be defined in batch scripts, hoever they do not accept arguments nor do they have the ability to return values in the programming sense. 
+
+| Functions          | Code Examples               |
+| ------------------ | --------------------------- |
+| Definition         | `:myfunc echo Hello & goto :eof` |
+| Arguments          | `REM Not natively supported in CMD` |
+| Variable Arguments | `REM Not natively supported in CMD` |
+| Named Arguments    | `REM Not natively supported in CMD` |
+| Default Values     | `REM Not natively supported in CMD` |
+| Return Values      | `REM Not natively supported in CMD` |
+
 {% endtab %}
 {% endtabs %}
 
@@ -1222,6 +1221,7 @@ TODO: this
 {% endtab %}
 
 {% tab title="Bash" %}
+TODO:
 | Activity                   | Code Examples |
 | -------------------------- | ------------- |
 | Class Definition           |               |
@@ -1231,6 +1231,7 @@ TODO: this
 {% endtab %}
 
 {% tab title="CMD .bat" %}
+TODO:
 | Activity                   | Code Examples |
 | -------------------------- | ------------- |
 | Class Definition           |               |
@@ -1258,20 +1259,19 @@ TODO: this
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
 | Comment Type | Code Examples |
 | ------------ | ------------- |
-| Single line  |               |
-| Multiline    |               |
+| Single line  | `# Single line comment` |
+| Multiline    |  See example below        |
 
 #### Comments <a href="#comments" id="comments"></a>
 
-```
+```bash
 # Single line comment
 ```
 
-```
+```bash
 : '
 This is a
 multi line
@@ -1281,12 +1281,11 @@ comment
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
 
 | Comment Type | Code Examples |
 | ------------ | ------------- |
-| Single line  |               |
-| Multiline    |               |
+| Single line  |  `Rem This is a comment`             |
+| Multiline    |  Not implemented in batch scripts`             |
 
 ### Comments Using the Rem Statement
 
@@ -1294,17 +1293,15 @@ There are two ways to create comments in Batch Script; one is via the Rem comman
 
 #### Syntax
 
+```bat
+Rem This is a comment
 ```
-Rem Remarks
-```
-
-where ‘Remarks’ is the comments which needs to be added.
-
-The following example shows a simple way the **Rem** command can be used.
 
 #### Example
 
-```
+The following example shows a simple way the **Rem** command can be used to explain the function of the code below it.
+
+```bat
 @echo off 
 Rem This program just displays Hello World 
 set message=Hello World 
@@ -1319,38 +1316,51 @@ The above command produces the following output. You will notice that the line w
 Hello World
 ```
 
+#### Notes:
+
+1. `REM` command must be followed by a space or tab character.
+
+2. You may include any symbol in the comments without any restriction.
+
+3. If `ECHO` is in ON state, the comment is displayed on the command prompt. Otherwise, it is ignored.
+
+4. If you want `ECHO` to be ON and you don’t want to display the comment line, use an at sign `@` before `REM` command.
+
+5. If you have too many lines of Rem, it could slow down the code, because in the end each line of code in the batch file still needs to be executed.
+
 ### Comments Using the :: Statement
 
 The other way to create comments in Batch Script is via the :: command. Any text which follows the :: statement will be treated as comments and will not be executed. Following is the general syntax of this statement.
 
 #### Syntax
 
+```bat
+:: This is a comment
 ```
-:: Remarks
-```
-
-where ‘Remarks’ is the comment which needs to be added.
-
-The following example shows the usage of the "::" command.
 
 #### Example
 
-```
+The comment marker `::` is used exactly the same as `Rem`.
+
+```bat
 @echo off 
 :: This program just displays Hello World 
 set message = Hello World 
 echo %message%
 ```
 
-#### Output
+# Trick for Multiple Line Comments
 
-The above command produces the following output. You will notice that the line with the :: statement will not be executed.
+Use a `GOTO` statement to simulate a multiline comment by bypassing the lines within the block.
 
+```bat
+GOTO MultiLineComment
+This line is comment.
+And so is this line.
+And this one...
+:MultiLineComment
 ```
-Hello World
-```
 
-**Note** − If you have too many lines of Rem, it could slow down the code, because in the end each line of code in the batch file still needs to be executed.
 {% endtab %}
 {% endtabs %}
 
@@ -1370,11 +1380,13 @@ Hello World
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Action            | Code Examples |
-| ----------------- | ------------- |
-| Get Object's Type |               |
+Bash does not have the concept of typed variables, though attributes can be defined using the `declare` command.  See the link below for more information:
+
+[https://stackoverflow.com/questions/29840525/get-variable-type-in-bash](https://stackoverflow.com/questions/29840525/get-variable-type-in-bash)
+
+
+
 {% endtab %}
 
 {% tab title="CMD .bat" %}
@@ -1426,13 +1438,13 @@ TODO: this
 | Check if key exists |               |
 | Adding items        |               |
 
-#### Defining <a href="#defining" id="defining"></a>
+#### Defining a dictionary <a href="#defining" id="defining"></a>
 
-```
+```bash
 declare -A sounds
 ```
 
-```
+```bash
 sounds[dog]="bark"
 sounds[cow]="moo"
 sounds[bird]="tweet"
@@ -1443,7 +1455,7 @@ Declares `sound` as a Dictionary object (aka associative array).
 
 #### Working with dictionaries <a href="#working-with-dictionaries" id="working-with-dictionaries"></a>
 
-```
+```bash
 echo ${sounds[dog]} # Dog's sound
 echo ${sounds[@]}   # All values
 echo ${!sounds[@]}  # All keys
@@ -1455,7 +1467,7 @@ unset sounds[dog]   # Delete dog
 
 **Iterate over values**
 
-```
+```bash
 for val in "${sounds[@]}"; do
   echo $val
 done
@@ -1463,7 +1475,7 @@ done
 
 **Iterate over keys**
 
-```
+```bash
 for key in "${!sounds[@]}"; do
   echo $key
 done
@@ -1489,7 +1501,7 @@ Structures can also be implemented in batch files using a little bit of an extra
 
 #### Example
 
-```
+```bat
 @echo off 
 set len = 3 
 set obj[0].Name = Joe 
@@ -1514,18 +1526,18 @@ set /a i = %i%+1
 goto loop
 ```
 
-The following key things need to be noted about the above code.
+The following key things need to be noted about the above code:
 
-* Each variable defined using the set command has 2 values associated with each index of the array.
+* Each variable defined using the `set` command has 2 values associated with each index of the array.
 * The variable **i** is set to 0 so that we can loop through the structure will the length of the array which is 3.
 * We always check for the condition on whether the value of i is equal to the value of **len** and if not, we loop through the code.
-* We are able to access each element of the structure using the obj\[%i%] notation.
+* We are able to access each element of the structure using the `obj\[%i%]` notation.
 
 #### Output
 
 The above command produces the following output.
 
-```
+```bat
 Name = Joe 
 Value = 1 
 Name = Mark 
@@ -1552,19 +1564,21 @@ Value = 3
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
 
-| Lambda | Code Examples |
-| ------ | ------------- |
-| Lambda |               |
+This is implemented by creating a basic inline function in bash.
+
+| Lambda | Code Examples               |
+| ------ | --------------------------- |
+| Lambda | `lambda() { echo $(($1 + 10)); }; lambda 5` |
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
 
-| Lambda | Code Examples |
-| ------ | ------------- |
-| Lambda |               |
+Batch scripting does not natively support lambda functions. 
+
+| Lambda | Code Examples               |
+| ------ | --------------------------- |
+| Lambda | `REM Not natively supported in CMD` |
 {% endtab %}
 {% endtabs %}
 
@@ -1598,35 +1612,22 @@ TODO: Add other operator types
 {% endtab %}
 
 {% tab title="Bash" %}
-TODO: this
-
-| Operator       | Code Examples |
-| -------------- | ------------- |
-| Addition       |               |
-| Subtraction    |               |
-| Multiplication |               |
-| Division       |               |
-| Modulus        |               |
-| Floor          |               |
-| Exponent       |               |
+| Operator       | Code Examples               |
+| -------------- | --------------------------- |
+| Addition       | `echo $((1 + 1))`           |
+| Subtraction    | `echo $((1 - 1))`           |
+| Multiplication | `echo $((1 * 1))`           |
+| Division       | `echo $((1 / 1))`           |
+| Modulus        | `echo $((1 % 1))`           |
+| Floor          | `echo $((10 / 3))`          |
+| Exponent       | `echo $((10 ** 3))`         |
 {% endtab %}
 
 {% tab title="CMD .bat" %}
-TODO: this
-
-| Operator       | Code Examples |
-| -------------- | ------------- |
-| Addition       |               |
-| Subtraction    |               |
-| Multiplication |               |
-| Division       |               |
-| Modulus        |               |
-| Floor          |               |
-| Exponent       |               |
 
 An operator is a symbol that tells the compiler to perform specific mathematical or logical manipulations.
 
-In batch script, the following types of operators are possible.
+In batch scripting, the following types of operators are possible:
 
 * Arithmetic operators
 * Relational operators
@@ -1647,6 +1648,8 @@ Batch script language supports the normal Arithmetic operators as any language. 
 | \*       | Multiplication of both operands                                   | 2 \* 2 will give 4  |
 | /        | Division of the numerator by the denominator                      | 3 / 2 will give 1.5 |
 | %        | Modulus operator and remainder of after an integer/float division | 3 % 2 will give 1   |
+
+Batch scripts do not natively support Floors or Exponents.
 
 ### Relational Operators
 
