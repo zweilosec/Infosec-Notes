@@ -49,11 +49,11 @@ TODO: this
 
 ### Set Command
 
-The other way in which variables can be initialized is via the ‘set’ command. Following is the syntax of the set command.
+The other way in which variables can be initialized is via the 'set' command. Following is the syntax of the set command.
 
 #### Syntax
 
-```cmd
+```bat
 set /A variable-name=value
 ```
 
@@ -67,7 +67,7 @@ The following example shows a simple way the set command can be used.
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 set message=Hello World 
 echo %message%
@@ -79,7 +79,7 @@ In batch script, it is also possible to define a variable to hold a numeric valu
 
 The following code shows a simple way in which numeric values can be set with the /A switch.
 
-```cmd
+```bat
 @echo off 
 SET /A a = 5 
 SET /A b = 10 
@@ -95,7 +95,7 @@ DOS scripting also has a definition for locally and globally scoped variables. B
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 set globalvar = 5
 SETLOCAL
@@ -108,14 +108,14 @@ ENDLOCAL
 
 Few key things to note about the above program.
 
-* The ‘globalvar’ is defined with a global scope and is available throughout the entire script.
-* The ‘var‘ variable is defined in a local scope because it is enclosed between a ‘SETLOCAL’ and ‘ENDLOCAL’ block. Hence, this variable will be destroyed as soon the ‘ENDLOCAL’ statement is executed.
+* The 'globalvar' is defined with a global scope and is available throughout the entire script.
+* The 'var' variable is defined in a local scope because it is enclosed between a 'SETLOCAL' and 'ENDLOCAL' block. Hence, this variable will be destroyed as soon the 'ENDLOCAL' statement is executed.
 
 ### Working with Environment Variables
 
 If you have variables that would be used across batch files, then it is always preferable to use environment variables. Once the environment variable is defined, it can be accessed via the % sign. The following example shows how to see the JAVA\_HOME defined on a system. The JAVA\_HOME variable is a key component that is normally used by a wide variety of applications.
 
-```cmd
+```bat
 @echo off 
 echo %JAVA_HOME%
 ```
@@ -307,7 +307,7 @@ echo 'Hi $NAME'  #=> Hi $NAME
 | Formatting by Index                 | `set str=Hello %name%`      |
 | Formatting Strings                  | `set name=World & echo Hello %name%` |
 
-An empty string can be created in DOS Scripting by assigning it no value during it’s initialization as shown in the following example.
+An empty string can be created in DOS Scripting by assigning it no value during it's initialization as shown in the following example.
 
 ```
 Set a=
@@ -323,7 +323,7 @@ The following example shows how an empty string can be created and how to check 
 
 ### Example
 
-```cmd
+```bat
 @echo off 
 SET a= 
 SET b=Hello 
@@ -335,7 +335,7 @@ A string can be created in DOS in the following way.
 
 ### Example
 
-```cmd
+```bat
 @echo off 
 :: This program just displays Hello World 
 set message = Hello World 
@@ -483,11 +483,11 @@ Fruits[2]="Orange"
 Arrays are not specifically defined as a type in Batch Script but can be implemented. The following things need to be noted when arrays are implemented in Batch Script.
 
 * Each element of the array needs to be defined with the set command.
-* The ‘for’ loop would be required to iterate through the values of the array.
+* The 'for' loop would be required to iterate through the values of the array.
 
 ### Creating an Array
 
-An array is created by using the following set command.
+An array is created by using the `set` command.
 
 ```
 set a[0]=1
@@ -499,7 +499,7 @@ Another way to implement arrays is to define a list of values and iterate throug
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 set list = 1 2 3 4 
 (for %%a in (%list%) do ( 
@@ -524,15 +524,15 @@ You can retrieve a value from the array by using subscript syntax, passing the i
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 set a[0]=1 
 echo %a[0]%
 ```
 
-In this example, the index starts from 0 which means the first element can be accessed using index as 0, the second element can be accessed using index as 1 and so on. Let's check the following example to create, initialize and access arrays −
+Indexes start from 0 which means the first element can be accessed using index 0, the second element can be accessed using index 1 and so on. 
 
-```cmd
+```bat
 @echo off
 set a[0] = 1 
 set a[1] = 2 
@@ -552,11 +552,11 @@ The third element of the array is 3
 
 ### Modifying an Array
 
-To add an element to the end of the array, you can use the set element along with the last index of the array element.
+To add an element to the end of the array, you can use the `set` command along with the new final index of the array element.  There is no append function as in other languages.
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 set a[0] = 1  
 set a[1] = 2  
@@ -572,9 +572,9 @@ The above command produces the following output.
 The last element of the array is 4
 ```
 
-You can modify an existing element of an Array by assigning a new value at a given index as shown in the following example −
+You can modify an existing element of an Array by assigning a new value at a given index.
 
-```cmd
+```bat
 @echo off 
 set a[0] = 1 
 set a[1] = 2  
@@ -592,9 +592,9 @@ The new value of the second element of the array is 5
 
 ### Iterating Over an Array
 
-Iterating over an array is achieved by using the ‘for’ loop and going through each element of the array. The following example shows a simple way that an array can be implemented.
+Iterating over an array is achieved by using a 'for' loop and stepping through each element of the array. 
 
-```cmd
+```bat
 @echo off 
 setlocal enabledelayedexpansion 
 set topic[0] = comments 
@@ -609,10 +609,10 @@ for /l %%n in (0,1,5) do (
 )
 ```
 
-Following things need to be noted about the above program −
+**Notes:****
 
 * Each element of the array needs to be specifically defined using the set command.
-* The ‘for’ loop with the /L parameter for moving through ranges is used to iterate through the array.
+* The 'for' loop with the /L parameter for moving through ranges is used to iterate through the array.
 
 #### Output
 
@@ -629,9 +629,9 @@ Operators
 
 ### Length of an Array
 
-The length of an array is done by iterating over the list of values in the array since there is no direct function to determine the number of elements in an array.
+The length of an array is found by iterating over the list of values in the array since there is no direct function to determine the number of elements in an array.
 
-```cmd
+```bat
 @echo off 
 set Arr[0] = 1 
 set Arr[1] = 2 
@@ -715,25 +715,25 @@ fi
 | If / ElseIf / Else | `if "%var%"=="value" (echo Match) else (echo No Match)` |
 | Case               | `REM Not natively supported in CMD` |
 
-The first decision-making statement is the ‘if’ statement. The general form of this statement is as follows:
+The first decision-making statement is the 'if' statement. The general form of this statement is as follows:
 
 ```bash
 if(condition) do_something
 ```
 
-First, a condition is evaluated in the ‘if’ statement. If the condition is true, it then executes the statements. 
+First, a condition is evaluated in the 'if' statement. If the condition is true, it then executes the statements. 
 
 ### Checking Variables
 
-One of the common uses for the ‘if’ statement in Batch Script is for checking variables which are set in the Batch Script itself. The evaluation of the ‘if’ statement can be done for both strings and numbers.
+One of the common uses for the 'if' statement in Batch Script is for checking variables which are set in the Batch Script itself. The evaluation of the 'if' statement can be done for both strings and numbers.
 
 #### Checking Integer Variables
 
-The following example shows how the ‘if’ statement can be used for numbers.
+The following example shows how the 'if' statement can be used for numbers.
 
 **Example**
 
-```cmd
+```bat
 @echo off 
 SET /A a = 5 
 SET /A b = 10 
@@ -744,7 +744,7 @@ if %c%==10 echo "The value of variable c is 10"
 
 The key things to note about the above script are:
 
-* The first ‘if’ statement checks if the value of the variable c is 15. If so, then it echo’s a string to the command prompt.
+* The first 'if' statement checks if the value of the variable c is 15. If so, then it echo's a string to the command prompt.
 * Since the condition in the statement - `if %c% == 10 echo "The value of variable **c** is 10` evaluates to false, the echo part of the statement will not be executed.
 
 **Output**
@@ -757,11 +757,11 @@ The above command produces the following output.
 
 #### Checking String Variables
 
-The following example shows how the ‘if’ statement can be used for strings.
+The following example shows how the 'if' statement can be used for strings.
 
 **Example**
 
-```cmd
+```bat
 @echo off 
 SET str1 = String1 
 SET str2 = String2 
@@ -771,8 +771,8 @@ if %str2%==String3 echo "The value of variable c is String3"
 
 The key thing to note about the above program is −
 
-* The first ‘if’ statement checks if the value of the variable str1 contains the string “String1”. If so, then it echo’s a string to the command prompt.
-* Since the condition of the second ‘if’ statement evaluates to false, the echo part of the statement will not be executed.
+* The first 'if' statement checks if the value of the variable str1 contains the string “String1”. If so, then it echo's a string to the command prompt.
+* Since the condition of the second 'if' statement evaluates to false, the echo part of the statement will not be executed.
 
 **Output**
 
@@ -782,9 +782,9 @@ The above command produces the following output.
 "The value of variable String1"
 ```
 
-**Note** − The evaluation in the ‘if’ statement is case-sensitive. The same program as above is modified a little as shown in the following example. In the first statement, we have changed the comparison criteria. Because of the different casing, the output of the following program would yield nothing.
+**Note** − The evaluation in the 'if' statement is case-sensitive. The same program as above is modified a little as shown in the following example. In the first statement, we have changed the comparison criteria. Because of the different casing, the output of the following program would yield nothing.
 
-```cmd
+```bat
 @echo off 
 SET str1 = String1 
 SET str2 = String2 
@@ -887,21 +887,17 @@ TODO: this
 
 ### Loops
 
-In the decision making chapter, we have seen statements which have been executed one after the other in a sequential manner. Additionally, implementations can also be done in Batch Script to alter the flow of control in a program’s logic. They are then classified into flow of control statements.
+In the decision making chapter, we have seen statements which have been executed one after the other in a sequential manner. Additionally, implementations can also be done in Batch Script to alter the flow of control in a program's logic. They are then classified into flow of control statements.
 
 ### `While` Statement Implementation
 
-There is no direct while statement available in Batch Script but we can do an implementation of this loop very easily by using the if statement and labels.
+There is no direct `while` statement available in Batch Scripting but we can do an implementation of this loop very easily by using the if statement and labels.
 
-There is no direct while statement available in Batch Script but we can do an implementation of this loop very easily by using the if statement and labels.
-
-The first part of the while implementation is to set the counters which will be used to control the evaluation of the ‘if’ condition. We then define our label which will be used to embody the entire code for the while loop implementation. The ‘if’ condition evaluates an expression. If the expression evaluates to true, the code block is executed. If the condition evaluates to false then the loop is exited. When the code block is executed, it will return back to the label statement for execution again.
-
-Following is the syntax of the general implementation of the while statement.
+The first part of the while implementation is to set the counters which will be used to control the evaluation of the 'if' condition. We then define our label which will be used to embody the entire code for the while loop implementation. The 'if' condition evaluates an expression. If the expression evaluates to true, the code block is executed. If the condition evaluates to false then the loop is exited. When the code block is executed, it will return back to the label statement for execution again.
 
 #### Syntax
 
-```cmd
+```bat
 Set counters
 :label
 If (expression) (
@@ -913,15 +909,15 @@ If (expression) (
 
 * The entire code for the while implementation is placed inside of a label.
 * The counter variables must be set or initialized before the while loop implementation starts.
-* The expression for the while condition is done using the ‘if’ statement. If the expression evaluates to true then the relevant code inside the ‘if’ loop is executed.
-* A counter needs to be properly incremented inside of ‘if’ statement so that the while implementation can terminate at some point in time.
-* Finally, we will go back to our label so that we can evaluate our ‘if’ statement again.
+* The expression for the while condition is done using the 'if' statement. If the expression evaluates to true then the relevant code inside the 'if' loop is executed.
+* A counter needs to be properly incremented inside of 'if' statement so that the while implementation can terminate at some point in time.
+* Finally, we will go back to our label so that we can evaluate our 'if' statement again.
 
 Following is an example of a while loop statement.
 
 #### Example
 
-```cmd
+```bat
 @echo off
 SET /A "index = 1"
 SET /A "count = 5"
@@ -933,29 +929,29 @@ if %index% leq %count% (
 )
 ```
 
-In the above example, we are first initializing the value of an index integer variable to 1. Then our condition in the ‘if’ loop is that we are evaluating the condition of the expression to be that index should it be less than the value of the count variable. Till the value of index is less than 5, we will print the value of index and then increment the value of index.
+In the above example, we are first initializing the value of an index integer variable to 1. Then our condition in the 'if' loop is that we are evaluating the condition of the expression to be that index should it be less than the value of the count variable. Till the value of index is less than 5, we will print the value of index and then increment the value of index.
 
 ### `For` Statement - `List Implementations`
 
-The "FOR" construct offers looping capabilities for batch files. Following is the common construct of the ‘for’ statement for working with a list of values.
+The "FOR" construct offers looping capabilities for batch files. Following is the common construct of the 'for' statement for working with a list of values.
 
 #### Syntax
 
-```cmd
+```bat
 FOR %%variable IN list DO do_something
 ```
 
-The classic ‘for’ statement consists of the following parts −
+The classic 'for' statement consists of the following parts −
 
 * Variable declaration – This step is executed only once for the entire loop and used to declare any variables which will be used within the loop. In Batch Script, the variable declaration is done with the %% at the beginning of the variable name.
-* List – This will be the list of values for which the ‘for’ statement should be executed.
+* List – This will be the list of values for which the 'for' statement should be executed.
 * The do\_something code block is what needs to be executed for each iteration for the list of values.
 
-Following is an example of how the ‘goto’ statement can be used.
+Following is an example of how the 'goto' statement can be used.
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 FOR %%F IN (1 2 3 4 5) DO echo %%F
 ```
@@ -968,11 +964,11 @@ The key thing to note about the above program is −
 
 ### Looping through Ranges
 
-The ‘for’ statement also has the ability to move through a range of values. Following is the general form of the statement.
+The 'for' statement also has the ability to move through a range of values. Following is the general form of the statement.
 
 ### Syntax
 
-```cmd
+```bat
 FOR /L %%variable IN (lowerlimit,Increment,Upperlimit) DO do_something
 ```
 
@@ -987,14 +983,14 @@ Following is an example of how the looping through ranges can be carried out.
 
 #### Example
 
-```cmd
+```bat
 @ECHO OFF 
 FOR /L %%X IN (0,1,5) DO ECHO %%X
 ```
 
 ### Classic for Loop Implementation
 
-Following is the classic ‘for’ statement which is available in most programming languages.
+Following is the classic 'for' statement which is available in most programming languages.
 
 #### Typical 'for' loop Syntax
 
@@ -1006,11 +1002,11 @@ for(variable declaration;expression;Increment) {
 }
 ```
 
-The Batch Script language does not have a direct ‘for’ statement which is similar to the above syntax, but one can still do an implementation of the classic ‘for’ loop statement using if statements and labels.
+The Batch Script language does not have a direct 'for' statement which is similar to the above syntax, but one can still do an implementation of the classic 'for' loop statement using if statements and labels.
 
-Let’s look at the general syntax implementation of the classic for loop in batch scripting.
+Let's look at the general syntax implementation of the classic for loop in batch scripting.
 
-```cmd
+```bat
 Set counter
 :label
 
@@ -1020,17 +1016,17 @@ Increment counter
 Go back to :label
 ```
 
-* The entire code for the ‘for’ implementation is placed inside of a label.
-* The counters variables must be set or initialized before the ‘for’ loop implementation starts.
-* The expression for the ‘for’ loop is done using the ‘if’ statement. If the expression evaluates to be true then an exit is executed to come out of the loop.
-* A counter needs to be properly incremented inside of the ‘if’ statement so that the ‘for’ implementation can continue if the expression evaluation is false.
-* Finally, we will go back to our label so that we can evaluate our ‘if’ statement again.
+* The entire code for the 'for' implementation is placed inside of a label.
+* The counters variables must be set or initialized before the 'for' loop implementation starts.
+* The expression for the 'for' loop is done using the 'if' statement. If the expression evaluates to be true then an exit is executed to come out of the loop.
+* A counter needs to be properly incremented inside of the 'if' statement so that the 'for' implementation can continue if the expression evaluation is false.
+* Finally, we will go back to our label so that we can evaluate our 'if' statement again.
 
-Following is an example of how to carry out the implementation of the classic ‘for’ loop statement.
+Following is an example of how to carry out the implementation of the classic 'for' loop statement.
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 SET /A i = 1 
 :loop 
@@ -1044,11 +1040,11 @@ GOTO :LOOP
 
 ### Looping through Command Line Arguments
 
-The ‘for’ statement can also be used for checking command line arguments. The following example shows how the ‘for’ statement can be used to loop through the command line arguments.
+The 'for' statement can also be used for checking command line arguments. The following example shows how the 'for' statement can be used to loop through the command line arguments.
 
 #### Example
 
-```cmd
+```bat
 @ECHO OFF 
 :Loop 
 
@@ -1061,7 +1057,7 @@ GOTO Loop
 
 #### Output
 
-Let’s assume that our above code is stored in a file called Test.bat. The above command will produce the following output if the batch file passes the command line arguments of 1,2 and 3 as Test.bat 1 2 3.
+Let's assume that our above code is stored in a file called Test.bat. The above command will produce the following output if the batch file passes the command line arguments of 1,2 and 3 as Test.bat 1 2 3.
 
 ```
 1 
@@ -1075,11 +1071,11 @@ The break statement is used to alter the flow of control inside loops within any
 
 The break statement is used to alter the flow of control inside loops within any programming language. The break statement is normally used in looping constructs and is used to cause immediate termination of the innermost enclosing loop.
 
-The Batch Script language does not have a direct ‘for’ statement which does a break but this can be implemented by using labels. The following example shows the diagrammatic explanation of the break statement implementation in Batch Script.
+The Batch Script language does not have a direct 'for' statement which does a break but this can be implemented by using labels. The following example shows the diagrammatic explanation of the break statement implementation in Batch Script.
 
 #### Example
 
-```cmd
+```bat
 @echo off 
 SET /A "index=1" 
 SET /A "count=5" 
@@ -1093,7 +1089,7 @@ if %index% leq %count% (
 )
 ```
 
-The key thing to note about the above implementation is the involvement of two ‘if' conditions. The second ‘if’ condition is used to control when the break is implemented. If the second ‘if’ condition is evaluated to be true, then the code block is not executed and the counter is directly implemented.
+The key thing to note about the above implementation is the involvement of two 'if' conditions. The second 'if' condition is used to control when the break is implemented. If the second 'if' condition is evaluated to be true, then the code block is not executed and the counter is directly implemented.
 
 Following is an example of how to carry out the implementation of the break statement.
 
@@ -1324,7 +1320,7 @@ Hello World
 
 3. If `ECHO` is in ON state, the comment is displayed on the command prompt. Otherwise, it is ignored.
 
-4. If you want `ECHO` to be ON and you don’t want to display the comment line, use an at sign `@` before `REM` command.
+4. If you want `ECHO` to be ON and you don't want to display the comment line, use an at sign `@` before `REM` command.
 
 5. If you have too many lines of Rem, it could slow down the code, because in the end each line of code in the batch file still needs to be executed.
 
@@ -1863,7 +1859,7 @@ If you append the number 2 to the redirection filter, then it would redirect the
 Dir C:\ 2> list.txt
 ```
 
-One can even combine the **stdout** and **stderr** streams using the file number and the ‘&’ prefix. Following is an example.
+One can even combine the **stdout** and **stderr** streams using the file number and the '&' prefix. Following is an example.
 
 ```
 DIR C:\ > lists.txt 2>&1
@@ -1879,7 +1875,7 @@ Dir C:\ > NUL
 
 #### Stdin
 
-To work with the Stdin, you have to use a workaround to achieve this. This can be done by redirecting the command prompt’s own stdin, called CON.
+To work with the Stdin, you have to use a workaround to achieve this. This can be done by redirecting the command prompt's own stdin, called CON.
 
 The following example shows how you can redirect the output to a file called lists.txt. After you execute the below command, the command prompt will take all the input entered by user till it gets an EOF character. Later, it sends all the input to the file lists.txt.
 
