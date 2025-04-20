@@ -1205,8 +1205,8 @@ print(type(converted))  # Output: <class 'float'>
 |------------|--------------|
 | Force integer conversion | `[int]"3.9"` (becomes `3` i.e. truncates decimal) |
 | Convert object to XML | `[xml]$xmlString` |
-| Convert object to JSON | `$object | ConvertTo-Json` |
-| Convert JSON to object | `$json | ConvertFrom-Json` |
+| Convert object to JSON | `$object \| ConvertTo-Json` |
+| Convert JSON to object | `$json \| ConvertFrom-Json` |
 
 ---
 
@@ -1249,10 +1249,10 @@ Bash scripting does not have built-in type casting like some other languages, bu
 | Description | Code Examples |
 |------------|--------------|
 | Convert string to integer | `num=$(( "42" ))` → `42` |
-| Convert string to float (using `bc`) | `echo "3.14" | bc` → `3.14` |
+| Convert string to float (using `bc`) | `echo "3.14" \| bc` → `3.14` |
 | Convert integer to string | `str="$num"` → `"42"` |
 | Convert ASCII value to character | `printf \\$(printf '%o' 65)` → `'A'` |
-| Convert boolean-like values | `[[ -n "$var" ]] && echo "True" || echo "False"` |
+| Convert boolean-like values | `[[ -n "$var" ]] && echo "True" \|\| echo "False"` |
 
 ---
 
@@ -1263,7 +1263,7 @@ Bash scripting does not have built-in type casting like some other languages, bu
 | Convert string to array | `IFS="," read -ra arr <<< "apple,banana,grape"` |
 | Convert array to string | `echo "${arr[*]}"` → `"apple banana grape"` |
 | Convert list to associative array | `declare -A myDict; myDict[key]="value"` |
-| Convert array to JSON (using `jq`) | `echo '{"name":"Alice","age":30}' | jq` |
+| Convert array to JSON (using `jq`) | `echo '{"name":"Alice","age":30}' \| jq` |
 
 ---
 
@@ -1272,8 +1272,8 @@ Bash scripting does not have built-in type casting like some other languages, bu
 | Description | Code Examples |
 |------------|--------------|
 | Force integer conversion | `num=$(( "3.9" ))` → `3` (truncates decimal) |
-| Convert object to JSON (using `jq`) | `echo '{"name":"Alice"}' | jq` |
-| Convert JSON to object (using `jq`) | `echo '{"name":"Alice"}' | jq -r '.name'` |
+| Convert object to JSON (using `jq`) | `echo '{"name":"Alice"}' \| jq` |
+| Convert JSON to object (using `jq`) | `echo '{"name":"Alice"}' \| jq -r '.name'` |
 
 ---
 
@@ -1562,7 +1562,7 @@ print(my_tuple)  # Output: ('apple', 'banana', 'cherry')
 | **Remove One Item** (Delete element at index `2`) | `unset Names[2]` |
 | **Duplicate** (Create a copy of the array) | `Cities=("${Cities[@]}")` |
 | **Concatenate** (Merge two arrays) | `Items=("${Fruits[@]}" "${Vegetables[@]}")` |
-| **Read from File** (Store lines of a file into an array) | `logs=(`cat "system.log"`)` |
+| **Read from File** (Store lines of a file into an array) | `logs=($(cat "system.log"))` |
 
 ### **Iteration**
 
