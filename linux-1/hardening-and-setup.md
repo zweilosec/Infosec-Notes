@@ -10,7 +10,7 @@ description: >-
 
 The first thing to do after the first boot is to update the system. In most Debian-based flavors of Linux, you achieve this by executing the commands below:
 
-```text
+```bash
 sudo apt update && sudo apt upgrade -y
 ```
 
@@ -29,7 +29,7 @@ Remember that disabling unnecessary services will reduce the attack surface, so 
 
 `yum` for RedHat based systems. `apt` for debian based systems.
 
-```text
+```bash
 # yum erase xinetd ypserv tftp-server telnet-server rsh-server
 # apt --purge remove xinetd nis yp-tools tftpd atftpd tftpd-hpa telnetd rsh-server rsh-redone-server
 ```
@@ -38,14 +38,14 @@ Remember that disabling unnecessary services will reduce the attack surface, so 
 
 If you don't want to completely uninstall a service, you can simply disable it until it is needed.  A lot of services and daemons are started during system boot and disabling those that are not being used can help with system hardening and can improve boot time. Since most modern distributions use `systemd` instead of init scripts, you can use `systemctl` to list running services.
 
-```text
+```bash
 sudo systemctl list-unit-files --type=service
 sudo systemctl list-dependencies graphical.target
 ```
 
 These commands will display such service and daemons. You can disable a specific service by using the below commands.
 
-```text
+```bash
 sudo systemctl disable service
 sudo systemctl disable httpd.service
 ```
@@ -54,7 +54,7 @@ sudo systemctl disable httpd.service
 
 Identifying open connections to the internet is critical to understanding your attack surface. In Kali Linux, use the following commands to identify open ports:
 
-```text
+```bash
 netstat -tulpn
 ss -tulpn
 lsof -i
@@ -82,7 +82,7 @@ First of all, if you do not need SSH, disable it. However, if you want to use it
 
 6. Check the manual for SSH to understand all the configurations in `/etc/ssh/sshd_config`. Some other examples of recommended configuration options are:
 
-   ```text
+   ```bash
    AuthorizedKeysFile /etc/ssh/authorized-keys/%u #removes this file from user's folder and puts its in more secure /etc folder
    Protocol2
    IgnoreRhosts to yes
@@ -121,7 +121,7 @@ The boot directory contains important files related to the Linux kernel, so you 
 
 Admins should make sure that users can’t log into their server after a certain number of failed attempts. This increases the overall security of the system by mitigating password attacks. You can use the Linux `faillog` command to see the failed login attempts.
 
-```text
+```bash
 # faillog
 # faillog -m 3
 # faillog -l 1800
@@ -129,7 +129,7 @@ Admins should make sure that users can’t log into their server after a certain
 
 The first command will display the failed login attempts for users from the `/var/log/faillog` database. The second command sets the maximum number of allowed failed login attempts to 3. The third one sets a lock of 1800 seconds or 30 minutes after the allowed number of failed login attempts.
 
-```text
+```bash
 # faillog -r -u <username>
 ```
 
@@ -139,14 +139,14 @@ Use this command to unlock a user once they’re prohibited from login. The max 
 
 [Fail2Ban](https://www.fail2ban.org/) is one of the most popular IPS solutions for Unix-like systems. It is written using Python and is available on all POSIX-compliant platforms. It will look for obtrusive network requests all the time and block them as soon as possible. Install Fail2Ban using the below command.
 
-```text
+```bash
 apt install -y fail2ban
 yum install -y fail2ban
 ```
 
 [DenyHosts](https://github.com/denyhosts/denyhosts) is another popular IPS solution for Linux hardening. It will protect your ssh servers from intrusive brute force attempts. Use the following commands to install in on your Debian or Centos servers.
 
-```text
+```bash
 apt install -y denyhosts
 yum install -y denyhosts
 ```
@@ -171,7 +171,7 @@ yum install -y denyhosts
 
 If you want to read the contents of the binary files `wtmp`, `utmp` or `btmp`, use the command:
 
-```text
+```bash
 sudo utmpdump /var/run/utmp
 sudo utmpdump /var/log/wtmp
 sudo utmpdump /var/log/btmp
@@ -179,14 +179,65 @@ sudo utmpdump /var/log/btmp
 
 `who`, `w`, and `last <username>` will also give you information about users logged into your machine.
 
-### with `logcheck`
+### `logcheck`
 
-TODO: Clean up description (issue [#12](https://github.com/zweilosec/Infosec-Notes/issues/12))
-* Description is a mass block of text. Add formatting, 
-* Put code into code blocks
-* Ensure clarity and brevity
+**Logcheck** is a powerful tool for monitoring system logs and identifying potential security threats.  It works by monitoring log files for changes (every hour by default) and sends log messages it determines to be 'unusual' to the administrator via email for further analysis. The list of monitored files is stored in `/etc/logcheck/logcheck.logfiles`. The default settings work well unless the `/etc/rsyslog.conf` file has undergone significant customization. 
 
-The logcheck program monitors log files every hour by default and sends unusual log messages in emails to the administrator for further analysis. The list of monitored files is stored in /etc/logcheck/logcheck.logfiles. The default values work fine if the /etc/rsyslog.conf file has not been completely overhauled. logcheck can report in various levels of detail: paranoid, server, and workstation. paranoid is very verbose and should probably be restricted to specific servers such as firewalls. server is the default mode and is recommended for most servers. workstation is obviously designed for workstations and is extremely terse, filtering out more messages than the other options. In all three cases, logcheck should probably be customized to exclude some extra messages \(depending on installed services\), unless you really want to receive hourly batches of long uninteresting emails. Since the message selection mechanism is rather complex, /usr/share/doc/logcheck-database/README.logcheck-database.gz is a required—if challenging—read. The applied rules can be split into several types: those that qualify a message as a cracking attempt \(stored in a file in the /etc/logcheck/cracking.d/directory\); ignored cracking attempts \(/etc/logcheck/cracking.ignore.d/\); those classifying a message as a security alert \(/etc/logcheck/violations.d/\); ignored security alerts \(/etc/logcheck/violations.ignore.d/\); finally, those applying to the remaining messages \(considered as system events\). ignore.d files are used to \(obviously\) ignore messages. For example, a message tagged as a cracking attempt or a security alert \(following a rule stored in a /etc/logcheck/violations.d/myfile file\) can only be ignored by a rule in a /etc/logcheck/violations.ignore.d/myfile or /etc/logcheck/violations.ignore.d/myfile-extension file. A system event is always signaled unless a rule in one of the /etc/logcheck/ignore.d.{paranoid,server,workstation}/ directories states the event should be ignored. Of course, the only directories taken into account are those corresponding to verbosity levels equal or greater than the selected operation mode.
+**logcheck** provides three reporting levels:
+
+- **Paranoid**: Highly detailed and best suited for security-critical servers like firewalls.
+- **Server** (default mode): Recommended for most servers.
+- **Workstation**: Designed for workstations, offering minimal reporting by filtering out more messages.
+
+Regardless of the chosen mode, customizing **logcheck** to exclude unnecessary messages is advised. Due to its complex message selection mechanism, reading `/usr/share/doc/logcheck-database/README.logcheck-database.gz` is essential to understanding logcheck's Rule Classifications and how to ingore messages.
+
+Here are some ways to use **logcheck** to harden a Linux system:
+
+#### **Fine-Tune Log Monitoring**
+
+- Customize the list of monitored log files in `/etc/logcheck/logcheck.logfiles` to include critical logs like:
+  - `/var/log/auth.log` (Authentication logs)
+  - `/var/log/kern.log` (Kernel logs)
+  - `/var/log/secure` (Security-related logs)
+  - `/var/log/btmp` (Failed login attempts)
+- Regularly review these logs to detect unauthorized access attempts or system anomalies.
+
+#### **Adjust Filtering Rules**
+
+- Modify rules in `/etc/logcheck/ignore.d.{paranoid,server,workstation}/` to exclude unnecessary messages while ensuring security alerts are not ignored.
+- Use `/etc/logcheck/violations.d/` to classify security alerts and `/etc/logcheck/violations.ignore.d/` to filter out false positives.
+
+##### Rule Classification
+
+**logcheck** applies rules to categorize messages into the following types:
+
+- **Cracking attempts** → Stored in `/etc/logcheck/cracking.d/`
+- **Ignored cracking attempts** → Stored in `/etc/logcheck/cracking.ignore.d/`
+- **Security alerts** → Stored in `/etc/logcheck/violations.d/`
+- **Ignored security alerts** → Stored in `/etc/logcheck/violations.ignore.d/`
+- **System events** → General logs unless explicitly ignored
+
+##### Ignoring Messages
+
+Messages can only be ignored if rules are defined in specific directories:
+
+- A **cracking attempt** or **security alert** (classified under `/etc/logcheck/violations.d/`) can only be ignored by rules in `/etc/logcheck/violations.ignore.d/`.
+- **System events** are always reported unless ignored by rules within `/etc/logcheck/ignore.d.{paranoid,server,workstation}/`, and only those matching or exceeding the selected verbosity level are considered.
+
+#### **Enhance Logcheck with SELinux**
+
+- Enable **SELinux** (`sudo setenforce 1`) to enforce strict access control policies.
+- Combine **Logcheck** with SELinux logs (`/var/log/audit/audit.log`) to detect unauthorized access attempts.
+
+#### **Automate Log Analysis**
+
+- Schedule **Logcheck** to run more frequently than the default hourly interval by adjusting the cron job (`/etc/cron.d/logcheck`).
+- Set up email alerts to notify administrators immediately of critical security events.
+
+#### **Integrate with Other Security Tools**
+
+- Pair **Logcheck** with **Fail2Ban** to automatically block IPs attempting brute-force attacks.
+- Use **Auditd** for deeper system auditing and correlate logs with **Logcheck** for enhanced security insights.
 
 ## Enable SELinux
 
@@ -196,33 +247,47 @@ Security Enhanced Linux is a Kernel security mechanism for supporting access con
 
 [SELinux](https://en.wikipedia.org/wiki/Security-Enhanced_Linux), short for Security Enhanced Linux, is a security mechanism that implements various methods for access control at the kernel level. It was developed by Red Hat but has been added to many [modern Linux distributions.](https://ubuntupit.com/best-linux-distro-top-recommendation-to-boost-up-your-linux-experience/) You can check whether SELinux is enabled in your system or not by using the below command.
 
-```text
+```bash
 sudo getenforce
 ```
 
-If it returns `enforcing` , your system is protected by SELinux. If the result says `permissive` your system has SELinux but it’s not enforced. It will return `disabled` for systems where SELinux is completely disabled. You can enforce SELinux by using the below command.
+If it returns `enforcing` , your system is protected by SELinux. If the result says `permissive` your system has SELinux but it’s not enforced. It will return `disabled` for systems where SELinux is completely disabled. 
 
-```text
+You can enforce SELinux by using the below command:
+
+```bash
 sudo setenforce 1
 ```
 
-SELinux has three configuration modes:
+Or, using a text editor, open the config file `/etc/selinux/config` and make sure that the policy is enforced by changing the line starting with `SELINUX=`.
+
+```bash
+# This file controls the state of SELinux on the system.
+# SELINUX can take one of these values:
+# enforcing - SELinux security policy is enforced.
+# permissive - SELinux prints warnings instead of enforcing.
+# disabled - No SELinux policy is loaded.
+
+SELINUX=enforcing
+SELINUXTYPE=targeted  # Targeted means only selected processes are protected.
+```
+
+SELinux has three configuration mode options:
 
 * Disabled: Turned-off
-* Permissive: Prints warnings
+* Permissive: Prints warnings, but does not block
 * Enforcing: Policy is enforced
 
-  Using a text editor, open the config file `/etc/selinux/config` and make sure that the policy is enforced by changing the line `SELINUX=enforcing`.
 
-  ```text
-  add example of config file - image?
-  ```
+### Visualizing the Configuration
+If you need an image representation of the configuration file, a simple screenshot of a terminal displaying the file’s contents would be the most practical. You can generate this by running:
+
 
 ## Permissions and verifications
 
-Prepare yourself mentally because this is going to be a long list. But, permissions is one of the most important and critical tasks to achieve the security goal on a Linux host. Set User/Group Owner and Permissions to `root` on `/etc/anacrontab`, `/etc/crontab` and `/etc/cron.*` by executing the following commands: \(as `root`\)
+Setting permissions is one of the most important and critical tasks to achieve the security goal on a Linux host. Set User/Group Owner and Permissions to `root` on `/etc/anacrontab`, `/etc/crontab` and `/etc/cron.*` by executing the following commands: \(as `root`\)
 
-```text
+```bash
 chown root:root /etc/anacrontab
 chmod og-rwx /etc/anacrontab
 chown root:root /etc/crontab
@@ -241,42 +306,44 @@ chmod og-rwx /etc/cron.d
 
 Set the permissions and owner on `/var/spool/cron` for the `root` crontab.
 
-```text
+```bash
 chown root:root <crontabfile>
 chmod og-rwx <crontabfile>
 ```
 
 Set permissions and owner on `/etc/passwd` file \(this file must be readable by all users\).
 
-```text
+```bash
 chmod 644 /etc/passwd
 chown root:root /etc/passwd
 ```
 
 Set permissions and owner on the `/etc/group` file \(this file must be readable by all users\).
 
-```text
+```bash
 chmod 644 /etc/group
 chown root:root /etc/group
 ```
 
 Set permissions and owner on the `/etc/shadow` file.
 
-```text
+```bash
 chmod 600 /etc/shadow
 chown root:root /etc/shadow
 ```
 
 Set permissions and owner on the `/etc/gshadow` file.
 
-```text
+```bash
 chmod 600 /etc/gshadow
 chown root:root /etc/gshadow
 ```
 
 
 
-## Misc
+## Misc 
+
+TODO: expand this
 
 * Use strong passwords 
 * Set up `fail2ban`, which will make it much harder to brute-force passwords over the network by filtering IP addresses that exceed a limit of failed login attempts. `apt install fail2ban` 
@@ -289,7 +356,7 @@ chown root:root /etc/gshadow
 
  Any extra repositories needs to be placed into their own file in the directory `/etc/apt/sources.list.d/` with files named as such: `/etc/apt/sources.list.d/repo-name.list` \(replacing `repo-name` with the mirror name\).  This may break things over time so be careful.
 
-```text
+```bash
 deb   http://http.kali.org/kali   kali-rolling   main non-free contrib
 <Archive>   <Mirror>                <Branch>         <Component>
 ```
@@ -310,7 +377,7 @@ To add kali's repository to another distro use the line: `deb http://http.kali.o
 
  **lynis** - open source security auditing tool. Comes with Kali
 
-```text
+```bash
 lynis --update
 lynis audit system
 ```
@@ -329,7 +396,7 @@ If you’re not happy with the changes Bastille makes to your computer, you can 
 
 When using ssh and scp you can deploy Bastille using the commands:
 
-```text
+```bash
 scp /etc/Bastille/config root@$targetHost:/etc/Bastille
 ssh root@$targetHost "bastille -b"
 ```
@@ -342,7 +409,7 @@ Tmux can keep alive sessions if you lose ssh sessions etc, can split panes and m
 
 Config from [ippsec](https://www.youtube.com/watch?v=Lqehvpe_djs).
 
-```text
+```bash
 #set prefix
 set -g prefix C-a
 bind C-a send-prefix
@@ -396,7 +463,7 @@ Kill pane: `prefix + &`
 
 Here’s a cool and interesting use of iptables. You can turn any computer with a wireless interface into a wireless access point with hostapd. This solution comes from [https://seravo.fi/2014/create-wireless-access-point-hostapd](https://seravo.fi/2014/create-wireless-access-point-hostapd):
 
-```text
+```bash
 iptables -t nat -F
 iptables -F
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
