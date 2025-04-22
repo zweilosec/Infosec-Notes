@@ -110,7 +110,11 @@ Everything in Linux is a file, even directories and devices. Directories have so
 | `diff $file1 $file2`    | <p>Compare two files and show differences. Has two modes:</p><ul><li><code>-c</code> Context format</li><li><code>-u</code> Unified Format</li></ul>                                                                                                                                                                                                                                                                                                |
 | `vimdiff $file1 $file2` | <p>Opens two files in Vim side-by-side and highlight the differences. Some shortcuts:</p><ul><li><code>[ctrl] w</code> - Switch to the other split window</li><li><code>do</code> - Gets changes from the other window into the current one</li><li><code>dp</code> - Puts the changes from the current window into the other one</li><li><code>]c</code> - Jump to the next change</li><li><code>[c</code> - Jump to the previous change</li></ul> |
 
-```
+#### Write to a file without opening a text editor
+
+The `cat` command can be used to write text to a file without opening it in a text editor.  This can be very useful in times when you do not have a full TTY/PTY shell.
+
+```bash
 cat > $fileName
  [Type your file contents]
  [Press `Ctrl+d` to return to your terminal]
@@ -124,7 +128,9 @@ The permissions for a file (for example, viewed with the `ls -l` command) are ty
 -rwxrwxrwx owner group [metadata] $filename
 ```
 
-**`r`** = read **`w`** = write **`x`** = execute
+* **`r`** = read
+* **`w`** = write
+* **`x`** = execute
 
 Breaking down this format gives us four parts:
 
@@ -133,9 +139,7 @@ Breaking down this format gives us four parts:
 3. The following three characters specify the permissions of the group that owns the file.
 4. The final three characters specify the permissions of all other users.
 
-The permissions `-rwxrwxrwx` mean that the anyone can read, write and execute the file.
-
-In the above example, the owner, group, and everyone permissions are all `rwx`; hence anyone can read, write, and execute this file.
+In the above example (`-rwxrwxrwx`), the owner, group, and everyone permissions are all `rwx`; hence anyone can read, write, and execute this file.
 
 #### The chmod command
 
@@ -208,41 +212,167 @@ To add read/write permissions for the file owner and group, while making it read
 chmod ug+rw,o=r $file
 ```
 
-#### Advanced permissions (TODO: Finish cleaning this up. Add descriptions of SUID/GUID)
+### **Advanced Permissions in Linux**
 
-Other than just read and write, you can also set some other permissions like SUID and GUID.
+Beyond standard read, write, and execute permissions, Linux offers **special permissions** like **SUID (Set User ID)** and **GUID (Set Group ID)**, which allow files and executables to run with elevated privileges.
 
-`chmod 4000 file`
+#### **Set User ID (SUID)**
 
-`chmod +s file`
+The **SUID** (Set User ID) permission allows a file to execute with the privileges of its **owner**, rather than the user running it. This is commonly used in programs that require elevated privileges (e.g., `passwd` for changing passwords).
 
-Both the above examples would add the `setuid` bit to the file.
+##### **How to Set SUID**
 
-`chmod 2000 file`
+To add the **SUID** bit to a file:
+```sh
+chmod 4000 file
+chmod +s file
+```
+##### **Verifying SUID**
+Run:
+```sh
+ls -l file
+```
+If SUID is set, the output will show:
+```
+-rwsr-xr-x 1 root root 12345 Apr 21 12:00 file
+```
 
-`chmod +g file`
+Note the **`s`** in the **owner’s execute permission** (`rws`), indicating that SUID is active.
 
-Both the above examples would add the `getuid` bit to the file.
+##### **Example: SUID in Action**
+
+The `passwd` command runs with **root privileges** via SUID:
+```sh
+ls -l /usr/bin/passwd
+```
+
+Output:
+
+```
+-rwsr-xr-x 1 root root 52724 Apr 21 12:00 /usr/bin/passwd
+```
+
+When a regular user runs `passwd`, it executes as **root** to modify the password database.
+
+---
+
+#### **Set Group ID (GUID)**
+
+Similar to SUID, the **GUID (Set Group ID)** permission allows files to execute with the **group’s privileges** instead of the user’s privileges. This is useful in shared directories where multiple users need access.
+
+##### **How to Set GUID**
+
+To set GUID on a file:
+
+```sh
+chmod 2000 file
+chmod +g file
+```
+##### **Verifying GUID**
+
+To verify permissions on a file, run:
+
+```sh
+ls -l file
+```
+
+If GUID is set, you will see:
+
+```
+-rwxr-sr-x 1 user group 12345 Apr 21 12:00 file
+```
+
+The **`s`** in the **group execute permission** (`r-s`) confirms that GUID is active.
+
+##### **Example: GUID in Action**
+
+When set on a **directory**, GUID ensures that all files created within inherit the same group ownership.
+
+Set GUID on a shared directory:
+
+```sh
+chmod 2775 /shared
+```
+
+Now, any files created inside `/shared` will belong to the directory’s group.
+
+---
+
+#### **Security Considerations**
+
+- **SUID/GUID can be risky**: If improperly set on sensitive binaries, they can be exploited for privilege escalation.
+- **Audit SUID/GUID files regularly**:
+  ```sh
+  find / -perm -4000 -type f 2>/dev/null   # Find SUID files
+  find / -perm -2000 -type f 2>/dev/null   # Find GUID files
+  ```
+- **Restrict executable SUID/GUID binaries** in critical environments (especially on shared or multi-user systems).
 
 #### The sticky bit
 
-[https://en.wikipedia.org/wiki/Sticky\_bit](https://en.wikipedia.org/wiki/Sticky\_bit) <- pull more information from here and add
+The **sticky bit** is a special permission that prevents users from deleting files **they don’t own** within a shared directory, even if they have write access. This is commonly used in directories like `/tmp`, where multiple users store temporary files.
 
-The "sticky bit" is added to folders in order to prevent anyone else from deleting the folder or any of its contents. It is represented by a `t` at the end of the permissions `d--r--r--rt`. When a sticky bit is set, nobody other than the owner or the root can delete the folder or the file.
+##### **Setting the Sticky Bit**
 
-`chmod 1000 folder`
+To set the **sticky bit** on a directory, use:
 
-`chmod +t folder`
+```sh
+chmod +t /shared_directory
+```
 
-Both the above examples set the sticky bit to the folders
+Or, using octal notation:
 
-Examples: `chmod 1744 file`
+```sh
+chmod 1000 /shared_directory
+```
 
-This would set the sticky bit, give all permissions to the owner and only read permission to the group and others
+##### **Verifying Sticky Bit**
 
-`chmod 0600 file`
+Run:
 
-This would only give the owner read and write permission, but not execute permission.
+```sh
+ls -ld /shared_directory
+```
+
+Output:
+
+```
+drwxrwxrwt 2 user group 4096 Apr 21 12:00 /shared_directory
+```
+
+Note the **"t"** at the end of the permissions, indicating the sticky bit is active.
+
+##### **How Sticky Bits Work**
+
+- If a directory **does not have a sticky bit**, any user with **write access** can delete any file inside.
+- When the **sticky bit is set**, only:
+  - The **file’s owner** can delete their file.
+  - The **root user** can remove any file.
+
+##### **Common Usage Example**
+
+The `/tmp` directory is a well-known example:
+
+```sh
+ls -ld /tmp
+```
+
+Output:
+
+```
+drwxrwxrwt 10 root root 4096 Apr 21 12:00 /tmp
+```
+
+Since `/tmp` is shared among all users, the sticky bit prevents users from deleting files that aren’t theirs.
+
+##### **Best Practices**
+
+- Use sticky bits on **shared directories** (e.g., `/tmp`, project collaboration folders).
+- Regularly **audit permissions** using:
+  ```sh
+  find / -perm -1000 -type d 2>/dev/null
+  ```
+- This lists all directories where sticky bits are set.
 
 #### The chown command
 
@@ -271,7 +401,7 @@ Useful options:
 
 You can chain together these options to recursively list the attributes of all files and folders in a directory with long names:
 
-```
+```bash
 lsattr -Ral /home/
 ```
 
@@ -321,33 +451,492 @@ The following attributes are read-only and may be listed by `lsattr` but not mod
 
 See the [chattr manpage](https://www.man7.org/linux/man-pages/man1/chattr.1.html) for more detailed descriptions of each attribute.
 
-### File compression and encryption (TODO:)
+### **File Compression Tools**
 
-| Command | Description |
-| ------- | ----------- |
-| unzip   |             |
-| gunzip  |             |
-| tar     |             |
+| Command       | Description | Example |
+|--------------|-------------|-----------|
+| **unzip**    | Extracts files from a `.zip` archive. | `unzip file.zip` |
+| **zip**      | Compresses files into a `.zip` archive. | `zip archive.zip file1 file2` |
+| **gunzip**   | Decompresses `.gz` files created by `gzip`. | `gunzip file.gz` |
+| **gzip**     | Compresses files using GNU Zip, reducing size efficiently. | `gzip file.txt` → Produces `file.txt.gz` |
+| **tar**      | Archives files and directories without compression. | `tar -cvf archive.tar folder/` |
+| **tar + gzip** | Creates a compressed archive using gzip. | `tar -czvf archive.tar.gz folder/` |
+| **tar + bzip2** | Uses **bzip2** for higher compression. | `tar -cjvf archive.tar.bz2 folder/` |
+| **tar + xz** | Compresses with **xz**, producing very small files. | `tar -cJvf archive.tar.xz folder/` |
+| **xz**       | Compresses files using the **xz** algorithm. | `xz file.txt` |
+| **bzip2**    | Compresses files with higher efficiency than gzip. | `bzip2 file.txt` |
+| **7z**       | Compresses files using the **7z** format. | `7z a archive.7z file1 file2` |
+| **rar**      | Compresses files into `.rar` archives (requires `rar` package). | `rar a archive.rar file1 file2` |
+| **tar -xf**  | Extracts files from a `.tar` archive. | `tar -xf archive.tar` |
+
+### **Encryption Tools**
+
+| Command       | Description | Example |
+|--------------|-------------|-----------|
+| **gpg (GnuPG)** | Encrypts files securely using password-based encryption. | `gpg -c file.txt` |
+| **gpg --decrypt** | Decrypts a file previously encrypted with `gpg`. | `gpg file.txt.gpg` |
+| **openssl**  | Encrypts files using OpenSSL encryption. | `openssl enc -aes-256-cbc -salt -in file.txt -out file.enc` |
+| **aespipe**  | Encrypts files and data streams using AES encryption. | `cat file.txt \| aespipe -e > file.enc` |
+| **dm-crypt/LUKS** | Full-disk encryption tool built into Linux, commonly used for encrypting partitions. | `cryptsetup luksFormat /dev/sdX` |
+| **EncFS**    | Encrypts individual files and directories dynamically without requiring a full disk encryption setup. | `encfs ~/encrypted ~/decrypted` |
+| **eCryptfs** | Stackable cryptographic filesystem, often used for encrypting home directories. | `mount -t ecryptfs /home/user /home/user` |
+| **VeraCrypt** | Cross-platform encryption tool for encrypting entire disks or partitions. | `veracrypt -c` |
+| **bcrypt**   | Encrypts files using the Blowfish cipher. | `bcrypt file.txt` |
+| **CryFS**    | Encrypts files for cloud storage, ensuring metadata and filenames remain encrypted. | `cryfs ~/encrypted ~/decrypted` |
+| **Tomb**     | Creates encrypted storage containers using LUKS. | `tomb create secure.tomb` |
+| **Cryptmount** | Allows non-root users to mount encrypted filesystems. | `cryptmount -m secure` |
 
 ## System Information
 
-| Command                     | Description                                                                             |
-| --------------------------- | --------------------------------------------------------------------------------------- |
-| `uname -a`                  | List OS, hostname, kernel build number, CPU architecture                                |
-| `ps`                        | List running processes (current user)                                                   |
-| `ps aux`                    | List running processes for all users (if permitted)                                     |
-| `top`                       | Similar to Windows Task Manager, lists running processes with details of hardware usage |
-| `systemctl list-unit-files` | Show list of all services installed with status                                         |
+### **System Information**
+
+| Command             | Description |
+|---------------------|-------------|
+| `uname -a`         | Shows OS details, hostname, kernel version, and architecture. |
+| `lsb_release -a`   | Displays Linux distribution information (Debian-based distros). |
+| `cat /etc/os-release` | Shows distribution details (works on most distros). |
+| `hostnamectl`      | Provides details on hostname, kernel, and architecture. |
+| `df -h`           | Displays disk space usage in a human-readable format. |
+| `free -h`         | Shows memory usage including swap space. |
+| `uptime`          | Displays system uptime and load average. |
+| `who -b`          | Shows last system boot time. |
+| `dmesg | head`    | Displays system log messages (hardware boot events). |
+| `lsblk`           | Lists block devices (disks and partitions). |
+| `mount | column -t` | Shows mounted file systems. |
+| `env`             | Prints system environment variables. |
+
+### **Processes**
+
+| Command          | Description |
+|-----------------|-------------|
+| `ps`           | Lists running processes for the current user only. |
+| `ps aux`       | Shows all running processes with details for all users. |
+| `top`          | Provides a real-time view of system resource usage and processes. |
+| `htop`         | Enhanced version of `top` with an interactive UI (install with `sudo apt install htop`). |
+| `pgrep process_name` | Finds processes by name and returns their process IDs. |
+| `pidof process_name` | Returns the process ID of a running program. |
+| `kill PID`     | Terminates a process by its PID. |
+| `kill -9 PID`  | Forcefully terminates a process. |
+| `pkill process_name` | Kills processes by name. |
+| `nice -n priority command` | Adjusts process priority when executing a command. |
+| `renice priority -p PID` | Changes priority of a running process. |
+| `strace -p PID` | Debugs a running process by tracing system calls. |
+
+### **The `/proc` Directory**
+
+The `/proc` directory is a **virtual filesystem** in Linux that provides runtime system information in a structured, readable format. Unlike traditional directories, `/proc` doesn’t store actual files; instead, it generates dynamic data about system processes and hardware on the fly.
+
+#### **Why `/proc` Matters**
+
+- It allows users and administrators to **monitor system performance**.
+- It provides detailed insights into **running processes, memory usage, hardware configurations**, and more.
+- Many Linux tools like `top`, `ps`, and `htop` rely on `/proc` for retrieving system statistics.
+
+#### **Key Files & Directories**
+
+- `/proc/cpuinfo` → Displays information about the CPU.
+- `/proc/meminfo` → Shows detailed memory usage.
+- `/proc/uptime` → Indicates how long the system has been running.
+- `/proc/loadavg` → Displays system load averages.
+- `/proc/swaps` → Lists active swap partitions.
+- `/proc/[PID]` → Contains details for each running process (where `[PID]` is the process ID).
+
+#### **Exploring `/proc` for System Insights**
+
+Here are some key files inside `/proc` that can provide valuable system data:
+
+| File | Purpose | Example Usage |
+|------|---------|--------------|
+| `/proc/cpuinfo` | Displays CPU details (cores, vendor, speed). | `cat /proc/cpuinfo` |
+| `/proc/meminfo` | Shows memory statistics (RAM usage, swap, buffers). | `cat /proc/meminfo | grep MemTotal` |
+| `/proc/uptime` | Indicates how long the system has been running. | `cat /proc/uptime` |
+| `/proc/loadavg` | Displays system load averages over 1, 5, and 15 minutes. | `cat /proc/loadavg` |
+| `/proc/swaps` | Lists active swap partitions. | `cat /proc/swaps` |
+| `/proc/filesystems` | Shows supported filesystems by the kernel. | `cat /proc/filesystems` |
+
+---
+
+### **Monitoring Running Processes via `/proc`**
+
+Each process running on the system has a **dedicated directory** under `/proc`, named by its **Process ID (PID)**. Example: `/proc/1234` corresponds to process ID `1234`.
+
+| File | Description | Example Usage |
+|------|-------------|--------------|
+| `/proc/[PID]/cmdline` | Displays the exact command used to start the process. | `cat /proc/1234/cmdline` |
+| `/proc/[PID]/status` | Provides detailed status info, including memory and CPU usage. | `cat /proc/1234/status | grep VmRSS` |
+| `/proc/[PID]/fd/` | Lists open file descriptors of the process. | `ls -l /proc/1234/fd/` |
+| `/proc/[PID]/environ` | Displays environment variables for the process. | `cat /proc/1234/environ` |
+
+**Security Warning:** `/proc/[PID]/environ` may expose sensitive environment variables, such as **API keys and passwords** used by the process.
+
+---
+
+### **Changing Kernel Parameters Using `/proc/sys`**
+
+The `/proc/sys` directory allows **on-the-fly tuning of system behavior**. Instead of permanently modifying system configs, administrators can dynamically adjust performance-related settings.
+
+| File | Purpose | Example Usage |
+|------|---------|--------------|
+| `/proc/sys/kernel/hostname` | Displays or modifies the system hostname. | `echo "NewHost" > /proc/sys/kernel/hostname` |
+| `/proc/sys/net/ipv4/ip_forward` | Enables/disables IP forwarding (useful for setting up a router). | `echo 1 > /proc/sys/net/ipv4/ip_forward` |
+| `/proc/sys/vm/swappiness` | Controls how aggressively the system swaps memory. | `echo 10 > /proc/sys/vm/swappiness` |
+| `/proc/sys/kernel/panic` | Sets the timeout before the system reboots after a kernel panic. | `echo 30 > /proc/sys/kernel/panic` |
+
+For persistent changes across reboots, update `/etc/sysctl.conf`:
+
+```sh
+echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+sysctl -p  # Apply changes
+```
+
+---
+
+### **Finding System Limits via `/proc`**
+
+Linux enforces resource limits to **prevent system overuse**. The `/proc` directory contains relevant limit files.
+
+| File | Purpose | Example Usage |
+|------|---------|--------------|
+| `/proc/sys/fs/file-max` | Maximum number of open files allowed. | `cat /proc/sys/fs/file-max` |
+| `/proc/sys/kernel/threads-max` | Max number of threads that can be created. | `cat /proc/sys/kernel/threads-max` |
+| `/proc/sys/net/core/somaxconn` | Maximum queue length for incoming connections. | `cat /proc/sys/net/core/somaxconn` |
+
+If you need to **increase the maximum number of open files**, adjust:
+
+```sh
+echo "100000" > /proc/sys/fs/file-max
+```
+
+---
+
+### **Debugging with `/proc`**
+
+Developers and system administrators use `/proc` for **troubleshooting performance issues**:
+
+- **Check network connections:**  
+  ```sh
+  cat /proc/net/tcp | grep :80  # Find all active TCP connections on port 80
+  ```
+- **Monitor kernel events:**  
+  ```sh
+  dmesg | tail -20  # Shows the latest 20 kernel log messages
+  ```
+- **Analyze running processes:**  
+  ```sh
+  ps -eo pid,comm | grep firefox  # Find Firefox’s process ID
+  cat /proc/$(pgrep firefox)/status  # Get its resource usage details
+  ```
+
+### **Services**
+
+Services in Linux are **background processes** that provide various system functions, such as networking, logging, or application hosting. These services can be started, stopped, restarted, or configured to start at boot. Linux uses **init systems** to manage these services, with **Systemd** and **SysVinit (System V)** being the two major methods.
+
+Most **modern Linux distributions** (Ubuntu, Fedora, RHEL) use **Systemd** due to its speed and flexibility. **SysVinit** is mostly found on **legacy systems**, but some lightweight distros (like Alpine Linux) still use it.
+
+---
+
+### **How Services Work in Linux**  
+
+Linux services function as **daemon processes**, meaning they run in the background without direct user interaction. These services are controlled through a process management system known as an **init system**—responsible for **starting, stopping, and managing processes** during system boot and runtime.
+
+Some common services include:
+
+- **Network services** (`NetworkManager`, `sshd`, `apache2`)
+- **Logging services** (`rsyslog`, `journalctl`)
+- **Cron jobs** (`cron`, `anacron`)
+- **Database services** (`mysqld`, `postgresql`)
+
+---
+
+### **Systemd vs. SysVinit (System V)**  
+
+Here are some of the differences between the two main service management systems in Linux:
+
+| Feature | **Systemd** | **SysVinit (System V)** |
+|---------|------------|-------------------|
+| **Service Management** | Uses `systemctl` to start, stop, restart, and enable services. | Uses `service` and `chkconfig` for service control. |
+| **Startup Speed** | **Parallel** service startup for fast boot times. | Services start **sequentially**, leading to slower boot times. |
+| **Logging** | Uses `journalctl` for advanced logging and debugging. | Relies on traditional log files (`/var/log`). |
+| **Dependency Handling** | Automatically manages dependencies between services. | Manual dependency management required. |
+| **Configuration** | Centralized unit files (`/etc/systemd/system/`). | Uses shell scripts in `/etc/init.d/`. |
+| **Modern Adoption** | Used in **most** modern Linux distributions (Ubuntu, CentOS, Fedora, Arch). | Found in **older** distros (Debian, Slackware, older CentOS versions). |
+
+---
+
+### **Managing Services in Systemd**
+
+With **Systemd**, services are managed using the `systemctl` command:
+
+```sh
+systemctl start apache2    # Start a service
+systemctl stop apache2     # Stop a service
+systemctl restart apache2  # Restart a service
+systemctl enable apache2   # Enable service at boot
+systemctl disable apache2  # Disable service at boot
+systemctl status apache2   # Check service status
+```
+
+To view all active services:
+
+```sh
+systemctl list-units --type=service
+```
+
+---
+
+### **Managing Services in SysVinit**
+
+Older **SysVinit** systems use the `service` command and scripts in `/etc/init.d/`: 
+
+```sh
+service apache2 start    # Start a service
+service apache2 stop     # Stop a service
+service apache2 restart  # Restart a service
+chkconfig apache2 on     # Enable service at boot
+chkconfig apache2 off    # Disable service at boot
+```
+
+View all active services:
+
+```sh
+service --status-all
+```
+
+In modern Linux systems, both set of commands are generally available for use, and are often mapped to do the same thing as many system admins have built the habit of using one set of commands over the other.
+
+#### Other service command examples:
+
+| Command                     | Description |
+|-----------------------------|-------------|
+| `systemctl list-unit-files` | Shows all installed services with their status. |
+| `systemctl list-units --type=service` | Lists all **active** services. |
+| `systemctl status service_name` | Displays detailed status of a specific service. |
+| `systemctl start service_name` | Starts a service. |
+| `systemctl stop service_name` | Stops a service. |
+| `systemctl restart service_name` | Restarts a service. |
+| `systemctl enable service_name` | Enables a service to start on boot. |
+| `systemctl disable service_name` | Disables a service from starting at boot. |
+| `journalctl -u service_name` | Shows logs for a specific service. |
+| `service --status-all` | Lists all services (SysV init-based systems). |
+| `chkconfig --list` | Lists services and their startup status (RHEL-based systems). |
+| `netstat -tulnp` | Shows network services and ports currently in use. |
+
 
 ## Networking
 
-| Command                                 | Description                                                                                            |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `ifconfig`                              | Get networking information (IP, Subnet mask, MAC, etc.); On some systems may require **`sudo`** rights |
-| `ip a`                                  | Get networking information (IP, Subnet mask, MAC, etc.); No **`sudo`** required. Newer                 |
-| `ifconfig $interface $ip/$CIDR`         | Set IP address for an interface                                                                        |
-| `ifconfig $interface mtu $size`         | Change MTU size for an interface                                                                       |
-| `ifconfig $interface hw ether $new_MAC` | Change MAC address (or use `macchanger`)                                                               |
+Networking in Linux is built on a flexible and robust system that enables communication between devices over different protocols, such as TCP/IP. Linux provides various commands and configuration files for managing network interfaces, routing, services, and troubleshooting connectivity issues.
+
+Linux networking consists of several key components:  
+
+- **Network Interfaces** (`eth0`, `wlan0`, `lo`) – physical or virtual devices connecting to networks.  
+- **IP Addressing** – static or dynamic (DHCP) assignments to interfaces.  
+- **Routing** – directing traffic between networks using `ip route` or `route`.  
+- **Firewalls & Security** – managed using tools like `iptables` and `firewalld`.  
+- **Network Monitoring** – troubleshooting connectivity with tools such as `ping`, `netstat`, and `tcpdump`.  
+
+---
+
+### **Basic Networking Commands**  
+
+These Linux networking commands help manage interfaces, connections, and troubleshooting:
+
+| Command | Description | Example Usage |
+|---------|-------------|--------------|
+| `ip a` | Displays network interfaces and IP addresses. | `ip a show eth0` |
+| `ifconfig` | Shows or configures network interfaces (deprecated, replaced by `ip`). | `ifconfig eth0` |
+| `nmcli dev status` | Lists network devices and their status using NetworkManager. | `nmcli dev status` |
+| `dhclient` | Requests a new IP address via DHCP. | `dhclient eth0` |
+| `ping` | Tests network connectivity to a target IP or domain. | `ping google.com` |
+| `traceroute` | Displays the route packets take to a destination. | `traceroute 8.8.8.8` |
+| `netstat -tulnp` | Lists active network connections and listening services. | `netstat -tulnp | grep :80` |
+| `ss -tulnp` | Modern replacement for `netstat`, shows listening ports and active connections. | `ss -tulnp` |
+| `tcpdump` | Captures and analyzes network packets. | `tcpdump -i eth0 port 443` |
+| `iptables -L` | Lists firewall rules set by `iptables`. | `iptables -L INPUT` |
+| `ufw status` | Displays firewall rules with **Uncomplicated Firewall** (UFW). | `ufw status` |
+| `ip route` | Shows or modifies IP routing tables. | `ip route add 192.168.1.0/24 via 192.168.1.1` |
+| `hostname -I` | Shows the current IP address of the system. | `hostname -I` |
+| `curl -I` | Fetches HTTP headers from a website to test connectivity. | `curl -I example.com` |
+
+---
+
+### **Network Configuration**
+
+#### **Common Network Configuration Files in Linux**  
+
+Linux relies on several key files to store and manage **network settings, services, and tasks**.
+
+| File | Purpose | Example Usage |
+|------|---------|--------------|
+| `/etc/network/interfaces` | Defines network configurations (Debian-based systems). | Configure static IP: `auto eth0` + `iface eth0 inet static` |
+| `/etc/sysconfig/network-scripts/ifcfg-eth0` | Network configuration for RHEL-based systems. | Set DHCP: `BOOTPROTO=dhcp` |
+| `/etc/resolv.conf` | Stores DNS server settings for name resolution. | `nameserver 8.8.8.8` |
+| `/etc/hosts` | Defines local hostname resolutions without DNS. | `127.0.0.1 localhost` |
+| `/etc/nsswitch.conf` | Configures lookup order for hostname resolution. | `hosts: files dns` |
+| `/etc/hostname` | Contains the system hostname. | Change hostname: `echo "NewHost" > /etc/hostname` |
+| `/etc/iptables/rules.v4` | Persistent firewall rules for `iptables`. | `iptables-save > /etc/iptables/rules.v4` |
+| `/var/log/syslog` | Logs general system and network-related events. | `tail -f /var/log/syslog` |
+
+---
+
+#### **Managing Network Interfaces**
+
+| Command | Description | Example Usage |
+|---------|-------------|--------------|
+| `ip link show` | Displays the status of all network interfaces. | `ip link show eth0` |
+| `ip link set eth0 up` | Activates a network interface. | `ip link set eth0 up` |
+| `ip link set eth0 down` | Disables a network interface. | `ip link set eth0 down` |
+| `ifconfig eth0 up` | Starts the interface (deprecated). | `ifconfig eth0 up` |
+| `ifconfig eth0 down` | Shuts down the interface (deprecated). | `ifconfig eth0 down` |
+
+---
+
+#### **Configuring IP Addresses**
+
+| Command | Description | Example Usage |
+|---------|-------------|--------------|
+| `ip addr show` | Lists all interfaces and assigned IPs. | `ip addr show eth0` |
+| `ip addr add 192.168.1.100/24 dev eth0` | Assigns a new static IP to an interface. | `ip addr add 10.0.0.50/24 dev wlan0` |
+| `ip addr del 192.168.1.100/24 dev eth0` | Removes an assigned IP from an interface. | `ip addr del 192.168.1.50/24 dev eth0` |
+| `ifconfig eth0 192.168.1.100 netmask 255.255.255.0` | Configures a static IP (deprecated). | `ifconfig eth0 10.0.0.50 netmask 255.255.255.0` |
+
+---
+
+#### **Managing Routes**
+
+| Command | Description | Example Usage |
+|---------|-------------|--------------|
+| `ip route show` | Displays the current routing table. | `ip route show` |
+| `ip route add 192.168.10.0/24 via 192.168.1.1 dev eth0` | Adds a route to a network via a gateway. | `ip route add 10.0.0.0/16 via 10.0.0.1 dev eth0` |
+| `ip route del 192.168.10.0/24` | Deletes a specific route. | `ip route del 10.0.0.0/16` |
+| `route -n` | Displays routing table using legacy command (deprecated). | `route -n` |
+| `route add default gw 192.168.1.1 eth0` | Sets a default gateway (deprecated). | `route add default gw 10.0.0.1 eth0` |
+
+### **Wireless Network commands**
+
+| Command | Description | Example Usage |
+|---------|-------------|--------------|
+| `iwconfig` | Shows wireless network details (SSID, signal strength, mode). | `iwconfig wlan0` |
+| `iwlist scan` | Scans for available Wi-Fi networks. | `iwlist wlan0 scan` |
+| `nmcli device status` | Shows network interfaces and their state. | `nmcli device status` |
+| `nmcli device wifi list` | Lists available Wi-Fi networks. | `nmcli device wifi list` |
+| `nmcli device wifi connect "NetworkSSID" --ask` | Connects to a Wi-Fi network (prompts for password). | `nmcli device wifi connect "HomeWiFi" --ask` |
+| `nmcli device wifi connect "NetworkSSID" password "YourPassword"` | Connects to Wi-Fi without interactive input. | `nmcli device wifi connect "OfficeNet" password "SecurePass123"` |
+| `nmcli connection show` | Displays saved network connections. | `nmcli connection show` |
+| `nmcli connection down "NetworkSSID"` | Disconnects from a Wi-Fi network. | `nmcli connection down "HomeWiFi"` |
+| `nmcli connection modify "NetworkSSID" ipv4.addresses 192.168.1.50/24` | Assigns a static IP to a wireless connection. | `nmcli connection modify "OfficeNet" ipv4.addresses 10.0.0.100/24` |
+| `nmcli radio wifi off` | Turns off Wi-Fi completely. | `nmcli radio wifi off` |
+
+---
+
+### **Additional Network Troubleshooting Commands**
+
+| Command | Description | Example Usage |
+|---------|-------------|--------------|
+| `ip addr show` | Shows all network interfaces and IP addresses. | `ip addr show eth0` |
+| `ip link show` | Displays the status of network interfaces. | `ip link show wlan0` |
+| `ip route show` | Displays the routing table and default gateway. | `ip route` |
+| `ethtool eth0` | Provides details about a network interface (speed, duplex, link status). | `ethtool eth0` |
+| `mtr google.com` | Continuous traceroute to analyze network stability. | `mtr -rw google.com` |
+| `dig example.com` | Performs DNS lookups and queries nameservers. | `dig example.com` |
+| `nslookup example.com` | Legacy DNS lookup tool to resolve domain names. | `nslookup example.com` |
+| `host example.com` | Another alternative to `nslookup` for resolving DNS. | `host example.com` |
+| `arp -a` | Displays the ARP cache to see connected devices. | `arp -a` |
+| `nc -zv target.com 80` | Tests if a remote port is open (Netcat). | `nc -zv 8.8.8.8 53` |
+| `tcpdump -i eth0` | Captures network packets for analysis. | `tcpdump -i eth0 port 443` |
+| `nmap -sP 192.168.1.0/24` | Scans the network for active hosts. | `nmap -sP 192.168.1.0/24` |
+| `netstat -i` | Lists network interfaces along with statistics. | `netstat -i` |
+| `ss -tln` | Displays listening TCP ports and services. | `ss -tln` |
+| `lsof -i` | Shows all processes using network connections. | `lsof -i :22` |
+| `systemctl status network.service` | Checks if the network service is running. | `systemctl status NetworkManager.service` |
+
+---
+
+### **Firewall Configuration**  
+
+Firewalls are essential for securing a Linux system by controlling incoming and outgoing network traffic based on predefined rules. Linux offers multiple firewall management tools, each with different capabilities and use cases.
+
+
+#### **Which Firewall Should You Use?**
+
+- Use **iptables** for **fine-grained control** in security-critical environments.
+- Use **UFW** for **easy firewall management** on personal or desktop systems.
+- Use **firewalld** if you need **dynamic zones** for managing multiple services efficiently.
+
+---
+
+#### **Kernel Modules for Firewall Configuration**  
+
+Linux firewalls rely on kernel modules that provide packet filtering capabilities:
+
+| Kernel Module | Description |
+|--------------|-------------|
+| `nf_tables`  | The successor to iptables, used by **nftables** for efficient packet filtering. |
+| `iptables`   | Traditional firewall framework for packet filtering, NAT, and security policies. |
+| `xtables`    | Used by iptables and nftables to define advanced filtering options. |
+| `netfilter`  | Core Linux kernel framework for managing network packets and filtering. |
+| `conntrack`  | Tracks connections for stateful firewall rules (used in iptables and firewalld). |
+| `xt_tcpudp`  | Provides additional filtering options for TCP/UDP packets. |
+
+You can check if these modules are loaded using `lsmod`:
+
+```sh
+lsmod | grep netfilter
+```
+
+---
+
+#### **Comparison of Firewall Management Tools**  
+
+Linux provides multiple tools for firewall management, each with unique strengths:
+
+| Feature       | **iptables** | **UFW (Uncomplicated Firewall)** | **firewalld** |
+|--------------|-------------|----------------------------------|--------------|
+| **Complexity** | Advanced | Simple | Moderate |
+| **Stateful Rules** | Yes | Yes | Yes |
+| **Interface** | Command-line | User-friendly CLI | Dynamic Zone-based |
+| **Logging Support** | Yes | Limited | Yes |
+| **IPv6 Support** | Yes | Yes | Yes |
+| **Firewall Zones** | No | No | Yes |
+| **Best Use Case** | Fine-grained rule customization | User-friendly firewall for desktops | Managing multiple interfaces and services dynamically |
+
+#### **iptables - Advanced Firewall Control**
+
+`iptables` provides full control over packet filtering and NAT.  
+
+Example:
+
+```sh
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT   # Allow SSH connections
+iptables -A INPUT -p icmp -j DROP               # Block ping requests
+iptables -L                                     # List current rules
+```
+
+#### **UFW - Simplified Firewall for Users**
+
+`UFW` is a more user-friendly wrapper for iptables.  
+
+Example:
+
+```sh
+ufw enable                       # Enable firewall
+ufw allow 22/tcp                 # Allow SSH
+ufw deny 80/tcp                  # Block HTTP traffic
+ufw status                       # Show active rules
+```
+
+#### **firewalld - Dynamic Firewall with Zones**
+
+`firewalld` manages firewall rules dynamically with predefined zones.  
+
+Example:
+
+```sh
+firewall-cmd --permanent --add-service=http  # Allow HTTP traffic
+firewall-cmd --remove-service=ftp            # Block FTP traffic
+firewall-cmd --list-all                      # Show rules in a zone
+```
+
+---
 
 ### Managing connections
 
@@ -395,6 +984,7 @@ nc listener: `nc -lvnp <port>`
 Network shares allow multiple users or systems to access shared files and directories over a network. Below are some common tools and commands for working with network shares, particularly Samba (SMB) shares.
 
 #### Creating a Network Share (Samba)
+
 1. Install Samba:
    ```bash
    sudo apt update
