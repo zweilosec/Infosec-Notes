@@ -500,9 +500,9 @@ See the [chattr manpage](https://www.man7.org/linux/man-pages/man1/chattr.1.html
 | `free -h`         | Shows memory usage including swap space. |
 | `uptime`          | Displays system uptime and load average. |
 | `who -b`          | Shows last system boot time. |
-| `dmesg | head`    | Displays system log messages (hardware boot events). |
+| `dmesg \| head`    | Displays system log messages (hardware boot events). |
 | `lsblk`           | Lists block devices (disks and partitions). |
-| `mount | column -t` | Shows mounted file systems. |
+| `mount \| column -t` | Shows mounted file systems. |
 | `env`             | Prints system environment variables. |
 
 ### **Processes**
@@ -548,7 +548,7 @@ Here are some key files inside `/proc` that can provide valuable system data:
 | File | Purpose | Example Usage |
 |------|---------|--------------|
 | `/proc/cpuinfo` | Displays CPU details (cores, vendor, speed). | `cat /proc/cpuinfo` |
-| `/proc/meminfo` | Shows memory statistics (RAM usage, swap, buffers). | `cat /proc/meminfo | grep MemTotal` |
+| `/proc/meminfo` | Shows memory statistics (RAM usage, swap, buffers). | `cat /proc/meminfo \| grep MemTotal` |
 | `/proc/uptime` | Indicates how long the system has been running. | `cat /proc/uptime` |
 | `/proc/loadavg` | Displays system load averages over 1, 5, and 15 minutes. | `cat /proc/loadavg` |
 | `/proc/swaps` | Lists active swap partitions. | `cat /proc/swaps` |
@@ -563,7 +563,7 @@ Each process running on the system has a **dedicated directory** under `/proc`, 
 | File | Description | Example Usage |
 |------|-------------|--------------|
 | `/proc/[PID]/cmdline` | Displays the exact command used to start the process. | `cat /proc/1234/cmdline` |
-| `/proc/[PID]/status` | Provides detailed status info, including memory and CPU usage. | `cat /proc/1234/status | grep VmRSS` |
+| `/proc/[PID]/status` | Provides detailed status info, including memory and CPU usage. | `cat /proc/1234/status \| grep VmRSS` |
 | `/proc/[PID]/fd/` | Lists open file descriptors of the process. | `ls -l /proc/1234/fd/` |
 | `/proc/[PID]/environ` | Displays environment variables for the process. | `cat /proc/1234/environ` |
 
@@ -748,7 +748,7 @@ These Linux networking commands help manage interfaces, connections, and trouble
 | `dhclient` | Requests a new IP address via DHCP. | `dhclient eth0` |
 | `ping` | Tests network connectivity to a target IP or domain. | `ping google.com` |
 | `traceroute` | Displays the route packets take to a destination. | `traceroute 8.8.8.8` |
-| `netstat -tulnp` | Lists active network connections and listening services. | `netstat -tulnp | grep :80` |
+| `netstat -tulnp` | Lists active network connections and listening services. | `netstat -tulnp \| grep :80` |
 | `ss -tulnp` | Modern replacement for `netstat`, shows listening ports and active connections. | `ss -tulnp` |
 | `tcpdump` | Captures and analyzes network packets. | `tcpdump -i eth0 port 443` |
 | `iptables -L` | Lists firewall rules set by `iptables`. | `iptables -L INPUT` |
