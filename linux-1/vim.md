@@ -53,24 +53,26 @@ All commands must be run from Command Mode (unless otherwise specified).
 | `Ctrl + v` | Enter visual block mode for selecting columns of text. |
 | `:s/old/new/g` | Replace "old" text with "new" in the current line. |
 | `:%s/old/new/g` | Replace "old" text with "new" in the entire file. |
-| `gg` | Move cursor to the beginning of the file. |
-| `G` | Move cursor to the end of the file. |
-| `Ctrl + d` | Scroll down half a screen. |
-| `Ctrl + u` | Scroll up half a screen. |
+
 
 #### **Navigation & Cursor Movement**
+
 | Command | Description |
 | ------- | ------------------------------------------------------------------ |
+| `gg` | Move cursor to the beginning of the file. |
+| `G` | Move cursor to the end of the file. |
 | `w` | Move cursor forward to the next word. |
 | `b` | Move cursor backward to the previous word. |
 | `e` | Move cursor to the end of the current word. |
 | `{` | Move cursor to the beginning of the previous paragraph. |
 | `}` | Move cursor to the beginning of the next paragraph. |
-| `Ctrl + o` | Jump to the previous cursor position. |
-| `Ctrl + i` | Jump to the next cursor position. |
 | `H` | Move cursor to the top of the screen. |
 | `M` | Move cursor to the middle of the screen. |
 | `L` | Move cursor to the bottom of the screen. |
+| `Ctrl + o` | Jump to the previous cursor position. |
+| `Ctrl + i` | Jump to the next cursor position. |
+| `Ctrl + d` | Scroll down half a screen. |
+| `Ctrl + u` | Scroll up half a screen. |
 
 #### **Editing & Manipulating Text**
 
@@ -110,8 +112,8 @@ All commands must be run from Command Mode (unless otherwise specified).
 | ------- | ----------------------------------------------- |
 | `:r filename` | Insert the contents of "filename" into the current buffer. |
 | `:w filename` | Save the current buffer to "filename". |
-| `"*y` | Yank (copy) text to the system clipboard. |
-| `"*p` | Paste text from the system clipboard. |
+| `"*y` | Yank (copy) text to the system clipboard (some versions of vim do not support this). |
+| `"*p` | Paste text from the system clipboard (some versions of vim do not support this). |
 
 ## The .vimrc file
 
@@ -131,6 +133,7 @@ Here are some common `.vimrc` customizations to enhance your Vim experience:
 ### **Basic Settings**
 
 ```vim
+set mouse+=a        " turn on mouse in all modes
 set number          " Show line numbers
 set relativenumber  " Show relative line numbers
 set cursorline      " Highlight the current line
@@ -140,11 +143,18 @@ set expandtab       " Convert tabs to spaces
 set autoindent      " Maintain indentation level
 set nowrap          " Prevent line wrapping
 ```
+
+- **Mouse Usage**: `set mouse+=a` turns mouse usage on in all vim modes (normal, visual, insert, and command-line). This allows you to use the mouse for various actions like selecting text, resizing windows, and scrolling.
 - **Line Numbers:** `set number` displays absolute line numbers, while `set relativenumber` makes navigation easier by showing relative numbers.
 - **Cursor Highlighting:** `set cursorline` makes it easy to see where your cursor is.
 - **Indentation Control:** `tabstop`, `shiftwidth`, and `expandtab` ensure consistent spacing and indentation.
 - **Autoindent:** Helps maintain indentation consistency when writing code.
 - **Text Wrapping:** `set nowrap` prevents long lines from wrapping, keeping code readable.
+
+
+{% hint style="info" %}
+**Copy-Paste Issues**: Enabling mouse support might interfere with terminal copy-paste shortcuts. Use Shift or Ctrl keys as modifiers if needed (usually hold shift along with normal selection, then copy)
+{% endhint %}
 
 ### **Search & Navigation**
 
@@ -154,6 +164,7 @@ set smartcase       " Override ignorecase if uppercase is used
 set incsearch       " Highlight matches as you type
 set hlsearch        " Highlight all search matches
 ```
+
 - **Case Handling:** `ignorecase` makes searches case-insensitive, while `smartcase` ensures uppercase queries remain case-sensitive.
 - **Incremental Search:** `incsearch` highlights matches as you type, providing instant feedback.
 - **Highlighting Matches:** `hlsearch` ensures all found results are highlighted for better visibility.
@@ -167,6 +178,7 @@ nnoremap <leader>x :x<CR>  " Save and exit with <leader>x
 nnoremap <leader>n :bnext<CR>  " Move to next buffer
 nnoremap <leader>p :bprevious<CR>  " Move to previous buffer
 ```
+
 - **Leader Key Shortcuts:** These mappings allow quick execution of common tasks using a single key combination.
   - `<leader>w` saves the file.
   - `<leader>q` quits Vim.
@@ -178,23 +190,29 @@ nnoremap <leader>p :bprevious<CR>  " Move to previous buffer
 In Vim, the **leader key** is a customizable key that serves as a prefix for user-defined shortcuts, making commands faster and more intuitive. By default, the leader key is set to `\` (backslash), but it can be changed to another key, such as the **comma** or **space**, to improve usability.
 
 ### **Why Use the Leader Key?**
+
 - **Simplifies Commands:** Instead of typing long Vim commands, you can assign shortcuts to them.
 - **Improves Speed:** Reduces keystrokes for common actions.
 - **Personalized Workflow:** Tailor Vim to your habits and needs.
 
 ### **Setting a Custom Leader Key**
+
 You can redefine the leader key in your `.vimrc` file:
+
 ```vim
 let mapleader=","  " Set leader key to comma
 ```
 
 ### **Using the Leader Key**
+
 Once defined, the leader key can be used to create custom shortcuts:
+
 ```vim
 nnoremap <leader>w :w<CR>    " Save file with ,w
 nnoremap <leader>q :q<CR>    " Quit Vim with ,q
 nnoremap <leader>x :x<CR>    " Save and exit with ,x
 ```
+
 This means pressing **`,` followed by `w`** will save the file instead of typing `:w<CR>` manually.
 
 ### **Plugins**
@@ -231,7 +249,7 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 
 #### **Adding Plugins**
 
-Edit your `.vimrc` file:
+Edit your `.vimrc` file to add the following lines:
 
 ```vim
 call plug#begin('~/.vim/plugged')
@@ -248,7 +266,7 @@ call plug#end()
   - **Vim-Surround:** Allows easy manipulation of surrounding characters.
   - **FZF:** Adds powerful fuzzy search capabilities.
 
-Then, install plugins with:
+Then, install plugins in Vim with:
 
 ```vim
 :PlugInstall
@@ -269,7 +287,7 @@ Vim 8 introduced **native package management**:
    ```sh
    git clone https://github.com/preservim/nerdtree ~/.vim/pack/plugins/start/nerdtree
    ```
-3. Restart Vim—plugin loads automatically.
+3. Restart Vim; plugins load automatically.
 
 Using a plugin manager is **easier** and **more scalable**, but native management works well for minimal setups.
 
@@ -279,7 +297,8 @@ Using a plugin manager is **easier** and **more scalable**, but native managemen
 set laststatus=2
 set statusline=%f\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
 ```
-- **Status Line Customization:** Displays the file name, type, modification status, and cursor position efficiently.
+
+- **Status Line Customization:** Displays the file name, type, modification status, and cursor position.
 
 These configurations optimize Vim for usability, efficiency, and a better coding experience.
 
