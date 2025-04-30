@@ -6,9 +6,9 @@
 * [Hacking Methodology](hacking-methodology.md)
 * [Hands-on Practice](hands-on-practice.md)
 
-## Networking <a href="#Networking" id="Networking"></a>
-
+## Fundamentals <a href="#Fundamentals" id="Fundamentals"></a>
 * [Network Fundamentals](Networking/README.md)
+* [Computer Fundamentals](Computing/README.md)
 
 ## Linux <a href="#linux-1" id="linux-1"></a>
 
