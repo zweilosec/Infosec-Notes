@@ -1,6 +1,8 @@
---------------------------
+---
+Title: Computer Fundamentals
+---
+
 # Computer Fundamentals
---------------------------
 
 ## Fundamentals and Theory of Computing
 
