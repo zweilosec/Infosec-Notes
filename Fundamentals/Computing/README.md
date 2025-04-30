@@ -1,6 +1,3 @@
----
-Description: Computer Fundamentals
----
 
 # Computer Fundamentals
 
