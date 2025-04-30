@@ -7,8 +7,8 @@
 * [Hands-on Practice](hands-on-practice.md)
 
 ## Fundamentals <a href="#Fundamentals" id="Fundamentals"></a>
-* [Network Fundamentals](Networking/README.md)
-* [Computer Fundamentals](Computing/README.md)
+* [Network Fundamentals](Fundamentals/Networking/README.md)
+* [Computer Fundamentals](Fundamentals/Computing/README.md)
 
 ## Linux <a href="#linux-1" id="linux-1"></a>
 
