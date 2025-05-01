@@ -652,7 +652,26 @@ The use of **RST** is less common but crucial for handling unexpected situations
 
 TCP Chimney Offload is a network performance feature that allows the networking subsystem to offload the processing of TCP/IP protocols from the system's processor (CPU) to the network adapter (NIC). This reduces CPU load and improves the overall efficiency of data transmission, especially in high-throughput environments.
 
-TODO: add UDP section
+### **The User Datagram Protocol (UDP)**
+
+The **User Datagram Protocol (UDP)** is a connectionless protocol that operates at the **Transport Layer (Layer 4)** of the OSI model and uses the concept of ports like TCP. Unlike its counterpart, however, UDP prioritizes speed and efficiency over reliability. It is often used for applications where low latency is crucial, such as video streaming, online gaming, voice over IP (VoIP), and DNS queries.
+
+#### **UDP Features**  
+
+- **"Connectionless" Communication**:  
+   - UDP does not establish a connection before transmitting data, allowing for faster communication.  
+
+- **Message-Oriented**:  
+   - Data is sent in discrete packets, known as datagrams, without guaranteeing delivery, order, or integrity.  These functions are handled by the sending/recieving applications instead.
+
+- **Minimal Overhead**:  
+   - UDP has a minimal header (just 8 bytes), making it lightweight and efficient.  
+
+- **Reliability Managed by Applications**:  
+   - Applications needing reliability must handle error detection and retransmission, as UDP does not provide these.  
+
+Despite its lack of built-in reliability mechanisms, UDP's simplicity makes it ideal for scenarios where speed outweighs the need for guaranteed delivery. 
+
 
 ### Common TCP and UDP Ports
 
@@ -660,7 +679,7 @@ Here’s a list of some of the most common ports and protocols you should know:
 
 | **Port(s)**   | **Service/Protocol**   | **Transport Protocol** | **Description**                                                                 |
 |---------------|-------------------------|-------------------------|---------------------------------------------------------------------------------|
-| **20, 21**    | FTP                    | TCP                     | File Transfer Protocol for data transfer and control.                           |
+| **20, 21**    | FTP                    | TCP                     | File Transfer Protocol for data transfer (20) and control (21).                           |
 | **22**        | SSH                    | TCP                     | Secure Shell for encrypted remote access.                                      |
 | **23**        | Telnet                 | TCP                     | Unencrypted text-based communication.                                          |
 | **25**        | SMTP                   | TCP                     | Simple Mail Transfer Protocol for sending emails.                               |
@@ -675,6 +694,7 @@ Here’s a list of some of the most common ports and protocols you should know:
 | **110**       | POPv3                  | TCP                     | Post Office Protocol for retrieving emails.                                     |
 | **119**       | NNTP                   | TCP                     | Network News Transfer Protocol for Usenet articles.                             |
 | **123**       | NTP                    | UDP                     | Network Time Protocol for clock synchronization.                                |
+| **137, 138, 139** | NetBIOS             | UDP/TCP                 | Name service (137 UDP), Datagram service (138), Session service (139 TCP).             |
 | **143**       | IMAP                   | TCP                     | Internet Message Access Protocol for retrieving mail from servers.              |
 | **161, 162**  | SNMP                   | UDP/TCP                 | Simple Network Management Protocol for monitoring and management.               |
 | **179**       | BGP                    | TCP                     | Maintains large routing tables and processes traffic.                           |
@@ -686,19 +706,516 @@ Here’s a list of some of the most common ports and protocols you should know:
 | **989, 990**  | FTPS                   | TCP/UDP                 | Secure FTP over SSL/TLS.                                                       |
 | **993**       | TLS-Wrapped IMAP       | TCP                     | Secure IMAP over SSL/TLS.                                                      |
 
-
-
-- https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
-
-TODO: finish layers 5-7
+Complete List of known ports: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 
 ## **Layer 5: Session Layer**  
-- Role: Manages and controls connections between devices.  
-- Example: Setting up, maintaining, and terminating sessions.
+
+The **Session Layer** is the fifth layer of the OSI model, positioned between the Transport Layer (Layer 4) and the Presentation Layer (Layer 6). Its primary role is to manage and control communication sessions between applications. A session refers to a semi-permanent dialogue or connection established between two devices or processes.
+
+### **Key Functions of the Session Layer**  
+
+- **Session Establishment**:  
+   - Sets up the parameters and state for communication between devices.  
+   - Prepares both ends of the session for data exchange.
+
+- **Session Maintenance**:  
+   - Ensures the session remains stable and consistent during data transfer.  
+   - Manages session-level agreements and maintains session state.
+
+- **Session Termination**:  
+   - Properly closes sessions, ensuring all data is transmitted and resources are released.
+
+- **Synchronization**:  
+   - Implements synchronization points (checkpoints) in the data stream.  
+   - These checkpoints allow recovery from disruptions, enabling the session to resume from the last checkpoint rather than starting over.
+
+- **Dialog Control**:  
+   - Manages the dialog between processes, supporting both **half-duplex** (one direction at a time) and **full-duplex** (simultaneous two-way communication) modes.
+
+### **Protocols Associated with the Session Layer**  
+
+While the Session Layer does not have many dedicated protocols, it interacts with higher-layer protocols and services. Examples include:  
+
+- **NetBIOS**: Provides session-level services for applications in Windows environments.  
+- **RPC (Remote Procedure Call)**: Facilitates inter-process communication across networks.  
+- **SQL**: Manages database sessions for querying and data manipulation.
+
+### Circuit-Level Firewalls and the Session Layer  
+
+**Circuit-level firewalls** operate at the **Session Layer (Layer 5)** of the OSI model, where they monitor and manage communication sessions between devices. These firewalls focus on the setup and teardown of TCP or UDP connections, ensuring that only valid and authorized sessions are established. By inspecting the **handshaking processes**, circuit-level firewalls provide a layer of protection for network communication without analyzing individual data packets. Circuit-level firewalls are commonly used to provide session-level protection in enterprise networks, especially in scenarios where detailed packet inspection is unnecessary.
+
+#### **How Circuit-Level Firewalls Work**  
+
+- **Monitoring Handshakes**:  
+   - Circuit-level firewalls examine the **three-way handshake** in TCP connections or equivalent session initiation processes in UDP.  
+   - They allow or block connections based on session rules, ensuring that the handshake follows protocol standards.
+
+- **Session Tracking**:  
+   - Once a session is established, the firewall tracks the state of the connection.  
+   - It ensures the session remains valid and terminates unauthorized or malformed sessions.
+
+- **Dynamic Port Allocation**:  
+   - Circuit-level firewalls dynamically assign ports during session establishment, ensuring secure communication paths.  
+
+- **Protocol Independence**:  
+   - They are protocol-agnostic and do not inspect the payload of packets, making them lightweight and efficient.
+
+#### **Advantages**  
+
+- **Low Overhead**: They are faster than packet-inspecting firewalls since they focus on sessions rather than individual packets.  
+- **Privacy-Friendly**: They do not analyze the content of communications, reducing concerns about sensitive data exposure.  
+- **Simplicity**: Ideal for protecting internal networks from unauthorized external access.
+
 
 ## **Layer 6: Presentation Layer**  
-- Role: Translates data into a format that the application layer can understand.  
-- Example: Encryption, decryption, and data compression.
+
+The **Presentation Layer** is the sixth layer of the OSI model, sitting between the Session Layer (Layer 5) and the Application Layer (Layer 7). Its primary role is to act as a translator, ensuring that data sent from one system is understandable by another, regardless of differences in data formats or encoding.  The Presentation Layer plays a crucial role in ensuring that data is properly formatted, compressed, and secured for seamless communication between systems. 
+
+### **Key Functions of the Presentation Layer**  
+
+- **Data Translation**:  
+   - Converts data into a standard format that can be understood by the receiving system.  
+   - For example, it translates between different character encoding schemes like ASCII and EBCDIC.
+
+- **Data Compression**:  
+   - Reduces the size of data to optimize transmission speed and efficiency.  
+   - Commonly used in multimedia applications to compress images, audio, and video.
+
+- **Data Encryption and Decryption**:  
+   - Ensures secure communication by encrypting data before transmission and decrypting it upon receipt.  
+   - Protocols like SSL/TLS operate at this layer to provide secure communication.
+
+- **Serialization**:  
+   - Converts complex data structures into a format suitable for transmission, such as JSON or XML.  
+   - This process ensures compatibility between different systems.
+
+
+### **Examples of Presentation Layer Protocols**  
+
+- **SSL/TLS**: Provides encryption for secure communication (e.g., HTTPS).  
+- **JPEG, GIF, PNG**: Formats for compressing and transmitting images.  
+- **MPEG, MP3**: Formats for compressing and transmitting audio and video.  
+- **ASCII, EBCDIC**: Character encoding standards for text representation.  
+
+## Encryption and Cryptography Fundamentals
+
+**Cryptography** is the art of "writing in secret," ensuring that information is protected from unauthorized access or tampering. It involves techniques like encryption, hashing, and digital signatures to secure data. Encryption and cryptography are essential components of secure communication in modern networks. It fits within the **Presentation Layer (Layer 6)** and other closely-related layers of the OSI model and plays a crucial role in data encryption, decryption, and ensuring secure communication between systems.
+
+### Key Concepts
+
+- **Plaintext**:  Plaintext refers to the original, readable data or message that needs to be protected. It is the input for encryption algorithms and is transformed into ciphertext to ensure confidentiality. Examples include emails, passwords, or any sensitive information before encryption.
+
+- **Ciphertext**:  Ciphertext is the result of encrypting plaintext using an encryption algorithm and a key. It is unreadable to unauthorized parties and can only be converted back to plaintext through decryption using the appropriate key.
+
+- **Hash Values**:  A hash value is a fixed-length string of characters generated by a hash function from input data of any size. Hashing is a one-way process, meaning it cannot be reversed to retrieve the original data. Hash values are commonly used to verify data integrity, ensuring that the data has not been altered during transmission or storage. Examples of hash functions include MD5, SHA-1, and SHA-256.
+
+- **Public Key**:  In asymmetric cryptography, the public key is one half of a key pair and is used for encrypting data or verifying digital signatures. It is shared openly and does not need to be kept secret. Public keys are often distributed via digital certificates to ensure authenticity.
+
+- **Private Key**:  The private key is the other half of the key pair in asymmetric cryptography and must be kept confidential. It is used for decrypting data encrypted with the corresponding public key or for creating digital signatures. The security of the private key is critical to the overall security of the encryption system.
+
+- **Session Key**:  A session key is a temporary, symmetric key used to encrypt and decrypt data during a single communication session. It is typically generated for each session to ensure that even if one session key is compromised, other sessions remain secure. Session keys are often exchanged securely using asymmetric encryption during the initial handshake of a secure communication protocol, such as TLS.
+
+- **Digital Signature**:  A digital signature is a cryptographic technique used to verify the authenticity and integrity of a message or document. It is created using the sender's private key and can be verified by anyone with the sender's public key. Digital signatures ensure that the message has not been tampered with and confirm the sender's identity.
+
+- **Encryption Algorithm**:  An encryption algorithm is a mathematical procedure used to transform plaintext into ciphertext and vice versa. Examples include symmetric algorithms like AES (Advanced Encryption Standard) and asymmetric algorithms like RSA (Rivest-Shamir-Adleman).
+
+- **Key Exchange**:  Key exchange is the process of securely sharing cryptographic keys between parties to enable encrypted communication. Common methods include the Diffie-Hellman key exchange and the use of public-key cryptography to exchange session keys.
+
+- **Initialization Vector (IV)**:  An initialization vector is a random or pseudo-random value used in conjunction with a key to ensure that identical plaintexts encrypt to different ciphertexts. It adds an additional layer of security by preventing patterns in the ciphertext.
+
+- **Certificate Authority (CA)**:  A certificate authority is a trusted entity that issues digital certificates to verify the ownership of public keys. These certificates are used to establish trust in secure communications, such as HTTPS.
+
+- **Salt**:  Salt is a random value added to plaintext before hashing to ensure that identical inputs produce different hash values. It is commonly used to secure passwords against dictionary and rainbow table attacks.
+
+- **Key Length**:  Key length refers to the size of the encryption key, typically measured in bits. Longer keys provide stronger security but may require more computational resources. For example, AES supports key lengths of 128, 192, and 256 bits.
+
+- **Elliptic Curve Cryptography (ECC)**:  ECC is a type of asymmetric cryptography that uses elliptic curves to provide strong security with smaller key sizes compared to traditional methods like RSA. It is widely used in modern secure communication protocols.
+
+- **Entropy**:  Entropy in cryptography refers to the randomness or unpredictability of a key or data. High entropy ensures that keys are difficult to guess or brute-force, enhancing the security of the encryption system.
+
+- **Encryption Key Lifecycle**:   Encryption keys go through several stages throughout their lifetime:  
+     - **Key Generation**: Creating the encryption key.  
+     - **Pre-Activation**: Preparing the key for use.  
+     - **Activation**: The key is actively used for encryption/decryption.  
+     - **Expiration**: The key is retired after its validity period.  
+     - **Post-Activation**: The key is archived for reference.  
+     - **Escrow**: Secure storage of keys for recovery purposes.  
+     - **Destruction**: Securely deleting the key to prevent misuse.  
+
+#### Hash Functions
+
+Hash functions accept plaintext data of any length and produce a fixed-length hash. They are **one-way functions**, meaning they cannot be reversed to retrieve the original data.
+
+- **Hash Usage in Applications**:
+  - **Verifying File Integrity**:
+    - Hashes are used to ensure that files have not been tampered with or corrupted during downloads or backups. By comparing the hash value of the downloaded file with the hash provided by the source, users can verify the file's integrity.
+  - **Storing Hashed Passwords**:
+    - Passwords are stored in databases as hashed values rather than plaintext. This ensures that even if the database is compromised, the original passwords are not directly exposed. Salting is often used alongside hashing to further enhance security.
+  - **Generating Digital Signatures**:
+    - Hashes are used in digital signatures to authenticate the sender of a message and ensure the message's integrity. The hash of the message (**message digest**) is encrypted with the sender's private key, and the recipient can verify it using the sender's public key.
+  - **Data Deduplication**:
+    - Hashes are used to identify duplicate data in storage systems. By comparing hash values of data blocks, systems can avoid storing redundant copies.
+  - **Blockchain Technology**:
+    - Cryptographic hashes are fundamental to blockchain, ensuring data integrity and linking blocks securely in the chain.
+
+- **Key Properties of Cryptographic Hash Functions**:
+  - **Deterministic**: The same input always produces the same hash output.
+  - **Fast Computation**: Hash functions should be computationally efficient.
+  - **Pre-image Resistance**: It should be computationally infeasible to reverse a hash to find the original input.
+  - **Collision Resistance**: It should be computationally infeasible to find two different inputs that produce the same hash.
+  - **Avalanche Effect**: A small change in the input should produce a significantly different hash output.
+
+- **Practical Considerations**:
+  - Always use modern, secure hash functions for cryptographic purposes.
+  - Avoid using hashes like MD5 or SHA-1 for sensitive applications.
+  - Use salting and key stretching techniques (e.g., PBKDF2, Argon2) when hashing passwords to defend against brute-force and rainbow table attacks.
+
+
+##### **Hash Collisions**
+
+A hash collision occurs when two different inputs produce the same hash value. Collisions undermine the reliability of a hash function, especially in applications like digital signatures or file integrity checks.
+
+Modern cryptographic hash functions, such as SHA-256 and SHA-3, are designed to minimize the likelihood of collisions. However, older algorithms like MD5 and SHA-1 are vulnerable to collision attacks and are no longer considered secure for cryptographic purposes.
+
+###### **The Birthday Paradox**
+
+The birthday paradox explains why collisions in hash functions can occur more frequently than intuition suggests. In a hash function with `n` possible outputs, the probability of a collision becomes significant after approximately √n inputs. For example, in a 128-bit hash function, there are 2^128 possible outputs. However, a collision is likely to occur after only about 2^64 inputs due to the birthday paradox. This principle highlights the importance of using hash functions with sufficiently large output sizes to reduce the risk of collisions in practical applications.
+
+##### Common Hash Algorithms
+
+| Algorithm       | Output Size (bits) | Speed         | Security Status       | Common Use Cases                                                                 |
+|-----------------|--------------------|---------------|-----------------------|---------------------------------------------------------------------------------|
+| **MD5**         | 128                | Fast          | Insecure (collision attacks) | File integrity checks (non-critical), legacy systems                             |
+| **SHA-1**       | 160                | Moderate      | Insecure (collision attacks) | Legacy applications, digital signatures (deprecated)                            |
+| **SHA-256**     | 256                | Moderate      | Secure                | Digital signatures, certificates, blockchain                                    |
+| **SHA-3**       | Variable (224, 256, 384, 512) | Moderate | Secure                | Cryptographic applications, post-quantum security                               |
+| **SHA-512**     | 512                | Slower        | Secure                | High-security applications, password hashing                                    |
+| **Blake2**      | Variable (up to 512) | Very Fast   | Secure                | General-purpose hashing, cryptographic applications                             |
+| **RIPEMD-160**  | 160                | Moderate      | Secure (but less common) | Cryptographic applications, digital signatures                                  |
+| **Whirlpool**   | 512                | Slower        | Secure                | High-security applications, archival systems                                   |
+| **Argon2**      | Variable          | Slower (memory-intensive) | Secure | Password hashing, key derivation                                                |
+| **Tiger**       | 192                | Fast          | Secure (less common)  | Data integrity checks, cryptographic applications                               |
+| **HMAC**        | Variable          | Moderate      | Secure                | Message authentication in networking protocols (e.g., TLS, IPsec)               |
+| **PBKDF2**      | Variable          | Slower        | Secure                | Password hashing, key derivation                                                |
+| **Skein**       | Variable (up to 1024) | Moderate   | Secure                | Cryptographic applications, digital signatures                                  |
+| **Poly1305**    | 128                | Very Fast     | Secure                | Message authentication in secure communication protocols (e.g., TLS, QUIC)      |
+
+- **Note**: Algorithms like MD5 and SHA-1 are no longer recommended for cryptographic purposes due to vulnerabilities to collision attacks. Modern applications should use SHA-2, SHA-3, or other secure algorithms like Blake2, Argon2, or HMAC for networking-related cryptographic needs.
+
+#### Symmetric Encryption
+
+Symmetric encryption uses a single key for both encryption and decryption. The same key must be securely shared between the communicating parties to ensure confidentiality.
+
+- **Advantages**:
+  - Faster and more efficient than asymmetric encryption due to simpler mathematical operations.
+  - Requires less computational power, making it suitable for resource-constrained environments such as IoT devices.
+  - Provides high throughput for encrypting large volumes of data.
+
+- **Disadvantages**:
+  - Key distribution can be challenging, as the same key must be securely shared between parties.
+  - If the key is compromised, all encrypted data is at risk.
+  - Does not provide non-repudiation, as the same key is used for both encryption and decryption.
+
+- **Applications**:
+  - **Data in Transit**:
+    - Securing network traffic in VPNs, ensuring confidentiality and integrity.
+    - Encrypting communication in protocols like HTTPS (in combination with asymmetric encryption for key exchange).
+  - **Data at Rest**:
+    - Encrypting sensitive files stored on disk to prevent unauthorized access.
+    - Used in full-disk encryption tools like BitLocker and VeraCrypt.
+  - **Messaging and Communication**:
+    - Protecting messages in secure communication apps like Signal and WhatsApp.
+    - Ensuring real-time encryption for voice and video calls.
+  - **Database Encryption**:
+    - Encrypting sensitive data stored in databases to comply with regulatory requirements.
+    - Often used in conjunction with key management systems.
+
+- **Key Management**:
+  - Securely generating, storing, and distributing keys is critical for symmetric encryption.
+  - Key management systems (KMS) are often used to automate and secure the lifecycle of encryption keys.
+  - Techniques like key rotation and key expiration help mitigate risks associated with key compromise.
+
+- **Best Practices**:
+  - Always use modern, secure algorithms like AES or ChaCha20.
+  - Avoid using deprecated algorithms like DES, 3DES, or RC4.
+  - Implement strong key management policies to ensure the secure handling of encryption keys.
+  - Use unique keys for different encryption contexts to minimize the impact of a key compromise.
+
+Symmetric encryption remains a cornerstone of modern cryptography, offering a balance of speed and security for a wide range of applications. However, its reliance on secure key distribution highlights the importance of combining it with robust key management practices.
+
+##### Common Symmetric Encryption Algorithms
+
+| Algorithm       | Key Size (bits)       | Block Size (bits) | Security Status       | Common Use Cases                              |
+|-----------------|-----------------------|-------------------|-----------------------|----------------------------------------------|
+| **AES**         | 128, 192, 256         | 128               | Secure                | Data encryption, VPNs, file encryption       |
+| **DES**         | 56                    | 64                | Insecure              | Legacy systems                               |
+| **3DES**        | 112, 168              | 64                | Marginally Secure     | Legacy systems, compatibility requirements   |
+| **Blowfish**    | 32–448                | 64                | Secure                | Password hashing, file encryption            |
+| **Twofish**     | 128, 192, 256         | 128               | Secure                | File encryption, disk encryption             |
+| **RC4**         | 40–2048 (variable)    | Stream cipher      | Insecure              | Legacy protocols (e.g., WEP, SSL)            |
+| **ChaCha20**    | 256                   | Stream cipher      | Secure                | Secure communication protocols (e.g., TLS)   |
+| **IDEA**        | 128                   | 64                | Secure (less common)  | Email encryption, PGP                        |
+| **Camellia**    | 128, 192, 256         | 128               | Secure                | Alternative to AES in cryptographic systems  |
+
+- **Deprecated Algorithms**:
+  - **DES (Data Encryption Standard)**:
+    - Uses a 56-bit key, which is now considered insecure due to brute-force vulnerabilities.
+  - **3DES (Triple DES)**:
+    - An improvement over DES but still vulnerable to certain attacks and slower compared to modern algorithms.
+  - **RC4**:
+    - A stream cipher that is no longer recommended due to known vulnerabilities.
+
+
+#### Asymmetric Encryption
+
+Asymmetric encryption uses a pair of keys: a public key for encryption and a private key for decryption. These keys are mathematically related but cannot be derived from one another. This approach eliminates the need for securely sharing a single key and enables secure communication between parties who have never met. Asymmetric encryption is a cornerstone of modern cryptography, enabling secure communication, authentication, and data integrity across a wide range of applications. Its combination with symmetric encryption in hybrid systems ensures both security and performance.
+
+- **Advantages**:
+  - Eliminates the need to securely share a single key.
+  - Enables secure communication between parties who have never met.
+  - Provides non-repudiation through digital signatures, ensuring that the sender cannot deny sending a message.
+  - Allows for secure key exchange in combination with symmetric encryption.
+
+- **Disadvantages**:
+  - Slower than symmetric encryption due to more complex mathematical operations.
+  - Requires more computational resources, which can be a limitation for resource-constrained devices.
+  - Not suitable for encrypting large amounts of data due to performance constraints.
+
+- **Usage in Applications**:
+  - **Secure Key Exchange**:
+    - Used in protocols like TLS to securely exchange session keys for symmetric encryption.
+  - **Digital Signatures**:
+    - Verifies the authenticity and integrity of documents, emails, or software.
+    - Ensures that the message has not been tampered with and confirms the sender's identity.
+  - **Email Encryption**:
+    - Standards like PGP (Pretty Good Privacy) and S/MIME use asymmetric encryption to secure email communication.
+  - **Authentication**:
+    - Used in systems like SSH to authenticate users and devices.
+  - **Blockchain Technology**:
+    - Ensures the integrity and authenticity of transactions in blockchain networks.
+  - **Certificate Authorities (CAs)**:
+    - Asymmetric encryption is the foundation of Public Key Infrastructure (PKI), enabling secure HTTPS connections.
+
+- **Key Management**:
+  - Public keys can be freely shared, but private keys must be kept secure.
+  - Digital certificates issued by trusted Certificate Authorities (CAs) are used to verify the authenticity of public keys.
+  - Key rotation and revocation mechanisms are essential to maintain security.
+
+- **Best Practices**:
+  - Use modern algorithms like ECC or RSA with sufficiently large key sizes (e.g., 2048 bits or higher for RSA).
+  - Avoid deprecated algorithms like 1024-bit RSA or older implementations of Diffie-Hellman.
+  - Regularly update and rotate keys to minimize the risk of compromise.
+  - Use trusted Certificate Authorities (CAs) to manage and verify public keys.
+
+##### Common Asymmetric Encryption Algorithms
+
+| Algorithm       | Key Size (bits)       | Security Status       | Common Use Cases                              |
+|-----------------|-----------------------|-----------------------|----------------------------------------------|
+| **RSA**         | 1024, 2048, 3072, 4096 | Secure (2048+ recommended) | Digital signatures, key exchange, certificates |
+| **ECC**         | 160–521               | Secure                | Mobile devices, IoT, blockchain, TLS         |
+| **DSA**         | 1024, 2048, 3072      | Secure (2048+ recommended) | Digital signatures                           |
+| **ElGamal**     | Variable              | Secure                | Key exchange, encryption                     |
+| **Diffie-Hellman** | Variable           | Secure (with large key sizes) | Key exchange                                |
+| **EdDSA**       | 256, 448              | Secure                | Digital signatures, modern cryptographic systems |
+| **Paillier**    | Variable              | Secure (less common)  | Homomorphic encryption                       |
+| **NTRU**        | Variable              | Secure (post-quantum) | Post-quantum cryptography                    |
+
+- **Note**: RSA and ECC are the most widely used asymmetric algorithms. ECC is preferred for resource-constrained environments due to its smaller key sizes and faster computations. RSA remains popular for legacy systems and applications.
+
+
+#### Public Key Infrastructure (PKI)
+- **Definition**: PKI is a framework for managing digital certificates and public-key encryption to enable secure communication.
+- **Components**:
+  - **Certification Authority (CA)**: A trusted entity that issues and verifies digital certificates.
+  - **Registration Authority (RA)**: Handles the verification of entities requesting certificates.
+  - **Digital Certificates**: Bind public keys to entities, ensuring their authenticity.
+  - **Certificate Revocation List (CRL)**: A list of certificates that have been revoked before their expiration date.
+- **Applications**:
+  - Enabling HTTPS for secure websites.
+  - Managing digital signatures for documents and software.
+  - Securing email communication using S/MIME.
+  - Authenticating users and devices in enterprise environments.
+- **Benefits**:
+  - Provides a scalable and standardized approach to managing encryption keys.
+  - Enhances trust in online transactions and communications.
+  - Supports compliance with security standards and regulations.
+
+
+### Common Encryption Tools and Protocols
+
+#### SSL (Secure Sockets Layer) and TLS (Transport Layer Security)
+
+SSL (Secure Sockets Layer) and its successor TLS (Transport Layer Security) are cryptographic protocols designed to provide secure communication over a network. They are widely used to protect sensitive data and ensure privacy and integrity in online communications.
+
+##### **How SSL/TLS Works**
+1. **Handshake Process**:
+  - The handshake begins with the client and server exchanging information about supported cryptographic algorithms and protocols.
+  - The server provides its digital certificate, which contains its public key and is signed by a trusted Certificate Authority (CA).
+  - The client verifies the server's certificate to ensure its authenticity.
+  - A secure session key is established using asymmetric encryption (e.g., RSA or Diffie-Hellman).
+  - Once the session key is exchanged, symmetric encryption (e.g., AES or ChaCha20) is used for the actual data transfer to ensure efficiency.
+
+2. **Session Establishment**:
+  - The session key is unique to each connection and is used to encrypt and decrypt data during the session.
+  - The use of symmetric encryption ensures high performance and low computational overhead.
+
+3. **Data Integrity**:
+  - Message Authentication Codes (MACs) are used to verify the integrity of transmitted data.
+  - This ensures that any tampering or corruption during transmission is detected.
+
+##### **Key Features of SSL/TLS**
+- **Authentication**:
+  - Ensures the identity of the server using digital certificates issued by trusted Certificate Authorities (CAs).
+  - Optionally, client authentication can also be performed using client certificates.
+- **Encryption**:
+  - Protects data from being intercepted or read by unauthorized parties during transmission.
+  - Supports a variety of encryption algorithms, including RSA, ECC, AES, and ChaCha20.
+- **Integrity**:
+  - Ensures that data is not altered during transmission using cryptographic hash functions like SHA-256.
+- **Forward Secrecy**:
+  - Modern implementations of TLS (e.g., TLS 1.2 and TLS 1.3) support forward secrecy, ensuring that even if the private key is compromised, past communications remain secure.
+
+##### **Applications of SSL/TLS**
+- **Web Traffic Security**:
+  - Used in HTTPS to secure websites and protect user data such as login credentials, payment information, and personal details.
+- **Email Encryption**:
+  - Secures email communications using protocols like SMTPS, IMAPS, and POP3S.
+- **VPN Connections**:
+  - Protects data transmitted over Virtual Private Networks (VPNs) by encrypting the communication between the client and the VPN server.
+- **File Transfers**:
+  - Secures file transfers using protocols like FTPS and SFTP.
+- **VoIP and Messaging**:
+  - Encrypts voice and video calls, as well as instant messaging, to ensure privacy.
+- **IoT Devices**:
+  - Provides secure communication for Internet of Things (IoT) devices, protecting them from unauthorized access and data breaches.
+
+##### **TLS Versions**
+- **TLS 1.0**:
+  - Introduced as a replacement for SSL 3.0 but is now deprecated due to security vulnerabilities.
+- **TLS 1.1**:
+  - Improved upon TLS 1.0 but is also deprecated.
+- **TLS 1.2**:
+  - Widely used and considered secure, supporting modern cryptographic algorithms and forward secrecy.
+- **TLS 1.3**:
+  - The latest version, offering improved performance, stronger security, and simplified handshake processes by removing outdated features.
+
+##### **Common SSL/TLS Vulnerabilities**
+- **Man-in-the-Middle (MITM) Attacks**:
+  - Occur when an attacker intercepts and manipulates communication between the client and server.
+  - Mitigated by using strong encryption and certificate validation.
+- **Certificate Spoofing**:
+  - Involves the use of fake certificates to impersonate a trusted server.
+  - Prevented by verifying certificates against trusted Certificate Authorities.
+- **Protocol Downgrade Attacks**:
+  - Exploit older, less secure versions of SSL/TLS.
+  - Mitigated by disabling deprecated protocols like SSL 3.0 and TLS 1.0.
+
+##### **Best Practices for SSL/TLS**
+- Use the latest version of TLS (preferably TLS 1.3) to ensure strong security.
+- Configure servers to use strong cipher suites and disable weak ones.
+- Regularly update and renew digital certificates to maintain trust.
+- Implement HTTP Strict Transport Security (HSTS) to enforce HTTPS connections.
+- Use Certificate Transparency logs to detect and prevent certificate misuse.
+
+#### GPG (GNU Privacy Guard)  
+
+**GPG** is a free and open-source encryption software that implements the OpenPGP standard. It supports both **asymmetric encryption** (using a public-private key pair) and **symmetric encryption** (using a single shared key). GPG is commonly used for securing emails, files, and digital communications by encrypting data and digitally signing messages to ensure authenticity. Its flexibility and open-source nature make it highly customizable and accessible for personal and professional use.
+
+#### PGP (Pretty Good Privacy)  
+
+**PGP** is an encryption program designed to secure data through encryption and digital signatures. It originally gained popularity for protecting email communications. PGP primarily uses **symmetric encryption**, which is simpler and faster for encrypting large amounts of data, but it also incorporates **asymmetric encryption** for key exchange and digital signatures. Now owned by Symantec, PGP is often used in commercial applications, although compatible tools like GPG provide a free alternative.
+
+Both GPG and PGP aim to provide confidentiality, integrity, and authenticity for digital communications, and they can be used together due to their shared OpenPGP standard. 
+
+#### **OpenSSL**:
+
+OpenSSL is a versatile tool that supports a wide range of cryptographic operations, making it essential for developers, system administrators, and security professionals.
+
+Common uses:
+
+| **Use Case**                          | **Command**                                                                                     |
+|---------------------------------------|-------------------------------------------------------------------------------------------------|
+| **Generate private keys**             | `openssl genrsa -out private.key 2048`                                                         |
+| **Extract public key from private key** | `openssl rsa -in private.key -pubout -out public.key`                                           |
+| **Create a self-signed certificate**  | `openssl req -x509 -new -nodes -key private.key -sha256 -days 365 -out certificate.crt`         |
+| **Encrypt a file (Symmetric)**        | `openssl enc -aes-256-cbc -in file.txt -out file.enc`                                           |
+| **Decrypt a file (Symmetric)**        | `openssl enc -aes-256-cbc -d -in file.enc -out file.txt`                                        |
+| **Encrypt a file (Asymmetric)**       | `openssl rsautl -encrypt -inkey public.key -pubin -in file.txt -out file.enc`                  |
+| **Decrypt a file (Asymmetric)**       | `openssl rsautl -decrypt -inkey private.key -in file.enc -out file.txt`                        |
+| **Sign a file**                       | `openssl dgst -sha256 -sign private.key -out signature.bin file.txt`                           |
+| **Verify a signature**                | `openssl dgst -sha256 -verify public.key -signature signature.bin file.txt`                    |
+| **Generate a CSR**                    | `openssl req -new -key private.key -out request.csr`                                           |
+| **Convert to PEM format**             | `openssl x509 -in certificate.crt -outform PEM -out certificate.pem`                           |
+| **Convert to DER format**             | `openssl x509 -in certificate.pem -outform DER -out certificate.der`                           |
+| **Check certificate details**         | `openssl x509 -in certificate.crt -text -noout`                                                |
+| **Test SSL/TLS connections**          | `openssl s_client -connect example.com:443`                                                   |
+| **Generate random string**            | `openssl rand -base64 32`                                                                      |
+| **Create a PKCS#12 file**             | `openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.crt -certfile ca-bundle.crt` |
+| **Verify a certificate chain**        | `openssl verify -CAfile ca-bundle.crt certificate.crt`                                         |
+| **Benchmark AES-256-CBC**             | `openssl speed aes-256-cbc`                                                                    |
+| **Decode and inspect JWT tokens**     | `echo "eyJhbGciOi..." | base64 -d | openssl asn1parse -inform DER`                             |
+
+#### Other Encryption and encoding tools
+
+These tools are essential for encryption, hashing, and encoding tasks, providing a foundation for secure data handling and verification.
+
+- **md5sum**:
+  - A utility to compute and verify MD5 hash values.
+  - Commonly used to check file integrity.
+  - Example: `md5sum file.txt`
+
+- **sha256sum**:
+  - Similar to `md5sum`, but computes SHA-256 hash values for stronger security.
+  - Example: `sha256sum file.txt`
+
+- **Base64**:
+  - Encodes and decodes data in Base64 format (not encryption!).
+  - Useful for encoding binary data into text for safe transmission.
+  - Example: `echo "Hello, World!" | base64`
+
+- **GPG (GNU Privacy Guard)**:
+  - A tool for secure communication and data encryption.
+  - Supports signing, encrypting, and decrypting files and emails.
+  - Example: `gpg --encrypt --recipient user@example.com file.txt`
+
+- **bcrypt**:
+  - A password hashing tool designed for secure password storage.
+  - Example: `echo "password" | bcrypt`
+
+- **pbkdf2**:
+  - A key derivation function used to securely hash passwords.
+  - Often implemented in libraries or tools for password management.
+
+- **xxd**:
+  - A utility to create a hexdump or reverse a hexdump back to binary.
+  - Example: `xxd -p file.bin`
+
+### Encryption and its OSI Layer Relationships
+- **Layer 4 (Transport)**: Establishes reliable connections (e.g., TCP handshake).
+- **Layer 5 (Session)**: Manages secure sessions (e.g., TLS handshake).
+- **Layer 6 (Presentation)**: Handles encryption, decryption, and data integrity (e.g., symmetric/asymmetric encryption, hashing).
+- **Layer 7 (Application)**: Manages user-facing security mechanisms (e.g., PKI, digital certificates).
+
+#### Example: Steps of an HTTPS Connection
+1. **TCP Handshake** (OSI Layer 4 - Transport):
+  - The client and server establish a reliable connection using the TCP three-way handshake (SYN, SYN-ACK, ACK). This ensures that both parties are ready to communicate.
+
+2. **Client → Server: ClientHello** (OSI Layer 5 - Session):
+  - The client initiates the TLS handshake by sending a `ClientHello` message. This includes supported TLS versions, cipher suites, and random data for key generation.
+
+3. **Client ← Server: ServerHello + ServerKeyExchange** (OSI Layer 5 - Session):
+  - The server responds with a `ServerHello` message, selecting the TLS version and cipher suite. It also sends its digital certificate (containing its public key) to authenticate itself.
+
+4. **Client → Server: ClientKeyExchange** (OSI Layer 5 - Session):
+  - The client generates a pre-master secret (shared secret) and encrypts it using the server's public key. This ensures that only the server can decrypt it using its private key.
+
+5. **Key Generation and Symmetric Encryption** (OSI Layer 6 - Presentation):
+  - Both the client and server compute the session key (master key) from the pre-master secret. This session key is used for symmetric encryption, which is faster and more efficient for ongoing communication.
+
+6. **Begin Symmetrically Encrypted Data Transfer** (OSI Layer 6 - Presentation):
+  - The server and client confirm the encryption parameters and switch to symmetric encryption for the remainder of the session. This ensures secure and efficient data transfer.
+
+TODO: Layer 7
 
 ## **Layer 7: Application Layer**  
 - Role: Interfaces with end-user applications.  
