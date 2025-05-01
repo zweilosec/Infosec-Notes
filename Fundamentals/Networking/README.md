@@ -1153,7 +1153,7 @@ Common uses:
 | **Create a PKCS#12 file**             | `openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.crt -certfile ca-bundle.crt` |
 | **Verify a certificate chain**        | `openssl verify -CAfile ca-bundle.crt certificate.crt`                                         |
 | **Benchmark AES-256-CBC**             | `openssl speed aes-256-cbc`                                                                    |
-| **Decode and inspect JWT tokens**     | `echo "eyJhbGciOi..." | base64 -d | openssl asn1parse -inform DER`                             |
+| **Decode and inspect JWT tokens**     | `echo "eyJhbGciOi..." \| base64 -d \| openssl asn1parse -inform DER`                             |
 
 #### Other Encryption and encoding tools
 
