@@ -22,8 +22,6 @@ Each layer has specific functions that help networks communicate effectively:
 | **6. Presentation Layer** | Translates data into a format the application layer can understand. | Encryption, decryption, and data compression |
 | **7. Application Layer** | Interfaces with end-user applications.                   | Web browsers, email clients, and file transfer applications |
 
----
-
 #### The TCP/IP (DoD) Model
 
 The Department of Defense (DoD) model, also known as the TCP/IP model, simplifies network communication into **four layers**:
@@ -49,6 +47,8 @@ This table highlights how the DoD model simplifies and condenses the layers from
 | **5. Session Layer**        | **4. Application Layer**       | Consolidated in the DoD model, manages sessions and connections for applications. |
 | **6. Presentation Layer**   | **4. Application Layer**       | Responsible for data formatting, encryption, and compression. |
 | **7. Application Layer**    | **4. Application Layer**       | Provides an interface for software applications to access network services. |
+
+---
 
 ## **Layer 1: Physical Layer**  
 
@@ -81,8 +81,6 @@ Networks are categorized based on their size, reach, and purpose. Here are some 
 - **WLAN (Wireless Local Area Network)**: A wireless version of LAN, using technologies like Wi-Fi.
 - **VPN (Virtual Private Network)**: Creates a secure network connection over a public network, often used for privacy and security.
 
----
-
 | **Network Type** | **Coverage Area**         | **Purpose**                              | **Example**                     |
 |-------------------|---------------------------|------------------------------------------|---------------------------------|
 | **LAN**           | Small (home, office)     | High-speed local communication           | Office network                 |
@@ -109,6 +107,8 @@ While all network devices exist in the physical layer topology-wise, each logica
 | **Gateway**             | Acts as a bridge between different network protocols or architectures.      | Application Layer        | Translates data formats, manages protocol conversions, and connects dissimilar networks. |
 | **Proxy Server**        | Acts as an intermediary for requests between clients and servers.           | Application Layer        | Provides anonymity, content filtering, and caching for improved performance.     |
 | **VPN Concentrator**    | Manages and establishes secure VPN connections for multiple users.          | Network and Application Layers | Provides encryption, authentication, and secure remote access for users.         |
+
+---
 
 ## **Layer 2: Data Link Layer**  
 
@@ -143,8 +143,6 @@ The **Data Link Layer** is the second layer of the OSI model. It is responsible 
 
 - **Error Handling**:  
    - While Ethernet allows for error detection using the FCS, it does not provide error correction. Frames with errors are discarded, and higher-layer protocols handle retransmissions.
-
----
 
 | **Feature**               | **Description**                                                                                   |
 |---------------------------|---------------------------------------------------------------------------------------------------|
@@ -252,6 +250,8 @@ Switching is essential for efficient network communication, and protocols like S
 - Simplifying network troubleshooting and management.  
 
 CDP is a powerful tool for Cisco environments, but it is limited to directly connected devices and does not work across non-Cisco equipment. For multi-vendor environments, the **Link Layer Discovery Protocol (LLDP)** is often used as an alternative.
+
+---
 
 ## **Layer 3: Network Layer**  
 
@@ -544,6 +544,8 @@ The **Administrative Distance (AD)** of an unknown network is **255**, which is 
 - Enhances security by masking internal network details.  
 - Simplifies network management in private networks.
 
+---
+
 ## **Layer 4: Transport Layer**  
 
 The **Transport Layer** is the fourth layer of the OSI model, responsible for ensuring reliable data transfer between devices. It acts as an intermediary between the Network Layer (Layer 3) and the Session Layer (Layer 5), providing end-to-end communication and managing data flow. The Transport Layer ensures that data is delivered accurately, in the correct sequence, and without errors.
@@ -708,6 +710,135 @@ Here’s a list of some of the most common ports and protocols you should know:
 
 Complete List of known ports: https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
 
+### Port Scanning
+
+A port scanner sends TCP and/or UDP packets to query ports about their current status. The 3 types of responses are:
+
+- **Filtered, Dropped, Blocked**: No response.
+- **Closed, Not Listening**: The computer responded that the port is not in use or unavailable at this time.
+- **Open, Accepted**: The computer responded and is asking if there is anything it can do for you.
+
+On a UDP scan, an ICMP unreachable response means the port is closed or filtered.
+
+#### Common Port Scanners
+
+**Nmap (Network Mapper)**:  
+Nmap is one of the most widely used open-source tools for network discovery and security auditing. It supports a variety of scan types and can detect open ports, services, operating systems, and vulnerabilities. Nmap is highly customizable and can be used for both simple and advanced scanning tasks. By understanding the different scan types and their purposes, you can effectively use tools like Nmap to gather information about a network and its devices while minimizing detection and disruption. 
+
+**Features of Nmap**:
+- Detects open, closed, and filtered ports.
+- Identifies services running on ports.
+- Performs OS detection and version detection.
+- Supports scripting for vulnerability scanning and advanced enumeration.
+
+**Other Common Port Scanners**:
+- **Masscan**: Known for its speed, Masscan can scan the entire internet in minutes. It is less feature-rich than Nmap but excels in high-speed scanning.
+- **Zenmap**: A graphical user interface (GUI) for Nmap, making it easier for beginners to use.
+- **Unicornscan**: A tool designed for large-scale network reconnaissance and information gathering.
+- **Netcat**: A versatile networking tool that can also be used for port scanning.
+- **Angry IP Scanner**: A lightweight and fast scanner for scanning IP addresses and ports.
+
+#### Types of Scans
+
+| **Scan Type**       | **Description**                                                                                     | **Response for Open Port**                     | **Response for Closed Port**                   |
+|---------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------|-----------------------------------------------|
+| **SYN Scan**        | Sends SYN packets to initiate a connection (half-open scan).                                        | SYN-ACK                                       | RST                                           |
+| **TCP Connect Scan**| Completes the full TCP handshake. Louder and more likely to be logged.                              | SYN-ACK, then completes connection            | RST                                           |
+| **UDP Scan**        | Sends UDP packets to target ports. Slower than TCP scans.                                           | No response or application-specific response  | ICMP Port Unreachable                        |
+| **NULL Scan**       | Sends packets with no flags set.                                                                    | No response                                   | RST                                           |
+| **FIN Scan**        | Sends packets with the FIN flag set.                                                                | No response                                   | RST                                           |
+| **Xmas Scan**       | Sends packets with FIN, URG, and PSH flags set.                                                     | No response                                   | RST                                           |
+| **ACK Scan**        | Used to map firewall rulesets by sending ACK packets.                                               | RST                                           | RST                                           |
+| **Window Scan**     | Exploits TCP window size to differentiate open and closed ports.                                    | Varies based on TCP window size               | Varies based on TCP window size               |
+| **Ping Scan**       | Sends ICMP Echo Requests to determine if a host is alive.                                           | ICMP Echo Reply                               | No response                                   |
+| **Idle Scan**       | Uses a third-party zombie host to perform a stealthy scan.                                          | SYN-ACK                                       | RST                                           |
+| **Version Scan**    | Attempts to determine the version of the service running on an open port.                           | Service version information                   | No response                                   |
+| **OS Detection**    | Uses various techniques to identify the operating system of the target.                             | TTL, TCP Header info, etc. (Responses from up to 16 TCP, UDP, and ICMP probes)                                | No response                                   |
+
+#### Additional Notes on Scans
+
+- **SYN Scan**: Also called a "TCP Half-Open Scan," it is fast and stealthy because it does not complete the TCP handshake.
+- **TCP Connect Scan**: Requires less privilege than a SYN scan but is noisier and more likely to be logged.
+- **UDP Scan**: Works best when a specific payload is sent to the target, such as a DNS request to port 53.
+- **NULL, FIN, and Xmas Scans**: These scans are often used to bypass firewalls and intrusion detection systems (IDS) because they do not use SYN packets.
+- **ACK Scan**: Useful for determining firewall rules and whether a port is filtered or unfiltered.
+- **Idle Scan**: A stealthy scan that uses a third-party host to obscure the source of the scan.
+
+#### Nmap Scripting Engine (NSE)
+
+The Nmap Scripting Engine (NSE) is a powerful feature of Nmap that allows users to automate a wide variety of networking tasks. NSE scripts are written in Lua and can perform tasks such as vulnerability detection, network discovery, and service enumeration. These scripts extend Nmap's capabilities, making it a versatile tool for network administrators and security professionals.
+
+##### Key Features of NSE:
+- **Extensibility**: Users can write custom scripts to meet specific needs.
+- **Categories**: Scripts are organized into categories such as `auth`, `vuln`, `discovery`, and `default`.
+- **Automation**: Automates repetitive tasks, saving time and effort.
+- **Integration**: Works seamlessly with other Nmap features.
+
+##### Common NSE Script Categories:
+- **Auth**: Scripts related to authentication mechanisms.
+- **Discovery**: Scripts for network discovery and information gathering.
+- **Vuln**: Scripts for detecting vulnerabilities in services and applications.
+- **Default**: Scripts that run with the `-sC` option, providing general-purpose functionality.
+- **Intrusive**: Scripts that may disrupt the target system or network.
+
+##### Commonly Used NSE Scripts:
+| **Script Name**       | **Description**                                                                 |
+|-----------------------|---------------------------------------------------------------------------------|
+| **http-title**        | Retrieves the title of a web page.                                             |
+| **ftp-anon**          | Checks for anonymous FTP login.                                                |
+| **ssh-brute**         | Performs brute-force password guessing on SSH servers.                         |
+| **ssl-cert**          | Retrieves and displays SSL certificate information.                            |
+| **dns-brute**         | Performs DNS brute-forcing to find subdomains.                                 |
+| **vuln/heartbleed**   | Checks for the Heartbleed vulnerability in SSL/TLS.                            |
+| **smb-os-discovery**  | Detects the operating system of SMB servers.                                   |
+| **mysql-info**        | Gathers information about a MySQL database server.                             |
+| **snmp-brute**        | Attempts to guess SNMP community strings.                                      |
+| **http-enum**         | Enumerates directories and files on a web server.                              |
+
+##### Example NSE Usage:
+- Run a specific script:
+  ```bash
+  nmap --script=http-title $target
+  ```
+- Run multiple scripts:
+  ```bash
+  nmap --script="ftp-anon,ssl-cert" $target
+  ```
+- Run all scripts in a category:
+  ```bash
+  nmap --script=vuln $target
+  ```
+
+For a full list of available scripts, refer to the Nmap script directory or use the `--script-help` option to get detailed information about a specific script.
+
+#### Example Nmap Commands
+
+| **Scan Type**           | **Description**                                                                 | **Example Command**                                                                 |
+|-------------------------|---------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| **Basic SYN Scan**      | Performs a stealthy TCP SYN scan to detect open ports.                          | <pre lang="sh">nmap -sS $target</pre>                                             |
+| **UDP Scan**            | Scans for open UDP ports.                                                       | <pre lang="sh">nmap -sU $target</pre>                                             |
+| **Version Detection**   | Detects the version of services running on open ports.                          | <pre lang="sh">nmap -sV $target</pre>                                             |
+| **OS Detection**        | Identifies the operating system of the target.                                  | <pre lang="sh">nmap -O $target</pre>                                              |
+| **Aggressive Scan**     | Combines OS detection, version detection, script scanning, and traceroute.      | <pre lang="sh">nmap -A $target</pre>                                              |
+| **Scan Specific Ports** | Scans specific ports on the target.                                             | <pre lang="sh">nmap -p 22,80,443 $target</pre>                                    |
+| **Scan Entire Subnet**  | Scans all devices in a subnet.                                                  | <pre lang="sh">nmap 192.168.1.0/24</pre>                                          |
+| **Ping Scan**           | Checks which hosts are online without scanning ports.                           | <pre lang="sh">nmap -sn $target</pre>                                             |
+| **Scan with Scripts**   | Runs specific NSE (Nmap Scripting Engine) scripts for vulnerability detection.  | <pre lang="sh">nmap --script=$script_name $target</pre>                           |
+| **Scan All Ports**      | Scans all 65,535 TCP ports.                                                     | <pre lang="sh">nmap -p- $target</pre>                                             |
+| **Scan with Timing**    | Adjusts the timing template for faster or slower scans.                         | <pre lang="sh">nmap -T4 $target</pre>                                             |
+| **Scan for Firewall**   | Detects if a firewall is present and its rules.                                 | <pre lang="sh">nmap -sA $target</pre>                                             |
+| **Scan for Top Ports**  | Scans the top 1000 most common ports.                                           | <pre lang="sh">nmap --top-ports 1000 $target</pre>                                |
+| **Scan for IPv6**       | Scans an IPv6 address.                                                          | <pre lang="sh">nmap -6 $target</pre>                                              |
+| **Traceroute**          | Maps the network path to the target.                                            | <pre lang="sh">nmap --traceroute $target</pre>                                    |
+| **Save Output**         | Saves the scan results to a file.                                               | <pre lang="sh">nmap -oN $output_file $target</pre>                                |
+| **Scan Multiple Targets**| Scans multiple targets at once.                                                | <pre lang="sh">nmap $target1 $target2</pre>                                       |
+| **Exclude Targets**     | Excludes specific hosts from the scan.                                          | <pre lang="sh">nmap $subnet --exclude $excluded_host</pre>                        |
+| **Scan with Decoys**    | Uses decoy IPs to obscure the source of the scan.                               | <pre lang="sh">nmap -D $decoy1,$decoy2,$target</pre>                              |
+| **Idle Scan**           | Performs a stealthy scan using a zombie host.                                   | <pre lang="sh">nmap -sI $zombie_host $target</pre>                                |
+| **Scan for Vulnerabilities** | Uses vulnerability detection NSE scripts.                                      | <pre lang="sh">nmap --script=vuln $target</pre>                                   |
+
+---
+
 ## **Layer 5: Session Layer**  
 
 The **Session Layer** is the fifth layer of the OSI model, positioned between the Transport Layer (Layer 4) and the Presentation Layer (Layer 6). Its primary role is to manage and control communication sessions between applications. A session refers to a semi-permanent dialogue or connection established between two devices or processes.
@@ -766,6 +897,7 @@ While the Session Layer does not have many dedicated protocols, it interacts wit
 - **Privacy-Friendly**: They do not analyze the content of communications, reducing concerns about sensitive data exposure.  
 - **Simplicity**: Ideal for protecting internal networks from unauthorized external access.
 
+---
 
 ## **Layer 6: Presentation Layer**  
 
@@ -796,6 +928,8 @@ The **Presentation Layer** is the sixth layer of the OSI model, sitting between 
 - **JPEG, GIF, PNG**: Formats for compressing and transmitting images.  
 - **MPEG, MP3**: Formats for compressing and transmitting audio and video.  
 - **ASCII, EBCDIC**: Character encoding standards for text representation.  
+
+---
 
 ## Encryption and Cryptography Fundamentals
 
@@ -1135,25 +1269,25 @@ Common uses:
 
 | **Use Case**                          | **Command**                                                                                     |
 |---------------------------------------|-------------------------------------------------------------------------------------------------|
-| **Generate private keys**             | `openssl genrsa -out private.key 2048`                                                         |
-| **Extract public key from private key** | `openssl rsa -in private.key -pubout -out public.key`                                           |
-| **Create a self-signed certificate**  | `openssl req -x509 -new -nodes -key private.key -sha256 -days 365 -out certificate.crt`         |
-| **Encrypt a file (Symmetric)**        | `openssl enc -aes-256-cbc -in file.txt -out file.enc`                                           |
-| **Decrypt a file (Symmetric)**        | `openssl enc -aes-256-cbc -d -in file.enc -out file.txt`                                        |
-| **Encrypt a file (Asymmetric)**       | `openssl rsautl -encrypt -inkey public.key -pubin -in file.txt -out file.enc`                  |
-| **Decrypt a file (Asymmetric)**       | `openssl rsautl -decrypt -inkey private.key -in file.enc -out file.txt`                        |
-| **Sign a file**                       | `openssl dgst -sha256 -sign private.key -out signature.bin file.txt`                           |
-| **Verify a signature**                | `openssl dgst -sha256 -verify public.key -signature signature.bin file.txt`                    |
-| **Generate a CSR**                    | `openssl req -new -key private.key -out request.csr`                                           |
-| **Convert to PEM format**             | `openssl x509 -in certificate.crt -outform PEM -out certificate.pem`                           |
-| **Convert to DER format**             | `openssl x509 -in certificate.pem -outform DER -out certificate.der`                           |
-| **Check certificate details**         | `openssl x509 -in certificate.crt -text -noout`                                                |
-| **Test SSL/TLS connections**          | `openssl s_client -connect example.com:443`                                                   |
-| **Generate random string**            | `openssl rand -base64 32`                                                                      |
-| **Create a PKCS#12 file**             | `openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.crt -certfile ca-bundle.crt` |
-| **Verify a certificate chain**        | `openssl verify -CAfile ca-bundle.crt certificate.crt`                                         |
-| **Benchmark AES-256-CBC**             | `openssl speed aes-256-cbc`                                                                    |
-| **Decode and inspect JWT tokens**     | `echo "eyJhbGciOi..." \| base64 -d \| openssl asn1parse -inform DER`                             |
+| **Generate private keys**             | <pre lang="bash"> openssl genrsa -out $private.key 2048 </pre>                                                         |
+| **Extract public key from private key** | <pre lang="bash"> openssl rsa -in $private.key -pubout -out $public.key</pre>                                            |
+| **Create a self-signed certificate**  | <pre lang="bash"> openssl req -x509 -new -nodes -key $private.key -sha256 -days 365 -out $certificate.crt</pre>          |
+| **Encrypt a file (Symmetric)**        | <pre lang="bash"> openssl enc -aes-256-cbc -in $file.txt -out $file.enc</pre>                                            |
+| **Decrypt a file (Symmetric)**        | <pre lang="bash"> openssl enc -aes-256-cbc -d -in $file.enc -out $file.txt</pre>                                         |
+| **Encrypt a file (Asymmetric)**       | <pre lang="bash"> openssl rsautl -encrypt -inkey $public.key -pubin -in $file.txt -out $file.enc</pre>                   |
+| **Decrypt a file (Asymmetric)**       | <pre lang="bash"> openssl rsautl -decrypt -inkey $private.key -in $file.enc -out $file.txt</pre>                         |
+| **Sign a file**                       | <pre lang="bash"> openssl dgst -sha256 -sign $private.key -out $signature.bin $file.txt</pre>                            |
+| **Verify a signature**                | <pre lang="bash"> openssl dgst -sha256 -verify $public.key -signature $signature.bin $file.txt</pre>                     |
+| **Generate a CSR**                    | <pre lang="bash"> openssl req -new -key $private.key -out $request.csr</pre>                                            |
+| **Convert to PEM format**             | <pre lang="bash"> openssl x509 -in $certificate.crt -outform PEM -out $certificate.pem</pre>                            |
+| **Convert to DER format**             | <pre lang="bash"> openssl x509 -in $certificate.pem -outform DER -out $certificate.der</pre>                            |
+| **Check certificate details**         | <pre lang="bash"> openssl x509 -in $certificate.crt -text -noout</pre>                                                 |
+| **Test SSL/TLS connections**          | <pre lang="bash"> openssl s_client -connect $example.com:443</pre>                                                    |
+| **Generate random string**            | <pre lang="bash"> openssl rand -base64 32</pre>                                                                       |
+| **Create a PKCS#12 file**             | <pre lang="bash"> openssl pkcs12 -export -out $certificate.pfx -inkey $private.key -in $certificate.crt -certfile $ca-bundle.crt</pre>  |
+| **Verify a certificate chain**        | <pre lang="bash"> openssl verify -CAfile $ca-bundle.crt $certificate.crt</pre>                                          |
+| **Benchmark AES-256-CBC**             | <pre lang="bash"> openssl speed aes-256-cbc</pre>                                                                     |
+| **Decode and inspect JWT tokens**     | <pre lang="bash"> echo "$eyJhbGciOi..." \| base64 -d \| openssl asn1parse -inform DER</pre>                              |
 
 #### Other Encryption and encoding tools
 
@@ -1215,46 +1349,521 @@ These tools are essential for encryption, hashing, and encoding tasks, providing
 6. **Begin Symmetrically Encrypted Data Transfer** (OSI Layer 6 - Presentation):
   - The server and client confirm the encryption parameters and switch to symmetric encryption for the remainder of the session. This ensures secure and efficient data transfer.
 
-TODO: Layer 7
+---
 
-## **Layer 7: Application Layer**  
-- Role: Interfaces with end-user applications.  
-- Example: Web browsers, email clients, and file transfer applications.
+## **Layer 7: Application Layer**
 
-## Windows networking
+### Overview
+The Application Layer is the topmost layer of the OSI model and serves as the interface between the end-user and the network. It provides the protocols and services that enable users to interact with networked applications. This layer is responsible for ensuring that communication between applications on different devices is seamless and meaningful.
 
-TODO: add network stack info, network commands
+### Key Functions
+- **User Interface**: Provides the interface for users to interact with applications.
+- **Data Formatting**: Ensures that data is presented in a format that the application can understand.
+- **Application Services**: Offers services such as file transfers, email, and remote access.
+- **Session Management**: Establishes, manages, and terminates sessions between applications.
+- **Error Handling**: Provides mechanisms for error detection and recovery at the application level.
+- **Authentication and Authorization**: Ensures secure access to resources and services.
 
-Here’s a list of some of the most common Windows-specific system ports and protocols:
+### Common Layer 7 Protocols
+The Application Layer supports a wide range of protocols, each designed for specific use cases. Below is a table of common Layer 7 protocols and their purposes:
 
-| **Port(s)**   | **Service/Protocol**              | **Transport Protocol** | **Description**                                                                 |
-|---------------|-----------------------------------|-------------------------|---------------------------------------------------------------------------------|
-| **42**        | WINS                             | TCP/UDP                 | Windows Internet Name Service for mapping NetBIOS names to IPs (pre-Windows 2000). |
-| **123**       | W32Time (Windows Time Service)   | UDP                     | Synchronizes date/time for all computers in Active Directory Domain using NTP.  |
-| **123**       | NTP                              | UDP                     | Ensures accurate clock values for network validation and resource access.       |
-| **135**       | Microsoft RPC Server            | TCP/UDP                 | Remote Procedure Call for inter-process communication.                          |
-| **137**       | NetBIOS Name Service            | UDP                     | Resolves NetBIOS names to IP addresses.                                         |
-| **138**       | NetBIOS Datagram Service        | UDP                     | Provides connectionless communication for NetBIOS.                              |
-| **139**       | NetBIOS Session Service         | TCP                     | Used for File and Printer sharing over NetBIOS.                                 |
-| **445**       | Microsoft SMB (Server Message Block)| TCP                     | Direct hosting of SMB services for file and printer sharing over TCP.           |
-| **1433**      | Microsoft SQL Server            | TCP                     | Database management and communication.                                          |
-| **3268, 3269**| Microsoft Global Catalog Service| TCP                     | LDAP-based service for querying Active Directory across domains.                |
-| **3389**      | Microsoft RDP                   | TCP                     | Remote Desktop Protocol for remote access to Windows systems.                   |
-| **5355**      | LLMNR (Link-Local Multicast Name Resolution) | UDP                     | Peer-to-peer name resolution for IPv4 and IPv6 devices.                         |
-| **5985, 5986**| WinRM (Windows Remote Management)| TCP                     | Enables remote management of Windows systems.                                   |
-## Unix networking
+| **Protocol**       | **Use Case**                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| **HTTP**           | Used for browsing the web and transferring hypertext documents.             |
+| **HTTPS**          | Secure version of HTTP, encrypts data for secure web communication.         |
+| **FTP**            | Transfers files between systems over a network.                             |
+| **SFTP**           | Secure version of FTP, uses SSH for encryption.                             |
+| **SMTP**           | Sends emails from clients to mail servers.                                  |
+| **IMAP**           | Retrieves emails from a mail server, allowing synchronization across devices.|
+| **POP3**           | Retrieves emails from a mail server, typically downloads and deletes them.  |
+| **DNS**            | Resolves domain names into IP addresses for network routing.                |
+| **Telnet**         | Provides remote access to devices over an unencrypted connection.           |
+| **SSH**            | Securely accesses remote devices and systems.                               |
+| **SNMP**           | Monitors and manages network devices.                                       |
+| **LDAP**           | Accesses and maintains distributed directory information.                   |
+| **RDP**            | Provides remote desktop access to Windows systems.                         |
+| **NFS**            | Shares files and directories over a network.                                |
+| **TFTP**           | Simplified file transfer protocol, often used for bootstrapping devices.    |
+| **SIP**            | Manages multimedia communication sessions, such as VoIP calls.             |
+| **IRC**            | Facilitates real-time text-based communication (chat).                     |
+| **MQTT**           | Lightweight messaging protocol for IoT devices.                            |
+| **SOAP**           | Protocol for exchanging structured information in web services.             |
+| **REST**           | Architectural style for designing networked applications using HTTP.        |
 
-TODO: add network stack info, network commands
+### Importance of Layer 7
+The Application Layer is critical because it directly interacts with the end-user and ensures that the network delivers the services and data required by applications. It abstracts the complexities of lower layers, allowing users to focus on their tasks without needing to understand the underlying network operations.
 
-Here’s a list of some of the most common Unix-specific system ports and protocols:
+---
 
-| **Port(s)**   | **Service/Protocol**                                      | **Transport Protocol** | **Description**                                                                 |
-|---------------|-----------------------------------------------------------|-------------------------|---------------------------------------------------------------------------------|
-| **111**       | Unix RPC (Remote Procedure Call)                         | TCP/UDP                 | Facilitates inter-process communication between applications.                   |
-| **513**       | UNIX rwho Port                                           | UDP                     | Provides information about logged-in users on remote systems.                   |
-| **514**       | UNIX syslog                                              | UDP                     | Used for logging system messages and events.                                    |
-| **873**       | UNIX rsync                                               | TCP                     | Synchronizes files and directories between systems.                             |
-| **2049**      | Unix NFS (Network File System)                           | UDP                     | Enables file sharing across Unix systems.                                       |
-| **4045**      | Unix NFS mountd                                          | UDP                     | Handles mounting of NFS file systems.                                           |
-| **6112**      | Unix CDE Window Manager Desktop Subprocess Control Service Daemon (DTSPCD) | TCP/UDP                 | Manages subprocess control for the Common Desktop Environment (CDE).            |
+## Windows Networking
 
+Windows networking encompasses various network types, protocols, and services that enable communication and resource sharing between devices. 
+
+### Network Types in Windows
+
+- **Home**: A private network where computers are members of a homegroup and not directly connected to the public Internet.
+- **Public**: A network in public places (e.g., coffee shops, airports) where computers are connected to an external network.
+- **Work**: A private network where computers are members of a workgroup and not directly connected to the public Internet.
+- **Domain**: A corporate network where computers are joined to a centralized domain for management and authentication.
+- **Workplace**: A private network where devices connect over the public Internet (Windows 8.1 only).
+
+### Key Windows Networking Protocols
+
+- **NetBIOS/SMB**: Used for file and printer sharing on Windows.
+- **WINS (Windows Internet Name Service)**: Maps NetBIOS names to IP addresses, primarily for legacy systems.
+- **LLMNR (Link-Local Multicast Name Resolution)**: Resolves names on a local subnet without requiring DNS or WINS.
+- **W32Time (Windows Time Service)**: Synchronizes time across devices using NTP (Network Time Protocol).
+
+### Additional Notes
+
+- **Hosts File**: Located at `C:\Windows\System32\drivers\etc\hosts`, it maps hostnames to IP addresses.
+- **Loopback Address**: `127.0.0.1` is used to test local network interfaces.
+
+### Common Windows Networking Commands
+
+| **Command**         | **Description**                                                                 | **Example**                                                                 |
+|---------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `ping`              | Tests connectivity to a host by sending ICMP Echo Requests.                     | `ping google.com`                                                           |
+|                     | `-t`: Sends continuous pings until stopped.                                     | `ping -t google.com`                                                        |
+|                     | `-n`: Specifies the number of echo requests to send.                            | `ping -n 5 google.com`                                                      |
+| `tracert`           | Traces the route packets take to a network host.                                | `tracert 8.8.8.8`                                                           |
+|                     | `-d`: Prevents DNS resolution for faster results.                               | `tracert -d 8.8.8.8`                                                        |
+| `nslookup`          | Diagnoses DNS issues and queries DNS records.                                   | `nslookup example.com`                                                      |
+|                     | Queries a specific DNS server.                                                  | `nslookup example.com 8.8.8.8`                                              |
+| `ipconfig`          | Displays or configures IP configuration.                                        | `ipconfig /all`                                                             |
+|                     | Releases the current IP address.                                                | `ipconfig /release`                                                         |
+|                     | Renews the IP address from the DHCP server.                                     | `ipconfig /renew`                                                           |
+|                     | Flushes the DNS resolver cache.                                                 | `ipconfig /flushdns`                                                        |
+| `netstat`           | Displays active connections and listening ports.                                | `netstat -anob`                                                             |
+|                     | Displays statistics by protocol.                                                | `netstat -s`                                                                |
+|                     | Displays the routing table.                                                     | `netstat -r`                                                                |
+| `route`             | Displays or modifies the routing table.                                         | `route print`                                                               |
+|                     | Adds a static route.                                                            | `route add 192.168.1.0 mask 255.255.255.0 192.168.1.1`                      |
+|                     | Deletes a specific route.                                                       | `route delete 192.168.1.0`                                                  |
+| `net use`           | Maps a network drive or connects to a shared resource.                         | `net use Z: \\server\share`                                                 |
+|                     | Disconnects a mapped network drive.                                             | `net use Z: /delete`                                                        |
+| `net share`         | Displays or creates shared resources on the local computer.                     | `net share`                                                                 |
+|                     | Creates a new shared folder.                                                    | `net share MyShare=C:\SharedFolder`                                         |
+| `net view`          | Displays shared resources on a remote computer.                                 | `net view \\computername`                                                   |
+| `netsh`             | Configures and displays network settings.                                       | `netsh interface ip show config`                                            |
+|                     | Configures a static IP address.                                                 | `netsh interface ip set address name="Ethernet" static 192.168.1.100 255.255.255.0 192.168.1.1` |
+|                     | Enables or disables a network interface.                                        | `netsh interface set interface "Ethernet" admin=enabled`                    |
+| `arp`               | Displays or modifies the ARP cache.                                             | `arp -a`                                                                    |
+|                     | Deletes a specific ARP entry.                                                   | `arp -d 192.168.1.1`                                                        |
+| `getmac`            | Displays the MAC address of network adapters.                                   | `getmac`                                                                    |
+|                     | Displays MAC addresses for a remote computer.                                   | `getmac /s computername`                                                    |
+| `wmic`              | Retrieves system and network information.                                       | `wmic nic get name,macaddress`                                              |
+|                     | Displays IP configuration details.                                              | `wmic nicconfig get ipaddress,defaultipgateway`                             |
+| `telnet`            | Connects to a remote host using the Telnet protocol.                            | `telnet 192.168.1.1 23`                                                     |
+| `ftp`               | Connects to an FTP server for file transfers.                                   | `ftp ftp.example.com`                                                       |
+|                     | Downloads a file from the server.                                               | `get file.txt`                                                              |
+|                     | Uploads a file to the server.                                                   | `put file.txt`                                                              |
+| `netdom`            | Manages domain relationships and joins computers to a domain (part of RSAT).    | `netdom join computername /domain:example.com`                              |
+|                     | Renames a computer in a domain.                                                 | `netdom renamecomputer oldname /newname:newname /domain:example.com`        |
+| `sc`                | Manages Windows services.                                                       | `sc query w32time`                                                          |
+|                     | Starts a specific service.                                                      | `sc start w32time`                                                          |
+|                     | Stops a specific service.                                                       | `sc stop w32time`                                                           |
+| `powershell`        | Executes PowerShell commands for advanced networking tasks.                     | `Get-NetIPAddress`                                                          |
+|                     | Displays all network adapters.                                                  | `Get-NetAdapter`                                                            |
+|                     | Configures a static IP address.                                                 | `New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress 192.168.1.100 -PrefixLength 24 -DefaultGateway 192.168.1.1` |
+| `tasklist`          | Displays a list of running processes, including network-related ones.            | `tasklist`                                                                  |
+|                     | Displays processes running on a remote computer.                                | `tasklist /s computername`                                                  |
+| `taskkill`          | Terminates a process by name or PID.                                             | `taskkill /im notepad.exe`                                                  |
+|                     | Forces termination of a process.                                                | `taskkill /f /pid 1234`                                                     |
+| `mstsc`             | Launches the Remote Desktop Connection client.                                  | `mstsc /v:192.168.1.1`                                                      |
+|                     | Specifies screen resolution for the session.                                    | `mstsc /v:192.168.1.1 /w:1024 /h:768`                                       |
+| `powershell Test-Connection` | Tests connectivity to a host, similar to `ping`.                                   | `Test-Connection google.com`                                                |
+|                     | Sends a specific number of echo requests.                                       | `Test-Connection google.com -Count 5`                                       |
+| `netcfg`            | Installs or removes network components.                                          | `netcfg -s n`                                                               |
+|                     | Installs a network protocol.                                                    | `netcfg -c p -i ms_tcpip`                                                   |
+| `certutil`          | Manages certificates and performs encoding/decoding tasks.                      | `certutil -ping`                                                            |
+|                     | Displays details of a certificate.                                              | `certutil -store My`                                                        |
+
+### Ports and Protocols: User Workstation vs. Windows Server
+
+Windows workstations and servers serve different roles in a network, and as such, they utilize distinct sets of ports and protocols. Below is a comparison of the typical ports and protocols used by user workstations and Windows servers.
+
+#### User Workstation
+
+User workstations are primarily designed for end-user activities such as browsing, email, and accessing shared resources. The ports and protocols used are generally client-focused.
+
+| **Port(s)**   | **Service/Protocol**         | **Transport Protocol** | **Description**                                                                 |
+|---------------|-------------------------------|-------------------------|---------------------------------------------------------------------------------|
+| **80, 443**   | HTTP/HTTPS                   | TCP                     | Web browsing and secure web communication.                                     |
+| **53**        | DNS                          | TCP/UDP                 | Resolves domain names to IP addresses for browsing and other network activities.|
+| **67, 68**    | DHCP                         | UDP                     | Automatically assigns IP addresses to the workstation.                         |
+| **445**       | SMB                          | TCP                     | Accesses shared files and printers on the network.                             |
+| **3389**      | RDP                          | TCP                     | Remote Desktop Protocol for remote access (if enabled).                        |
+| **123**       | NTP                          | UDP                     | Synchronizes the workstation's clock with a time server.                       |
+| **25, 110, 143, 587, 993** | SMTP, POP3, IMAP | TCP                     | Email communication protocols for sending and receiving emails.                |
+| **137**       | NetBIOS Name Service         | UDP                     | Resolves NetBIOS names to IP addresses.                                        |
+| **138**       | NetBIOS Datagram Service     | UDP                     | Supports connectionless communication for file and printer sharing.            |
+| **139**       | NetBIOS Session Service      | TCP                     | Establishes sessions for file and printer sharing.                             |
+
+#### Windows Server
+
+Windows servers, particularly those running Active Directory or other enterprise services, require additional ports and protocols to support their roles in authentication, directory services, and resource management.
+
+| **Port(s)**   | **Service/Protocol**         | **Transport Protocol** | **Description**                                                                 |
+|---------------|-------------------------------|-------------------------|---------------------------------------------------------------------------------|
+| **53**        | DNS                          | TCP/UDP                 | Provides domain name resolution for the network.                               |
+| **88**        | Kerberos                     | TCP/UDP                 | Authentication protocol for secure identity verification.                      |
+| **389, 636**  | LDAP/LDAPS                   | TCP                     | Directory services for querying and managing Active Directory.                 |
+| **3268, 3269**| Global Catalog               | TCP                     | Provides LDAP directory services for forest-wide searches.                     |
+| **135**       | Microsoft RPC                | TCP/UDP                 | Facilitates remote procedure calls for distributed applications.               |
+| **445**       | SMB                          | TCP                     | File and printer sharing, as well as Group Policy distribution.                |
+| **3389**      | RDP                          | TCP                     | Remote Desktop Protocol for server management.                                 |
+| **5985, 5986**| WinRM                        | TCP                     | Windows Remote Management for remote administration.                           |
+| **1812, 1813**| RADIUS                       | UDP                     | Centralized authentication and accounting for network access.                  |
+| **1701, 500, 4500** | L2TP/IPsec             | UDP                     | Secure VPN connections for remote access.                                      |
+| **49152-65535** | Dynamic RPC Ports          | TCP/UDP                 | Used for Active Directory replication and other RPC-based services.            |
+
+#### Key Differences
+
+- **Authentication and Directory Services**: Servers use Kerberos, LDAP, and Global Catalog services for authentication and directory management, which are not typically required on workstations.
+- **Dynamic RPC Ports**: Servers often use a range of dynamic ports for services like Active Directory replication, which are unnecessary on workstations.
+- **File and Printer Sharing**: While both workstations and servers use SMB, servers are more likely to host shared resources.
+- **Remote Management**: Servers rely on protocols like WinRM and RDP for administration, whereas workstations may only use RDP occasionally.
+
+---
+
+## Unix Networking
+
+Unix networking encompasses a variety of tools, protocols, and services that enable communication and resource sharing between devices. Below is an overview of key Unix networking concepts, commands, and services.
+
+### **Key Concepts**
+
+#### **Sockets**
+
+Sockets are endpoints for communication between two systems or processes. They provide a programming interface for network communication, supporting protocols like TCP, UDP, and raw sockets.
+  
+- **Types of Sockets**:
+  - **Stream Sockets (SOCK_STREAM)**: Used for reliable, connection-oriented communication (e.g., TCP).
+  - **Datagram Sockets (SOCK_DGRAM)**: Used for connectionless communication (e.g., UDP).
+  - **Raw Sockets (SOCK_RAW)**: Provide direct access to lower-level protocols, often used for custom protocol implementation or packet analysis.
+
+- **Socket API**:
+  The socket API provides functions for creating, binding, listening, connecting, sending, and receiving data. Common functions include:
+  - `socket()`: Creates a socket.
+  - `bind()`: Binds a socket to a specific IP address and port.
+  - `listen()`: Marks a socket as passive, ready to accept connections.
+  - `accept()`: Accepts an incoming connection.
+  - `connect()`: Establishes a connection to a remote socket.
+  - `send()` and `recv()`: Send and receive data over a socket.
+
+#### **xinetd and inetd**
+
+`inetd` (Internet Daemon) and `xinetd` (Extended Internet Daemon) are super-servers that manage incoming network connections for various services. They act as intermediaries between clients and the actual service daemons, listening for incoming requests and launching the appropriate service when needed. These daemons are particularly useful for managing lightweight or infrequently used services, as they reduce the overhead of running multiple service daemons continuously.
+
+- **Use Case**:  
+  `xinetd` and `inetd` are commonly used to manage services such as FTP, Telnet, TFTP, and others. Instead of running these services as standalone daemons, they are started on demand when a connection request is received, conserving system resources.
+
+- **Key Features**:
+  - **On-Demand Service Management**: Services are started only when a request is received, reducing resource usage.
+  - **Access Control**: Provides mechanisms to restrict access based on IP addresses, time of day, or other criteria.
+  - **Logging**: Logs connection attempts and service usage for auditing and troubleshooting.
+  - **Security**: Supports TCP Wrappers for additional access control and security.
+
+- **Configuration**:
+  - **inetd**: Configuration is typically stored in `/etc/inetd.conf`. Each line in the file specifies a service, the protocol it uses, the socket type, and the program to execute.
+  - **xinetd**: Configuration is more flexible and is stored in `/etc/xinetd.conf` or individual service files in `/etc/xinetd.d/`. Each service can have its own configuration file with options for access control, logging, and resource limits.
+
+- **Example Configuration for xinetd**:
+  ```sh
+  service ftp
+  {
+      disable         = no
+      socket_type     = stream
+      protocol        = tcp
+      wait            = no
+      user            = root
+      server          = /usr/sbin/vsftpd
+      log_on_success  += USERID
+      log_on_failure  += HOST
+      only_from       = 192.168.1.0/24
+  }
+  ```
+
+- **Key Differences Between xinetd and inetd**:
+  - `xinetd` offers more advanced features, such as fine-grained access control, resource limits, and better logging capabilities.
+  - `inetd` is simpler and lighter but lacks the flexibility and security features of `xinetd`.
+
+#### **Key Files in Unix Networking**
+
+- **/etc/hosts**:  
+  Maps hostnames to IP addresses for local name resolution. Example:
+  ```sh
+  127.0.0.1   localhost
+  192.168.1.10   myserver.local
+  ```
+
+- **/etc/resolv.conf**:  
+  Specifies DNS servers for name resolution. Example:
+  ```sh
+  nameserver 8.8.8.8
+  nameserver 8.8.4.4
+  ```
+
+- **/etc/services**:  
+  Maps service names to port numbers and protocols. Example:
+  ```sh
+  http    80/tcp
+  https   443/tcp
+  ftp     21/tcp
+  ```
+
+- **/etc/inetd.conf** or `/etc/xinetd.d/`:  
+  Configuration files for `inetd` or `xinetd`, specifying services to manage.
+
+- **/var/log/messages** or `/var/log/syslog**:  
+  Logs system and network events, useful for troubleshooting.
+
+#### SSHD
+
+**SSHD** (Secure Shell Daemon) is the server-side component of the SSH protocol, responsible for handling incoming SSH connections. It provides secure remote login, command execution, and file transfer capabilities over an encrypted channel.
+
+### Key Features of SSHD
+- **Secure Communication**: Encrypts all data transmitted between the client and server.
+- **Authentication**: Supports multiple authentication methods, including password-based, public key, and multi-factor authentication.
+- **Port Forwarding**: Allows tunneling of network traffic through the SSH connection.
+- **Access Control**: Provides mechanisms to restrict access based on user, IP address, or other criteria.
+- **Logging**: Logs connection attempts and activities for auditing and troubleshooting.
+
+### SSHD Configuration
+
+The SSHD configuration file is typically located at `/etc/ssh/sshd_config`. This file controls the behavior of the SSH server. After making changes to the configuration, restart the SSHD service to apply them.
+
+#### Common Configuration Options
+
+| **Option**               | **Description**                                                                 |
+|--------------------------|---------------------------------------------------------------------------------|
+| `Port`                   | Specifies the port SSHD listens on (default is 22).                            |
+| `PermitRootLogin`        | Controls whether the root user can log in via SSH (`yes`, `no`, or `prohibit-password`). |
+| `PasswordAuthentication` | Enables or disables password-based authentication (`yes` or `no`).             |
+| `PubkeyAuthentication`   | Enables or disables public key authentication (`yes` or `no`).                 |
+| `AllowUsers`             | Specifies which users are allowed to log in (e.g., `AllowUsers user1 user2`).  |
+| `DenyUsers`              | Specifies which users are denied access.                                       |
+| `AllowGroups`            | Specifies which groups are allowed to log in.                                  |
+| `DenyGroups`             | Specifies which groups are denied access.                                      |
+| `MaxAuthTries`           | Limits the number of authentication attempts per connection.                   |
+| `PermitEmptyPasswords`   | Controls whether empty passwords are allowed (`yes` or `no`).                  |
+| `ClientAliveInterval`    | Sets the interval (in seconds) for sending keepalive messages to clients.       |
+| `ClientAliveCountMax`    | Specifies the number of keepalive messages sent before disconnecting an unresponsive client. |
+| `X11Forwarding`          | Enables or disables X11 forwarding (`yes` or `no`).                            |
+| `LogLevel`               | Sets the verbosity of logging (`QUIET`, `INFO`, `VERBOSE`, `DEBUG`, etc.).      |
+| `Banner`                 | Specifies a file to display a custom login banner.                             |
+
+#### Example SSHD Configuration
+
+```sh
+# Change the default port to enhance security
+Port 2222
+
+# Disable root login for security
+PermitRootLogin no
+
+# Enable public key authentication and disable password authentication
+PubkeyAuthentication yes
+PasswordAuthentication no
+
+# Allow only specific users to log in
+AllowUsers admin user1
+
+# Set keepalive interval and maximum count
+ClientAliveInterval 300
+ClientAliveCountMax 2
+
+# Enable logging at INFO level
+LogLevel INFO
+
+# Display a custom login banner
+Banner /etc/ssh/ssh-banner
+```
+
+#### Managing SSHD Service
+
+Use the following commands to manage the SSHD service:
+
+- **Restart SSHD**: `sudo systemctl restart sshd`
+- **Check SSHD Status**: `sudo systemctl status sshd`
+- **Reload Configuration**: `sudo systemctl reload sshd`
+- **Enable SSHD on Boot**: `sudo systemctl enable sshd`
+
+#### Security Best Practices for SSHD
+
+- **Change the Default Port**: Use a non-standard port to reduce automated attacks.
+- **Disable Root Login**: Prevent direct root access to enhance security.
+- **Use Key-Based Authentication**: Disable password authentication and use SSH keys.
+- **Restrict Access**: Use `AllowUsers` or `AllowGroups` to limit access to specific users or groups.
+- **Enable Firewall Rules**: Allow SSH traffic only from trusted IP addresses.
+- **Monitor Logs**: Regularly check `/var/log/auth.log` (or equivalent) for suspicious activity.
+
+#### **Unix Networking Best Practices**
+
+- Use firewalls (e.g., `iptables` or `nftables`) to secure network traffic.
+- Regularly monitor logs for suspicious activity.
+- Use secure protocols (e.g., SSH, HTTPS) instead of insecure ones (e.g., Telnet, HTTP).
+- Restrict access to services using tools like `xinetd` or TCP Wrappers.
+- Keep software and services up to date to mitigate vulnerabilities.
+
+### Common Unix Networking Commands
+
+| **Command**                | **Description**                                                                 | **Example**                                                                 |
+|----------------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `ping`                     | Checks if a host is reachable and alive.                                        | <pre lang="sh">ping example.com</pre>                                      |
+|                            | `-c`: Specifies the number of packets to send.                                  | <pre lang="sh">ping -c 4 example.com</pre>                                 |
+|                            | `-i`: Sets the interval between packets in seconds.                             | <pre lang="sh">ping -i 0.5 example.com</pre>                               |
+| `traceroute`               | Displays the route packets take to a network host.                              | <pre lang="sh">traceroute example.com</pre>                                |
+|                            | `-n`: Prevents DNS resolution for faster results.                               | <pre lang="sh">traceroute -n example.com</pre>                             |
+|                            | `-I`: Uses ICMP packets instead of UDP.                                         | <pre lang="sh">traceroute -I example.com</pre>                             |
+| `netstat`                  | Displays network connections, routing tables, and protocol statistics.          | <pre lang="sh">netstat -a</pre>                                            |
+|                            | `-tuln`: Shows listening ports with protocol details.                           | <pre lang="sh">netstat -tuln</pre>                                         |
+|                            | `-i`: Displays network interface statistics.                                    | <pre lang="sh">netstat -i</pre>                                            |
+| `ss`                       | Displays detailed socket statistics and network connections.                    | <pre lang="sh">ss -tuln</pre>                                              |
+|                            | `-s`: Shows summary statistics for sockets.                                     | <pre lang="sh">ss -s</pre>                                                 |
+|                            | `-p`: Displays processes using sockets.                                         | <pre lang="sh">ss -p</pre>                                                 |
+| `arp`                      | Displays or modifies the ARP cache.                                             | <pre lang="sh">arp -a</pre>                                                |
+|                            | `-d`: Deletes a specific ARP entry.                                             | <pre lang="sh">arp -d 192.168.1.1</pre>                                    |
+| `ip`                       | Configures and displays network interfaces and routing.                         | <pre lang="sh">ip addr show</pre>                                          |
+|                            | `link set`: Brings an interface up or down.                                     | <pre lang="sh">ip link set eth0 up</pre>                                   |
+|                            | `route add`: Adds a new route to the routing table.                             | <pre lang="sh">ip route add 192.168.1.0/24 via 192.168.1.1</pre>           |
+| `ip route`                 | Displays or modifies the routing table.                                         | <pre lang="sh">ip route show</pre>                                         |
+|                            | `add default`: Sets the default gateway.                                        | <pre lang="sh">ip route add default via 192.168.1.1</pre>                  |
+|                            | `del`: Removes a specific route.                                                | <pre lang="sh">ip route del 192.168.1.0/24</pre>                           |
+| `ip neigh`                 | Displays or modifies the neighbor cache (ARP table).                            | <pre lang="sh">ip neigh show</pre>                                         |
+|                            | `add`: Adds a static ARP entry.                                                 | <pre lang="sh">ip neigh add 192.168.1.2 lladdr 00:11:22:33:44:55 dev eth0</pre> |
+|                            | `del`: Deletes a specific ARP entry.                                            | <pre lang="sh">ip neigh del 192.168.1.2 dev eth0</pre>                     |
+| `ifconfig`                 | Configures or displays network interfaces (deprecated in favor of `ip`).        | <pre lang="sh">ifconfig</pre>                                              |
+|                            | `eth0 up`: Brings the interface up.                                             | <pre lang="sh">ifconfig eth0 up</pre>                                      |
+|                            | `eth0`: Assigns an IP address and netmask to the interface.                     | <pre lang="sh">ifconfig eth0 192.168.1.100 netmask 255.255.255.0</pre>     |
+| `host`                     | Resolves domain names to IP addresses.                                          | <pre lang="sh">host example.com</pre>                                      |
+|                            | `-t MX`: Queries for mail exchange records.                                     | <pre lang="sh">host -t MX example.com</pre>                                |
+|                            | `-a`: Displays all available DNS records.                                       | <pre lang="sh">host -a example.com</pre>                                   |
+| `dig`                      | Queries DNS servers for domain information.                                     | <pre lang="sh">dig example.com</pre>                                       |
+|                            | `+short`: Displays concise output.                                              | <pre lang="sh">dig +short example.com</pre>                                |
+|                            | `@8.8.8.8`: Uses a specific DNS server for the query.                           | <pre lang="sh">dig @8.8.8.8 example.com</pre>                              |
+| `whois`                    | Retrieves domain registration information.                                      | <pre lang="sh">whois example.com</pre>                                     |
+|                            | `-h`: Specifies a specific WHOIS server to query.                               | <pre lang="sh">whois -h whois.verisign-grs.com example.com</pre>            |
+| `route`                    | Displays or modifies the routing table.                                         | <pre lang="sh">route -n</pre>                                              |
+|                            | `add default`: Adds a default gateway.                                          | <pre lang="sh">route add default gw 192.168.1.1</pre>                      |
+|                            | `del`: Removes a specific network route.                                        | <pre lang="sh">route del -net 192.168.1.0/24</pre>                         |
+| `iptables`                 | Configures firewall rules for packet filtering.                                 | <pre lang="sh">iptables -L</pre>                                           |
+|                            | `-A`: Appends a rule to a chain.                                                | <pre lang="sh">iptables -A INPUT -p tcp --dport 22 -j ACCEPT</pre>         |
+|                            | `-D`: Deletes a rule from a chain.                                              | <pre lang="sh">iptables -D INPUT -p tcp --dport 22 -j ACCEPT</pre>         |
+| `nft`                      | Configures firewall rules using nftables (successor to iptables).               | <pre lang="sh">nft list ruleset</pre>                                      |
+|                            | `add rule`: Adds a rule to a chain.                                             | <pre lang="sh">nft add rule ip filter input tcp dport 22 accept</pre>      |
+|                            | `delete rule`: Removes a specific rule by handle.                               | <pre lang="sh">nft delete rule ip filter input handle 10</pre>             |
+| `netcat` (`nc`)            | A versatile tool for network debugging and testing.                             | <pre lang="sh">nc -zv example.com 80</pre>                                 |
+|                            | `-l`: Listens for incoming connections.                                         | <pre lang="sh">nc -l 1234</pre>                                            |
+|                            | `echo`: Sends data to a remote host.                                            | <pre lang="sh">echo "Hello" \| nc example.com 1234</pre>                   |
+| `scp`                      | Securely copies files between systems over SSH.                                 | <pre lang="sh">scp file.txt user@example.com:/path/to/destination</pre>    |
+|                            | `-r`: Recursively copies directories.                                           | <pre lang="sh">scp -r /local/dir user@example.com:/remote/dir</pre>        |
+|                            | Copies a remote file to the local system.                                       | <pre lang="sh">scp user@example.com:/remote/file.txt /local/dir</pre>      |
+| `sftp`                     | Securely transfers files using SSH.                                             | <pre lang="sh">sftp user@example.com</pre>                                 |
+|                            | `put`: Uploads a file to the remote server.                                     | <pre lang="sh">put localfile.txt</pre>                                     |
+|                            | `get`: Downloads a file from the remote server.                                 | <pre lang="sh">get remotefile.txt</pre>                                    |
+| `ssh`                      | Securely connects to a remote system.                                           | <pre lang="sh">ssh user@example.com</pre>                                  |
+|                            | `-p`: Specifies a custom port for the connection.                               | <pre lang="sh">ssh -p 2222 user@example.com</pre>                          |
+|                            | `-i`: Uses a specific private key for authentication.                           | <pre lang="sh">ssh -i /path/to/key.pem user@example.com</pre>               |
+
+### Unix Ports and Protocols
+
+| **Port(s)**   | **Service/Protocol**   | **Transport Protocol** | **Description**                                                                 |
+|---------------|-------------------------|-------------------------|---------------------------------------------------------------------------------|
+| **21**        | FTP                    | TCP                     | File Transfer Protocol for transferring files between systems.                  |
+| **22**        | SSH (Secure Shell)     | TCP                     | Provides secure remote login and command execution.                             |
+| **25**        | SMTP                   | TCP                     | Simple Mail Transfer Protocol for sending emails.                               |
+| **25, 587**   | SMTP (Mail Submission) | TCP                     | Used for sending emails securely with authentication.                           |
+| **53**        | DNS                    | TCP/UDP                 | Resolves domain names to IP addresses for network routing.                      |
+| **69**        | TFTP                   | UDP                     | Trivial File Transfer Protocol for simple file transfers.                       |
+| **111**       | RPC (Remote Procedure Call) | TCP/UDP                 | Enables client-server communication by allowing remote code execution.          |
+| **123**       | NTP (Network Time Protocol) | UDP                     | Synchronizes system clocks over a network.                                      |
+| **137-139, 445** | Samba/SMB            | TCP/UDP                 | Provides file and printer sharing between Unix and Windows systems.             |
+| **162**       | SNMP Trap              | UDP                     | Receives notifications from SNMP-enabled devices.                               |
+| **514**       | syslog                 | UDP                     | Logs system messages and events for monitoring and troubleshooting.             |
+| **631**       | CUPS                   | TCP                     | Common Unix Printing System for managing print jobs and printers.               |
+| **873**       | rsync                  | TCP                     | Synchronizes files and directories between systems over a network.              |
+| **993**       | IMAP (Secure)          | TCP                     | Internet Message Access Protocol over SSL/TLS for retrieving emails.            |
+| **995**       | POP3 (Secure)          | TCP                     | Post Office Protocol over SSL/TLS for retrieving emails.                        |
+| **2048**      | Radius                 | UDP                     | Authentication, authorization, and accounting for network access.               |
+| **2049, 4045**| NFS (Network File System) | UDP                     | Allows file sharing between Unix systems over a network.                        |
+| **3306**      | MySQL                  | TCP                     | Database service for managing relational databases.                             |
+| **3389**      | RDP                    | TCP                     | Remote Desktop Protocol for remote graphical interface access.                  |
+| **5000**      | Docker                 | TCP                     | Docker daemon API for container management.                                     |
+| **5432**      | PostgreSQL             | TCP                     | Database service for managing relational databases.                             |
+| **5900-5999** | VNC                    | TCP                     | Virtual Network Computing for remote desktop access.                            |
+| **6667**      | IRC                    | TCP                     | Internet Relay Chat for real-time text communication.                           |
+| **8080**      | HTTP-Alt               | TCP                     | Alternative port for HTTP services.                                             |
+| **8081**      | HTTP Proxy             | TCP                     | Proxy server for HTTP traffic.                                                 |
+| **80, 443**   | HTTP/HTTPS             | TCP                     | Web communication protocols for unencrypted and encrypted traffic.              |
+
+### Key Unix Networking Protocols and Services
+
+| **Protocol/Service**       | **Port(s)**   | **Transport Protocol** | **Description**                                                                 |
+|----------------------------|---------------|-------------------------|---------------------------------------------------------------------------------|
+| **NFS**                    | 2049          | UDP                    | Network File System for file sharing on Unix systems.                          |
+| **RPC**                    | 111           | TCP/UDP                | Remote Procedure Call for client-server communication.                         |
+| **rsync**                  | 873           | TCP                    | Synchronizes files between systems over a network.                             |
+| **syslog**                 | 514           | UDP                    | Logs system messages and events.                                               |
+| **rwho**                   | 513           | UDP                    | Provides information about logged-in users on a network.                       |
+| **DTSPCD**                 | 6112          | TCP                    | Desktop Subprocess Control Daemon for Unix CDE window manager.                 |
+| **NFS mountd**             | 4045          | UDP                    | Handles NFS mount requests.                                                    |
+| **Samba/SMB**              | 137-139, 445  | TCP/UDP                | Provides file and printer sharing between Unix and Windows systems.            |
+
+### Unix Networking Best Practices
+
+- Use `iptables` or `nftables` to secure network traffic.
+- Regularly monitor logs using `syslog` or centralized logging solutions.
+- Use `scp` or `sftp` for secure file transfers.
+- Configure `NFS` and `Samba` with appropriate permissions to prevent unauthorized access.
+- Use `dig` and `host` for DNS troubleshooting and verification.
+
+## Cisco Router Administration and Configuration
+
+Cisco routers use a Command-Line Interface (CLI) for configuration and management. The CLI is a powerful tool that allows network administrators to interact with the router, configure settings, and retrieve information about the device and its network. Below is an overview of the Cisco router CLI and some basic commands for obtaining useful information.
+
+### Overview of Cisco Router CLI
+
+1. **Accessing the CLI**:
+  - **Console Access**: Direct connection using a console cable.
+  - **Telnet/SSH**: Remote access over the network.
+  - **Auxiliary Port**: Dial-up access using a modem.
+
+2. **CLI Modes**:
+  - **User EXEC Mode**: Limited access for basic monitoring. Prompt: `Router>`
+  - **Privileged EXEC Mode**: Full access to view and modify configurations. Prompt: `Router#`
+  - **Global Configuration Mode**: Used to configure the router. Prompt: `Router(config)#`
+  - **Interface Configuration Mode**: Used to configure specific interfaces. Prompt: `Router(config-if)#`
+
+3. **Navigating the CLI**:
+  - Use `?` to display available commands.
+  - Use `Tab` to auto-complete commands.
+  - Use `Ctrl+C` to cancel a command.
+  - Use `Ctrl+Z` to exit configuration mode.
+
+### Common Cisco Router Commands
+
+The table below lists some basic commands for retrieving useful information from a Cisco router:
+
+| **Command**                  | **Description**                                                                 |
+|------------------------------|---------------------------------------------------------------------------------|
+| <pre lang="cisco">show ip interface brief</pre> | Displays a summary of all interfaces, their IP addresses, and status.         |
+| <pre lang="cisco">show running-config</pre>     | Displays the current configuration in RAM.                                    |
+| <pre lang="cisco">show startup-config</pre>     | Displays the configuration stored in NVRAM (used on reboot).                  |
+| <pre lang="cisco">show version</pre>            | Displays system information, including IOS version, uptime, and hardware.     |
+| <pre lang="cisco">show ip route</pre>           | Displays the routing table.                                                   |
+| <pre lang="cisco">show arp</pre>                | Displays the ARP table.                                                       |
+| <pre lang="cisco">show interfaces</pre>         | Displays detailed information about all interfaces.                           |
+| <pre lang="cisco">show protocols</pre>          | Displays the status of configured Layer 3 protocols on all interfaces.        |
+| <pre lang="cisco">ping $IP_Address</pre>       | Sends ICMP echo requests to test connectivity to a specific IP address.       |
+| <pre lang="cisco">traceroute $IP_Address</pre> | Traces the route packets take to reach a specific IP address.                 |
+| <pre lang="cisco">show cdp neighbors</pre>      | Displays information about directly connected Cisco devices.                  |
+| <pre lang="cisco">show logging</pre>            | Displays the router's log messages.                                           |
+| <pre lang="cisco">show flash</pre>              | Displays information about the router's flash memory.                         |
+| <pre lang="cisco">show ip nat translations</pre>| Displays the NAT translation table (if NAT is configured).                    |
+
+#### Tips for Using the CLI
+
+- Always verify your changes using `show` commands before and after making modifications.
+- Use `write memory` or `copy running-config startup-config` to save changes to the startup configuration.
+- Use `reload` to reboot the router if necessary, but ensure configurations are saved beforehand.
