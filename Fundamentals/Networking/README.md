@@ -1763,8 +1763,8 @@ Use the following commands to manage the SSHD service:
 |                            | `put`: Uploads a file to the remote server.                                     | <pre lang="sh">put localfile.txt</pre>                                     |
 |                            | `get`: Downloads a file from the remote server.                                 | <pre lang="sh">get remotefile.txt</pre>                                    |
 | `ssh`                      | Securely connects to a remote system.                                           | <pre lang="sh">ssh user@example.com</pre>                                  |
-|                            | `-p`: Specifies a custom port for the connection.                               | <pre lang="sh">ssh -p 2222 user@example.com</pre>                          |
-|                            | `-i`: Uses a specific private key for authentication.                           | <pre lang="sh">ssh -i /path/to/key.pem user@example.com</pre>               |
+|                            | `-p`: Specifies a custom port for the connection.                               | <pre lang="sh" wrap="soft">ssh -p 2222 user@example.com</pre>                          |
+|                            | `-i`: Uses a specific private key for authentication.                           | <pre lang="sh" wrap="soft">ssh -i /path/to/key.pem user@example.com</pre>               |
 
 ### Unix Ports and Protocols
 
