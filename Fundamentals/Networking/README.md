@@ -1383,6 +1383,68 @@ These tools are essential for encryption, hashing, and encoding tasks, providing
 6. **Begin Symmetrically Encrypted Data Transfer** (OSI Layer 6 - Presentation):
   - The server and client confirm the encryption parameters and switch to symmetric encryption for the remainder of the session. This ensures secure and efficient data transfer.
 
+#### Example: Email Encryption and Digital Signatures
+
+Email encryption and digital signatures are essential components of secure communication, ensuring that messages remain confidential, authentic, and tamper-proof. By encrypting a message, the sender ensures that only authorized parties can access the content, protecting it from unauthorized interception or eavesdropping.
+ Below is an expanded explanation of how these mechanisms work and their role in maintaining security.
+
+##### **Encrypting an Email**
+
+To encrypt an email, a combination of **asymmetric encryption** and **symmetric encryption** is typically used for efficiency and security. This process ensures the confidentiality of the message while leveraging the strengths of both encryption types.
+
+1. **Generate a Symmetric Key**:
+  - The sender generates a temporary symmetric key (also known as a session key) using a secure algorithm like AES (Advanced Encryption Standard). This key is used to encrypt the email content because symmetric encryption is faster and more efficient for large amounts of data.
+
+2. **Encrypt the Email Content**:
+  - The email content is encrypted using the symmetric key. This ensures that the message is protected from unauthorized access.
+
+3. **Encrypt the Symmetric Key**:
+  - The sender uses the **recipient's public key** (asymmetric encryption) to encrypt the symmetric key. This ensures that only the recipient, who has the corresponding private key, can decrypt the symmetric key.
+
+4. **Send the Encrypted Email**:
+  - The encrypted email content and the encrypted symmetric key are sent to the recipient.
+
+5. **Decryption by the Recipient**:
+  - The recipient uses their **private key** to decrypt the symmetric key.
+  - The decrypted symmetric key is then used to decrypt the email content, allowing the recipient to read the message.
+
+##### **Why Use Both Asymmetric and Symmetric Encryption?**
+
+- **Asymmetric Encryption**: Ensures secure key exchange. The recipient's public key is used to encrypt the symmetric key, guaranteeing that only the recipient can decrypt it with their private key.
+- **Symmetric Encryption**: Provides efficient encryption for the email content, especially for large messages, as it is computationally faster than asymmetric encryption.
+
+This hybrid approach combines the strengths of both encryption methods, ensuring secure and efficient email communication.
+
+##### **Digital Signatures**
+
+Digital signatures rely on **asymmetric encryption**, which uses a pair of keys.
+
+A digital signature is created by the sender using their **private key**. This process involves generating a hash of the message and encrypting the hash with the sender's private key. The resulting digital signature is attached to the message.
+
+When the recipient receives the message, they use the sender's **public key** to decrypt the digital signature and retrieve the hash. The recipient then generates a hash of the received message and compares it to the decrypted hash. If the two hashes match, it confirms that the message has not been tampered with and verifies the sender's identity.
+
+Digital signatures enhance email security by addressing the following key aspects:
+
+- **Authentication**: Verifies the sender's identity, ensuring that the email truly originates from the claimed source.
+- **Integrity**: Confirms that the email content has not been altered during transmission.
+- **Non-Repudiation**: Prevents the sender from denying that they sent the email, as the digital signature is uniquely tied to their private key.
+
+##### **How Do Digital Signatures Work?**
+
+1. **Creating a Digital Signature**:
+  - The sender generates a hash of the email content using a cryptographic hash function (e.g., SHA-256).
+  - The hash is then encrypted with the sender's private key, creating the digital signature.
+  - The digital signature is attached to the email along with the original message.
+
+2. **Verifying a Digital Signature**:
+  - The recipient uses the sender's public key to decrypt the digital signature, retrieving the original hash.
+  - The recipient generates a new hash of the received email content.
+  - The two hashes are compared:
+    - If they match, the email is verified as authentic and unaltered.
+    - If they do not match, the email may have been tampered with or the sender's identity is not valid.
+
+By combining digital signatures with encryption and hashing, email communication achieves a robust level of security, protecting sensitive information and ensuring trust between the sender and recipient.
+
 ---
 
 ## **Layer 7: Application Layer**
