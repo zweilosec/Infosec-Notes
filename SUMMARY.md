@@ -10,9 +10,9 @@
 * [Network Fundamentals](Fundamentals/Networking/README.md)
 * [Computer Fundamentals](Fundamentals/Computing/README.md)
 
-## Linux <a href="#linux-1" id="linux-1"></a>
+## Unix <a href="#linux-1" id="linux-1"></a>
 
-* [Linux Basics](linux-1/linux-basics.md)
+* [Unix Fundamentals](linux-1/unix-fundamentals.md)
 * [Hardening & Setup](linux-1/linux-hardening/README.md)
   * [TMUX/Screen Cheatsheet](linux-1/linux-hardening/tmux-screen-cheatsheet.md)
 * [Red Team Notes](linux-1/linux-redteam/README.md)
