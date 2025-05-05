@@ -61,24 +61,24 @@ Terminals and pseudo-terminals are essential components of UNIX systems, providi
 ### Common Shell Types in UNIX
 
 1. **sh (Bourne Shell)**:  
-  - The original UNIX shell, known for its simplicity and scripting capabilities.  
-  - It is lightweight and often used for scripting in UNIX environments.
+    - The original UNIX shell, known for its simplicity and scripting capabilities.  
+    - It is lightweight and often used for scripting in UNIX environments.
     
 2. **bash (Bourne Again Shell)**:  
-  - The most widely used shell in UNIX/Linux systems.  
-  - It is an enhanced version of the original Bourne shell (`sh`) with additional features like command history, tab completion, and scripting capabilities.  
-  - Default shell on most Linux distributions.
+    - The most widely used shell in UNIX/Linux systems.  
+    - It is an enhanced version of the original Bourne shell (`sh`) with additional features like command history, tab completion, and scripting capabilities.  
+    - Default shell on most Linux distributions.
 
 3. **csh (C Shell)**:  
-  - Syntax resembles the C programming language.  
-  - Includes features like job control and history substitution.  
+    - Syntax resembles the C programming language.  
+    - Includes features like job control and history substitution.  
 
 4. **ksh (Korn Shell)**:  
-  - Combines features of the Bourne shell and the C shell.  
-  - Known for its scripting enhancements and performance improvements.  
+    - Combines features of the Bourne shell and the C shell.  
+    - Known for its scripting enhancements and performance improvements.  
 
 5. **zsh (Z Shell)**:  
-  - A powerful and highly customizable shell with features like improved auto-completion, spell correction, and plugin support. The default in some distros such as Kali Linux.
+    - A powerful and highly customizable shell with features like improved auto-completion, spell correction, and plugin support. The default in some distros such as Kali Linux.
 
 #### Locating Known Shells
 
@@ -113,9 +113,9 @@ Example:
   bash --norc
   ```
 
-##### Using the `-i` Argument
+##### Interactive Mode
 
-The `-i` argument of many shells starts the shell in interactive mode. This is useful when you want to ensure the shell behaves as if it were started interactively, even if it is being invoked from a script or another non-interactive context.  
+The `-i` argument of many shells starts the shell in **interactive mode**. This is useful when you want to ensure the shell behaves as if it were started interactively, even if it is being invoked from a script or another non-interactive context.  
 Example:  
   ```bash
   bash -i
@@ -235,7 +235,7 @@ export HISTTIMEFORMAT='%F %T '
   echo "This is a \$variable"
   ```
 
-### Shell Globbing vs. Expansion
+### Shell Globbing and Expansion
 
 Shell globbing and expansion are two distinct mechanisms used by the shell to interpret and process patterns or variables in commands. While they may seem similar, they serve different purposes:
 
@@ -280,7 +280,8 @@ Below are detailed tables explaining the examples of each:
 By understanding the differences between shell globbing and expansion, you can effectively use these features to simplify and automate tasks in the shell.
 
 #### PATH Variable
-- The `PATH` variable defines the directories the shell searches for executable files.  
+
+The `PATH` variable defines the directories the shell searches for executable files.  
   - View the current `PATH`:  
    ```bash
    echo $PATH
@@ -337,9 +338,9 @@ Practical Use Cases:
 * Running Multiple Programs: You can launch multiple GUI programs without waiting for each to finish.
 * Long-Running Tasks: If a program takes a long time to complete, running it in the background allows you to continue using the terminal.
 
-Note:
-The program's output (if any) might still appear in the terminal unless redirected.
-
+{% hint style="info" %}
+**Note**: The program's output (if any) might still appear in the terminal unless redirected.
+{% endhint %}
 
 To fully detach the program from the terminal, you can use tools like nohup or redirect output to /dev/null:
   ```bash
