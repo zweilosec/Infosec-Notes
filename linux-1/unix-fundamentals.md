@@ -2,20 +2,385 @@
 description: Commands and programs that all Linux users need to know (but many don't!)
 ---
 
-# Linux Basics
+# Unix Fundamentals
 
-TODO: Add screenshots/code examples for each command; put commands in tables; clean and organize all (issue [#7](https://github.com/zweilosec/Infosec-Notes/tree/9375dea2ecb0e3feeda3395c360ea20793d94891/issues/7/README.md))
+TODO: Consider Adding screenshots/code examples for each command; finish putting commands in tables; clean and organize all (issue [#7](https://github.com/zweilosec/Infosec-Notes/tree/9375dea2ecb0e3feeda3395c360ea20793d94891/issues/7/README.md))
 
-## Command-line Basics
+## Shell Basics
+
+The shell is a command-line interface that allows users to interact with the operating system by executing commands. It acts as an intermediary between the user and the kernel, interpreting user inputs and executing programs. Below are some key concepts and details about UNIX shells:
+
+### Terminals and Pseudo-Terminals
+
+Terminals and pseudo-terminals are essential components of UNIX systems, providing interfaces for user interaction and process communication. A terminal allows access to the shell that a user interacts with. By understanding terminals and pseudo-terminals, users can better manage sessions, troubleshoot issues, and utilize advanced tools like multiplexers and remote access utilities.
+
+#### **Terminals (TTY)**
+- **Definition**: A terminal, or TTY (short for "teletype"), is a physical or virtual device that provides a text-based interface for user interaction with the operating system.
+- **Types**:
+  - **Physical Terminals**: Hardware devices like keyboards and monitors connected directly to a system.
+  - **Virtual Terminals**: Software-based terminals that emulate physical terminals, often accessed through terminal emulators like `xterm`, `gnome-terminal`, or `konsole`.
+
+#### **Pseudo-Terminals (PTY)**
+- **Definition**: A pseudo-terminal is a pair of virtual devices that emulate a terminal. It allows processes to communicate as if they were interacting with a physical terminal.
+- **Use Cases**:
+  - Remote login sessions (e.g., `ssh`).
+  - Terminal multiplexers (e.g., `tmux`, `screen`).
+  - GUI-based terminal emulators.
+
+#### **TTY vs PTY**
+| **Feature**               | **TTY (Terminal)**                          | **PTY (Pseudo-Terminal)**                     |
+|---------------------------|---------------------------------------------|-----------------------------------------------|
+| **Type**                  | Physical or virtual terminal device.        | Virtual device pair (master and slave).       |
+| **Interaction**           | Direct user interaction via keyboard/screen.| Process-to-process communication.            |
+| **Examples**              | `/dev/tty1`, `/dev/tty2`                    | `/dev/pts/0`, `/dev/pts/1`                    |
+| **Primary Use**           | Local user sessions.                        | Remote sessions, terminal emulators.         |
+| **Limitations**           | Requires physical or virtual terminal access.| No direct user interaction; relies on software. |
+
+#### **Key Commands**
+- **List Active Terminals**:  
+  ```bash
+  who
+  ```
+- **Check Current Terminal**:  
+  ```bash
+  tty
+  ```
+- **List Pseudo-Terminals**:  
+  ```bash
+  ls /dev/pts
+  ```
+
+#### **Advanced Terminal Concepts**
+- **Terminal Multiplexers**: Tools like `tmux` and `screen` allow users to manage multiple terminal sessions within a single terminal window.
+- **TTY Devices**: Physical terminals are represented as `/dev/ttyX`, where `X` is the terminal number.
+- **PTY Devices**: Pseudo-terminals are represented as `/dev/pts/X`, where `X` is the pseudo-terminal number.
+- **Terminal Modes**:
+  - **Canonical Mode**: Input is processed line-by-line.
+  - **Non-Canonical Mode**: Input is processed immediately without waiting for a newline.
+
+### Common Shell Types in UNIX
+
+1. **sh (Bourne Shell)**:  
+  - The original UNIX shell, known for its simplicity and scripting capabilities.  
+  - It is lightweight and often used for scripting in UNIX environments.
+    
+2. **bash (Bourne Again Shell)**:  
+  - The most widely used shell in UNIX/Linux systems.  
+  - It is an enhanced version of the original Bourne shell (`sh`) with additional features like command history, tab completion, and scripting capabilities.  
+  - Default shell on most Linux distributions.
+
+3. **csh (C Shell)**:  
+  - Syntax resembles the C programming language.  
+  - Includes features like job control and history substitution.  
+
+4. **ksh (Korn Shell)**:  
+  - Combines features of the Bourne shell and the C shell.  
+  - Known for its scripting enhancements and performance improvements.  
+
+5. **zsh (Z Shell)**:  
+  - A powerful and highly customizable shell with features like improved auto-completion, spell correction, and plugin support. The default in some distros such as Kali Linux.
+
+#### Locating Known Shells
+
+The list of available shells on a UNIX system can be found in the `/etc/shells` file.  
+  Example:  
+  ```bash
+  cat /etc/shells
+  ```
+
+#### Default Shells
+
+The default shell for most UNIX/Linux systems is `bash`, though it is always important to understand what shell you are currently operating in, as they all have different behaviors.
+
+To determine the shell you are currently using, run:  
+  ```bash
+  echo $SHELL
+  ```
+
+#### Switching Shells
+
+To fully switch to a new shell and load its environment, simply type the shell name. This will load the shell's startup files (e.g., `.bashrc`, `.zshrc`).  
+  ```bash
+  tcsh
+  ```
+This approach is useful when you want to use the shell with all its custom configurations and environment variables.
+
+##### Switching Shells Without Loading a New Environment
+
+If you want to switch to a different shell without loading a new environment, use the `--norc` or `--noprofile` options (depending on the shell). This prevents the shell from reading its startup files, allowing you to test or use the shell in a minimal state.  
+Example:  
+  ```bash
+  bash --norc
+  ```
+
+##### Using the `-i` Argument
+
+The `-i` argument of many shells starts the shell in interactive mode. This is useful when you want to ensure the shell behaves as if it were started interactively, even if it is being invoked from a script or another non-interactive context.  
+Example:  
+  ```bash
+  bash -i
+  ```
+
+This ensures that the shell reads its interactive startup files and allows user interaction.
+
+#### Configuring the Default Shell
+
+A user's default shell is configured in the `/etc/passwd` file.  
+  Example entry:  
+  ```bash
+  username:x:1000:1000:User Name:/home/username:/bin/bash
+  ```
+
+The user's default login shell is the last entry in each line of `/etc/passwd`. In this case it is `/bin/bash`. The full path to the shell executable must be specified for the user to be able to login! 
+
+#### Privileged User Indicator
+
+In a UNIX terminal, the prompt changes to indicate whether you are a regular user or a privileged user:  
+  - `$`: Regular user.  
+  - `#`: Root or privileged user.
+
+### Variables
+
+**Shell variables** are local to the current shell session.  
+
+Example of setting a shell variable:  
+  ```bash
+  VARIABLE="value"
+  ```
+
+**Environment variables** are still limited within the same process, but also inherited by child processes.  To make a shell variable an environment variable, use the `export` command:  
+  ```bash
+  export VARIABLE
+  ```
+
+**Limitations**:
+  - Environment variables are scoped to the process and its child processes. They are not shared across unrelated processes.
+  - Changes to environment variables in a shell session do not persist after the session ends unless explicitly added to configuration files like `.bashrc` or `.profile`.
+  - Overuse of environment variables can lead to conflicts or unintended behavior, especially if variable names are not unique.
+
+#### Making Environment Variables Permanent
+
+To make environment variables persistent across sessions, add them to the appropriate configuration file:  
+  - For a single user: `~/.bashrc` or `~/.profile`.  
+  - For all users: `/etc/profile`.
+
+Note: `.bashrc` is the configuration file for the `bash` shell.  Other shells have similar files (e.g. `.zshrc` for `zsh`).
+
+#### Useful Environment Variable Commands
+
+| Command                  | Action                                                                                                                                                                  |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `env`                    | List all current environment variables and their values.                                                                                                                |
+| `export [variable_name]` | <p>Define the value of an environment variable. Can be a new or existing variable.</p><p><em>Exported variables only work in the context of the current shell.</em></p> |
+| `echo $PATH`             | List the values in the PATH environment variable.                                                                                                                       |
+| `echo $USER`             | Show the current username.                                                                                                                                              |
+| `echo $PWD`              | Show the current working directory.                                                                                                                                     |
+| `echo $HOME`             | Show the current user's home directory                                                                                                                                  |
+| `echo "$$"`              | Show the process ID of the current shell.                                                                                                                               |
+| `stty size`              | Show number of rows and columns in the current shell.                                                                                                                   |
+
+#### Common Environment Variables
+
+##### $PATH
+
+* To make `$PWD` part of path so you don't need `./` when running commands/scripts: (_NOT RECOMMENDED for home/production use!)_ `export PATH='pwd':$PATH`
+* Add new $PATHs to the `.profile` file rather than `.bashrc.` Then, use the command `source ~/.profile` to use the newly added PATHs.
+* The best way to add a path (e.g., \~/opt/bin) to the PATH environment variable is:
+
+```bash
+export PATH="${PATH:+${PATH}:}~/opt/bin"
+#for appending (instead of PATH="$PATH:~/opt/bin")
+
+export PATH="~/opt/bin${PATH:+:${PATH}}"
+#for prepending (instead of PATH="~/opt/bin:$PATH")
+```
+
+(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path))
+
+##### $HISTCONTROL
+
+The HISTCONTROL environment variable can be used to control whether the bash history removes duplicate commands, commands that start with a space, or both. The default behavior is to remove both.
+
+```bash
+export HISTCONTROL=ignoredups
+```
+
+`ignoredups` - Ignore Duplicates
+
+##### $HISTIGNORE
+
+The HISTIGNORE environment variable can be used to filter commands so they do not appear in the history.
+
+```bash
+export HISTIGNORE="ls:[bf]g:exit:history"
+```
+
+This example causes the history command to not log common commands such as `ls`,`bg`,`fg`,`exit`,and `history`. Uses standard bash text shortcuts such as \[ ] to indicate options.
+
+##### $HISTTIMEFORMAT
+
+The HISTTIMEFORMAT environment variable controls date/time stamps in the output of the history command.
+
+```bash
+export HISTTIMEFORMAT='%F %T '
+#show date and time before each command in history
+```
+
+### Special Characters and Shell Features
+
+#### Escape Character
+- The backslash (`\`) is used as an escape character to interpret special characters literally.  
+  Example:  
+  ```bash
+  echo "This is a \$variable"
+  ```
+
+### Shell Globbing vs. Expansion
+
+Shell globbing and expansion are two distinct mechanisms used by the shell to interpret and process patterns or variables in commands. While they may seem similar, they serve different purposes:
+
+- **Shell Globbing**: Refers to the use of wildcard patterns to match filenames or directories. It is primarily used for file and directory name matching.
+- **Shell Expansion**: Refers to the process of replacing variables, commands, or patterns with their corresponding values or results before executing the command.
+
+Below are detailed tables explaining the examples of each:
+
+#### **Shell Globbing Examples**
+
+| **Pattern**              | **Description**                                                                 | **Example**                                                                 |
+|--------------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `*`                      | Matches zero or more characters.                                               | `ls *.txt` lists all files ending with `.txt`.                             |
+| `?`                      | Matches exactly one character.                                                 | `ls file?.txt` matches `file1.txt` but not `file10.txt`.                   |
+| `[abc]`                  | Matches any one of the characters inside the brackets.                         | `ls file[abc].txt` matches `filea.txt`, `fileb.txt`, or `filec.txt`.       |
+| `[a-z]`                  | Matches any character in the specified range.                                  | `ls file[a-z].txt` matches `filea.txt`, `fileb.txt`, etc., but not `file1.txt`. |
+| `[!abc]`                 | Matches any character not inside the brackets.                                 | `ls file[!abc].txt` matches files like `filed.txt` but not `filea.txt`.    |
+| `{pattern1,pattern2}`    | Matches either pattern1 or pattern2.                                           | `ls {file1,file2}.txt` matches `file1.txt` and `file2.txt`.                |
+| `**`                     | Matches directories recursively (requires `shopt -s globstar` in Bash).        | `ls **/*.txt` lists all `.txt` files in the current directory and subdirectories. |
+| `[[:class:]]`            | Matches characters in a character class.                                       | `ls *[[:digit:]].txt` matches files ending with a digit, like `file1.txt`. |
+|                          | **Common Character Classes**                                                   |                                                                             |
+|                          | `[:alnum:]`: Alphanumeric characters.                                          |                                                                             |
+|                          | `[:alpha:]`: Alphabetic characters.                                            |                                                                             |
+|                          | `[:digit:]`: Digits.                                                           |                                                                             |
+|                          | `[:lower:]`: Lowercase letters.                                                |                                                                             |
+|                          | `[:upper:]`: Uppercase letters.                                                |                                                                             |
+|                          | `[:space:]`: Whitespace characters.                                            |                                                                             |
+
+#### **Shell Expansion Examples**
+
+| **Type**                 | **Description**                                                                 | **Example**                                                                 |
+|--------------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| **Tilde Expansion**      | Expands `~` to the home directory.                                              | `ls ~/Documents` lists files in the `Documents` directory of the home folder. |
+| **Variable Expansion**   | Replaces variables with their values.                                           | `echo $HOME` outputs the home directory path.                              |
+| **Command Substitution** | Replaces a command with its output.                                             | `echo $(date)` outputs the current date and time.                          |
+| **Arithmetic Expansion** | Evaluates arithmetic expressions.                                               | `echo $((2 + 3))` outputs `5`.                                             |
+| **Brace Expansion**      | Expands patterns enclosed in curly braces `{}`.                                 | `echo {a,b,c}` outputs `a b c`.                                            |
+| **Filename Expansion**   | Matches filenames using wildcards (similar to globbing).                        | `ls *.txt` lists all `.txt` files.                                         |
+| **Process Substitution** | Allows a process's output to be used as input for another command.               | `diff <(ls dir1) <(ls dir2)` compares the contents of two directories.     |
+| **Pathname Expansion**   | Expands patterns to match existing file paths.                                  | `echo /usr/*` lists all files and directories in `/usr`.                   |
+
+By understanding the differences between shell globbing and expansion, you can effectively use these features to simplify and automate tasks in the shell.
+
+#### PATH Variable
+- The `PATH` variable defines the directories the shell searches for executable files.  
+  - View the current `PATH`:  
+   ```bash
+   echo $PATH
+   ```
+  - Add a directory to the `PATH`:  
+   ```bash
+   export PATH=$PATH:/new/directory
+   ```
+
+### Input/Output Streams and Redirection
+
+File descriptors are integer handles used by Unix-like operating systems to represent open files or I/O streams. They act as an abstraction layer between the operating system and the program, allowing programs to read from or write to files, devices, or other data streams without needing to know the underlying details. This system allows Unix shells to flexibly manage input and output, making it easier to chain commands, log errors, or process data streams.
+
+How Unix Shells Use File Descriptors:
+
+#### Standard I/O Streams
+
+| **Action**                     | **Command**                          | **Description**                                                                 |
+|--------------------------------|--------------------------------------|---------------------------------------------------------------------------------|
+| Redirecting output             | `command > file`                    | Sends STDOUT to a file.                                                        |
+| Redirecting errors             | `command 2> error.log`              | Sends STDERR to a file.                                                        |
+| Combining output and errors    | `command > output.log 2>&1`         | Sends both STDOUT and STDERR to the same file.                                 |
+| Redirecting input              | `command < input.txt`               | Reads input from a file instead of the keyboard.                               |
+
+#### Additional File Descriptors
+
+Beyond `0`, `1`, and `2`, programs can open additional files or streams, which are assigned higher file descriptor numbers (e.g., 3, 4, etc.). These are used for custom I/O operations.
+
+#### Piping
+
+Use the pipe (`|`) to pass the output of one command as input to another:  
+  ```bash
+  command1 | command2
+  ```
+
+### Process Control
+
+#### Running Commands in the Background
+
+Add an ampersand (`&`) at the end of a command to run it in the background. This is particularly useful when running GUI programs from the commandline such as launching wireshark to open a pcap:
+  ```bash
+  wireshark /extract/forensic/pcaps/http.pcap &
+  ```
+
+When launching GUI (Graphical User Interface) programs from the command line, the terminal typically waits for the program to finish running before returning control to the user. This behavior is known as "blocking." In other words, the terminal session is "held up" by the program until it exits, meaning you can't use the terminal for other commands during this time.
+
+To prevent this blocking behavior, you can append an `&` at the end of the command. This tells the shell to run the program in the background as a separate process. By doing so, the terminal immediately becomes available for further commands, even while the GUI program is still running.
+
+How It Works:
+* Foreground Process: Without the `&,` the program runs in the foreground, and the terminal is tied to its execution.
+* Background Process: With the `&,` the program runs in the background, and the shell assigns it a process ID (PID). You can still interact with the process if needed (e.g., bringing it back to the foreground using fg).
+
+Practical Use Cases:
+* Running Multiple Programs: You can launch multiple GUI programs without waiting for each to finish.
+* Long-Running Tasks: If a program takes a long time to complete, running it in the background allows you to continue using the terminal.
+
+Note:
+The program's output (if any) might still appear in the terminal unless redirected.
+
+
+To fully detach the program from the terminal, you can use tools like nohup or redirect output to /dev/null:
+  ```bash
+  nohup gedit myfile.txt &> /dev/null &
+  ```
+This ensures the program continues running even if the terminal is closed.
+
+#### Bringing a Process to the Foreground
+
+Use the `fg` command to bring a background process to the foreground:  
+  ```bash
+  fg <job_id>
+  ```
+
+#### Running Multiple Commands
+
+Use a semicolon (`;`) to run multiple commands sequentially, regardless of exit status:  
+  ```bash
+  command1 ; command2
+  ```
+
+Run a second command only if the first command succeeds (generally defined as returns an exit code of 0):  
+  ```bash
+  command1 && command2
+  ```
+Run a second command only if the first command fails (usually any exit code other than 0):  
+  ```bash
+  command1 || command2
+  ```
+
+### Useful Basic Commands
 
 | Command               | Description                                                                                                                                                                                                           |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `man $command`        | Get help with a command                                                                                                                                                                                               |
 | `history`             | View history of commands that have been typed into the terminal                                                                                                                                                       |
 | `!<number>`           | Repeat a specific command from command history                                                                                                                                                                        |
-| `Ctrl + r`            | Search through command history: then cycle with Up or Down arrows. (Do not need to type `history` command first)                                                                                                      |
+| `[up_down_arrow_keys]` | Use up/down arrow keys to cycle through previously used commands                                                                                                                                                                                |
+| `Ctrl + r`            | Search through command history: type search term, then cycle with Up or Down arrows. (Do not need to type `history` command first)                                                                                                      |
 | `alt + .`             | Cycle through previously used command arguments                                                                                                                                                                       |
-| `ctrl + [arrow_keys]` | Move between "words" on a command line                                                                                                                                                                                |
+| `ctrl + [arrow_keys]` | Use CTRL plus left/right arrow keys to move between "words" on a command line                                                                                                                                                                                |
 | `clear`               | Clear all text off the terminal window                                                                                                                                                                                |
 | `echo $text`          | <p>Print string to terminal.</p><ul><li>Most useful when piped into other commands.</li><li>Can be used to display environment variables such as <code>$USER</code>, <code>$HOME</code>, <code>$PATH</code></li></ul> |
 | `Ctrl + Shift + c`    | Copy selected text                                                                                                                                                                                                    |
@@ -138,6 +503,8 @@ Breaking down this format gives us four parts:
 2. The next three characters specify the permissions of the owner of the file.
 3. The following three characters specify the permissions of the group that owns the file.
 4. The final three characters specify the permissions of all other users.
+
+The permissions set is followed by the name of the file's owning user and then group. After that the file's metadata is displayed (typically filesize, modified date/time, inode number, etc.).  The filename is displayed last.
 
 In the above example (`-rwxrwxrwx`), the owner, group, and everyone permissions are all `rwx`; hence anyone can read, write, and execute this file.
 
@@ -1282,63 +1649,6 @@ getent group
 
 The `getent` command is particularly useful in environments where user and group information is managed centrally, as it queries the system's Name Service Switch (NSS) configuration.
 
-## Environment Variables
-
-| Command                  | Action                                                                                                                                                                  |
-| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `env`                    | List all current environment variables and their values.                                                                                                                |
-| `export [variable_name]` | <p>Define the value of an environment variable. Can be a new or existing variable.</p><p><em>Exported variables only work in the context of the current shell.</em></p> |
-| `echo $PATH`             | List the values in the PATH environment variable.                                                                                                                       |
-| `echo $USER`             | Show the current username.                                                                                                                                              |
-| `echo $PWD`              | Show the current working directory.                                                                                                                                     |
-| `echo $HOME`             | Show the current user's home directory                                                                                                                                  |
-| `echo "$$"`              | Show the process ID of the current shell.                                                                                                                               |
-| `stty size`              | Show number of rows and columns in the current shell.                                                                                                                   |
-
-### $PATH
-
-* To make `$PWD` part of path so you don't need `./` when running commands/scripts: (_NOT RECOMMENDED for home/production use!)_ `export PATH='pwd':$PATH`
-* Add new $PATHs to the `.profile` file rather than `.bashrc.` Then, use the command `source ~/.profile` to use the newly added PATHs.
-* The best way to add a path (e.g., \~/opt/bin) to the PATH environment variable is:
-
-```bash
-export PATH="${PATH:+${PATH}:}~/opt/bin"
-#for appending (instead of PATH="$PATH:~/opt/bin")
-
-export PATH="~/opt/bin${PATH:+:${PATH}}"
-#for prepending (instead of PATH="~/opt/bin:$PATH")
-```
-
-(from [https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path](https://unix.stackexchange.com/questions/26047/how-to-correctly-add-a-path-to-path))
-
-### $HISTCONTROL
-
-The HISTCONTROL environment variable can be used to control whether the bash history removes duplicate commands, commands that start with a space, or both. The default behavior is to remove both.
-
-```bash
-export HISTCONTROL=ignoredups
-```
-
-`ignoredups` - Ignore Duplicates
-
-### $HISTIGNORE
-
-The HISTIGNORE environment variable can be used to filter commands so they do not appear in the history.
-
-```bash
-export HISTIGNORE="ls:[bf]g:exit:history"
-```
-
-This example causes the history command to not log common commands such as `ls`,`bg`,`fg`,`exit`,and `history`. Uses standard bash text shortcuts such as \[ ] to indicate options.
-
-### $HISTTIMEFORMAT
-
-The HISTTIMEFORMAT environment variable controls date/time stamps in the output of the history command.
-
-```bash
-export HISTTIMEFORMAT='%F %T '
-#show date and time before each command in history
-```
 
 ## Startup Scripts
 
