@@ -422,9 +422,51 @@ Run a second command only if the first command fails (usually any exit code othe
 
 ## Filesystem Basics
 
+Everything in Linux is a file, even directories and devices. This means that Linux treats hardware devices, sockets, pipes, and even processes as files, allowing for a unified interface for interacting with system resources. 
+
+### Directories as Files
+Directories in Linux are special types of files that contain references (or pointers) to other files and directories. They serve as organizational structures for the filesystem. While directories can be treated like files in many ways, they have some unique restrictions:
+- **Cannot be directly edited**: Unlike regular files, directories cannot be opened and edited with a text editor.
+- **Require special commands**: Operations like creating, deleting, or listing directories require commands such as `mkdir`, `rmdir`, or `ls`.
+
+### Devices as Files
+Linux represents hardware devices as files located in the `/dev` directory. These device files allow user-space programs to interact with hardware through standard file operations like reading and writing. Device files are categorized into:
+- **Character devices**: Represent devices that handle data as a stream of bytes (e.g., `/dev/tty` for terminals).
+- **Block devices**: Represent devices that handle data in fixed-size blocks (e.g., `/dev/sda` for hard drives).
+
+### Implications of "Everything is a File"
+1. **Unified Interface**: Applications can interact with hardware and system resources using the same file I/O operations (`open`, `read`, `write`, `close`).
+2. **Flexibility**: Pipes, sockets, and other inter-process communication mechanisms are treated as files, simplifying their usage.
+3. **Permissions**: The same permission model (read, write, execute) applies to all files, including directories and devices, ensuring consistent security management.
+
+This design philosophy is a cornerstone of Linux and Unix-like operating systems, making them powerful and versatile for developers and system administrators.
+
+### Directory structure
+
+Below is an example of a typical directory structure found on the most common Linux distributions.
+
 ![Standard Linux Directories and Files](../.gitbook/assets/0\_roztlgbulghhs2p\_.png)
 
-Everything in Linux is a file, even directories and devices. Directories have some special restrictions, but for the most part can be treated like files.
+| **Directory** | **Description**                                                                 | **Example Files** |
+|---------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| `/bin`        | Common programs shared by the system, the system administrator, and users.      | `ls`, `cp`, `mv`, `bash` |
+| `/boot`       | Startup files and the kernel.                                                   | `/boot/vmlinuz`, `/boot/grub/grub.cfg` |
+| `/dev`        | References to all CPU peripheral hardware, represented as special files.        | `/dev/sda`, `/dev/null`, `/dev/tty` |
+| `/etc`        | Most important system configuration files.                                       | `/etc/passwd`, `/etc/fstab`, `/etc/hosts` |
+| `/home`       | Home directories of the common users.                                            | `/home/user1`, `/home/user2` |
+| `/initrd`     | Contains information for booting (on some distributions).                       | Files related to initial RAM disk, e.g., `/initrd.img` |
+| `/lib`        | Library files for programs needed by the system and users.                      | `/lib/libc.so.6`, `/lib/modules` |
+| `/lost+found` | Contains files recovered during failures.                                       | Files with random names recovered after a crash, e.g., `#12345` |
+| `/misc`       | For miscellaneous purposes.                                                     | Varies by system, often empty or used for custom mounts. |
+| `/mnt`        | Standard mount point for external file systems.                                 | `/mnt/cdrom`, `/mnt/usb` |
+| `/net`        | Standard mount point for entire remote file systems.                            | Varies by system, often used for network mounts. |
+| `/opt`        | Typically contains third-party software files.                              | `/opt/google/chrome`, `/opt/vmware` |
+| `/proc`       | A virtual file system containing information about system resources.            | `/proc/cpuinfo`, `/proc/meminfo`, `/proc/uptime` |
+| `/root`       | The administrative user's home directory.                                       | `/root/.bashrc`, `/root/.ssh/authorized_keys` |
+| `/sbin`       | Programs for use by the system and the system administrator.                    | `fsck`, `reboot`, `shutdown` |
+| `/tmp`        | Temporary space for use by the system, cleaned upon reboot.                     | World-writeable, contains temporary files created by applications |
+| `/usr`        | Programs, libraries, documentation, etc., for all user-related programs. /bin and /sbin folders live in here as well       | `/usr/bin/python3`, `/usr/lib/libc.so`, `/usr/share/man` |
+| `/var`        | Storage for variable files and temporary files created by users.                | `/var/log/syslog`, `/var/mail`, `/var/spool` |
 
 ### Listing and viewing Directories and Files
 
