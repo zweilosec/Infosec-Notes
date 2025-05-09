@@ -26,7 +26,7 @@
 
 ## Windows <a href="#windows-1" id="windows-1"></a>
 
-* [Windows Basics](windows-1/windows-basics.md)
+* [Windows Fundamentals](windows-1/windows-basics.md)
 * [PowerShell](windows-1/powershell.md)
 * [Hardening & Setup](windows-1/windows-hardening.md)
 * [Red Team Notes](windows-1/windows-redteam/README.md)
