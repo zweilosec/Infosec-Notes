@@ -2,7 +2,7 @@
 description: Commands and programs that all Windows users need to know (but many don't!).
 ---
 
-# Windows Basics
+# Windows Fundamentals
 
 ## Sysinternals
 
@@ -36,7 +36,16 @@ Red-teamers and penetration testers can leverage Sysinternals tools for enumerat
 
 The **Windows Command Prompt (`cmd.exe`)** is an essential interface for executing text-based commands that control the operating system, automate tasks, and troubleshoot system issues. Unlike a graphical user interface (GUI), `cmd.exe` provides direct access to system functionalities through typed commands, making it a powerful tool for administrators, developers, and security professionals.
 
+### **Use Cases for `cmd.exe`**
+
+- **System Administration:** Modify system settings, manage processes, and configure user accounts.
+- **Networking:** Troubleshoot connectivity, scan ports, and manage network shares.
+- **Security & Forensics:** Analyze logs, check permissions, and identify suspicious activities.
+- **Scripting & Automation:** Write batch scripts for repetitive tasks and scheduled jobs.
+- **File & Directory Management:** Copy, move, delete, and modify file attributes efficiently.
+
 ### **Types of Commands in `cmd.exe`**
+
 There are two primary types of commands that can be executed in `cmd.exe`:
 
 1. **Built-in Commands**:  
@@ -48,15 +57,6 @@ There are two primary types of commands that can be executed in `cmd.exe`:
    - These commands **call separate `.exe` files**, typically stored in **system directories** like `C:\Windows\System32\`.
    - External commands extend the shell’s capabilities by invoking system utilities and tools.
    - **Examples:** `ping.exe` (network testing), `ipconfig.exe` (network configuration), `tasklist.exe` (list running processes), and `robocopy.exe` (advanced file copy operations).
-
-### **Use Cases for `cmd.exe`**
-- **System Administration:** Modify system settings, manage processes, and configure user accounts.
-- **Networking:** Troubleshoot connectivity, scan ports, and manage network shares.
-- **Security & Forensics:** Analyze logs, check permissions, and identify suspicious activities.
-- **Scripting & Automation:** Write batch scripts for repetitive tasks and scheduled jobs.
-- **File & Directory Management:** Copy, move, delete, and modify file attributes efficiently.
-
-The **command prompt remains a crucial tool** for power users and IT professionals, offering **precise control, automation capabilities, and deep system insights**. Let me know if you want to explore specific commands in more detail! 🚀
 
 For example:
 - `cd`, `dir`, `echo`, `set`, `exit` **are all built-ins** handled directly by `cmd.exe`.
