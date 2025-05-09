@@ -7,22 +7,26 @@ description: >-
 # Hands-on Practice
 
 ## **Capture The Flag (CTF)**
-In **cybersecurity**, a **Capture The Flag (CTF)** is a **hands-on competition** designed to simulate real-world hacking scenarios. Participants—often **security professionals, ethical hackers, students, or red teams**—attempt to solve technical challenges that test their **offensive and defensive skills**.
+In **cybersecurity**, a **Capture The Flag (CTF)** is a **hands-on competition** designed to simulate real-world hacking scenarios. Participant, who are often **security professionals, ethical hackers, students, or red teams**, attempt to solve technical challenges that test their **offensive and/or defensive skills**.
 
 ### **Types of CTF Competitions**
+
 CTFs can vary in format but typically fall into three main categories:
+
 1. **Jeopardy-Style** – Players solve challenges in categories like **cryptography, reverse engineering, web exploitation, and forensics** to earn points.
 2. **Attack-Defense** – Teams defend their own systems while attacking others, simulating **real-world red vs. blue team scenarios**.
 3. **Boot2Root / Puzzle-Based** – Participants must gain root access to a vulnerable machine or solve multi-step hacking challenges.
 
 ### **CTFs for Cyber Training**
+
 For cybersecurity professionals, CTFs provide an opportunity to:
+
 - **Practice offensive security** techniques like **privilege escalation, exploit development, and lateral movement**.
 - **Learn real-world tactics** used by adversaries in penetration tests.
 - **Improve technical agility** in areas like **reverse engineering malware, bypassing security controls, and social engineering**.
 - **Enhance teamwork** in scenarios that mimic **cybercriminals** and **advanced persistent threats (APT)**.
 
-CTFs are widely used for **cybersecurity education**, **hiring assessments**, and **upskilling professionals**. Many competitions, such as **DEFCON CTF, Hack The Box, and PicoCTF**, provide an immersive experience to sharpen security expertise.
+CTFs are also widely used for **cybersecurity education**, **hiring assessments**, and **upskilling professionals**. Many competitions, such as **DEFCON CTF, Hack The Box, and PicoCTF**, provide an immersive experience to sharpen security expertise.
 
 Here is a list of some of the more popular platforms for hands-on CTF training:
 
