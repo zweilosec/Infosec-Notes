@@ -147,25 +147,72 @@ attrib -h <C:\path\filename>
 {% endtab %}
 {% endtabs %}
 
-### Changing file permissions
+### NTFS Permissions
 
-[https://ss64.com/nt/icacls.html](https://ss64.com/nt/icacls.html) Interesting permissions
+NTFS (New Technology File System) permissions are a security feature in Windows that controls who can access files and folders on NTFS-formatted drives. These permissions allow administrators to **restrict or grant access** to users and groups, ensuring data security and integrity.
 
-#### Windows icacls file permissions
+NTFS permissions are **more granular** than share permissions and apply at the **file system level**, meaning they remain in effect regardless of how the file or folder is accessed (locally or over a network). Permissions can be **explicitly assigned** or **inherited** from parent folders.
 
-D - Delete access
+#### **NTFS Permission Types & Applicability**
 
-F - Full access (Edit\_Permissions+Create+Delete+Read+Write)
+Below is a table describing the different NTFS permissions:
 
-N - No access
+| **Permission** | **Description** | **Applicable To** | **Example Use Case** |
+|---------------|---------------|------------------|------------------|
+| **Full Control** | Grants complete access, including modifying permissions and taking ownership. | Files & Folders | Administrators managing system files. |
+| **Modify** | Allows reading, writing, and deleting files/folders. | Files & Folders | Users editing documents but restricted from changing permissions. |
+| **Read & Execute** | Allows viewing and executing files but prevents modifications. | Files & Folders | Running applications without modifying them. |
+| **List Folder Contents** | Allows viewing folder contents but prevents file modifications. | Folders Only | Browsing directories without altering files. |
+| **Read** | Grants permission to view files and folder contents. | Files & Folders | Users needing access to reference documents. |
+| **Write** | Allows creating and modifying files but prevents deletion. | Files & Folders | Users adding new files to a shared directory. |
+| **Traverse Folder / Execute File** | Allows navigating through folders or executing files. | Files & Folders | Running scripts or accessing nested directories. |
+| **Delete** | Grants permission to remove files or folders. | Files & Folders | Users managing temporary files. |
+| **Change Permissions** | Allows modifying NTFS permissions for files and folders. | Files & Folders | Administrators adjusting access control settings. |
+| **Take Ownership** | Allows users to take ownership of files or folders. | Files & Folders | Recovering access to locked files. |
 
-M - Modify access (Create+Delete+Read+Write)
+#### **Key Features of NTFS Permissions**
+- **Inheritance**: Permissions assigned to a parent folder automatically apply to its subfolders and files unless explicitly overridden.
+- **Explicit vs. Inherited Permissions**: Explicit permissions are manually set, while inherited permissions come from parent directories.
+- **Deny Overrides Allow**: If a user has both "Allow" and "Deny" permissions, "Deny" takes precedence.
+- **Combining Permissions**: If a user belongs to multiple groups, their permissions are combined.
 
-RX - Read and eXecute access
+### **Windows Share Permissions**
 
-R - Read-only access
+Windows uses **two types of permissions** to control access to files and folders: **Share Permissions** and **NTFS Permissions**. While they serve similar purposes, they function differently and apply in different scenarios.
 
-W - Write-only access
+#### **Share Permissions**
+- **Apply only to shared folders accessed over a network** (not local access).
+- **Three levels of access**:  
+  - **Read** – Users can view files and folders but cannot modify them.  
+  - **Change** – Users can read, modify, and delete files.  
+  - **Full Control** – Users can read, modify, delete, and change permissions.  
+- **Set at the folder level** (not individual files).
+- **Cannot be inherited**—each shared folder has its own permissions.
+
+#### **NTFS Permissions**
+- **Apply to both local and network access**.
+- **More granular control**—permissions can be set for individual files and folders.
+- **Can be inherited**—permissions assigned to a parent folder apply to subfolders and files.
+- **Includes advanced permissions** like **Modify, Read & Execute, Write, and Full Control**.
+
+#### **Precedence of Share vs. NTFS Permissions**
+
+When a user accesses a shared folder over the network, **both Share and NTFS permissions apply**. The **most restrictive** permission takes precedence.
+
+| **Permission Type** | **Explicit vs. Inherited** | **Allow vs. Deny** | **Precedence Level** |
+|---------------------|--------------------------|--------------------|----------------------|
+| **Explicit Deny (NTFS)** | Directly assigned to a file or folder | Deny | **Highest Precedence** |
+| **Explicit Deny (Share)** | Directly assigned to a shared folder | Deny | **High Precedence** |
+| **Explicit Allow (NTFS)** | Directly assigned to a file or folder | Allow | **Medium Precedence** |
+| **Explicit Allow (Share)** | Directly assigned to a shared folder | Allow | **Medium Precedence** |
+| **Inherited Deny (NTFS)** | Inherited from a parent folder | Deny | **Lower Precedence** |
+| **Inherited Allow (NTFS)** | Inherited from a parent folder | Allow | **Lowest Precedence** |
+
+##### **Key Takeaways**
+- **Deny always overrides Allow**—if a user is explicitly denied access via NTFS or Share permissions, they cannot access the resource.
+- **NTFS permissions apply to both local and network access**, while **Share permissions apply only to network access**.
+- **File permissions override folder permissions**, unless Full Control is granted at the folder level.
+- **The most restrictive permission applies**—if NTFS allows access but Share denies it, the user is denied.
 
 {% tabs %}
 {% tab title="PowerShell" %}
