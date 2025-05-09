@@ -46,6 +46,27 @@ Here is a list of some of the more popular platforms for hands-on CTF training:
 | [Pwnable.kr](http://pwnable.kr/) | A **pwn-focused wargame** site offering challenges related to **binary exploitation, reverse engineering, and system hacking**. | **Boot2Root / Exploit Development** |
 | [Pwnable.tw](https://pwnable.tw/) | Similar to Pwnable.kr, this site provides **binary exploitation challenges** with a scoring system based on difficulty. | **Boot2Root / Exploit Development** |
 
+## Certifications for Offensive Security Professionals
+
+Certifications are also available from many vendors to validate penetration testing, ethical hacking, and exploit development skills. These certifications help professionals demonstrate their expertise in network security, red teaming, and vulnerability assessment, making them valuable challenges to pursue. These can often help "get you in the door" when applying for jobs.
+
+Below is a table comparing some of the popular offensive security certifications:
+
+| **Vendor** | **Certification** | **Description** | **Price** | **Pros** | **Cons** |
+|------------|------------------|----------------|------------|----------|----------|
+| **Offensive Security** | **OSCP (Offensive Security Certified Professional)** | A **hands-on pentesting certification** requiring a **24-hour practical exam** and report writing. Focused on **real-world attack scenarios** using Kali Linux. | ~$1,599 | Highly respected, strong industry recognition, hands-on exam | Extremely challenging, steep learning curve, only "entry level" |
+| **Offensive Security** | **OSCE3 (Offensive Security Certified Expert)** | Advanced certification covering **exploit development, red teaming, and advanced pentesting techniques**. | ~$5,499 | Deep focus on **exploit development**, highly respected | Extremely difficult, requires OSCP-level expertise |
+| **Offensive Security** | **OSWE (Offensive Security Web Expert)** | Focuses on **white-box web application security**, requiring candidates to analyze source code and exploit vulnerabilities. The exam is **48 hours long**. | ~$1,499 | Highly specialized in **web app security**, strong industry recognition | Requires deep knowledge of **web application security and coding** |
+| **TCM Security** | **PNPT (Practical Network Penetration Tester)** | A **real-world pentesting exam** covering **Active Directory exploitation, lateral movement, and report writing**. | ~$399 | Affordable, realistic pentesting scenarios, includes reporting | Less recognized than OSCP, limited advanced exploitation |
+| **Pentester Academy** | **CRTP (Certified Red Team Professional)** | Specializes in **Active Directory attacks, privilege escalation, and lateral movement techniques**. | ~$249 | Strong Windows AD exploitation focus, affordable | Limited coverage of web and network pentesting |
+| **Hack The Box** | **CPTS (Certified Penetration Testing Specialist)** | A **hands-on pentesting certification** covering **network security, Active Directory exploitation, and web application attacks**. | ~$299 | Affordable, practical exam, good for beginners | Less recognized than OSCP, newer certification |
+| **GIAC (Global Information Assurance Certification)** | **GXPN (GIAC Exploit Researcher and Advanced Penetration Tester)** | Covers **exploit development, buffer overflows, and reverse engineering**. | ~$8,000 | Deep focus on **exploit development**, highly technical | Extremely expensive |
+| **eLearnSecurity (INE Security)** | **CPTS (Certified Penetration Testing Specialist)** | Covers **network security, web exploitation, and privilege escalation** with a **practical exam**. | ~$350 | Well-rounded pentesting coverage, hands-on exam | Less industry recognition compared to OSCP |
+| **eLearnSecurity (INE Security)** | **eJPT (eLearnSecurity Junior Penetration Tester)** | Entry-level pentesting certification covering **network security, web exploitation, and basic enumeration**. | ~$200 | Beginner-friendly, practical exam | Not recognized for senior pentesting roles |
+| **Mile2** | **CPTC (Certified Penetration Testing Consultant)** | Focuses on **enterprise-level pentesting**, including **report writing and compliance**. | ~$1,500 | Strong emphasis on **consulting and reporting**, good for senior roles | Less technical than OSCP, geared toward **business-oriented pentesting** |
+| **International Council of E-Commerce Consultants (EC-Council)** | **CEH (Certified Ethical Hacker)** | Covers **ethical hacking fundamentals**, tools, and methodologies via a **multiple-choice exam**. | ~$1,199 | Well-known globally, only for beginners | Not a practical exam, focuses more on theory than hands-on skills, terrible course material, not worth the price |
+
+
 ## Thanks
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
