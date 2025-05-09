@@ -60,7 +60,7 @@ There are two primary types of commands that can be executed in `cmd.exe`:
 
 For example:
 - `cd`, `dir`, `echo`, `set`, `exit` **are all built-ins** handled directly by `cmd.exe`.
-- **Commands like** `ping`, `ipconfig`, `tasklist`, and `robocopy` **are external**—they invoke separate `.exe` files located in system directories (e.g., `C:\Windows\System32\`).
+- **Commands like** `ping`, `ipconfig`, `tasklist`, and `robocopy` are external, i.e. they invoke separate `.exe` files located in system directories (e.g. `C:\Windows\System32\`).
 
 #### **Windows CMD built-in commands**
 
@@ -106,44 +106,82 @@ The **Windows `net` commands** are a set of command-line tools that allow admini
 | **net group** | Manages global groups on a domain. | `net group "IT Admins" /add` – Creates a new global group named "IT Admins". | `/delete` – Remove a group, `/add` – Create a new group. |
 | **net time** | Synchronizes the system clock with a network time server. | `net time \\Server /set /yes` – Sync time with `Server`. | `/querysntp` – Query the SNTP time server. |
 
-## File manipulation
+## File Manipulation
 
-### Change file attributes
+### File Attributes
+
+Windows **file attributes** are metadata properties assigned to files and folders that define their **visibility, accessibility, and behavior**. These attributes help control **read/write access, security settings, and system file classifications**.
+
+File attributes can be **modified using built-in commands** like `attrib` in `cmd.exe` or PowerShell. Some attributes, such as **Read-Only and Hidden**, are commonly used for **file protection and organizational purposes**, while system attributes ensure that essential files are safeguarded from accidental modifications.
+
+Here is a list of the most common Windows file attributes: 
+
+| **Attribute** | **Description** | **Example Use Case** |
+|--------------|---------------|------------------|
+| **Read-Only (R)** | Prevents modifications to the file. | Used on important documents to avoid accidental changes. |
+| **Hidden (H)** | Hides the file from standard directory views. | Hiding configuration files from casual users. |
+| **System (S)** | Marks a file as a system file, restricting user modifications. | Applied to critical Windows system files. |
+| **Archive (A)** | Flags the file for backup or archiving purposes. | Automatically marked when a file is edited, useful for backup software. |
+| **Compressed (C)** | Indicates the file is compressed via NTFS compression. | Reduces file size on NTFS partitions. |
+| **Encrypted (E)** | Encrypts the file using NTFS encryption. | Protects sensitive data by restricting unauthorized access. |
+| **Temporary (T)** | Indicates the file is for temporary use. | Used by applications for cache storage. |
+| **Sparse (P)** | Allocates disk space efficiently by storing only non-zero data. | Used for database and virtualization scenarios. |
+| **Offline (O)** | Marks the file as **offline**, meaning it's stored remotely. | Useful for files managed by cloud storage systems. |
+
+#### **Managing File Attributes**
+
+You can view and change file attributes using the following commands:
+
+- **CMD:**  
+  `attrib +H secret.txt` → Hide `secret.txt`  
+  `attrib -R report.docx` → Remove Read-Only from `report.docx`  
+- **PowerShell:**  
+  `$file = Get-Item "C:\example.txt"; $file.Attributes += 'Hidden'` → Hide the file  
 
 {% tabs %}
-{% tab title="PowerShell" %}
-Set a file as `Hidden`. This can also be used to change other file property flags such as `Archive` and `ReadOnly`.
-
-```
-$file = (Get-ChildItem $file) #can shorten command with gci or ls
-$file.attributes #Show the files attributes
-Normal
-
-#Flip the bit of the Hidden attribute
-$file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
-$file.attributes
-Hidden
-
-#To remove the 'Hidden' attribute
-$file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
-$file.attributes
-Normal
-```
-{% endtab %}
-
 {% tab title="cmd.exe" %}
-Set a file as **Hidden** (`-h`). This can also be used to change other file property flags such as (`a`) Archive and (`r`) ReadOnly. Flags must be added separately (`-h -a -r` not `-har`).
 
-```
-#show the file attributes
+Example: Set a file as **Hidden** (`-h`) using `attrib`.
+
+- This can also be used to change other file property flags such as (`a`) Archive and (`r`) ReadOnly.
+- Flags must be added separately (`-h -a -r` not `-har`).
+
+```powershell
+# Show the file attributes
 attrib <C:\path\filename>
 
-#add the 'hidden' attribute
+# Add the 'hidden' attribute
 attrib +h <C:\path\filename>
 
-#to remove the 'hidden' property
+# Remove the 'hidden' property
 attrib -h <C:\path\filename>
 ```
+
+{% endtab %}
+{% tab title="PowerShell" %}
+
+Example: Set a file as `Hidden`. (This can also be used to change other file property flags such as `Archive` and `ReadOnly`)
+
+```powershell
+# Get File attributes
+$file = (Get-ChildItem <file>) # Need the file as an object to get attributes directly
+$file.attributes # Show the file's attributes
+#Normal
+
+# Flip the bit of the Hidden attribute using xor
+$file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
+$file.attributes
+#Hidden
+
+# Change attribute with direct assignment (beware, using = will set ONLY that attribute)
+$file.Attributes += 'Hidden'
+
+# To remove the 'Hidden' attribute, flip the bit back using xor (or direct assignement)
+$file.attributes = $file.Attributes -bxor ([System.IO.FileAttributes]::Hidden)
+$file.attributes
+#Normal
+```
+
 {% endtab %}
 {% endtabs %}
 
@@ -171,6 +209,7 @@ Below is a table describing the different NTFS permissions:
 | **Take Ownership** | Allows users to take ownership of files or folders. | Files & Folders | Recovering access to locked files. |
 
 #### **Key Features of NTFS Permissions**
+
 - **Inheritance**: Permissions assigned to a parent folder automatically apply to its subfolders and files unless explicitly overridden.
 - **Explicit vs. Inherited Permissions**: Explicit permissions are manually set, while inherited permissions come from parent directories.
 - **Deny Overrides Allow**: If a user has both "Allow" and "Deny" permissions, "Deny" takes precedence.
@@ -181,18 +220,20 @@ Below is a table describing the different NTFS permissions:
 Windows uses **two types of permissions** to control access to files and folders: **Share Permissions** and **NTFS Permissions**. While they serve similar purposes, they function differently and apply in different scenarios.
 
 #### **Share Permissions**
+
 - **Apply only to shared folders accessed over a network** (not local access).
 - **Three levels of access**:  
-  - **Read** – Users can view files and folders but cannot modify them.  
-  - **Change** – Users can read, modify, and delete files.  
-  - **Full Control** – Users can read, modify, delete, and change permissions.  
+  - **Read** - Users can view files and folders but cannot modify them.  
+  - **Change** - Users can read, modify, and delete files.  
+  - **Full Control** - Users can read, modify, delete, and change permissions.  
 - **Set at the folder level** (not individual files).
-- **Cannot be inherited**—each shared folder has its own permissions.
+- **Cannot be inherited** - each shared folder has its own permissions.
 
 #### **NTFS Permissions**
+
 - **Apply to both local and network access**.
-- **More granular control**—permissions can be set for individual files and folders.
-- **Can be inherited**—permissions assigned to a parent folder apply to subfolders and files.
+- **More granular control**: permissions can be set for individual files and folders.
+- **Can be inherited**: permissions assigned to a parent folder apply to subfolders and files.
 - **Includes advanced permissions** like **Modify, Read & Execute, Write, and Full Control**.
 
 #### **Precedence of Share vs. NTFS Permissions**
@@ -209,20 +250,104 @@ When a user accesses a shared folder over the network, **both Share and NTFS per
 | **Inherited Allow (NTFS)** | Inherited from a parent folder | Allow | **Lowest Precedence** |
 
 ##### **Key Takeaways**
-- **Deny always overrides Allow**—if a user is explicitly denied access via NTFS or Share permissions, they cannot access the resource.
+
+- **Deny always overrides Allow**: if a user is explicitly denied access via NTFS or Share permissions, they cannot access the resource.
 - **NTFS permissions apply to both local and network access**, while **Share permissions apply only to network access**.
 - **File permissions override folder permissions**, unless Full Control is granted at the folder level.
-- **The most restrictive permission applies**—if NTFS allows access but Share denies it, the user is denied.
+- **The most restrictive permission applies**: if NTFS allows access but Share denies it, the user is denied.
+
+### Access Control Lists (ACLs)
+
+In Windows, **Access Control Lists (ACLs)** are security structures that define who can access files and folders and what actions they can perform. ACLs consist of **Access Control Entries (ACEs)**, which specify **users, groups, or processes** and their corresponding permissions.
+
+Every **file and folder** has an ACL that determines its accessibility:
+
+- ACLs contain a **list of permissions** assigned to different users or groups.
+- **Permissions can be explicitly assigned** or inherited from a parent directory.
+- ACLs help enforce **security policies** and protect sensitive data.
+
+To view an ACL for a file or folder: right-click on the item in Explorer and select 'Properties'. Click on the 'Security' tab, the view the section marked 'Permissions for <USERNAME>'. 
+
+#### **Windows ACL Components**
+
+- **Discretionary Access Control List (DACL)** - Defines who has **allow or deny** permissions.
+- **System Access Control List (SACL)** - Used for auditing access attempts.
+- **Owner** - The user who controls the resource and can change permissions.
+- **Inheritance** - Determines if child files/folders receive permissions from a parent directory.
+
+#### **Common ACL Permissions**
+
+| **Permission** | **Description** | **Example Use Case** |
+|---------------|---------------|------------------|
+| **Full Control** | Grants complete access, including modifying ACLs and taking ownership. | Used by administrators to manage security settings. |
+| **Modify** | Allows reading, writing, and deleting files/folders. | Editors and contributors modifying shared project files. |
+| **Read & Execute** | Allows viewing and running files but prevents modifications. | Running applications without altering them. |
+| **List Folder Contents** | Allows browsing directories without modifying files. | Users needing access to a directory’s structure without altering data. |
+| **Read** | Grants permission to view files and folder contents. | Viewing reference documents without editing. |
+| **Write** | Allows creating and modifying files but prevents deletion. | Users adding new content to shared folders without deletion rights. |
+| **Change Permissions** | Allows modifying ACL settings for files and folders. | Administrators adjusting access control settings. |
+| **Take Ownership** | Allows users to take ownership of files or folders. | Recovering access to locked files. |
+
+#### **Key Takeaways**
+
+- **ACLs control file/folder access** by assigning permissions to users and groups.
+- **Explicit Deny overrides Allow** when conflicting permissions exist.
+- **Inheritance determines** whether child objects receive parent permissions.
+
+### **Managing ACLs in Windows**
+
+#### **Using File Explorer**
+1. **Right-click** a file or folder → **Properties** → **Security** tab.
+2. Click **Edit** to modify **permissions**.
+3. Add, remove, or adjust permissions for **users and groups**.
+
+#### Using the shell
 
 {% tabs %}
+{% tab title="cmd.exe" %}
+
+#### **Using `icacls`**
+
+**View ACLs:**  
+  ```
+  icacls C:\SensitiveData
+  ```
+
+**Grant Full Control:**  
+  ```
+  icacls C:\SensitiveData /grant tester:F
+  ```
+
+**Remove Permissions:**  
+  ```
+  icacls C:\SensitiveData /remove tester
+  ```
+
+{% endtab %}
 {% tab title="PowerShell" %}
-#### Copy permissions from one file or directory to another
+
+Copy permissions from one file or directory to another
 
 ```powershell
 Get-ACL C:\File1 | Set-Acl C:\File2
 ```
 
-#### Add specific permissions to a Folder (or file)
+Remove permissions from a folder or file
+
+```powershell
+$path = "C:\temp" #Replace with whatever file you want to do this to.
+$acl = Get-Acl $path
+$rules = $acl.Access | where IsInherited -eq $false #Gets all non inherited rules.
+#Filter your $rules however you want to remove permissions.
+
+#For example, to target a specific user or group:
+$targetrule = $rules | where IdentityReference -eq "$Domain\$User" #Leave domain off for local accounts.
+
+$acl.RemoveAccessRule($targetrule)
+$acl | Set-Acl -Path $path
+```
+
+Advanced: Add a specific list of permissions to a Folder (or file)
 
 ```powershell
 function Edit-Perms {
@@ -243,7 +368,12 @@ $acl | Set-Acl -Path $path
 }
 ```
 
-#### Valid settings for Rights are as follows: <a href="#valid-settings-for-rights-are-as-follows" id="valid-settings-for-rights-are-as-follows"></a>
+{% endtab %}
+{% endtabs %}
+
+### Windows Rights (TODO: finish this)
+
+Valid settings for Rights are as follows:
 
 | Setting                      | Description                                                                                                                                                                                                                                                                          |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -271,7 +401,7 @@ $acl | Set-Acl -Path $path
 | WriteData                    | Specifies the right to open and write to a file or folder. This does not include the right to open and write file system attributes, extended file system attributes, or access and audit rules.                                                                                     |
 | WriteExtendedAttributes      | Specifies the right to open and write extended file system attributes to a folder or file. This does not include the ability to write data, attributes, or access and audit rules.                                                                                                   |
 
-#### Valid Inherit settings: <a href="#valid-inherit-settings" id="valid-inherit-settings"></a>
+#### Valid Inherit settings:
 
 | Setting          | Description                                      |
 | ---------------- | ------------------------------------------------ |
@@ -283,7 +413,7 @@ $acl | Set-Acl -Path $path
 Set the **`$InheritSettings`** to **`None`** if targeting a file instead of a folder.
 {% endhint %}
 
-#### Valid Propagation Settings: <a href="#valid-propagation-settings" id="valid-propagation-settings"></a>
+#### Valid Propagation Settings: 
 
 | Setting            | Description                                                                                                      |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- |
@@ -291,26 +421,7 @@ Set the **`$InheritSettings`** to **`None`** if targeting a file instead of a fo
 | None               | Specifies that no inheritance flags are set.                                                                     |
 | NoPropagateInherit | Specifies that the ACE is not propagated to child objects.                                                       |
 
-#### Remove permissions from a folder or file
 
-```powershell
-$path = "C:\temp" #Replace with whatever file you want to do this to.
-$acl = Get-Acl $path
-$rules = $acl.Access | where IsInherited -eq $false #Gets all non inherited rules.
-#Filter your $rules however you want to remove permissions.
-
-#For example, to target a specific user or group:
-$targetrule = $rules | where IdentityReference -eq "$Domain\$User" #Leave domain off for local accounts.
-
-$acl.RemoveAccessRule($targetrule)
-$acl | Set-Acl -Path $path
-```
-{% endtab %}
-
-{% tab title="cmd.exe" %}
-
-{% endtab %}
-{% endtabs %}
 
 ## Shared Folders/SMB
 
