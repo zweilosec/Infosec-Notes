@@ -68,9 +68,9 @@ Windows **cmd.exe built-in commands** provide essential functionality for managi
 
 | Command | Description | Example Use Case |
 |---------|------------|------------------|
-| **cd** | Changes the current directory. | `cd C:\Users\Chris\Documents` – Navigate to the Documents folder. |
+| **cd** | Changes the current directory. | `cd C:\Users\tester\Documents` – Navigate to the Documents folder for user `tester`. |
 | **dir** | Lists files and directories in the current folder. | `dir /s /b` – List all files in the current directory and subdirectories. |
-| **echo** | Displays text or variables in the command prompt. | `echo Hello, Chris!` – Print "Hello, Chris!" to the screen. |
+| **echo** | Displays text or variables in the command prompt. | `echo Hello, World!` – Print "Hello, World!" to the screen. |
 | **set** | Sets or displays environment variables. | `set PATH` – Show the current PATH variable. |
 | **exit** | Closes the command prompt. | `exit` – Close the terminal session. |
 | **cls** | Clears the command prompt screen. | `cls` – Wipe the screen clean. |
@@ -88,13 +88,13 @@ Windows **cmd.exe built-in commands** provide essential functionality for managi
 
 #### The 'Net' Commands
 
-The **Windows `net` commands** are a set of command-line tools used for managing various aspects of **networking, user accounts, and shared resources**. They allow administrators and users to perform essential tasks related to system configurations, network services, and security. Here’s a **brief overview** of some key `net` commands:
+The **Windows `net` commands** are a set of command-line tools that allow administrators and users to perform essential tasks related to system configurations, network services, and security. Here’s a **brief overview** of some key `net` commands:
 
 | Command | Description | Example Use Case | Common Options |
 |---------|------------|------------------|----------------|
-| **net user** | Manages user accounts on a computer. You can add, remove, and modify users. | `net user John /add` – Adds a new user named John. | `/delete` – Remove a user, `/domain` – Execute on a domain controller. |
-| **net localgroup** | Manages local groups on the computer. You can add, remove, and list members. | `net localgroup Administrators John /add` – Adds John to the Administrators group. | `/delete` – Remove a group, `/add` – Create a new group. |
-| **net share** | Creates, deletes, and manages shared resources on the network. | `net share myshare=C:\MyFolder /grant:John,full` – Creates a share named `myshare` with full access for John. | `/delete` – Stop sharing a resource, `/grant` – Assign access permissions. |
+| **net user** | Manages user accounts on a computer. You can add, remove, and modify users. | `net user tester /add` – Adds a new user named `tester`. | `/delete` – Remove a user, `/domain` – Execute on a domain controller. |
+| **net localgroup** | Manages local groups on the computer. You can add, remove, and list members. | `net localgroup Administrators tester /add` – Adds `tester` to the Administrators group. | `/delete` – Remove a group, `/add` – Create a new group. |
+| **net share** | Creates, deletes, and manages shared resources on the network. | `net share myshare=C:\MyFolder /grant:tester,full` – Creates a share named `myshare` with full access for user `tester`. | `/delete` – Stop sharing a resource, `/grant` – Assign access permissions. |
 | **net start / stop** | Starts or stops network services. | `net start "Web Client"` – Starts the Web Client service. | Specify service names to start or stop. |
 | **net session** | Displays all current sessions or disconnects them. | `net session \\RemotePC /delete` – Disconnects the session with `RemotePC`. | `/delete` – End a session. |
 | **net use** | Connects, disconnects, and displays shared network resources. | `net use Z: \\Server\Share` – Maps the network share at `\\Server\Share` to the `Z:` drive. | `/delete` – Disconnect a network drive, `/persistent` – Make the connection persistent across reboots. |
