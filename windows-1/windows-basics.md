@@ -6,9 +6,7 @@ description: Commands and programs that all Windows users need to know (but many
 
 ## Sysinternals
 
-#### This. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
-
-If you don't know about Mark Russinovich's amazing tools then go and check them out. Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration.
+If you don't know about Mark Russinovich's amazing tools then go and check them out. Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
 
 Red-teamers and penetration testers can leverage Sysinternals tools for enumeration, privilege escalation, and lateral movement. This table includes a few of the Sysinternals tools useful for offensive security:
 
@@ -27,8 +25,8 @@ Red-teamers and penetration testers can leverage Sysinternals tools for enumerat
 
 - A full list of the current tools can be found [here](https://learn.microsoft.com/en-us/sysinternals/downloads/).
 - Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
+    - This command maps the current full list of Sysinternals tools to the first available drive letter as a network share, ready for use!
     ```powershell
-    # maps the current full list of Sysinternals tools to the first available drive letter as a network share, ready for use!
     net use * //live.sysinternals.com
     ```
 
