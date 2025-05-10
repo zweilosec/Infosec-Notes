@@ -4,6 +4,77 @@ description: Commands and programs that all Windows users need to know (but many
 
 # Windows Fundamentals
 
+## History and Evolution of Windows
+
+Windows is one of the most widely used operating systems in the world, developed by Microsoft. Its journey as Windows (post MS-DOS) began in the 1980s and has evolved significantly over the decades, introducing groundbreaking features and adapting to the needs of users and businesses.
+
+### **Origins of Windows: From Windows 1.0 to Windows 11**
+
+- **Windows 1.0 (1985):** The first graphical user interface (GUI) for MS-DOS, featuring overlapping windows and basic applications like Calculator and Paint.
+- **Windows 3.x (1990-1992):** Introduced better multitasking, improved graphics, and became the first widely adopted version of Windows.
+- **Windows 95 (1995):** Marked a major shift with the Start Menu, taskbar, and support for 32-bit applications.
+- **Windows XP (2001):** Built on the NT kernel, it combined stability with a user-friendly interface, becoming one of the most popular versions.
+- **Windows 7 (2009):** Focused on performance and usability, it remains a favorite for many users.
+- **Windows 10 (2015):** Introduced a unified platform across devices and regular updates as a service.
+- **Windows 11 (2021):** Modernized the interface with a centered Start Menu, improved multitasking, and enhanced security features.
+
+### **Windows Server Versions**
+
+Microsoft also developed server-specific versions of Windows to cater to enterprise environments, offering features like enhanced security, scalability, and support for server roles.
+
+- **Windows NT Server (1993):** The first server-focused version, built on the NT kernel, offering stability and security for enterprise use.
+- **Windows 2000 Server (2000):** Introduced Active Directory, a directory service for managing users, groups, and resources in a networked environment.
+- **Windows Server 2003 (2003):** Improved scalability and introduced features like IIS 6.0 and enhanced security tools.
+- **Windows Server 2008 (2008):** Added Hyper-V for virtualization, Server Core for minimal installations, and enhanced Active Directory features.
+- **Windows Server 2012 (2012):** Focused on cloud integration, introduced the Modern UI, and enhanced virtualization with Hyper-V improvements.
+- **Windows Server 2016 (2016):** Introduced Nano Server for lightweight deployments, Windows Containers, and enhanced security features like Shielded VMs.
+- **Windows Server 2019 (2018):** Focused on hybrid cloud environments, added support for Kubernetes, and improved security with Windows Defender ATP.
+- **Windows Server 2022 (2021):** Enhanced security with Secured-core server, improved hybrid cloud capabilities, and better support for large-scale applications.
+
+### **Key Milestones in Windows Development**
+
+1. **Introduction of the NT Kernel (1993):**
+   - Windows NT (New Technology) introduced a robust, secure, and scalable kernel, forming the foundation for all modern Windows versions.
+   - It separated user mode and kernel mode, improving system stability and security.
+
+2. **Transition to 64-bit Architecture (2001-2005):**
+   - Windows XP Professional x64 Edition and Windows Server 2003 introduced support for 64-bit processors, enabling larger memory addressing and better performance for demanding applications.
+
+3. **Modern Security Enhancements:**
+   - **Windows XP SP2 (2004):** Introduced the Windows Firewall, a built-in firewall to block unauthorized network traffic, and Data Execution Prevention (DEP) to prevent certain types of attacks.
+   - **Windows Vista (2007):** Introduced User Account Control (UAC) to prevent unauthorized changes, BitLocker for full-disk encryption, and Windows Defender as an anti-spyware tool.
+   - **Windows 7 (2009):** Enhanced BitLocker with BitLocker To Go for USB drives and introduced AppLocker to restrict application execution.
+   - **Windows 8 (2012):** Introduced Secure Boot to prevent unauthorized operating systems or malware from loading during startup and Windows Defender as a full antivirus solution.
+   - **Windows 10 (2015):** Added Windows Defender, Secure Boot, virtualization-based security (VBS), and Credential Guard to protect against credential theft.
+   - **Windows 11 (2021):** Enhanced hardware-based security with TPM 2.0, Secure Boot requirements, and improved virtualization-based security features.
+
+### **Comparison of Windows Versions**
+
+This table highlights the evolution of both desktop and server versions of Windows, showcasing how each version introduced innovations to meet the changing demands of technology and users.
+
+| **Version**             | **Release Year** | **Kernel**       | **Key Features**                                                                 | **Target Audience**                  |
+|--------------------------|------------------|------------------|----------------------------------------------------------------------------------|---------------------------------------|
+| **Windows 1.0**          | 1985             | MS-DOS-based     | Basic GUI, overlapping windows, simple applications like Paint and Calculator.   | Early PC users, hobbyists.           |
+| **Windows 95**           | 1995             | Hybrid (16/32-bit)| Start Menu, taskbar, Plug and Play support, and 32-bit application support.      | Home and business users.             |
+| **Windows NT Server**    | 1993             | NT-based         | Enterprise-grade stability and security.                                         | Businesses, enterprises.             |
+| **Windows 2000 Server**  | 2000             | NT-based         | Active Directory, enhanced networking, and scalability.                          | Enterprises, IT administrators.       |
+| **Windows XP**           | 2001             | NT-based         | Stable NT kernel, user-friendly interface, and improved networking.              | General users, businesses.           |
+| **Windows XP SP2**       | 2004             | NT-based         | Major security enhancements, including a built-in firewall and DEP (Data Execution Prevention). | General users, businesses.           |
+| **Windows XP SP3**       | 2008             | NT-based         | Cumulative updates, improved security, and support for WPA2 wireless encryption. | General users, businesses.           |
+| **Windows Server 2003**  | 2003             | NT-based         | IIS 6.0, improved scalability, and security tools.                               | Enterprises, hosting providers.       |
+| **Windows Vista**        | 2007             | NT-based         | UAC, Aero interface, and improved security features.                             | Security-conscious users, enterprises.|
+| **Windows Server 2008**  | 2008             | NT-based         | Hyper-V, Server Core, and enhanced Active Directory.                             | Enterprises, virtualization users.    |
+| **Windows Server 2008 R2** | 2009           | NT-based         | Introduced PowerShell 2.0, improved scalability, and enhanced virtualization.    | Enterprises, IT administrators.       |
+| **Windows 7**            | 2009             | NT-based         | Performance improvements, taskbar enhancements, and better hardware support.     | General users, gamers, businesses.   |
+| **Windows Server 2012**  | 2012             | NT-based         | Cloud integration, Modern UI, and improved virtualization.                       | Cloud-focused enterprises.            |
+| **Windows 8**            | 2012             | NT-based         | Touchscreen support, Metro UI, and Windows Store.                                | Tablet users, modern device users.   |
+| **Windows Server 2016**  | 2016             | NT-based         | Nano Server, Windows Containers, and Shielded VMs.                               | Enterprises, developers.              |
+| **Windows 10**           | 2015             | NT-based         | Unified platform, Cortana, Edge browser, and regular updates as a service.       | All users, enterprises, developers.  |
+| **Windows Server 2019**  | 2018             | NT-based         | Hybrid cloud support, Kubernetes, and Windows Defender ATP.                      | Hybrid cloud users, enterprises.      |
+| **Windows 11**           | 2021             | NT-based         | Modern UI, centered Start Menu, multitasking improvements, and enhanced security.| Modern users, professionals.         |
+| **Windows Server 2022**  | 2021             | NT-based         | Secured-core server, hybrid cloud improvements, and large-scale app support.     | Enterprises, cloud-focused users.     |
+
+
 ## Sysinternals
 
 If you don't know about Mark Russinovich's amazing tools then go and check them out. Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
