@@ -13,8 +13,13 @@ Windows is one of the most widely used operating systems in the world, developed
 - **Windows 1.0 (1985):** The first graphical user interface (GUI) for MS-DOS, featuring overlapping windows and basic applications like Calculator and Paint.
 - **Windows 3.x (1990-1992):** Introduced better multitasking, improved graphics, and became the first widely adopted version of Windows.
 - **Windows 95 (1995):** Marked a major shift with the Start Menu, taskbar, and support for 32-bit applications.
+- **Windows 98 (1998):** Improved hardware support, introduced USB support, and integrated Internet Explorer for web browsing.
+- **Windows 98 SE (1999):** Enhanced system stability, improved USB support, and added Internet Connection Sharing for home networks.
 - **Windows XP (2001):** Built on the NT kernel, it combined stability with a user-friendly interface, becoming one of the most popular versions.
+- **Windows XP SP2 (2004):** A landmark update that introduced major security enhancements, including the Windows Firewall and Data Execution Prevention (DEP).
 - **Windows 7 (2009):** Focused on performance and usability, it remains a favorite for many users.
+- **Windows 8 (2012):** Introduced a touch-friendly interface with the Modern UI (formerly Metro) and the Windows Store, but faced criticism for removing the Start Menu.
+- **Windows 8.1 (2013):** Addressed user feedback by reintroducing the Start Button and improving the Modern UI experience.
 - **Windows 10 (2015):** Introduced a unified platform across devices and regular updates as a service.
 - **Windows 11 (2021):** Modernized the interface with a centered Start Menu, improved multitasking, and enhanced security features.
 
@@ -26,6 +31,7 @@ Microsoft also developed server-specific versions of Windows to cater to enterpr
 - **Windows 2000 Server (2000):** Introduced Active Directory, a directory service for managing users, groups, and resources in a networked environment.
 - **Windows Server 2003 (2003):** Improved scalability and introduced features like IIS 6.0 and enhanced security tools.
 - **Windows Server 2008 (2008):** Added Hyper-V for virtualization, Server Core for minimal installations, and enhanced Active Directory features.
+- **Windows Server 2008 R2 (2009):** Built on the Windows 7 kernel, introduced PowerShell 2.0, improved scalability, and enhanced virtualization with features like Live Migration in Hyper-V.
 - **Windows Server 2012 (2012):** Focused on cloud integration, introduced the Modern UI, and enhanced virtualization with Hyper-V improvements.
 - **Windows Server 2016 (2016):** Introduced Nano Server for lightweight deployments, Windows Containers, and enhanced security features like Shielded VMs.
 - **Windows Server 2019 (2018):** Focused on hybrid cloud environments, added support for Kubernetes, and improved security with Windows Defender ATP.
@@ -41,12 +47,13 @@ Microsoft also developed server-specific versions of Windows to cater to enterpr
    - Windows XP Professional x64 Edition and Windows Server 2003 introduced support for 64-bit processors, enabling larger memory addressing and better performance for demanding applications.
 
 3. **Modern Security Enhancements:**
-   - **Windows XP SP2 (2004):** Introduced the Windows Firewall, a built-in firewall to block unauthorized network traffic, and Data Execution Prevention (DEP) to prevent certain types of attacks.
-   - **Windows Vista (2007):** Introduced User Account Control (UAC) to prevent unauthorized changes, BitLocker for full-disk encryption, and Windows Defender as an anti-spyware tool.
-   - **Windows 7 (2009):** Enhanced BitLocker with BitLocker To Go for USB drives and introduced AppLocker to restrict application execution.
-   - **Windows 8 (2012):** Introduced Secure Boot to prevent unauthorized operating systems or malware from loading during startup and Windows Defender as a full antivirus solution.
-   - **Windows 10 (2015):** Added Windows Defender, Secure Boot, virtualization-based security (VBS), and Credential Guard to protect against credential theft.
-   - **Windows 11 (2021):** Enhanced hardware-based security with TPM 2.0, Secure Boot requirements, and improved virtualization-based security features.
+    - **Windows XP SP2 (2004):** Introduced the Windows Firewall, a built-in firewall to block unauthorized network traffic, and Data Execution Prevention (DEP) to prevent certain types of attacks.
+    - **Windows Vista (2007):** Introduced User Account Control (UAC) to prevent unauthorized changes, BitLocker for full-disk encryption, and Windows Defender as an anti-spyware tool.
+    - **Windows 7 (2009):** Enhanced BitLocker with BitLocker To Go for USB drives and introduced AppLocker to restrict application execution.
+    - **Windows 8 (2012):** Introduced Secure Boot to prevent unauthorized operating systems or malware from loading during startup and Windows Defender as a full antivirus solution.
+    - **Windows 8.1 (2013):** Improved Secure Boot with additional validation checks, introduced Device Encryption for all editions, and added support for biometric authentication through Windows Hello.
+    - **Windows 10 (2015):** Added Windows Defender, Secure Boot, virtualization-based security (VBS), and Credential Guard to protect against credential theft.
+    - **Windows 11 (2021):** Enhanced hardware-based security with TPM 2.0, Secure Boot requirements, and improved virtualization-based security features.
 
 ### **Comparison of Windows Versions**
 
@@ -55,8 +62,10 @@ This table highlights the evolution of both desktop and server versions of Windo
 | **Version**             | **Release Year** | **Kernel**       | **Key Features**                                                                 | **Target Audience**                  |
 |--------------------------|------------------|------------------|----------------------------------------------------------------------------------|---------------------------------------|
 | **Windows 1.0**          | 1985             | MS-DOS-based     | Basic GUI, overlapping windows, simple applications like Paint and Calculator.   | Early PC users, hobbyists.           |
-| **Windows 95**           | 1995             | Hybrid (16/32-bit)| Start Menu, taskbar, Plug and Play support, and 32-bit application support.      | Home and business users.             |
 | **Windows NT Server**    | 1993             | NT-based         | Enterprise-grade stability and security.                                         | Businesses, enterprises.             |
+| **Windows 95**           | 1995             | Hybrid (16/32-bit)| Start Menu, taskbar, Plug and Play support, and 32-bit application support.      | Home and business users.             |
+| **Windows 98**           | 1998             | Hybrid (16/32-bit)| Improved hardware support, Internet Explorer integration, and USB support.       | Home and small business users.       |
+| **Windows 98 SE**        | 1999             | Hybrid (16/32-bit)| Enhanced USB support, Internet Connection Sharing, and improved system stability.| Home and small business users.       |
 | **Windows 2000 Server**  | 2000             | NT-based         | Active Directory, enhanced networking, and scalability.                          | Enterprises, IT administrators.       |
 | **Windows XP**           | 2001             | NT-based         | Stable NT kernel, user-friendly interface, and improved networking.              | General users, businesses.           |
 | **Windows XP SP2**       | 2004             | NT-based         | Major security enhancements, including a built-in firewall and DEP (Data Execution Prevention). | General users, businesses.           |
@@ -68,6 +77,7 @@ This table highlights the evolution of both desktop and server versions of Windo
 | **Windows 7**            | 2009             | NT-based         | Performance improvements, taskbar enhancements, and better hardware support.     | General users, gamers, businesses.   |
 | **Windows Server 2012**  | 2012             | NT-based         | Cloud integration, Modern UI, and improved virtualization.                       | Cloud-focused enterprises.            |
 | **Windows 8**            | 2012             | NT-based         | Touchscreen support, Metro UI, and Windows Store.                                | Tablet users, modern device users.   |
+| **Windows 8.1**          | 2013             | NT-based         | Reintroduced Start Button, improved Modern UI, and enhanced multitasking.        | General users, tablet users.         |
 | **Windows Server 2016**  | 2016             | NT-based         | Nano Server, Windows Containers, and Shielded VMs.                               | Enterprises, developers.              |
 | **Windows 10**           | 2015             | NT-based         | Unified platform, Cortana, Edge browser, and regular updates as a service.       | All users, enterprises, developers.  |
 | **Windows Server 2019**  | 2018             | NT-based         | Hybrid cloud support, Kubernetes, and Windows Defender ATP.                      | Hybrid cloud users, enterprises.      |
