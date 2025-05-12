@@ -115,7 +115,7 @@ Red-teamers and penetration testers can leverage Sysinternals tools for enumerat
 
 ### CMD.EXE
 
-The **Windows Command Prompt (`cmd.exe`)** is the legacy interface for executing text-based commands that control the operating system, automate tasks, and troubleshoot system issues. Unlike a graphical user interface (GUI), `cmd.exe` provides direct access to system functionalities through typed commands that can be chained together into automated scripts, making it a powerful tool for administrators, developers, and security professionals.
+The **Windows Command Prompt (`cmd.exe`)** is an essential interface for executing text-based commands that control the operating system, automate tasks, and troubleshoot system issues. Unlike a graphical user interface (GUI), `cmd.exe` provides direct access to system functionalities through typed commands, making it a powerful tool for administrators, developers, and security professionals.
 
 ### **Use Cases for `cmd.exe`**
 
@@ -124,6 +124,86 @@ The **Windows Command Prompt (`cmd.exe`)** is the legacy interface for executing
 - **Security & Forensics:** Analyze logs, check permissions, and identify suspicious activities.
 - **Scripting & Automation:** Write batch scripts for repetitive tasks and scheduled jobs.
 - **File & Directory Management:** Copy, move, delete, and modify file attributes efficiently.
+
+### Shell Functionality
+
+The shell in `cmd.exe` serves as a command-line interpreter that allows users to interact with the operating system by executing commands, running scripts, and managing system resources. It provides a text-based interface for performing a wide range of tasks, from basic file operations to advanced system configurations.
+
+#### Key Features of the `cmd.exe` Shell
+
+1. **Command Execution**:
+  - The shell processes both built-in commands and external executables.
+  - Commands can be executed interactively or through batch scripts (`.bat` or `.cmd` files).
+
+2. **Batch Scripting**:
+  - Automate repetitive tasks using batch scripts.
+  - Supports control structures like loops (`for`), conditionals (`if`), and error handling (`goto` and `errorlevel`).
+  - See [scripting reference](../../os-agnostic/scripting/script-language-comparison) for more information (TODO: add link to scripting page)
+
+3. **Environment Variable Management**:
+  - Access and modify environment variables using the `set` command.
+  - Use variables like `%PATH%`, `%USERNAME%`, and `%TEMP%` to customize the shell environment.
+
+4. **Redirection and Piping**:
+  - Redirect input and output using operators like `>`, `>>`, and `<`.
+  - Chain commands using pipes (`|`) to pass output from one command as input to another.
+
+8. **Error Handling**:
+  - Use `errorlevel` to check the exit status of commands and handle errors in scripts.
+  - Combine with conditional statements to create robust automation workflows.
+
+9. **Customization**:
+  - Customize the shell prompt using the `prompt` command.
+  - Change the appearance of the shell window (e.g., title, colors) using commands like `title` and `color`.
+
+#### Advanced Shell Features
+
+- **Command Chaining**:
+TODO: add more
+  - Use `&&` to execute the next command only if the previous one succeeds.
+  - Use `||` to execute the next command only if the previous one fails.
+  - Example: `mkdir new_folder && echo Folder created || echo Failed to create folder`.
+
+- **Wildcards and Pattern Matching**:
+TODO: add more
+  - Use `*` and `?` for pattern matching in file and directory names.
+  - Example: `del *.txt` deletes all `.txt` files in the current directory.
+
+- **Input/Output Streams and Redirection**
+TODO: add more
+- Windows **cmd.exe** uses three streams: **Standard Input (`stdin`)**, **Standard Output (`stdout`)**, and **Standard Error (`stderr`)** to process command-line interactions (similar to Unix).  
+- **Redirection (`>`, `>>`, `<`, `2>`)** – You can **redirect output to files or another command**, such as:  
+  ```bat
+  dir > output.txt  :: Redirects `dir` command output to a file
+  command 2> errors.txt  :: Redirects error messages to a file
+  ```
+
+- **Environment Variables (`%VAR%`)** – Used to store system paths, user settings, and configurations dynamically. Example:
+TODO: add more
+  ```bat
+  echo %USERNAME%
+  ```
+  This displays the current logged-in user.
+
+- **EXIT Codes (`ERRORLEVEL`)** – Returns status codes after command execution for scripting logic. Example:  
+TODO: add more
+  ```bat
+  dir file.txt
+  echo %ERRORLEVEL%
+  ```
+
+- **Background Task Execution (`start`, `start /b`)** – Runs processes asynchronously without blocking the shell. Example:  
+TODO: add more
+  ```bat
+  start notepad.exe
+  ```
+
+- **String Manipulation (`set /a`, `set /p`, substring operations)** – Used for numeric calculations and text handling. Example:  
+TODO: add more
+  ```bat
+  set /a sum=5+10
+  echo %sum%
+  ```
 
 ### **Types of Commands in `cmd.exe`**
 
@@ -136,11 +216,11 @@ There are two primary types of commands that can be executed in `cmd.exe`:
 
 2. **External Executables**:  
    - These commands **call separate `.exe` files**, typically stored in **system directories** like `C:\Windows\System32\`.
-   - External commands extend the shell’s native capabilities by invoking system utilities and tools.
+   - External commands extend the shell’s capabilities by invoking system utilities and tools.
    - **Examples:** `ping.exe` (network testing), `ipconfig.exe` (network configuration), `tasklist.exe` (list running processes), and `robocopy.exe` (advanced file copy operations).
 
 For example:
-- `cd`, `dir`, `echo`, `set`, `exit` are all **built-ins** handled directly by `cmd.exe`.
+- `cd`, `dir`, `echo`, `set`, `exit` **are all built-ins** handled directly by `cmd.exe`.
 - **Commands like** `ping`, `ipconfig`, `tasklist`, and `robocopy` are external, i.e. they invoke separate `.exe` files located in system directories (e.g. `C:\Windows\System32\`).
 
 #### **Windows CMD built-in commands**
@@ -167,26 +247,6 @@ Windows **cmd.exe built-in commands** provide essential functionality for managi
 | **title** | Changes the title of the command prompt window. | `title Custom CMD Window` – Set the window title to "Custom CMD Window". |
 | **prompt** | Changes the command prompt display style. | `prompt $P$G` – Set prompt to display the current path followed by `>`. |
 
-#### The 'Net' Commands
-
-The **Windows `net` commands** are a set of command-line tools that allow administrators and users to perform essential tasks related to system configurations, network services, and security. Here’s a **brief overview** of some key `net` commands:
-
-| Command | Description | Example Use Case | Common Options |
-|---------|------------|------------------|----------------|
-| **net user** | Manages user accounts on a computer. You can add, remove, and modify users. | `net user tester /add` – Adds a new user named `tester`. | `/delete` – Remove a user, `/domain` – Execute on a domain controller. |
-| **net localgroup** | Manages local groups on the computer. You can add, remove, and list members. | `net localgroup Administrators tester /add` – Adds `tester` to the Administrators group. | `/delete` – Remove a group, `/add` – Create a new group. |
-| **net share** | Creates, deletes, and manages shared resources on the network. | `net share myshare=C:\MyFolder /grant:tester,full` – Creates a share named `myshare` with full access for user `tester`. | `/delete` – Stop sharing a resource, `/grant` – Assign access permissions. |
-| **net start / stop** | Starts or stops network services. | `net start "Web Client"` – Starts the Web Client service. | Specify service names to start or stop. |
-| **net session** | Displays all current sessions or disconnects them. | `net session \\RemotePC /delete` – Disconnects the session with `RemotePC`. | `/delete` – End a session. |
-| **net use** | Connects, disconnects, and displays shared network resources. | `net use Z: \\Server\Share` – Maps the network share at `\\Server\Share` to the `Z:` drive. | `/delete` – Disconnect a network drive, `/persistent` – Make the connection persistent across reboots. |
-| **net view** | Displays a list of computers or network resources. | `net view \\Server` – Shows shared resources on the server named `Server`. | `/domain` – List domains or computers in a domain. |
-| **net accounts** | Displays or modifies password and logon policies for user accounts. | `net accounts /maxpwage:90` – Set maximum password age to 90 days. | `/forcelogoff` – Force logoff after inactivity, `/minpwlen` – Set minimum password length. |
-| **net statistics** | Displays statistics for network services like Workstation or Server. | `net statistics workstation` – View workstation statistics. | Specify `workstation` or `server` for different stats. |
-| **net print** | Displays or manages print jobs on a network printer. | `net print \\Server\Printer` – View print jobs on a shared printer. | `/delete` – Remove a print job. |
-| **net file** | Displays open files on a network and allows closing them. | `net file` – View open files. | `/close` – Close an open file. |
-| **net group** | Manages global groups on a domain. | `net group "IT Admins" /add` – Creates a new global group named "IT Admins". | `/delete` – Remove a group, `/add` – Create a new group. |
-| **net time** | Synchronizes the system clock with a network time server. | `net time \\Server /set /yes` – Sync time with `Server`. | `/querysntp` – Query the SNTP time server. |
-
 #### Getting Help With Commands
 
 Unlike Unix-based systems, Windows `cmd.exe` does not have traditional **`man` pages** for commands. Instead, Windows provides several methods to get help with command-line tools.
@@ -212,6 +272,49 @@ Unlike Unix-based systems, Windows `cmd.exe` does not have traditional **`man` p
    - For example, the `dir` command documentation can be found at:  
      [https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir)
 
+### ***Useful Windows Utilities**
+
+Most of these utilities can be found in `C:\Windows\System32\`.
+
+#### **File and Directory Management**
+TODO: fill this section
+   - Perform operations like creating, deleting, copying, and moving files and directories.
+   - Navigate the filesystem using commands like `cd`, `dir`, and `mkdir`.
+
+#### **System Information**
+TODO: fill this section
+   - **`systeminfo`** – Displays **detailed system configuration details**, including OS version, CPU, memory, and installed updates. 
+   - **`wmic OS get Caption, Version, BuildNumber`** – Retrieves **Windows OS version details** in a clean format without extra information.  This is useful for quickly checking Windows version details.
+
+#### **Process and Task Management**
+TODO: fill this section
+   - View and manage running processes using commands like `tasklist`, `timeout`, and `taskkill`.
+   - Launch applications or scripts directly from the shell.
+
+#### **Networking Utilities**
+TODO: fill this section
+   - Troubleshoot and configure network settings with commands like `ping`, `ipconfig`, and `netstat`.
+   - Manage network shares and connections using `net use` and `net share`.
+
+#### The 'Net' Commands
+
+The Windows **`net`** commands are a set of command-line tools that allow administrators and users to perform a variety of tasks related to system configurations, network services, and security. Here’s a **brief overview** of some of the key `net` commands:
+
+| Command | Description | Example Use Case | Common Options |
+|---------|------------|------------------|----------------|
+| **net user** | Manages user accounts on a computer. You can add, remove, and modify users. | `net user tester /add` – Adds a new user named `tester`. | `/delete` – Remove a user, `/domain` – Execute on a domain controller. |
+| **net localgroup** | Manages local groups on the computer. You can add, remove, and list members. | `net localgroup Administrators tester /add` – Adds `tester` to the Administrators group. | `/delete` – Remove a group, `/add` – Create a new group. |
+| **net share** | Creates, deletes, and manages shared resources on the network. | `net share myshare=C:\MyFolder /grant:tester,full` – Creates a share named `myshare` with full access for user `tester`. | `/delete` – Stop sharing a resource, `/grant` – Assign access permissions. |
+| **net start / stop** | Starts or stops network services. | `net start "Web Client"` – Starts the Web Client service. | Specify service names to start or stop. |
+| **net session** | Displays all current sessions or disconnects them. | `net session \\RemotePC /delete` – Disconnects the session with `RemotePC`. | `/delete` – End a session. |
+| **net use** | Connects, disconnects, and displays shared network resources. | `net use Z: \\Server\Share` – Maps the network share at `\\Server\Share` to the `Z:` drive. | `/delete` – Disconnect a network drive, `/persistent` – Make the connection persistent across reboots. |
+| **net view** | Displays a list of computers or network resources. | `net view \\Server` – Shows shared resources on the server named `Server`. | `/domain` – List domains or computers in a domain. |
+| **net accounts** | Displays or modifies password and logon policies for user accounts. | `net accounts /maxpwage:90` – Set maximum password age to 90 days. | `/forcelogoff` – Force logoff after inactivity, `/minpwlen` – Set minimum password length. |
+| **net statistics** | Displays statistics for network services like Workstation or Server. | `net statistics workstation` – View workstation statistics. | Specify `workstation` or `server` for different stats. |
+| **net print** | Displays or manages print jobs on a network printer. | `net print \\Server\Printer` – View print jobs on a shared printer. | `/delete` – Remove a print job. |
+| **net file** | Displays open files on a network and allows closing them. | `net file` – View open files. | `/close` – Close an open file. |
+| **net group** | Manages global groups on a domain. | `net group "IT Admins" /add` – Creates a new global group named "IT Admins". | `/delete` – Remove a group, `/add` – Create a new group. |
+| **net time** | Synchronizes the system clock with a network time server. | `net time \\Server /set /yes` – Sync time with `Server`. | `/querysntp` – Query the SNTP time server. |
 ## The Windows Filesystem
 
 The Windows filesystem is a critical component of the operating system, responsible for managing how data is stored, organized, and accessed on storage devices. Windows supports several filesystems, each with unique features and use cases. 
