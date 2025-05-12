@@ -115,7 +115,7 @@ Red-teamers and penetration testers can leverage Sysinternals tools for enumerat
 
 ### CMD.EXE
 
-The **Windows Command Prompt (`cmd.exe`)** is an essential interface for executing text-based commands that control the operating system, automate tasks, and troubleshoot system issues. Unlike a graphical user interface (GUI), `cmd.exe` provides direct access to system functionalities through typed commands, making it a powerful tool for administrators, developers, and security professionals.
+The **Windows Command Prompt (`cmd.exe`)** is the legacy interface for executing text-based commands that control the operating system, automate tasks, and troubleshoot system issues. Unlike a graphical user interface (GUI), `cmd.exe` provides direct access to system functionalities through typed commands that can be chained together into automated scripts, making it a powerful tool for administrators, developers, and security professionals.
 
 ### **Use Cases for `cmd.exe`**
 
@@ -136,11 +136,11 @@ There are two primary types of commands that can be executed in `cmd.exe`:
 
 2. **External Executables**:  
    - These commands **call separate `.exe` files**, typically stored in **system directories** like `C:\Windows\System32\`.
-   - External commands extend the shell’s capabilities by invoking system utilities and tools.
+   - External commands extend the shell’s native capabilities by invoking system utilities and tools.
    - **Examples:** `ping.exe` (network testing), `ipconfig.exe` (network configuration), `tasklist.exe` (list running processes), and `robocopy.exe` (advanced file copy operations).
 
 For example:
-- `cd`, `dir`, `echo`, `set`, `exit` **are all built-ins** handled directly by `cmd.exe`.
+- `cd`, `dir`, `echo`, `set`, `exit` are all **built-ins** handled directly by `cmd.exe`.
 - **Commands like** `ping`, `ipconfig`, `tasklist`, and `robocopy` are external, i.e. they invoke separate `.exe` files located in system directories (e.g. `C:\Windows\System32\`).
 
 #### **Windows CMD built-in commands**
@@ -187,9 +187,115 @@ The **Windows `net` commands** are a set of command-line tools that allow admini
 | **net group** | Manages global groups on a domain. | `net group "IT Admins" /add` – Creates a new global group named "IT Admins". | `/delete` – Remove a group, `/add` – Create a new group. |
 | **net time** | Synchronizes the system clock with a network time server. | `net time \\Server /set /yes` – Sync time with `Server`. | `/querysntp` – Query the SNTP time server. |
 
-## File Manipulation
+#### Getting Help With Commands
 
-### File Attributes
+Unlike Unix-based systems, Windows `cmd.exe` does not have traditional **`man` pages** for commands. Instead, Windows provides several methods to get help with command-line tools.
+
+1. **Using the `help` command**  
+   - Simply type `help` in the Command Prompt to see a **list of built-in commands**.  
+   - To get help on a specific command:  
+     ```bat
+     help dir
+     ```
+     This will display basic information about the `dir` command.
+
+2. **Using `command /?` for detailed help**  
+   - Many commands support the `/?` flag, which provides more detailed usage instructions and available options.  
+     ```bat
+     dir /?
+     ```
+     This will list **all available parameters** for the `dir` command.
+   - Some commands will even support this with `-?` in addition.  Windows commands do not all follow POSIX standardization.
+
+3. **Checking Microsoft Docs (Online Documentation)**  
+   - Microsoft provides extensive official documentation on Windows commands via **Microsoft Learn**.  
+   - For example, the `dir` command documentation can be found at:  
+     [https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir)
+
+## The Windows Filesystem
+
+The Windows filesystem is a critical component of the operating system, responsible for managing how data is stored, organized, and accessed on storage devices. Windows supports several filesystems, each with unique features and use cases. 
+
+### Filesystems Used in Windows
+
+1. **FAT32 (File Allocation Table 32):**
+  - An older filesystem that is widely supported across various operating systems and devices.
+  - Maximum file size: 4 GB.
+  - Maximum partition size: 8 TB.
+  - Commonly used for USB drives and external storage devices due to its compatibility.
+  - Lacks advanced features like file permissions and journaling.
+
+2. **exFAT (Extended File Allocation Table):**
+  - Designed as an improvement over FAT32, primarily for flash drives and external storage.
+  - Supports larger file sizes (up to 16 EB) and larger partitions.
+  - Compatible with both Windows and macOS, making it ideal for cross-platform use.
+  - Does not include advanced features like journaling or file permissions.
+
+3. **NTFS (New Technology File System):**
+  - The default filesystem for modern Windows operating systems.
+  - Supports large file sizes and partitions (up to 16 EB).
+  - Includes advanced features such as file permissions, encryption (EFS), compression, journaling, and disk quotas.
+  - Optimized for performance and reliability, making it suitable for internal drives and system partitions.
+
+4. **ReFS (Resilient File System):**
+  - Designed for high availability, scalability, and data integrity.
+  - Primarily used in server environments and for storage spaces.
+  - Features include automatic data integrity checks, built-in resilience to corruption, and support for large volumes.
+  - Not commonly used for consumer systems.
+
+### Filesystem Tools
+
+By understanding the different filesystems tools available in Windows, users can effectively manage their storage devices to ensure data integrity and performance.
+
+1. **fsutil:**
+  - A powerful command-line utility for managing and querying filesystem-related information.
+  - Common use cases include:
+    - Managing hard links, symbolic links, and junction points.
+    - Querying volume information and free space.
+    - Enabling or disabling volume-level features like short file names.
+    - Managing quotas and sparse files.
+  - Basic Example: `fsutil fsinfo drives` (Lists all drives on the system).
+  - Advanced Example: `fsutil behavior query bugcheckoncorrupt`
+
+  The `fsutil behavior query bugcheckoncorrupt` command checks whether the system is configured to issue a bug check (stop error) when it encounters corruption on NTFS volumes. This setting prevents NTFS from silently deleting files during self-healing, allowing administrators to back up data before any automatic repair.
+
+  - **Purpose**: Ensures the system halts with a `0x00000024` stop error when NTFS volume corruption is detected.
+  - **Use Case**: Prevents data loss by enabling administrators to address corruption manually before NTFS attempts self-healing.
+  - **Example Output**:
+    ```
+    bugcheckoncorrupt = 1
+    ```
+    A value of `1` indicates that the system will issue a bug check on corruption, while `0` disables this behavior.
+
+  - **Command**:
+    ```cmd
+    fsutil behavior query bugcheckoncorrupt
+    ```
+  - **Related Commands**:
+    - `fsutil behavior set bugcheckoncorrupt 1` – Enables bug check on corruption.
+    - `fsutil behavior set bugcheckoncorrupt 0` – Disables bug check on corruption.
+
+2. **chkdsk (Check Disk):**
+  - A utility for scanning and repairing filesystem errors and bad sectors on a disk.
+  - Can be run from the command line or through the disk properties dialog in File Explorer.
+  - Example command: `chkdsk C: /f` (Scans and fixes errors on the C: drive).
+
+3. **Disk Management:**
+  - A graphical tool for managing disks, partitions, and volumes.
+  - Allows users to create, format, resize, and delete partitions.
+  - Accessible via the Control Panel or by running `diskmgmt.msc`.
+
+4. **Diskpart:**
+  - A command-line utility for advanced disk and partition management.
+  - Supports tasks such as creating, deleting, and resizing partitions, as well as assigning drive letters.
+  - Example command: `diskpart` (Launches the utility).
+
+5. **PowerShell Cmdlets:**
+  - Windows PowerShell includes cmdlets for managing filesystems and storage.
+  - Examples include `Get-Volume`, `Format-Volume`, and `New-Partition`.
+
+
+### NTFS File Attributes
 
 Windows **file attributes** are metadata properties assigned to files and folders that define their **visibility, accessibility, and behavior**. These attributes help control **read/write access, security settings, and system file classifications**.
 
@@ -222,19 +328,25 @@ You can view and change file attributes using the following commands:
 {% tabs %}
 {% tab title="cmd.exe" %}
 
+The `attrib` command is used in Windows to display, set, or remove file and directory attributes. It allows you to manage attributes such as read-only, hidden, system, and archive. Common switches include:
+
+- `+R` / `-R`: Add or remove the read-only attribute.
+- `+H` / `-H`: Add or remove the hidden attribute.
+- `+S` / `-S`: Add or remove the system attribute.
+- `+A` / `-A`: Add or remove the archive attribute.
+- `+I` / `-I`: Add or remove the `not-content-indexed` attribute, which excludes the file or folder from Windows Search indexing.
+- Note: Flags must be added separately (`-h -a -r` not `-har`).
+
 Example: Set a file as **Hidden** (`-h`) using `attrib`.
 
-- This can also be used to change other file property flags such as (`a`) Archive and (`r`) ReadOnly.
-- Flags must be added separately (`-h -a -r` not `-har`).
-
-```powershell
-# Show the file attributes
+```bat
+:: Show the file attributes
 attrib <C:\path\filename>
 
-# Add the 'hidden' attribute
+:: Add the 'hidden' attribute
 attrib +h <C:\path\filename>
 
-# Remove the 'hidden' property
+:: Remove the 'hidden' property
 attrib -h <C:\path\filename>
 ```
 
