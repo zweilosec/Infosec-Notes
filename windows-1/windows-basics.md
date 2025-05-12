@@ -257,23 +257,20 @@ By understanding the different filesystems tools available in Windows, users can
   - Basic Example: `fsutil fsinfo drives` (Lists all drives on the system).
   - Advanced Example: `fsutil behavior query bugcheckoncorrupt`
 
-  The `fsutil behavior query bugcheckoncorrupt` command checks whether the system is configured to issue a bug check (stop error) when it encounters corruption on NTFS volumes. This setting prevents NTFS from silently deleting files during self-healing, allowing administrators to back up data before any automatic repair.
+     The `fsutil behavior query bugcheckoncorrupt` command checks whether the system is configured to issue a bug check (stop error) when it encounters corruption on NTFS volumes. This setting prevents NTFS from silently deleting files during self-healing, allowing administrators to back up data before any automatic repair.
 
-  - **Purpose**: Ensures the system halts with a `0x00000024` stop error when NTFS volume corruption is detected.
-  - **Use Case**: Prevents data loss by enabling administrators to address corruption manually before NTFS attempts self-healing.
-  - **Example Output**:
-    ```
-    bugcheckoncorrupt = 1
+     - **Purpose**: Ensures the system halts with a `0x00000024` stop error when NTFS volume corruption is detected.
+     - **Use Case**: Prevents data loss by enabling administrators to address corruption manually before NTFS attempts self-healing.
+     - **Example Output**:
+    ```bat
+    fsutil behavior query bugcheckoncorrupt
+    :: bugcheckoncorrupt = 0 (Disabled)
     ```
     A value of `1` indicates that the system will issue a bug check on corruption, while `0` disables this behavior.
 
-  - **Command**:
-    ```cmd
-    fsutil behavior query bugcheckoncorrupt
-    ```
-  - **Related Commands**:
-    - `fsutil behavior set bugcheckoncorrupt 1` – Enables bug check on corruption.
-    - `fsutil behavior set bugcheckoncorrupt 0` – Disables bug check on corruption.
+     - **Related Commands**:
+       - `fsutil behavior set bugcheckoncorrupt 1` – Enables bug check on corruption.
+       - `fsutil behavior set bugcheckoncorrupt 0` – Disables bug check on corruption.
 
 2. **chkdsk (Check Disk):**
   - A utility for scanning and repairing filesystem errors and bad sectors on a disk.
