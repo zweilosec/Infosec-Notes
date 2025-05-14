@@ -277,6 +277,29 @@ After completing the login tasks, `userinit.exe` launches the Windows shell, typ
 - **Session Initialization:**
   - The user's desktop environment is initialized, including the taskbar, Start menu, and system tray.
 
+---
+
+## Windows Services
+
+TODO: section on services goes here
+
+The **Service Control Manager (`services.exe`)** starts during the **Windows boot process**, specifically after the **Windows Startup Application (`wininit.exe`)** initializes system services. Once `services.exe` is running, it begins **starting system services** based on their configured startup type (automatic, delayed, manual, or disabled).
+
+---
+
+## Scheduled Tasks
+
+TODO: section on scheduled tasks goes here
+
+Scheduled tasks that are set to run at boot or login are triggered at specific points in the Windows startup sequence:
+
+- **Boot-Time Tasks:** These tasks execute **after the Windows kernel initializes** but **before user login**. They typically start when the **Task Scheduler service** (`taskschd.msc`) is initialized, which happens **after system services and drivers are loaded**. Once the Service Control Manager (services.exe) starts, the Task Scheduler service kicks in and executes tasks scheduled to run at boot.
+- **Login-Time Tasks:** These tasks run **after a user logs in**, specifically **after Winlogon.exe completes authentication** and **before the user profile is fully loaded**. They are triggered once the **Group Policy login scripts and startup applications begin execution**.
+
+The precise timing depends on system performance, startup delays, and dependencies configured within the scheduled task settings. If a task is set to run **at boot**, it will generally execute **before interactive login**. If set to run **at login**, it will execute **after authentication but before the desktop environment is fully available**.
+
+---
+
 ## Sysinternals
 
 If you don't know about Mark Russinovich's amazing tools then go and check them out. Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
@@ -670,6 +693,18 @@ $file.attributes
 {% endtab %}
 {% endtabs %}
 
+---
+
+## Access Control: Rights versus Permissions
+
+Windows enforces the user's ability to access files and perform actions on a system through a combination of authentication, authorization, and access control mechanisms. These are accomplished through application of **rights** and **permissions**, which sound like similar concepts but serve different purposes in access control.
+
+In Windows, **Rights** apply to **user accounts** and define what actions a user can perform on a system-wide level. Examples include the ability to **log in**, **change system time**, or **install drivers**. These are managed through **Group Policy** and affect the entire system.
+
+This differs from **Permissions**, which apply to **objects** (such as files, folders, or registry keys) and determine what a user can do with them. Examples include **read**, **write**, **execute**, or **modify** access to a file. Permissions are set by the **owner** of an object and are enforced through **Access Control Lists (ACLs)**.  They are applied at the filesystem level, and are stored in each file's NTFS metadata.
+
+In short, **rights** control *system-wide actions*, while **permissions** control *access to specific objects*. 
+
 ### NTFS Permissions
 
 NTFS (New Technology File System) permissions are a security feature in Windows that controls who can access files and folders on NTFS-formatted drives. These permissions allow administrators to **restrict or grant access** to users and groups, ensuring data security and integrity.
@@ -794,30 +829,46 @@ To view an ACL for a file or folder: right-click on the item in Explorer and sel
 #### **Using `icacls`**
 
 **View ACLs:**  
-  ```
+  ```cmd
   icacls C:\SensitiveData
   ```
 
-**Grant Full Control:**  
-  ```
+**Grant Permissions (Example: Full Control):**  
+  ```cmd
   icacls C:\SensitiveData /grant tester:F
   ```
 
-**Remove Permissions:**  
-  ```
+**Remove All Permissions for a User to a Specific File:**  
+  ```cmd
   icacls C:\SensitiveData /remove tester
+  ```
+
+**Copy Permissions from One File or Directory to Another:**
+
+  ```cmd
+  icacls C:\File1 /save perms.txt
+  icacls C:\File2 /restore perms.txt
   ```
 
 {% endtab %}
 {% tab title="PowerShell" %}
 
-Copy permissions from one file or directory to another
+**View ACLs:**
 
 ```powershell
-Get-ACL C:\File1 | Set-Acl C:\File2
+Get-Acl C:\SensitiveData | Format-List
 ```
 
-Remove permissions from a folder or file
+**Grant Permissions (Example: Full Control):**
+
+```powershell
+$acl = Get-Acl C:\SensitiveData
+$rule = New-Object System.Security.AccessControl.FileSystemAccessRule("tester", "FullControl", "Allow")
+$acl.SetAccessRule($rule)
+Set-Acl C:\SensitiveData $acl
+```
+
+**Remove All Permissions from a Folder or File for a Specific User or Group:**
 
 ```powershell
 $path = "C:\temp" #Replace with whatever file you want to do this to.
@@ -832,7 +883,13 @@ $acl.RemoveAccessRule($targetrule)
 $acl | Set-Acl -Path $path
 ```
 
-Advanced: Add a specific list of permissions to a Folder (or file)
+**Copy Permissions from One File or Directory to Another:**
+
+```powershell
+Get-ACL C:\File1 | Set-Acl C:\File2
+```
+
+**Advanced: Add a Specific List of Permissions to a Folder (or File):**
 
 ```powershell
 function Edit-Perms {
@@ -856,7 +913,9 @@ $acl | Set-Acl -Path $path
 {% endtab %}
 {% endtabs %}
 
-### Windows Rights (TODO: finish this)
+### Windows Rights 
+
+TODO: finish this: Add explanation of what Rights are and how they differ from Permissions
 
 Valid settings for Rights are as follows:
 
@@ -910,26 +969,43 @@ Set the **`$InheritSettings`** to **`None`** if targeting a file instead of a fo
 
 ## Shared Folders/SMB
 
+TODO: add descriptions, to include short description of how permissions differ from standard NTFS, and link to above section
+
+TODO: add powershell examples of these
+
+{% tabs %}
+{% tab title="cmd.exe" %}
+
 ### Mount a remote CIFS/SMB share
 
-```
+```cmd
 net use z: \\$ip\$sharename
 #Adding /persistent:yes will make this survive reboots.
 ```
 
 A great example is to mount the Sysinternals Live drive to use the tools directly from Microsoft:
 
-```
+```cmd
 net use z: \live.sysinternals.com\tools\ /persistent:yes
 ```
 
-You can thank me later.
+The `/persistent:yes` argument makes the system add this permanently to the registry and reconnect to the same drive letter each time the comper boots.
 
 ### To remove a previously mounted share:
 
-```
+```cmd
 net use z: /delete
 ```
+
+{% endtab %}
+{% tab title="PowerShell" %}
+
+TODO: Powershell shares commands
+
+{% endtab %}
+{% endtabs %}
+
+---
 
 ## **Environment Variables**
 
@@ -982,17 +1058,51 @@ Below is a comparison between the environment variables used in PowerShell versu
 | User Home Folder                                  | $env:USERPROFILE                | %USERPROFILE%                |
 | C:\WINDOWS                                        | $env:windir                     | %windir%                     |
 
+---
+
 ## **Explorer Navigation**
 
-### Shortcuts <a href="#bypassing-path-restrictions" id="bypassing-path-restrictions"></a>
+TODO: add description about how to navigate using the gui more efficiently
 
-(TODO: Make table**s**)
+### Shortcuts
 
-CTRL+N (open new session), CTRL+R (Execute Commands), CTRL+SHIFT+ESC (Task Manager), Windows+E (open explorer), CTRL-B, CTRL-I (Favourites), CTRL-H (History), CTRL-L, CTRL-O (File/Open Dialog), CTRL-P (Print Dialog), CTRL-S (Save As)
+TODO: Description of explorer shortcuts
 
-Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
+| **Shortcut**            | **Action**                                   |
+|--------------------------|---------------------------------------------|
+| **CTRL+N**              | Open a new Explorer window.                 |
+| **CTRL+R**              | Refresh the current Explorer window.        |
+| **CTRL+SHIFT+ESC**      | Open Task Manager.                          |
+| **Windows+E**           | Open File Explorer.                         |
+| **CTRL+L**              | Focus on the address bar.                   |
+| **CTRL+O**              | Open the File/Open dialog.                  |
+| **CTRL+P**              | Open the Print dialog.                      |
+| **CTRL+S**              | Open the Save As dialog.                    |
+| **CTRL+ESC**            | Open the Start Menu. |
+| **ALT+UP**              | Navigate to the parent folder.              |
+| **ALT+LEFT**            | Go back to the previous folder.             |
+| **ALT+RIGHT**           | Go forward to the next folder.              |
+| **F2**                  | Rename the selected file or folder.         |
+| **F3**                  | Open the search bar.                        |
+| **F4**                  | Select the address bar.              |
+| **F5**                  | Refresh the current window (alternative).   |
+| **F6**                  | Cycle through window elements (e.g., panes).|
+| **CTRL+SHIFT+N**        | Create a new folder.                        |
+| **SHIFT+DELETE**        | Permanently delete the selected item.       |
+| **ALT+ENTER**           | Open the Properties dialog for the selected item. |
+| **CTRL+W**              | Close the current Explorer window.          |
+| **CTRL+SHIFT+E**        | Expand all folders in the navigation pane.  |
+| **CTRL+SHIFT+ESC**      | Open Task Manager directly.                 |
+| **Windows+D**           | Show desktop (minimize all windows).        |
+| **Windows+Arrow Keys**  | Snap windows to the screen edges.           |
+| **Windows+Tab**         | Open Task View for virtual desktops.        |
+| **CTRL+Mouse Scroll**   | Change the size of icons in the current view.|
+
+For a full list, check out the official Microsoft documentation [here](https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec)
 
 ### **Shell URIs**
+
+TODO: add Description of shell uri's
 
 * `shell:Administrative Tools`
 * `shell:DocumentsLibrary`
@@ -1015,10 +1125,17 @@ Hidden Administrative menu: CTRL-ALT-F8, CTRL-ESC-F9
 * `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> This PC/My Computer
 * `shell:::{208D2C60-3AEA-1069-A2D7-08002B30309D}` --> Network Places
 
+---
+
 ## Powershell
 
 PowerShell is a large and important enough topic that it has its [own page](powershell.md).
 
-## Thanks
+---
+
+## References
+
+- [Keyboard shortcuts in Windows](https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec)
+- [Windows Process Genealogy](https://medium.com/@leo.valentic9/windows-process-genealogy-understanding-and-analyzing-key-system-processes-in-digital-forensics-a88cd5b9698f)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
