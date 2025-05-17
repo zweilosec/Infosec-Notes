@@ -281,9 +281,214 @@ After completing the login tasks, `userinit.exe` launches the Windows shell, typ
 
 ## Windows Services
 
-TODO: section on services goes here
+Windows Services are long-running executable applications that operate in the background and provide core operating system features, application support, and system management capabilities. Unlike regular applications, services can start automatically at boot, run without user interaction, and often have elevated privileges. Examples include networking, printing, security, and update services.
 
-The **Service Control Manager (`services.exe`)** starts during the **Windows boot process**, specifically after the **Windows Startup Application (`wininit.exe`)** initializes system services. Once `services.exe` is running, it begins **starting system services** based on their configured startup type (automatic, delayed, manual, or disabled).
+- **Service Control Manager (SCM):** The central component that manages all services. It starts, stops, and monitors services based on configuration and system events.
+- **Service Processes:** Services typically run as separate processes or as part of a shared process (e.g., `svchost.exe`).
+- **Service Accounts:** Services run under specific accounts that define their permissions:
+  - **Local System:** High privileges, can access most system resources.
+  - **Network Service:** Limited local privileges, can access network resources as the computer account.
+  - **Local Service:** Limited privileges, intended for services that do not need extensive access.
+  - **Custom/User Accounts:** Services can be configured to run under specific user accounts for granular control.
+
+### Service Processes
+
+The **Service Control Manager (`services.exe`)** is a critical system process that starts during the **Windows boot process**, specifically after the **Windows Startup Application (`wininit.exe`)** initializes system services. Once `services.exe` is running, it is responsible for **starting, stopping, and managing all Windows services** according to their configured startup type (automatic, delayed, manual, or disabled).
+
+#### How Service Processes Work
+
+- **Service Hosting:**  
+  Most Windows services do not run as standalone processes. Instead, they are typically hosted within a generic process called **`svchost.exe`** (*Service Host*). This design allows multiple services to share a single process, reducing resource usage and improving system efficiency.
+
+- **Service Grouping:**  
+  Services with similar functions or dependencies are grouped together in a single `svchost.exe` instance. For example, networking-related services may run together in one instance, while system services run in another. The grouping is defined in the Windows registry under `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost`.
+
+- **Process Isolation (Windows 10 and Later):**  
+  Starting with Windows 10 (version 1703), Microsoft improved service isolation for better security and reliability. On systems with sufficient memory, **each service may run in its own `svchost.exe` process** rather than being grouped. This change helps prevent a failure or compromise in one service from affecting others, and makes troubleshooting easier by providing a one-to-one mapping between services and processes.
+
+- **Service Accounts:**  
+  Services run under specific accounts (such as Local System, Network Service, or Local Service), which determine their permissions and access to system resources.
+
+#### Key Points
+
+- **`services.exe`** manages the lifecycle of all services, including dependency handling and recovery actions.
+- **`svchost.exe`** acts as a container for one or more services, reducing overhead and improving management.
+- **Windows 10 and later**: More services run in isolated processes for security and stability.
+- **Service failures** are logged in the Windows Event Viewer, and recovery actions (restart, run a program, etc.) can be configured per service.
+
+#### View Services Hosted by `svchost.exe`
+
+You can view which services are running under each `svchost.exe` instance using either the GUI (**Task Manager** or Sysinternals **Process Explorer**) or command-line tools.
+
+##### Using Task Manager or Process Explorer (GUI)
+
+- Open **Task Manager** (`Ctrl+Shift+Esc`), go to the **Details** tab, right-click a `svchost.exe` process, and select **Go to Service(s)** to highlight associated services.
+- **Process Explorer** (from Sysinternals) provides even more detail: just hover over or expand a `svchost.exe` process to see hosted services.
+
+##### Using the Command Line
+
+{% tabs %}
+{% tab title="cmd.exe" %}
+
+**To list all services and their associated processes:**
+
+- **cmd.exe:**
+  ```cmd
+  :: List all running processes and the services they host (svchost.exe highlighted)
+  tasklist /svc /fi "imagename eq svchost.exe"
+
+  :: List all services with their process IDs
+  sc queryex type= service
+
+  :: List all services and their status
+  sc query type= service
+  ```
+
+**To see which services are hosted by a specific `svchost.exe` process:**
+
+- **cmd.exe:**
+  ```cmd
+  :: Replace <PID> with the svchost.exe process ID
+  tasklist /svc /fi "pid eq <PID>"
+  ```
+
+{% endtab %}
+{% tab title="PowerShell" %}
+
+**To list all services and their associated processes:**
+
+- **PowerShell:**
+  ```powershell
+  # List all svchost.exe processes with their IDs and paths
+  Get-Process -Name svchost | Select-Object Id, ProcessName, Path
+
+  # List all services with their process IDs and service accounts
+  Get-WmiObject Win32_Service | Select-Object Name, ProcessId, StartName
+
+  # Combine to see which services are running under each svchost.exe
+  Get-WmiObject Win32_Service | Where-Object { $_.ProcessId -ne 0 } | Sort-Object ProcessId | Format-Table Name, ProcessId, StartName
+  ```
+
+**To see which services are hosted by a specific `svchost.exe` process:**
+
+- **PowerShell:**
+  ```powershell
+  # Replace <PID> with the svchost.exe process ID of interest
+  Get-WmiObject Win32_Service | Where-Object { $_.ProcessId -eq <PID> } | Select-Object Name, State, StartName
+  ```
+
+{% endtab %}
+{% endtabs %}
+
+### Service Start Types
+
+Each service has a configured start type that determines when and how it starts. The corresponding registry value is found under `HKLM\SYSTEM\CurrentControlSet\Services\<ServiceName>\Start`.
+
+| Start Type                | Description                                                    | Registry Value |
+|---------------------------|----------------------------------------------------------------|---------------|
+| **Automatic**             | Starts at system boot.                                         | `2`           |
+| **Automatic (Delayed Start)** | Starts after boot, with a delay to improve startup performance. | `2` + `DelayedAutoStart=1` |
+| **Manual**                | Starts only when explicitly requested.                         | `3`           |
+| **Disabled**              | Cannot be started until re-enabled.                            | `4`           |
+
+### Service Status Codes
+
+Services can be in various states. The status code is reflected in the `Status` value (if present) or via the Service Control Manager API.
+
+| Status           | Description                         | Registry/SCM Value |
+|------------------|-------------------------------------|--------------------|
+| **Running**      | Service is active and operational.  | `4`                |
+| **Stopped**      | Service is not running.             | `1`                |
+| **Paused**       | Service is temporarily suspended.   | `7`                |
+| **Start Pending**| Service is in the process of starting. | `2`             |
+| **Stop Pending** | Service is in the process of stopping. | `3`             |
+
+> **Note:**  
+> - The `Start` value is always in the registry, but the current status is typically managed by the Service Control Manager and not always stored in the registry.  
+> - Status codes are most reliably retrieved using `sc query` or PowerShell's `Get-Service`.
+
+### Additional Notes
+
+- **Dependencies:** Some services depend on others; stopping a required service may affect system functionality.
+- **Security:** Running services under the least-privileged account necessary reduces security risks.
+- **Event Logs:** Service events (start, stop, failures) are logged in the Windows Event Viewer for troubleshooting.
+
+For more details, see Microsoft's official documentation on [Windows Services](https://learn.microsoft.com/en-us/windows/win32/services/) and [svchost.exe](https://learn.microsoft.com/en-us/windows/win32/services/svchost-group).
+
+### Managing Services
+
+{% tabs %}
+{% tab title="cmd.exe" %}
+
+#### Using `cmd.exe`
+
+- **List all services:**
+  ```cmd
+  sc query type= service
+  ```
+- **Get the status of a specific service:**
+  ```cmd
+  sc query <ServiceName>
+  ```
+- **Start a service:**
+  ```cmd
+  net start <ServiceName>
+  ```
+- **Stop a service:**
+  ```cmd
+  net stop <ServiceName>
+  ```
+- **Change the start type:**
+  ```cmd
+  sc config <ServiceName> start= auto
+  sc config <ServiceName> start= demand
+  sc config <ServiceName> start= disabled
+  ```
+- **Create or delete a service:**
+  ```cmd
+  sc create <ServiceName> binPath= "C:\Path\To\Executable.exe"
+  sc delete <ServiceName>
+  ```
+
+{% endtab %}
+{% tab title="PowerShell" %}
+
+#### Using PowerShell
+
+- **List all services:**
+  ```powershell
+  Get-Service
+  ```
+- **Get the status of a specific service:**
+  ```powershell
+  Get-Service -Name <ServiceName>
+  ```
+- **Start a service:**
+  ```powershell
+  Start-Service -Name <ServiceName>
+  ```
+- **Stop a service:**
+  ```powershell
+  Stop-Service -Name <ServiceName>
+  ```
+- **Restart a service:**
+  ```powershell
+  Restart-Service -Name <ServiceName>
+  ```
+- **Change the start type:**
+  ```powershell
+  Set-Service -Name <ServiceName> -StartupType Automatic
+  Set-Service -Name <ServiceName> -StartupType Manual
+  Set-Service -Name <ServiceName> -StartupType Disabled
+  ```
+- **Get detailed service information:**
+  ```powershell
+  Get-WmiObject -Class Win32_Service | Select-Object Name, StartName, State, StartMode
+  ```
+
+{% endtab %}
+{% endtabs %}
+
 
 ---
 
