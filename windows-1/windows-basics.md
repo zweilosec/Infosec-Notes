@@ -498,7 +498,7 @@ Windows Scheduled Tasks are automated jobs managed by the **Task Scheduler** ser
 
 ### **Underlying Mechanisms**
 
-Scheduled Tasks in Windows are managed by the Task Scheduler Engine, a built-in service that automates the launching of programs or scripts at predefined times or in response to specific events. The engine continuously monitors triggers—such as system startup, user logon, or a particular time of day—to determine when a task should be executed. Each task’s configuration, including its triggers, actions, and conditions, is stored as an XML file within protected system directories. When a task runs, the Task Scheduler executes the defined actions and records detailed information about the execution process in the Windows event logs. These logs provide valuable insights for monitoring task outcomes and troubleshooting any issues that may arise.
+Scheduled Tasks in Windows are managed by the Task Scheduler Engine, a built-in service that automates the launching of programs or scripts at predefined times or in response to specific events. The engine continuously monitors triggers, such as system startup, user logon, or a particular time of day, to determine when a task should be executed. Each task’s configuration, including its triggers, actions, and conditions, is stored as an XML file within protected system directories. When a task runs, the Task Scheduler executes the defined actions and records detailed information about the execution process in the Windows event logs. These logs provide valuable insights for monitoring task outcomes and troubleshooting any issues that may arise.
 
 - **Task Scheduler Service (`Task Scheduler` / `taskschd.msc`):**  The core Windows service responsible for managing, triggering, and executing scheduled tasks. It runs as a background service (`Task Scheduler`), starting during system boot.
 - **Task Definition:**  Each task is defined by an XML file specifying triggers, actions, conditions, and settings. These definitions are stored in the filesystem and referenced by the Task Scheduler.
@@ -522,7 +522,7 @@ Scheduled tasks can be set to execute after a variety of different of different 
 
 ### Task Lifecycle & System Process Interaction
 
-When a scheduled task is created, its definition (including triggers, actions, and conditions) is stored as an XML file and registered with the Task Scheduler service. The Task Scheduler service (`svchost.exe` hosting `Schedule`) continuously monitors for trigger events—such as system startup, user logon, or a specific time. When a trigger condition is met, Task Scheduler launches the task as a child process, running under the specified user account or service context. The Task Scheduler Engine manages task execution, monitors for completion or failure, and records results in the Task Scheduler event log. Throughout its lifecycle, a task may be queued, running, completed, or failed, and its status can be queried or managed via the GUI, `schtasks.exe`, or PowerShell. Task execution is isolated from the Task Scheduler service itself, ensuring that failures or resource issues in a task do not affect the scheduler or other tasks.
+When a scheduled task is created, its definition (including triggers, actions, and conditions) is stored as an XML file and registered with the Task Scheduler service. The Task Scheduler service (`svchost.exe` hosting `Schedule`) continuously monitors for trigger events, such as system startup, user logon, or a specific time. When a trigger condition is met, Task Scheduler launches the task as a child process, running under the specified user account or service context. The Task Scheduler Engine manages task execution, monitors for completion or failure, and records results in the Task Scheduler event log. Throughout its lifecycle, a task may be queued, running, completed, or failed, and its status can be queried or managed via the GUI, `schtasks.exe`, or PowerShell. Task execution is isolated from the Task Scheduler service itself, ensuring that failures or resource issues in a task do not affect the scheduler or other tasks.
 
 - **Task Scheduler Service** (`taskschd.msc`/`svchost.exe`):  Monitors triggers and launches tasks as child processes, using the specified user context.
 - **Task Engine:**  Handles execution, monitors task status, and logs results.
@@ -584,7 +584,7 @@ When a scheduled task is created, its definition (including triggers, actions, a
   ```
 - **Register (create) a new task:**  
   ```powershell
-  $action = New-ScheduledTaskAction -Execute "notepad.exe"
+  $action = New-ScheduledTaskAction -Execute "notepad.exe C:Users\tester\mynotes.txt"
   $trigger = New-ScheduledTaskTrigger -AtLogOn
   Register-ScheduledTask -TaskName "MyTask" -Action $action -Trigger $trigger -User "SYSTEM"
   ```
@@ -605,7 +605,7 @@ When a scheduled task is created, its definition (including triggers, actions, a
 
 - **Modify Task Conditions:**  
   - In Task Scheduler GUI: Edit a task > "Conditions" tab (e.g., "Start only if idle", "Wake computer", "Start only if network available").
-  - PowerShell: Use `Set-ScheduledTask` with updated triggers/conditions.
+  - PowerShell: Use `Set-ScheduledTask -TaskName "MyTask" -Trigger $NewTrigger` with updated triggers/conditions.
 - **Set Dependencies:**  
   - Use "Settings" tab to configure behavior if the task is already running, stop on battery, etc.
   - For complex dependencies, use scripts or event-based triggers.
@@ -629,32 +629,6 @@ When a scheduled task is created, its definition (including triggers, actions, a
 For more information, see Microsoft's [Task Scheduler documentation](https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page).
 
 ---
-
-## Sysinternals
-
-If you don't know about Mark Russinovich's amazing tools then go and check them out. Many, many use cases for a lot of these tools, from enumeration, persistence, threat-hunting, to ordinary system administration. [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/)
-
-Red-teamers and penetration testers can leverage Sysinternals tools for enumeration, privilege escalation, and lateral movement. This table includes a few of the Sysinternals tools useful for offensive security:
-
-| Tool | Description | Example Use Case | Cyber Kill Chain Phase |
-|------|------------|------------------|------------------------|
-| **PsExec** | Executes processes remotely on another system. | Used for lateral movement by executing commands on remote hosts. | **Lateral Movement** |
-| **AccessChk** | Checks user permissions for files, registry keys, and objects. | Identify privilege escalation opportunities by analyzing access control settings. | **Privilege Escalation** |
-| **ProcMon (Process Monitor)** | Captures real-time system activity, including file, registry, and network events. | Monitor security controls and detect potential weaknesses in endpoint defenses. | **Exploitation** |
-| **TCPView** | Monitors active TCP/UDP connections in real time. | Identify open ports and active connections for reconnaissance. | **Reconnaissance** |
-| **Autoruns & Autorunsc** | Displays all auto-start programs, services, and registry entries. | Find persistence mechanisms used by malware or adversaries. | **Persistence** |
-| **Handle** | Lists open handles to files, registry keys, and other system objects. | Investigate (i.e. unlock) locked files that may contain sensitive data or credentials. | **Credential Access** |
-| **ListDLLs** | Displays loaded DLLs for running processes. | Identify DLL injection opportunities for stealthy code execution (i.e. Running malware) | **Defense Evasion** |
-| **SigCheck** | Verifies digital signatures of files. | Detect unsigned or tampered executables that may be malicious. | **Execution** |
-| **Strings** | Extracts readable text from binary files. | Analyze malware binaries for embedded commands or indicators of compromise. | **Reconnaissance** |
-| **PsSuspend** | Suspends processes without terminating them. | Disable security tools temporarily during red-team operations. | **Defense Evasion** |
-
-- A full list of the current tools can be found [here](https://learn.microsoft.com/en-us/sysinternals/downloads/).
-- Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
-    - This command maps the current full list of Sysinternals tools to the first available drive letter as a network share, ready for use!
-    ```powershell
-    net use * //live.sysinternals.com
-    ```
 
 ## Windows Shells
 
@@ -817,9 +791,13 @@ Unlike Unix-based systems, Windows `cmd.exe` does not have traditional **`man` p
    - For example, the `dir` command documentation can be found at:  
      [https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir)
 
-### ***Useful Windows Utilities**
+---
 
-Most of these utilities can be found in `C:\Windows\System32\`.
+## ***Useful Windows Utilities**
+
+### **Built-in Utilities**
+
+Most of these programs can be found in `C:\Windows\System32\`.
 
 #### **File and Directory Management**
 TODO: fill this section
@@ -841,7 +819,7 @@ TODO: fill this section
    - Troubleshoot and configure network settings with commands like `ping`, `ipconfig`, and `netstat`.
    - Manage network shares and connections using `net use` and `net share`.
 
-#### The 'Net' Commands
+### The 'Net' Commands
 
 The Windows **`net`** commands are a set of command-line tools that allow administrators and users to perform a variety of tasks related to system configurations, network services, and security. Here’s a **brief overview** of some of the key `net` commands:
 
@@ -860,6 +838,37 @@ The Windows **`net`** commands are a set of command-line tools that allow admini
 | **net file** | Displays open files on a network and allows closing them. | `net file` – View open files. | `/close` – Close an open file. |
 | **net group** | Manages global groups on a domain. | `net group "IT Admins" /add` – Creates a new global group named "IT Admins". | `/delete` – Remove a group, `/add` – Create a new group. |
 | **net time** | Synchronizes the system clock with a network time server. | `net time \\Server /set /yes` – Sync time with `Server`. | `/querysntp` – Query the SNTP time server. |
+
+---
+
+### Sysinternals
+
+If you don't know about Mark Russinovich's amazing tools then you should go and check them out. There are many, many use cases for these tools: from enumeration, persistence, threat-hunting, to ordinary system administration. While they are not built into the operating system (though they should be!), these tools are maintained and offered directly from Microsoft at [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/).
+
+Red-teamers and penetration testers can leverage Sysinternals tools for enumeration, privilege escalation, and lateral movement. This table includes a few of the Sysinternals tools useful for offensive security:
+
+| Tool | Description | Example Use Case | Cyber Kill Chain Phase |
+|------|------------|------------------|------------------------|
+| **PsExec** | Executes processes remotely on another system. | Used for lateral movement by executing commands on remote hosts. | **Lateral Movement** |
+| **AccessChk** | Checks user permissions for files, registry keys, and objects. | Identify privilege escalation opportunities by analyzing access control settings. | **Privilege Escalation** |
+| **ProcMon (Process Monitor)** | Captures real-time system activity, including file, registry, and network events. | Monitor security controls and detect potential weaknesses in endpoint defenses. | **Exploitation** |
+| **TCPView** | Monitors active TCP/UDP connections in real time. | Identify open ports and active connections for reconnaissance. | **Reconnaissance** |
+| **Autoruns & Autorunsc** | Displays all auto-start programs, services, and registry entries. | Find persistence mechanisms used by malware or adversaries. | **Persistence** |
+| **Handle** | Lists open handles to files, registry keys, and other system objects. | Investigate (i.e. unlock) locked files that may contain sensitive data or credentials. | **Credential Access** |
+| **ListDLLs** | Displays loaded DLLs for running processes. | Identify DLL injection opportunities for stealthy code execution (i.e. Running malware) | **Defense Evasion** |
+| **SigCheck** | Verifies digital signatures of files. | Detect unsigned or tampered executables that may be malicious. | **Execution** |
+| **Strings** | Extracts readable text from binary files. | Analyze malware binaries for embedded commands or indicators of compromise. | **Reconnaissance** |
+| **PsSuspend** | Suspends processes without terminating them. | Disable security tools temporarily during red-team operations. | **Defense Evasion** |
+
+- A full list of the current tools can be found [here](https://learn.microsoft.com/en-us/sysinternals/downloads/).
+- Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
+    - This command maps the current full list of Sysinternals tools to the first available drive letter as a network share, ready for use!
+    ```powershell
+    net use * //live.sysinternals.com
+    ```
+
+---
+
 ## The Windows Filesystem
 
 The Windows filesystem is a critical component of the operating system, responsible for managing how data is stored, organized, and accessed on storage devices. Windows supports several filesystems, each with unique features and use cases. 
@@ -1083,7 +1092,7 @@ Windows uses **two types of permissions** to control access to files and folders
 
 - **Apply to both local and network access**.
 - **More granular control**: permissions can be set for individual files and folders.
-- **Can be inherited**: permissions assigned to a parent folder apply to subfolders and files.
+- **Can be inherited**: permissions assigned to a parent folder apply to subfolders and files (unless explicitly disabled).
 - **Includes advanced permissions** like **Modify, Read & Execute, Write, and Full Control**.
 
 #### **Precedence of Share vs. NTFS Permissions**
