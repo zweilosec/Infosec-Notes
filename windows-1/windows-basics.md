@@ -494,14 +494,139 @@ For more details, see Microsoft's official documentation on [Windows Services](h
 
 ## Scheduled Tasks
 
-TODO: section on scheduled tasks goes here
+Windows Scheduled Tasks are automated jobs managed by the **Task Scheduler** service, enabling users and the system to run programs, scripts, or commands at specified times or in response to specific events. Scheduled tasks are widely used for maintenance, automation, updates, monitoring, and persistence.
 
-Scheduled tasks that are set to run at boot or login are triggered at specific points in the Windows startup sequence:
+### **Underlying Mechanisms**
 
-- **Boot-Time Tasks:** These tasks execute **after the Windows kernel initializes** but **before user login**. They typically start when the **Task Scheduler service** (`taskschd.msc`) is initialized, which happens **after system services and drivers are loaded**. Once the Service Control Manager (services.exe) starts, the Task Scheduler service kicks in and executes tasks scheduled to run at boot.
-- **Login-Time Tasks:** These tasks run **after a user logs in**, specifically **after Winlogon.exe completes authentication** and **before the user profile is fully loaded**. They are triggered once the **Group Policy login scripts and startup applications begin execution**.
+Scheduled Tasks in Windows are managed by the Task Scheduler Engine, a built-in service that automates the launching of programs or scripts at predefined times or in response to specific events. The engine continuously monitors triggers—such as system startup, user logon, or a particular time of day—to determine when a task should be executed. Each task’s configuration, including its triggers, actions, and conditions, is stored as an XML file within protected system directories. When a task runs, the Task Scheduler executes the defined actions and records detailed information about the execution process in the Windows event logs. These logs provide valuable insights for monitoring task outcomes and troubleshooting any issues that may arise.
 
-The precise timing depends on system performance, startup delays, and dependencies configured within the scheduled task settings. If a task is set to run **at boot**, it will generally execute **before interactive login**. If set to run **at login**, it will execute **after authentication but before the desktop environment is fully available**.
+- **Task Scheduler Service (`Task Scheduler` / `taskschd.msc`):**  The core Windows service responsible for managing, triggering, and executing scheduled tasks. It runs as a background service (`Task Scheduler`), starting during system boot.
+- **Task Definition:**  Each task is defined by an XML file specifying triggers, actions, conditions, and settings. These definitions are stored in the filesystem and referenced by the Task Scheduler.
+- **Execution Context:**  Tasks can run under various user accounts (SYSTEM, NETWORK SERVICE, specific users), with configurable privileges and security contexts.
+
+### Execution Timing & Triggers
+
+Scheduled tasks can be set to execute after a variety of different of different timings and triggers, such as: at boot, at login, at a specific time, or upon the occurance of specific events or conditions.
+
+- **Boot-Time Tasks:**  
+  - Triggered after the Windows kernel and core services initialize, but **before user login**.
+  - The Task Scheduler service starts after the Service Control Manager (`services.exe`) initializes system services.
+  - Boot tasks execute as soon as the Task Scheduler is running and system dependencies are met.
+- **Login-Time Tasks:**  
+  - Triggered **after user authentication** (after `winlogon.exe` completes), but **before the desktop environment is fully loaded**.
+  - These tasks often run in parallel with Group Policy scripts and startup applications.
+- **Other Triggers:**  
+  - **Time-based:** At a specific time of day, daily, weekly, etc.
+  - **Event-based:** On system events (e.g., logon, workstation unlock, system idle, event log entry).
+  - **Custom:** On demand, at task creation, or when a specific condition is met (e.g., network availability).
+
+### Task Lifecycle & System Process Interaction
+
+When a scheduled task is created, its definition (including triggers, actions, and conditions) is stored as an XML file and registered with the Task Scheduler service. The Task Scheduler service (`svchost.exe` hosting `Schedule`) continuously monitors for trigger events—such as system startup, user logon, or a specific time. When a trigger condition is met, Task Scheduler launches the task as a child process, running under the specified user account or service context. The Task Scheduler Engine manages task execution, monitors for completion or failure, and records results in the Task Scheduler event log. Throughout its lifecycle, a task may be queued, running, completed, or failed, and its status can be queried or managed via the GUI, `schtasks.exe`, or PowerShell. Task execution is isolated from the Task Scheduler service itself, ensuring that failures or resource issues in a task do not affect the scheduler or other tasks.
+
+- **Task Scheduler Service** (`taskschd.msc`/`svchost.exe`):  Monitors triggers and launches tasks as child processes, using the specified user context.
+- **Task Engine:**  Handles execution, monitors task status, and logs results.
+- **Dependencies:**  Tasks can be configured to wait for network, idle state, or other conditions before running.
+
+### Where Scheduled Task Data is Stored
+
+- **Task Definitions (XML):**  Each task is stored as an XML file, organized by folder in `%SystemRoot%\System32\Tasks\`.
+- **Task Scheduler GUI:**  Tasks can be viewed through the GUI in `taskschd.msc` (Start > Run > `taskschd.msc` or search "Task Scheduler").
+- **Registry:**  Information about tasks is also stored in the registry in `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\`. Here you can find metadata, state, and security info.
+- **Event Logs:**  The Windows event log **"Task Scheduler Operational"** contains details on task registration, execution, completion, and errors. It can be found in the Windows Event Viewer in  `Applications and Services Logs > Microsoft > Windows > TaskScheduler > Operational`.
+
+### Managing Scheduled Tasks
+
+#### Using the GUI (Task Scheduler)
+
+- **Open Task Scheduler:**  Run `taskschd.msc` or search "Task Scheduler".
+- **Browse Tasks:**  Navigate the left pane to see folders and tasks.
+- **Create/Edit Tasks:**  Right-click > "Create Task" or "Create Basic Task" for a wizard, where you can configure triggers, actions, conditions, and settings.
+- **View History:**  Select a task > "History" tab for execution logs.
+- **Disable/Delete Tasks:**  Right-click > Disable or Delete.
+
+#### Using The Command Line
+
+{% tabs %}
+{% tab title="cmd.exe" %}
+
+- **List all tasks:**  
+  ```cmd
+  schtasks /query /fo LIST /v
+  ```
+- **Create a task:**  
+  ```cmd
+  schtasks /create /tn "MyTask" /tr "C:\script.bat" /sc onlogon /ru SYSTEM
+  ```
+- **Run a task on demand:**  
+  ```cmd
+  schtasks /run /tn "MyTask"
+  ```
+- **Delete a task:**  
+  ```cmd
+  schtasks /delete /tn "MyTask"
+  ```
+- **Change a task:**  
+  ```cmd
+  schtasks /change /tn "MyTask" /enable
+  ```
+
+{% endtab %}
+{% tab title="PowerShell" %}
+
+- **List all tasks:**  
+  ```powershell
+  Get-ScheduledTask
+  ```
+- **View task details:**  
+  ```powershell
+  Get-ScheduledTask -TaskName "MyTask" | Get-ScheduledTaskInfo
+  ```
+- **Register (create) a new task:**  
+  ```powershell
+  $action = New-ScheduledTaskAction -Execute "notepad.exe"
+  $trigger = New-ScheduledTaskTrigger -AtLogOn
+  Register-ScheduledTask -TaskName "MyTask" -Action $action -Trigger $trigger -User "SYSTEM"
+  ```
+- **Disable/Enable a task:**  
+  ```powershell
+  Disable-ScheduledTask -TaskName "MyTask"
+  Enable-ScheduledTask -TaskName "MyTask"
+  ```
+- **Remove a task:**  
+  ```powershell
+  Unregister-ScheduledTask -TaskName "MyTask" -Confirm:$false
+  ```
+
+{% endtab %}
+{% endtabs %}
+
+#### Advanced Management
+
+- **Modify Task Conditions:**  
+  - In Task Scheduler GUI: Edit a task > "Conditions" tab (e.g., "Start only if idle", "Wake computer", "Start only if network available").
+  - PowerShell: Use `Set-ScheduledTask` with updated triggers/conditions.
+- **Set Dependencies:**  
+  - Use "Settings" tab to configure behavior if the task is already running, stop on battery, etc.
+  - For complex dependencies, use scripts or event-based triggers.
+- **Troubleshooting Failed Tasks:**  
+  - Check the "History" tab in Task Scheduler for error codes and messages.
+  - Review the Task Scheduler Operational event log for detailed errors.
+  - Ensure correct permissions for the user context.
+  - Verify that required files, scripts, or network resources are available at execution time.
+  - Use `schtasks /query /fo LIST /v` or `Get-ScheduledTaskInfo` for last run results and error codes.
+
+### Scheduled Tasks Best Practices
+
+- **Task Security:**  
+  - Run tasks with the least privilege necessary.
+  - Use "Run with highest privileges" only when required.
+- **Audit for Persistence:**  Scheduled tasks are a common persistence mechanism for attackers, so regularly audit tasks for suspicious entries.
+- **Export/Import Tasks:**  Tasks can be exported/imported as XML via the GUI or PowerShell (`Export-ScheduledTask`, `Register-ScheduledTask -Xml`).
+- **Task Folders:**  Organize tasks in folders for clarity and delegation.
+- **Audit & Monitoring:**  Regularly review the Task Scheduler event logs and task definitions for unauthorized changes.
+
+For more information, see Microsoft's [Task Scheduler documentation](https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page).
 
 ---
 
