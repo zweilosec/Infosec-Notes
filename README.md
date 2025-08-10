@@ -15,7 +15,7 @@ Warning - These notes are largely unformatted right now. They are based on my wa
 * Do not expect the notes to be exhaustive, or to cover the techniques or the output they produce in full.
 * Expect mistakes in the notes.
 * Feel free to ask questions!
-* Always consult additional resources. If possible I will try to link to outside resources.  _If I have shared something of yours and you want credit, please let me know!_
+* Always consult additional resources. If possible I will try to link to outside resources. _If I have shared something of yours and you want credit, please let me know!_
 {% endhint %}
 
 ## Contribution
@@ -35,7 +35,7 @@ If you would like to give suggestions or even commit changes to these pages feel
 5. After reviewing your changes, I will merge your pull request to the master repository.
 6. Make sure to update your Issue Request so that I can credit you! Thank you so much!
 
-Feel free to also open an issue with any questions, help wanted, or requests!  Throughout these notes I have put `TODO:` notes that indicate that I know a certain section needs work.  Focus on these if you can!
+Feel free to also open an issue with any questions, help wanted, or requests! Throughout these notes I have put `TODO:` notes that indicate that I know a certain section needs work. Focus on these if you can!
 
 ```bash
 TODO: Change all code examples to use variables (e.g. $host_ip)
@@ -53,10 +53,10 @@ Hack Responsibly.
 Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
 {% endhint %}
 
-### Linux
+### Unix/Linux
 
-* [Linux Basics](linux-1/linux-basics.md)
-* [Hardening & Configuration Guide ](linux-1/linux-hardening/)
+* [Unix Fundamentals](linux-1/unix-fundamentals.md)
+* [Hardening & Configuration Guide](linux-1/linux-hardening/)
   * [TMUX/Screen Cheatsheet](linux-1/linux-hardening/tmux-screen-cheatsheet.md)
 * [Red Team Notes](linux-1/linux-redteam/)
   * [Enumeration](linux-1/linux-redteam/enumeration.md)
@@ -69,7 +69,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 ### Windows
 
 * [Windows Basics](windows-1/windows-basics.md)
-* [Hardening & Configuration Guide](windows-1/windows-hardening.md) &#x20;
+* [Hardening & Configuration Guide](windows-1/windows-hardening.md)
 * [Red Team Notes](windows-1/windows-redteam/)
   * [Enumeration](windows-1/windows-redteam/enumeration.md)
   * [Getting Access](windows-1/windows-redteam/getting-access.md)
@@ -104,7 +104,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 * [Cryptography & Encryption](os-agnostic/password-cracking/)
 * [Network Hardware](os-agnostic/network-hardware.md)
-* [OS Agnostic](os-agnostic/os\_agnostic.md)
+* [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/)
   * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)

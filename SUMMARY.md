@@ -6,7 +6,8 @@
 * [Hacking Methodology](hacking-methodology.md)
 * [Hands-on Practice](hands-on-practice.md)
 
-## Fundamentals <a href="#Fundamentals" id="Fundamentals"></a>
+## Fundamentals
+
 * [Network Fundamentals](Fundamentals/Networking/README.md)
 * [Computer Fundamentals](Fundamentals/Computing/README.md)
 
@@ -75,7 +76,7 @@
 * [Basic Enumeration](os-agnostic/basic-enumeration.md)
 * [Cryptography & Encryption](os-agnostic/cryptography-and-encryption.md)
 * [Network Hardware](os-agnostic/network-hardware.md)
-* [OS Agnostic](os-agnostic/os\_agnostic.md)
+* [OS Agnostic](os-agnostic/os_agnostic.md)
 * [OSINT](os-agnostic/osint.md)
 * [Password Cracking](os-agnostic/password-cracking/README.md)
   * [Gathering the Hashes](os-agnostic/password-cracking/gathering-the-hashes.md)
