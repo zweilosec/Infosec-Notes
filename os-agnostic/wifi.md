@@ -40,11 +40,6 @@ make && make install
 
 Now turn ON the PC and plug your Wi-Fi adapter and it should work normally.
 
-* [https://null-byte.wonderhowto.com/how-to/hack-5-ghz-wi-fi-networks-with-alfa-wi-fi-adapter-0203515/](https://null-byte.wonderhowto.com/how-to/hack-5-ghz-wi-fi-networks-with-alfa-wi-fi-adapter-0203515/)
-* [https://forums.kali.org/showthread.php?46019-How-to-Setup-Alfa-AWUS036ACH-RTL8812AU-on-Kali-Linux-2019-4](https://forums.kali.org/showthread.php?46019-How-to-Setup-Alfa-AWUS036ACH-RTL8812AU-on-Kali-Linux-2019-4)
-* [https://forums.kali.org/showthread.php?50408-Kali-2020-2-ALFA-AWUS036ACH&highlight=awus036ach](https://forums.kali.org/showthread.php?50408-Kali-2020-2-ALFA-AWUS036ACH&highlight=awus036ach)
-* [https://www.amazon.com/Network-AWUS036ACS-Wide-Coverage-Dual-Band-High-Sensitivity/dp/B0752CTSGD/?tag=whtnb-20](https://www.amazon.com/Network-AWUS036ACS-Wide-Coverage-Dual-Band-High-Sensitivity/dp/B0752CTSGD/?tag=whtnb-20)
-
 ## **Setting TX \(transmit\) POWER**
 
 ```bash
@@ -264,11 +259,7 @@ To combine your `airodump-ng` .txt/.csv files together simply open up a terminal
 dump-join.py -i $infile1 $infile2 $infile3 -o $outfile
 ```
 
-### Man-in-the-middle with Bettercap
-
-* [https://www.bettercap.org/](https://www.bettercap.org/)
-
-## Misc
+## Misc TODO: Clean this up
 
 ```text
 WEP attack with aircrack-ng suite.
@@ -381,7 +372,14 @@ Uses a four way handshake, and if that handshake can be captured, then a diction
 WPA-Enterprise
 ```
 
+## References
 
+* [https://null-byte.wonderhowto.com/how-to/hack-5-ghz-wi-fi-networks-with-alfa-wi-fi-adapter-0203515/](https://null-byte.wonderhowto.com/how-to/hack-5-ghz-wi-fi-networks-with-alfa-wi-fi-adapter-0203515/)
+* [https://forums.kali.org/showthread.php?46019-How-to-Setup-Alfa-AWUS036ACH-RTL8812AU-on-Kali-Linux-2019-4](https://forums.kali.org/showthread.php?46019-How-to-Setup-Alfa-AWUS036ACH-RTL8812AU-on-Kali-Linux-2019-4)
+* [https://forums.kali.org/showthread.php?50408-Kali-2020-2-ALFA-AWUS036ACH&highlight=awus036ach](https://forums.kali.org/showthread.php?50408-Kali-2020-2-ALFA-AWUS036ACH&highlight=awus036ach)
+* [https://www.amazon.com/Network-AWUS036ACS-Wide-Coverage-Dual-Band-High-Sensitivity/dp/B0752CTSGD/?tag=whtnb-20](https://www.amazon.com/Network-AWUS036ACS-Wide-Coverage-Dual-Band-High-Sensitivity/dp/B0752CTSGD/?tag=whtnb-20)
+* [https://www.aircrack-ng.org/doku.php?id=airdecap-ng](https://www.aircrack-ng.org/doku.php?id=airdecap-ng)
+* [https://www.aircrack-ng.org/doku.php?id=airgraph-ng](https://www.aircrack-ng.org/doku.php?id=airgraph-ng)
 
 If you like this content and would like to see more, please consider [buying me a coffee](https://www.buymeacoffee.com/zweilosec)!
 

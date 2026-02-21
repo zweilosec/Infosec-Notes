@@ -88,11 +88,18 @@ Example: `1:2:a1%.` The generated passwords will be of length 1 to 2 and contain
 
 **`-e nsr` -** Do additional checks. `n` for null password, `s` try login as pass, `r` try the reverse login as pass
 
-### crackmapexec
+### crackmapexec (Deprecated, now netexec!)
 
 {% embed url="https://github.com/byt3bl33d3r/CrackMapExec" %}
 
 [https://mpgn.gitbook.io/crackmapexec/](https://mpgn.gitbook.io/crackmapexec/)
+
+TODO: crackmapexec is now netexec! Update this!
+
+* [https://www.netexec.wiki/](https://www.netexec.wiki/)
+* [https://github.com/Pennyw0rth/NetExec](https://github.com/Pennyw0rth/NetExec)
+
+ TODO: This tool has so many features and functions it deserves its own page!
 
 ## Resources
 

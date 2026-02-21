@@ -2,6 +2,12 @@
 description: Pivoting using Chisel
 ---
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
+{% endhint %}
+
 # Chisel
 
 ## **Requirements** <a href="#bkmrk-usage" id="bkmrk-usage"></a>
@@ -11,7 +17,7 @@ Requires a copy of the Chisel binary on both the target and attacker systems.
 ## **Advantages** <a href="#bkmrk-chisel-advantages" id="bkmrk-chisel-advantages"></a>
 
 * Chisel is a portable binary that can be run on many operating systems
-  * Either system can host the chisel server on a chosen TCP port&#x20;
+  * Either system can host the chisel server on a chosen TCP port;
   * Allows for a high amount of flexibility in situations where restrictions on connectivity exist
 * No dependencies on SSH daemons/services running on the target
 * Supports authenticated proxies to prevent unwanted connections.

@@ -10,6 +10,8 @@
 
 * [Network Fundamentals](Fundamentals/Networking/README.md)
 * [Computer Fundamentals](Fundamentals/Computing/README.md)
+* [Windows Fundamentals](windows-1/windows-basics.md)
+* [Unix Fundamentals](linux-1/unix-fundamentals.md)
 
 ## Unix <a href="#linux-1" id="linux-1"></a>
 
@@ -85,6 +87,7 @@
 * [Pivoting](os-agnostic/pivoting.md)
   * [Chisel](os-agnostic/pivoting/chisel.md)
   * [Plink.exe](os-agnostic/pivoting/plink.exe.md)
+  * [Proxychains](os-agnostic/pivoting/proxychains.md)
   * [SSH](os-agnostic/pivoting/ssh.md)
   * [Sshuttle](os-agnostic/pivoting/sshuttle.md)
   * [Socat](os-agnostic/pivoting/socat.md)

@@ -17,6 +17,8 @@ Feel free to also open an issue with any questions, help wanted, or requests!
 
 Throughout these notes I have put `TODO:` notes that indicate that I know a certain section needs work.  Focus on these if you can!
 
+Example:
+
 ```bash
 TODO: Change all code examples to use variables (e.g. $host_ip)
 rather than fill-in-the-blank format (e.g. <host_ip>). 

@@ -3,7 +3,7 @@
 {% hint style="success" %}
 Hack Responsibly.
 
-Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. &#x20;
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents.  You accept full responsibility for your actions by applying any knowledge gained here. 
 {% endhint %}
 
 ## Host Enumeration
@@ -16,7 +16,7 @@ for /L %i in (1,1,255) do @ping -n 1 10.10.10.%i | find "TTL="
 
 ### Hostname enumeration with `host` (Linux)
 
-Uses DNS reverse lookups to find hostnames for IP in a range.  In this example it will scan the subnet 10.10.10.0/24. &#x20;
+Uses DNS reverse lookups to find hostnames for IP in a range.  In this example it will scan the subnet 10.10.10.0/24.
 
 ```bash
 for ip in $(seq 1 254); do host 10.10.10.$ip; done | grep -v "not found"

@@ -10,7 +10,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ### Password file merge, sort by unique entries:
 
-Sorts all files in a directory
+Sorts all passwords in all files in a directory, removes duplicates, and writes them to a single file
 
 ```bash
 find . -maxdepth 1 -type f ! -name ".*" -exec cat {} + | sort -u -o $out_file
@@ -143,7 +143,9 @@ crunch 4 6 0123456789ABCDEF -o crunch1.txt
 
 Create a list of 4 character "words" using the character set mixalpha (inside file charset.lst)
 
-<pre><code><strong>crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha </strong></code></pre>
+```bash
+crunch 4 4 -f /usr/share/crunch/charset.lst mixalpha
+```
 
 Character set examples:
 
@@ -180,9 +182,53 @@ python3 cupp.py -h
 
 ### [pydictor](https://github.com/LandGrey/pydictor)
 
-## Hashcat
+### Hashcat
 
-TODO: add more
+Hashcat is a powerful password recovery tool that can also be used to generate wordlists using rules and masks.
+
+#### Generate wordlists with masks
+
+Create passwords matching a specific pattern (e.g., 8 characters with uppercase, lowercase, and numbers):
+
+```bash
+hashcat --stdout -a 3 ?u?l?l?l?l?l?l?l > wordlist.txt
+```
+
+Mask character sets:
+- `?l` - lowercase letters
+- `?u` - uppercase letters
+- `?d` - digits
+- `?s` - special characters
+- `?a` - all characters
+
+#### Apply rules to existing wordlists
+
+Generate variations of passwords using rule-based attacks:
+
+```bash
+hashcat --stdout -a 0 wordlist.txt -r rules/best64.rule > mutated_wordlist.txt
+```
+
+#### Combine multiple wordlists
+
+```bash
+hashcat --stdout -a 1 wordlist1.txt wordlist2.txt > combined_wordlist.txt
+```
+
+#### Rule examples
+
+- `c` - capitalize first letter
+- `l` - lowercase all letters
+- `u` - uppercase all letters
+- `r` - reverse the word
+- `d` - duplicate
+- `$X` - append character X
+- `^X` - prepend character X
+
+Common rule files located in `/usr/share/hashcat/rules/`:
+- `best64.rule`
+- `dive.rule`
+- `OneRuleToRuleThemAll.rule`
 
 ## Rules
 

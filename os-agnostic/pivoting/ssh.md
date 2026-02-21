@@ -2,6 +2,12 @@
 description: Pivoting Using SSH
 ---
 
+{% hint style="success" %}
+Hack Responsibly.
+
+Always ensure you have **explicit** permission to access any computer system **before** using any of the techniques contained in these documents. You accept full responsibility for your actions by applying any knowledge gained here.
+{% endhint %}
+
 # SSH
 
 ## SSH Tunneling 101
@@ -66,7 +72,7 @@ sudo passwd sshpivot
 ssh sshpivot@192.168.2.149 -R 127.0.0.1:14000:10.42.42.2:80 -N
 ```
 
-### ▶Listener plus reverse at same time (middle-man)
+### ▶ Listener plus reverse at same time (middle-man)
 
 ```bash
 ssh -L 9999:host2:80 -R 9999:localhost:9999 host1
@@ -286,7 +292,7 @@ ssh whistler@server_ip -p 2222 -L 58671:localhost:1234 #
 
 First, SSH to your Kali from target machine
 
-On Kali:
+On Kali you need to start the ssh service as it is not enabled by default:
 
 ```bash
 service ssh start 

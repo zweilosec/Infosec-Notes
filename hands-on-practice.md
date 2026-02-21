@@ -50,6 +50,25 @@ Here is a list of some of the more popular platforms for hands-on CTF training:
 | [Pwnable.kr](http://pwnable.kr/) | A **pwn-focused wargame** site offering challenges related to **binary exploitation, reverse engineering, and system hacking**. | **Boot2Root / Exploit Development** |
 | [Pwnable.tw](https://pwnable.tw/) | Similar to Pwnable.kr, this site provides **binary exploitation challenges** with a scoring system based on difficulty. | **Boot2Root / Exploit Development** |
 
+## TryHackMe Study List
+
+TODO: expand this list with specific relevant rooms to study and practice:
+
+TryHackMe offers structured learning paths for CTF and red team preparation:
+
+| **Module** | **Description** | **Focus Area** |
+|-----------|-----------------|----------------|
+| [Pre Security](https://tryhackme.com/path/presecurity) | Foundational cybersecurity concepts, networking basics, and security principles. | **Fundamentals** |
+| [Introduction to Cybersecurity](https://tryhackme.com/room/introductorytocybersecurity) | Overview of security careers, defensive/offensive roles, and core concepts. | **Fundamentals** |
+| [Complete Beginner](https://tryhackme.com/path/beginner) | Covers Linux, hacking methodology, web exploitation, and basic CTF techniques. | **CTF Basics** |
+| [Web Fundamentals](https://tryhackme.com/path/webfundamentals) | HTTP protocol, web vulnerabilities, and exploitation techniques. | **Web Security** |
+| [Offensive Pentesting](https://tryhackme.com/path/pentesting) | Active Directory, privilege escalation, lateral movement, and red team tactics. | **Red Team / Pentesting** |
+| [Linux Privilege Escalation](https://tryhackme.com/room/linuxprivesc) | Methods for escalating privileges on Linux systems. | **Exploitation** |
+| [Windows Privilege Escalation](https://tryhackme.com/room/windowsprivesc) | Techniques for escalating privileges on Windows systems and Active Directory. | **Exploitation** |
+| [Reverse Engineering](https://tryhackme.com/path/reversing) | Binary analysis, assembly language, and malware analysis fundamentals. | **Reverse Engineering** |
+| [Cryptography](https://tryhackme.com/room/cryptofundamentals) | Encryption algorithms and cryptographic attacks relevant to CTFs. | **Cryptography** |
+
+
 ## Certifications for Offensive Security Professionals
 
 Certifications are also available from many vendors to validate penetration testing, ethical hacking, and exploit development skills. These certifications help professionals demonstrate their expertise in network security, red teaming, and vulnerability assessment, making them valuable challenges to pursue. These can often help "get you in the door" when applying for jobs.
