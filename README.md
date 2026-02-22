@@ -68,7 +68,7 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 ### Windows
 
-* [Windows Basics](windows-1/windows-basics.md)
+* [Windows Fundamentals](windows-1/windows-basics.md)
 * [Hardening & Configuration Guide](windows-1/windows-hardening.md)
 * [Red Team Notes](windows-1/windows-redteam/)
   * [Enumeration](windows-1/windows-redteam/enumeration.md)

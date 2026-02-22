@@ -11,6 +11,9 @@
 * [Network Fundamentals](Fundamentals/Networking/README.md)
 * [Computer Fundamentals](Fundamentals/Computing/README.md)
 * [Windows Fundamentals](windows-1/windows-basics.md)
+  * [cmd.exe](windows-1/cmd-shell.md)
+  * [PowerShell](windows-1/powershell.md)
+  * [Windows Utilities](windows-1/utilities.md)
 * [Unix Fundamentals](linux-1/unix-fundamentals.md)
 
 ## Unix <a href="#linux-1" id="linux-1"></a>
@@ -30,6 +33,7 @@
 ## Windows <a href="#windows-1" id="windows-1"></a>
 
 * [Windows Fundamentals](windows-1/windows-basics.md)
+* [cmd.exe](windows-1/cmd-shell.md)
 * [PowerShell](windows-1/powershell.md)
 * [Hardening & Setup](windows-1/windows-hardening.md)
 * [Red Team Notes](windows-1/windows-redteam/README.md)

@@ -1,5 +1,5 @@
 ---
-description: Commands and programs that all Windows users need to know (but many don't!).
+description: Windows Fundamentals
 ---
 
 # Windows Fundamentals
@@ -649,649 +649,37 @@ For more information, see Microsoft's [Task Scheduler documentation](https://lea
 
 ## Windows Shells
 
-### Powershell
+Windows ships with a full set of Win32 console commands that can automate tasks, manage files, and interact directly with the operating system. These commands run in either **Command Prompt** or **PowerShell**, and offer distinct approaches to automation, scripting, and system control. Each is shaped by different eras of Windows computingand they cover everything from file operations to network diagnostics. Microsoft notes that all supported versions of Windows include these built‑in commands, which can be used in scripts or executed interactively. 
 
-PowerShell is such a large and important enough topic that it has its [own page](powershell.md).
+Both shells coexist in Windows because they serve different needs: **cmd.exe** maintains compatibility with decades of scripts and tools, while **PowerShell** provides a modern, extensible environment for automation and administration. Many users switch between them depending on the task—quick legacy commands in CMD, complex scripting and system orchestration in PowerShell. 
 
-### CMD.EXE
+### Command Prompt (cmd.exe)
 
-The **Windows Command Prompt (`cmd.exe`)** is an essential interface for executing text-based commands that control the operating system, automate tasks, and troubleshoot system issues. Unlike a graphical user interface (GUI), `cmd.exe` provides direct access to system functionalities through typed commands, making it a powerful tool for administrators, developers, and security professionals.
+**Command Prompt** is the classic Windows command processor, rooted in MS‑DOS conventions. It provides a lightweight, text‑based interface for running batch scripts, managing files, and executing legacy tools. Its syntax is simple and familiar to long‑time Windows users, but it lacks the structured data handling and extensibility found in modern shells. Many traditional utilities still rely on cmd.exe, making it a reliable choice for quick tasks and backward‑compatible workflows.
 
-### **Use Cases for `cmd.exe`**
+See my cmd.exe reference here: [cmd.exe](cmd-shell.md)
 
-- **System Administration:** Modify system settings, manage processes, and configure user accounts.
-- **Networking:** Troubleshoot connectivity, scan ports, and manage network shares.
-- **Security & Forensics:** Analyze logs, check permissions, and identify suspicious activities.
-- **Scripting & Automation:** Write batch scripts for repetitive tasks and scheduled jobs.
-- **File & Directory Management:** Copy, move, delete, and modify file attributes efficiently.
+### PowerShell (powershell.exe)
 
-### Shell Functionality
+**PowerShell** is Microsoft’s modern, object‑oriented shell designed for automation at scale. Unlike cmd.exe, which works with plain text, PowerShell passes rich .NET objects through its pipeline, enabling precise control over system configuration, cloud services, and complex administrative tasks. It supports advanced scripting, modules, remote management, and flexible command‑line parameters, making it a powerful tool for developers and IT professionals. PowerShell can also run many legacy CMD commands for compatibility, though some behave differently due to PowerShell’s parsing rules. 
 
-The shell in `cmd.exe` serves as a command-line interpreter that allows users to interact with the operating system by executing commands, running scripts, and managing system resources. It provides a text-based interface for performing a wide range of tasks, from basic file operations to advanced system configurations.
-
-#### Key Features of the `cmd.exe` Shell
-
-- **Command Execution**:
-  - The shell processes both built-in commands and external executables.
-  - Commands can be executed interactively or through batch scripts (`.bat` or `.cmd` files).
-
-- **Batch Scripting**:
-  - Automate repetitive tasks using batch scripts.
-  - Supports control structures like loops (`for`), conditionals (`if`), and error handling (`goto` and `errorlevel`).
-  - See my [scripting reference](../os-agnostic/scripting/script-language-comparison.md) for more information.
-
-- **Environment Variable Management**:
-  - Access and modify environment variables using the `set` command.
-  - Use variables like `%PATH%`, `%USERNAME%`, and `%TEMP%` to customize the shell environment.
-
-- **Redirection and Piping**:
-  - Redirect input and output using operators like `>`, `>>`, and `<`.
-  - Chain commands using pipes (`|`) to pass output from one command as input to another.
-
-- **Error Handling**:
-  - Use `errorlevel` to check the exit status of commands and handle errors in scripts.
-  - Combine with conditional statements to create robust automation workflows.
-
-- **Customization**:
-  - Customize the shell prompt using the `prompt` command.
-  - Change the appearance of the shell window (e.g., title, colors) using commands like `title` and `color`.
-
-#### Advanced Shell Features
-
-##### **Command Chaining**
-
-Command chaining allows you to execute multiple commands in sequence, controlling the flow based on the success or failure of each command.
-
-| Operator / Syntax                  | Description                                                                                         | Example                                                                                          | Behavior / Output                                                                                  |
-|------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| `&&` (AND operator)                | Executes the next command only if the previous command succeeds (`ERRORLEVEL` 0).                   | `mkdir new_folder && echo Folder created`                                                        | Echoes "Folder created" only if the folder was created successfully.                               |
-| `\|\|` (OR operator)                 | Executes the next command only if the previous command fails (nonzero `ERRORLEVEL`).                | `mkdir new_folder \|\| echo Failed to create folder`                                               | Echoes "Failed to create folder" only if folder creation fails.                                    |
-| Combining `&&` and `\|\|`            | Handles both success and failure cases in a single line.                                            | `mkdir new_folder && echo Folder created \|\| echo Failed to create folder`                      | Echoes "Folder created" if successful, or "Failed to create folder" if not.                        |
-| `&` (Sequential operator)          | Runs commands sequentially, regardless of success or failure.                                       | `echo First & echo Second`                                                                       | Both commands run one after the other, outputting "First" then "Second".                           |
-| Parentheses `( )` for grouping           | Groups commands to control execution order and logic.                                               | `(echo Start && dir) \|\| echo Directory listing failed`                                           | Runs `echo Start` and `dir`; if either fails, echoes "Directory listing failed".                   |
-
-**Usage Tips:**
-- Use `&&` and `||` to create simple if-then-else logic in batch scripts.
-- Combine multiple operators for more complex flows, e.g., `command1 && command2 || command3`.
-- Parentheses can group multiple commands as a single unit, especially in scripts.
-- Useful for error handling, such as running cleanup commands only if a previous step fails.
-
-**Limitations:**
-- `&&` and `||` evaluate only the immediate preceding command's exit code (`ERRORLEVEL`).
-- Chaining does not replace full conditional logic; for complex scenarios, use `if` statements.
-- Parentheses require careful quoting and spacing, especially in batch files.
-- Some commands may not set `ERRORLEVEL` as expected; always test your chains for reliability.
-
-- **Wildcards and Pattern Matching**: Wildcards are special characters used in `cmd.exe` to match multiple files or directories based on patterns. They are essential for batch operations and flexible file management.
-
-  - `*` (asterisk): Matches zero or more characters in a file or directory name.
-    - Example: `del *.txt` deletes all files ending with `.txt` in the current directory.
-    - Example: `copy project*.* D:\Backup\` copies all files starting with "project" to the backup folder.
-  - `?` (question mark): Matches exactly one character in a file or directory name.
-    - Example: `dir file?.log` lists files like `file1.log`, `fileA.log`, but not `file10.log`.
-    - Example: `del report??.docx` deletes files like `report01.docx`, `reportAB.docx`, but not `report1.docx`.
-
-  **Usage Tips:**
-  - Wildcards can be used with most file management commands: `dir`, `del`, `copy`, `move`, `ren`, etc.
-  - You can combine wildcards for more complex patterns, e.g., `*.b??` matches files with a `.b` extension followed by any two characters.
-  - Wildcards do not match directory separators (`\`), so patterns only apply within a single directory level.
-  - In batch scripts, wildcards can be used with `for` loops:
-    ```bat
-    for %f in (*.log) do echo %f
-    ```
-    This echoes the name of each `.log` file in the current directory.
-
-  **Limitations:**
-  - Wildcards do not match hidden or system files unless the command explicitly includes them (e.g., `dir /a`).
-  - Pattern matching is case-insensitive by default in Windows.
-
-  For more advanced pattern matching (including regular expressions), use the `findstr` command.
-
-##### **Input/Output Streams and Redirection**
-
-Input/output (I/O) streams in `cmd.exe` allow you to control how commands receive input and where their output goes. This is essential for automation, scripting, and error handling.
-
-**Key Streams:**
-- **Standard Input (`stdin`, stream 0)**: Receives input from the keyboard or another command.
-- **Standard Output (`stdout`, stream 1)**: Displays normal command output (default: console).
-- **Standard Error (`stderr`, stream 2)**: Displays error messages (default: console).
-
-**Redirection Operators:**
-| Operator | Description                                      | Example                                      | Result/Notes                                                      |
-|----------|--------------------------------------------------|----------------------------------------------|-------------------------------------------------------------------|
-| `>`      | Redirects `stdout` to a file (overwrites).       | `dir > files.txt`                            | Saves output of `dir` to `files.txt`, replacing its contents.     |
-| `>>`     | Redirects `stdout` to a file (appends).          | `echo Hello >> log.txt`                      | Adds "Hello" to the end of `log.txt`.                            |
-| `<`      | Redirects `stdin` from a file.                   | `sort < names.txt`                           | Sorts the contents of `names.txt`.                               |
-| `2>`     | Redirects `stderr` to a file.                    | `command 2> errors.txt`                      | Saves error messages to `errors.txt`.                            |
-| `2>>`    | Appends `stderr` to a file.                      | `command 2>> errors.txt`                     | Appends error messages to `errors.txt`.                          |
-| `1>`     | Explicitly redirects `stdout` (same as `>`).     | `command 1> output.txt`                      | Saves standard output to `output.txt`.                           |
-| `&>`     | Redirects both `stdout` and `stderr` (Win 10+).  | `command &> all_output.txt`                  | Saves all output and errors to `all_output.txt`.                 |
-| `\|`      | Pipes `stdout` to another command as `stdin`.    | `dir \| find "txt"`                           | Passes output of `dir` to `find`.                                |
-
-**Usage Tips:**
-- Combine redirections for advanced scenarios:
-  ```bat
-  myapp.exe > out.txt 2> err.txt
-  ```
-  Separates normal output and errors.
-- Merge `stderr` into `stdout`:
-  ```bat
-  myapp.exe > all.txt 2>&1
-  ```
-  Both outputs go to `all.txt`.
-- Use pipes to chain commands for filtering or processing.
-
-**Limitations:**
-- Redirection applies only to the current command or script line.
-- Some legacy commands may not support all redirection features.
-- `&>` is available only in newer Windows versions (Windows 10+).
-
-**Common Use Cases:**
-- Logging output and errors for troubleshooting.
-- Automating input to commands using files.
-- Filtering and processing command output with pipes.
-
-For more details, see the Microsoft Docs on [Redirecting command input and output (cmd.exe)](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/redirection).
-
-##### **Environment Variables**
-
-Environment variables in `cmd.exe` are dynamic values that store information about the system environment, user settings, and configuration paths. They are referenced using the `%VARNAME%` syntax and are essential for scripting, automation, and customizing the shell environment.
-
-**Key Features:**
-- **Scope:** Variables can be system-wide, user-specific, or session-specific.
-- **Usage:** Used to store paths, configuration values, and user information.
-- **Modification:** Can be set, changed, or deleted within a session or script.
-
-**Common Built-in Variables:**
-| Variable           | Description                                 | Example Value                |
-|--------------------|---------------------------------------------|------------------------------|
-| `%USERNAME%`       | Current logged-in user                      | `tester`                       |
-| `%USERPROFILE%`    | Path to the user's home directory           | `C:\Users\tester`              |
-| `%COMPUTERNAME%`   | Name of the computer                        | `DESKTOP-1234`               |
-| `%TEMP%`, `%TMP%`  | Temporary files directory                   | `C:\Users\tester\AppData\Local\Temp` |
-| `%PATH%`           | Directories searched for executables        | `C:\Windows\System32;...`    |
-| `%SystemRoot%`     | Windows installation directory              | `C:\Windows`                 |
-| `%APPDATA%`        | Roaming application data folder             | `C:\Users\tester\AppData\Roaming` |
-
-**Working with Variables:**
-| Command / Syntax                | Description                                      | Example / Output                                  |
-|---------------------------------|--------------------------------------------------|---------------------------------------------------|
-| `echo %VARNAME%`                | Display the value of a variable                  | `echo %USERNAME%` → `tester`                        |
-| `set VARNAME=value`             | Set or change a variable for the session         | `set MYVAR=hello`                                 |
-| `set`                           | List all environment variables                   | `set`                                             |
-| `setlocal` / `endlocal`         | Limit variable scope to a batch script section   | Variables set within `setlocal` are discarded after `endlocal` |
-| `set /p VARNAME=Prompt:`        | Prompt user for input and store in variable      | `set /p NAME=Enter your name: `                   |
-| `set VARNAME=`                  | Delete a variable from the environment           | `set MYVAR=`                                      |
-
-**Variable Expansion in Scripts:**
-- Use `%VARNAME%` for normal expansion.
-- Use `!VARNAME!` for delayed expansion (requires `setlocal enabledelayedexpansion`).
-
-**Examples:**
-```bat
-:: Display the current user and computer name
-echo User: %USERNAME%
-echo Computer: %COMPUTERNAME%
-
-:: Set and use a custom variable
-set GREETING=Hello
-echo %GREETING%, %USERNAME%!
-
-:: Prompt for input
-set /p COLOR=Enter your favorite color: 
-echo You chose %COLOR%
-```
-
-**Limitations:**
-- Variable changes with `set` are local to the current session or script.
-- For permanent changes, use the System Properties GUI or `setx` command (note: `setx` changes are not available in the current session).
-
-**Advanced:**
-- Use variables in loops and conditional statements for dynamic scripting.
-- Combine with redirection and piping for powerful automation.
-
-{% hint style="warning" %}
-**Batch Scripting Variables**: When writing batch scripts (`.bat` or `.cmd` files), **use double percent signs (`%%`) for variables inside `for` loops**. For example, use `%%f` instead of `%f`.
-
-- In the command prompt (interactive), use a single `%` (e.g., `for %f in (*) do echo %f`).
-- In batch files, use double `%%` (e.g., `for %%f in (*) do echo %%f`).
-
-If you forget the extra `%`, your script may not work as expected!
-{% endhint %}
-
-For more details, see the Microsoft Docs on the [set command](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set).
-
-##### **Background Task Execution**
-
-Background task execution in `cmd.exe` allows you to launch programs or scripts without blocking the current shell session. This is useful for running multiple processes simultaneously or starting long-running tasks while continuing to use the command prompt.
-
-**Key Syntax and Options:**
-
-| Command / Syntax                | Description                                                      | Example / Output                                      |
-|---------------------------------|------------------------------------------------------------------|-------------------------------------------------------|
-| `start <program>`               | Launches a program or command in a new window.                   | `start notepad.exe` - Opens Notepad in a new window.  |
-| `start /b <command>`            | Runs the command in the background (no new window).              | `start /b ping 127.0.0.1 -t` - Pings in background.   |
-| `start "" <command>`            | Use empty quotes to avoid issues with commands containing spaces. | `start "" "C:\My Folder\app.exe"`                     |
-| `start /min <command>`          | Starts the window minimized.                                     | `start /min calc.exe`                                 |
-| `start /max <command>`          | Starts the window maximized.                                     | `start /max cmd.exe`                                  |
-| `start /wait <command>`         | Waits for the started process to finish before continuing.        | `start /wait notepad.exe`                             |
-
-**Usage Tips:**
-- `start` is especially useful in batch scripts to parallelize tasks or prevent blocking.
-- Use `/b` to keep output in the same window (no new console).
-- Always quote the title argument (even if empty) when the command or path contains spaces.
-- Combine with redirection or piping for advanced workflows.
-
-**Limitations:**
-- `start /b` does not create a new window, but output may still appear in the current console.
-- Background processes started with `start` are not true Unix-style background jobs; they are separate processes.
-- Use `tasklist` and `taskkill` to monitor or terminate background processes if needed.
-
-**Examples:**
-```bat
-:: Start Notepad in a new window
-start notepad.exe
-
-:: Run a script in the background (no new window)
-start /b myscript.bat
-
-:: Start multiple background pings
-start /b ping 8.8.8.8
-start /b ping 1.1.1.1
-
-:: Start a program with a custom window title
-start "My Custom Title" calc.exe
-
-:: Wait for a process to finish before continuing
-start /wait notepad.exe
-echo Notepad closed, continuing script...
-```
-
-##### **String Manipulation**
-
-String manipulation in `cmd.exe` allows you to perform operations such as variable assignment, substring extraction, replacement, concatenation, and numeric calculations. These features are essential for scripting, automation, and dynamic command construction.
-
-**Key Features and Syntax:**
-
-| Feature / Syntax                       | Description                                                      | Example / Output                                         |
-|----------------------------------------|------------------------------------------------------------------|----------------------------------------------------------|
-| `set VAR=value`                        | Assigns a string value to a variable.                            | `set NAME=Alice`<br>`echo %NAME%` → `Alice`              |
-| `set /a VAR=expression`                | Performs arithmetic operations and assigns the result.           | `set /a sum=5+10`<br>`echo %sum%` → `15`                 |
-| `set /p VAR=Prompt:`                   | Prompts user for input and stores it in a variable.              | `set /p COLOR=Enter color: `<br>`echo %COLOR%`           |
-| `%VAR:old=new%`                        | Replaces all occurrences of `old` with `new` in a variable.      | `set STR=abc123abc`<br>`echo %STR:abc=XYZ%` → `XYZ123XYZ`|
-| `%VAR:~start,length%`                  | Extracts a substring from a variable.                            | `set STR=abcdef`<br>`echo %STR:~2,3%` → `cde`            |
-| `%VAR:~start%`                         | Extracts substring from position `start` to end.                 | `set STR=abcdef`<br>`echo %STR:~3%` → `def`              |
-| `%VAR:~0,-N%`                          | Removes last `N` characters from a variable.                     | `set STR=abcdef`<br>`echo %STR:~0,-2%` → `abcd`          |
-| `%VAR: =_%`                            | Replaces spaces with underscores.                                | `set STR=hello world`<br>`echo %STR: =_%` → `hello_world`|
-| Concatenation                          | Combine variables and strings directly.                          | `set A=foo`<br>`set B=bar`<br>`echo %A%%B%` → `foobar`   |
-
-**Usage Tips:**
-- Use `setlocal enabledelayedexpansion` and `!VAR!` syntax for advanced scenarios, such as inside loops, to update and access variables dynamically.
-- String replacement and substring extraction are case-sensitive.
-- For splitting strings, use `for` loops with delimiters:
-  ```bat
-  set STR=apple,banana,cherry
-  for %%A in (%STR:,= %) do echo %%A
-  ```
-  This outputs each fruit on a separate line.
-
-**Limitations:**
-- No built-in support for regular expressions (use `findstr` for pattern matching).
-- String operations are limited compared to PowerShell or Unix shells.
-
-**Examples:**
-```bat
-:: Arithmetic calculation
-set /a total=7*8
-echo %total%  :: Outputs 56
-
-:: Substring extraction
-set VAR=WindowsFundamentals
-echo %VAR:~7,4%  :: Outputs "Fund"
-
-:: Replace substring
-set FILE=report 2024.txt
-echo %FILE: =_%  :: Outputs "report_2024.txt"
-
-:: Prompt for input and manipulate
-set /p NAME=Enter your name: 
-echo Hello, %NAME:~0,1%.  :: Outputs first letter of name
-```
-
-For more details, see the Microsoft Docs on [set](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set) and [batch string manipulation](https://ss64.com/nt/syntax-substring.html).
-
-### **Types of Commands in `cmd.exe`**
-
-There are two primary types of commands that can be executed in `cmd.exe`:
-
-- **Built-in Commands**:  
-   - These commands are **directly processed** within the `cmd.exe` shell, meaning they do **not** rely on external programs to execute.
-   - Built-ins provide essential functionality such as **file manipulation, directory navigation, and environment management**.
-   - **Examples:** `cd` (change directory), `dir` (list files), `echo` (display text), `set` (manage environment variables), and `exit` (close command prompt).
-
-- **External Executables**:  
-   - These commands **call separate `.exe` files**, typically stored in **system directories** like `C:\Windows\System32\`.
-   - External commands extend the shell’s capabilities by invoking system utilities and tools.
-   - **Examples:** `ping.exe` (network testing), `ipconfig.exe` (network configuration), `tasklist.exe` (list running processes), and `robocopy.exe` (advanced file copy operations).
-
-For example:
-- `cd`, `dir`, `echo`, `set`, `exit` **are all built-ins** handled directly by `cmd.exe`.
-- **Commands like** `ping`, `ipconfig`, `tasklist`, and `robocopy` are external, i.e. they invoke separate `.exe` files located in system directories (e.g. `C:\Windows\System32\`).
-
-#### **Windows CMD built-in commands**
-
-Windows **cmd.exe built-in commands** provide essential functionality for managing files, processes, networking, and system settings directly from the command line. **Built-in commands** are **internal functions** of `cmd.exe`, meaning they run within the shell itself rather than calling external binaries.
-
-| Command | Description | Example Use Case |
-|---------|------------|------------------|
-| **cd** | Changes the current directory. | `cd C:\Users\tester\Documents` – Navigate to the Documents folder for user `tester`. |
-| **dir** | Lists files and directories in the current folder. | `dir /s /b` – List all files in the current directory and subdirectories. |
-| **echo** | Displays text or variables in the command prompt. | `echo Hello, World!` – Print "Hello, World!" to the screen. |
-| **set** | Sets or displays environment variables. | `set PATH` – Show the current PATH variable. |
-| **exit** | Closes the command prompt. | `exit` – Close the terminal session. |
-| **cls** | Clears the command prompt screen. | `cls` – Wipe the screen clean. |
-| **ver** | Displays the Windows version. | `ver` – Show the OS version number. |
-| **help** | Displays help information for CMD commands. | `help dir` – Show details on how to use the `dir` command. |
-| **copy** | Copies files from one location to another. | `copy file.txt D:\Backup\` – Copy `file.txt` to the `Backup` folder. |
-| **move** | Moves files from one location to another. | `move file.txt D:\Backup\` – Move `file.txt` to the `Backup` folder. |
-| **del** | Deletes files. | `del /F /Q file.txt` – Force delete `file.txt` without confirmation. |
-| **ren** | Renames a file or folder. | `ren oldname.txt newname.txt` – Rename `oldname.txt` to `newname.txt`. |
-| **mkdir** | Creates a new directory. | `mkdir C:\NewFolder` – Create a folder named `NewFolder`. |
-| **rmdir** | Deletes a directory. | `rmdir /s /q C:\OldFolder` – Remove `OldFolder` and its contents. |
-| **attrib** | Changes file attributes (hidden, read-only, etc.). | `attrib +H file.txt` – Hide `file.txt`. |
-| **title** | Changes the title of the command prompt window. | `title Custom CMD Window` – Set the window title to "Custom CMD Window". |
-| **prompt** | Changes the command prompt display style. | `prompt $P$G` – Set prompt to display the current path followed by `>`. |
-
-#### Getting Help With Commands
-
-Unlike Unix-based systems, Windows `cmd.exe` does not have traditional **`man` pages** for commands. Instead, Windows provides several methods to get help with command-line tools.
-
-1. **Using the `help` command**  
-   - Simply type `help` in the Command Prompt to see a **list of built-in commands**.  
-   - To get help on a specific command:  
-     ```bat
-     help dir
-     ```
-     This will display basic information about the `dir` command.
-
-2. **Using `command /?` for detailed help**  
-   - Many commands support the `/?` flag, which provides more detailed usage instructions and available options.  
-     ```bat
-     dir /?
-     ```
-     This will list **all available parameters** for the `dir` command.
-   - Some commands will even support this with `-?` in addition.  Windows commands do not all follow POSIX standardization.
-
-3. **Checking Microsoft Docs (Online Documentation)**  
-   - Microsoft provides extensive official documentation on Windows commands via **Microsoft Learn**.  
-   - For example, the `dir` command documentation can be found at:  
-     [https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir)
+See my PowerShell reference here: [PowerShell](powershell.md)
 
 ---
 
-## **Useful Windows Utilities**
+## **Windows built-in Utilities**
 
 These utilities can be combined in batch scripts or used interactively to automate and streamline system  management tasks. Most of these utilities are either built into the cmd shell, or are executables shipped with Windows that can mainly be found in `C:\Windows\System32\`. 
 
-### **File and Directory Management**
+Windows includes a wide collection of built‑in utilities and command‑line tools that help with system management, troubleshooting, automation, and everyday maintenance. These tools range from classic console commands to graphical diagnostics, giving users multiple ways to control and optimize their system. 
 
-Windows provides several utilities for managing files and directories directly from the command line. These commands allow users to create, delete, copy, move, and rename files and folders, as well as navigate and view the contents of the filesystem. 
+See my Windows Utilities reference here: [Windows Utilities](utilities.md)
 
-| Utility    | Description                                         | Example Commands                                 | Built-in or Executable   |
-|------------|-----------------------------------------------------|--------------------------------------------------|-------------------------|
-| `cd`       | Change the current directory                        | `cd C:\Users\tester\Documents` – Navigate to the Documents folder for user `tester`.                   | Built-in                |
-| `dir`      | List files and directories in the current location  | `dir /s /b` – List all files in the current directory and subdirectories in bare format.                | Built-in                |
-| `mkdir`    | Create a new directory                              | `mkdir C:\NewFolder` – Create a folder named `NewFolder`.                                               | Built-in                |
-| `rmdir`    | Remove a directory (optionally with contents)       | `rmdir /s /q C:\OldFolder` – Remove `OldFolder` and its contents without confirmation.                  | Built-in                |
-| `copy`     | Copy files from one location to another             | `copy file.txt D:\Backup\` – Copy `file.txt` to the `Backup` folder.                                   | Built-in                |
-| `xcopy`    | Copy files and directories, including subdirectories| `xcopy C:\Source D:\Dest /E /H /C /I` – Copy all files and subfolders from `Source` to `Dest`, including hidden and empty ones. | Executable (`xcopy.exe`)|
-| `robocopy` | Advanced file and directory copy utility            | `robocopy C:\Source D:\Dest /MIR /Z /R:3` – Mirror `Source` to `Dest` with restartable mode and 3 retries. | Executable (`robocopy.exe`)|
-| `move`     | Move or rename files and directories                | `move file.txt D:\Backup\` – Move `file.txt` to the `Backup` folder.                                   | Built-in                |
-| `del`      | Delete one or more files                            | `del /F /Q file.txt` – Force delete `file.txt` without confirmation.                                   | Built-in                |
-| `ren`      | Rename a file or directory                          | `ren oldname.txt newname.txt` – Rename `oldname.txt` to `newname.txt`.                                | Built-in                |
-| `attrib`   | View or change file and directory attributes        | `attrib +H secret.txt` – Hide `secret.txt` by setting the Hidden attribute.                            | Executable (`attrib.exe`)|
-| `tree`     | Display a graphical directory structure             | `tree C:\Projects /F` – Show the folder structure of `C:\Projects` including files.                    | Executable (`tree.com`) |
-| `fsutil`   | Advanced file and volume management (admin only)    | `fsutil fsinfo drives` – List all drives on the system.                                                | Executable (`fsutil.exe`)|
-| `type`     | Display the contents of a text file                 | `type file.txt` – Show the contents of `file.txt` in the terminal.                                     | Built-in                |
-| `more`     | View file contents one screen at a time             | `type file.txt \| more` – Display `file.txt` one page at a time.                                       | Executable (`more.com`) |
-| `fc`       | Compare the contents of two files                   | `fc file1.txt file2.txt` – Show differences between `file1.txt` and `file2.txt`.                       | Executable (`fc.exe`)   |
-| `find`     | Search for text within a file                       | `find "keyword" file.txt` – Search for lines containing "keyword" in `file.txt`.                       | Executable (`find.exe`) |
-| `findstr`  | Search for strings using patterns/regex             | `findstr /i "pattern" file.txt` – Search for "pattern" (case-insensitive) in `file.txt`.               | Executable (`findstr.exe`) |
+### Graphical built‑in tools
 
-### **Additional Use Cases**
+Alongside console commands, Windows includes several graphical utilities designed to diagnose and repair system issues. These tools are accessible through the Start menu, Run dialog (`[Win+r]`), or the Control Panel.
 
-- **Bulk File Renaming:**  
-  Use `for` loops in batch scripts to rename multiple files based on a pattern.  
-  Example:  
-  ```bat
-  for %f in (*.txt) do ren "%f" "archived_%f"
-  ```
-  This prepends "archived_" to all `.txt` files in the current directory.
-
-- **Automated Backup:**  
-  Schedule a nightly backup of important folders using `robocopy` with logging.  
-  Example:  
-  ```bat
-  robocopy C:\Projects D:\Backups\Projects /MIR /LOG:C:\BackupLogs\projects.log
-  ```
-  This mirrors the Projects folder and logs the operation.
-
-- **Finding Large Files:**  
-  Identify files over a certain size for cleanup using `forfiles`.  
-  Example:  
-  ```bat
-  forfiles /S /M *.* /C "cmd /c if @fsize GTR 104857600 echo @path"
-  ```
-  This lists files larger than 100 MB.
-
-- **Quick File Content Search:**  
-  Search for a keyword in all `.log` files in a directory tree.  
-  Example:  
-  ```bat
-  findstr /s /i "ERROR" *.log
-  ```
-  This finds all lines containing "ERROR" in `.log` files, case-insensitive.
-
-- **Batch File Attribute Modification:**  
-  Remove the read-only attribute from all files in a folder.  
-  Example:  
-  ```bat
-  attrib -r *.* /s
-  ```
-  This clears the read-only flag recursively.
-
-- **Generating Directory Listings:**  
-  Create a text file listing all files and folders for documentation or auditing.  
-  Example:  
-  ```bat
-  dir /s /b > directory_listing.txt
-  ```
-  This outputs a bare format recursive listing to a file.
-
-- **Synchronizing Folders Across Drives:**  
-  Use `xcopy` to copy only updated files between two directories.  
-  Example:  
-  ```bat
-  xcopy C:\Source D:\Dest /D /E /H /Y
-  ```
-  This copies only newer files, including subfolders and hidden files.
-
-- **Monitoring File Changes:**  
-  Use `fsutil` to monitor NTFS USN journal for file changes (advanced).  
-  Example:  
-  ```bat
-  fsutil usn readjournal C:
-  ```
-  This displays recent changes tracked by the NTFS journal.
-
-
-### **System Information**
-
-There are also several utilities for gathering detailed information about the system, hardware, and operating environment. These tools are useful for quickly gathering system diagnostics for troubleshooting, auditing, and inventory purposes.
-
-| Utility         | Description                                                      | Example Commands                                                                                                   | Built-in or Executable         |
-|-----------------|------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
-| `systeminfo`    | Displays detailed system configuration, including OS version, hardware specs, memory, network adapters, and installed updates. | `systeminfo` – Show a summary of OS, hardware, and network info.                                                                  | Executable (`systeminfo.exe`) |
-| `wmic`          | Windows Management Instrumentation Command-line: Query system information, hardware, processes, and more. | `wmic OS get Caption,Version,BuildNumber` – Display OS name and version.<br>`wmic cpu get name` – Show CPU model name.            | Executable (`wmic.exe`)       |
-| `hostname`      | Displays the computer's network name.                            | `hostname` – Print the system's network hostname.                                                                                 | Executable (`hostname.exe`)   |
-| `ver`           | Shows the Windows version.                                       | `ver` – Display the Windows version string.                                                                                       | Built-in                      |
-| `set`           | Lists all environment variables and their values.                | `set` – List all environment variables and their current values.                                                                  | Built-in                      |
-| `echo %PROCESSOR_ARCHITECTURE%` | Displays the processor architecture (e.g., x86, AMD64). | `echo %PROCESSOR_ARCHITECTURE%` – Print the CPU architecture (e.g., AMD64 for 64-bit).                                           | Built-in                      |
-| `tasklist`      | Lists all running processes with their PID and memory usage.     | `tasklist /v` – Show detailed info (including memory and user) for all running processes.                                         | Executable (`tasklist.exe`)   |
-| `driverquery`   | Lists all installed device drivers and their properties.         | `driverquery` – List all drivers, their status, and associated files.                                                             | Executable (`driverquery.exe`)|
-| `msinfo32`      | Opens the System Information GUI tool for comprehensive details. | `msinfo32` – Launch the System Information GUI for a full hardware and software summary.                                          | Executable (`msinfo32.exe`)   |
-| `whoami`        | Displays the current logged-in user and domain.                  | `whoami /all` – Show the current user, domain, and detailed security information (groups, privileges, etc.).                      | Executable (`whoami.exe`)     |
-
-**Common Use Cases:**
-- **Display current user and privileges:** `whoami /priv`
-- **Show only detailed OS info and installed hotfixes:** `systeminfo | findstr /B /C:"OS" /C:"Hotfix"`
-- **List all logical drives:** `wmic logicaldisk get name`
-- **Get BIOS version:** `wmic bios get smbiosbiosversion`
-- **Show network adapter configuration:** `wmic nicconfig get description,ipaddress`
-- **Display available memory:** `systeminfo | findstr /C:"Available Physical Memory"`
-- **List running services:** `sc query`
-- **Show current domain:** `echo %USERDOMAIN%`
-
-### **Process and Task Management**
-
-Other utilities include programs for viewing, managing, and controlling running processes and tasks directly from the command line. These tools are essential for monitoring system activity, troubleshooting issues, and automating administrative tasks.
-
-| Utility         | Description                                                      | Example Commands                                         | Built-in or Executable         |
-|-----------------|------------------------------------------------------------------|----------------------------------------------------------|-------------------------------|
-| `tasklist`      | Lists all running processes with their PID, session name, and memory usage. | `tasklist /v` – Show detailed info for all processes.    | Executable (`tasklist.exe`)   |
-| `taskkill`      | Terminates running processes by PID or image name.               | `taskkill /PID 1234 /F` – Force kill process with PID 1234.<br>`taskkill /IM notepad.exe /F` – Kill all Notepad processes. | Executable (`taskkill.exe`)   |
-| `start`         | Launches a program, command, or script in a new window or background. | `start notepad.exe` – Open Notepad.<br>`start /b script.bat` – Run batch script in background. | Built-in                      |
-| `wmic process`  | Queries and manages processes using Windows Management Instrumentation. | `wmic process list brief` – List processes.<br>`wmic process where name="notepad.exe" call terminate` – Kill Notepad. | Executable (`wmic.exe`)       |
-| `tskill`        | Terminates a process by name or PID (legacy, less granular than `taskkill`). | `tskill notepad` – Kill all Notepad processes.           | Executable (`tskill.exe`)     |
-| `pslist`        | Lists detailed process information (Sysinternals tool, not built-in). | `pslist` – List all processes.<br>`pslist -d` – Show thread and CPU details. | Executable (`pslist.exe`)     |
-| `pskill`        | Terminates processes locally or remotely (Sysinternals tool).    | `pskill notepad` – Kill all Notepad processes.           | Executable (`pskill.exe`)     |
-
-**Common Use Cases:**
-- **View running processes:** `tasklist`
-- **Get detailed process info:** `tasklist /v` or `wmic process list full`
-- **Kill a process by PID:** `taskkill /PID <PID> /F`
-- **Kill a process by name:** `taskkill /IM <processname> /F`
-- **Start a program in background:** `start /b <program>`
-
-**Note:** For advanced process monitoring and management, consider using Sysinternals tools like [Process Explorer](https://learn.microsoft.com/en-us/sysinternals/downloads/process-explorer) and [PsExec](https://learn.microsoft.com/en-us/sysinternals/downloads/psexec).
-
-### **Networking Utilities**
-
-There are also a range of command-line utilities for troubleshooting, configuring, and monitoring network connections. These tools are essential for diagnosing connectivity issues, viewing network statistics, and managing network resources.
-
-| Utility         | Description                                                      | Example Commands                                                                 | Built-in or Executable         |
-|-----------------|------------------------------------------------------------------|----------------------------------------------------------------------------------|-------------------------------|
-| `ipconfig`      | Displays network adapter configuration, IP addresses, DNS, and more. | `ipconfig /all` – Show detailed network configuration.<br>`ipconfig /release` – Release DHCP lease.<br>`ipconfig /renew` – Renew DHCP lease. | Executable (`ipconfig.exe`)   |
-| `netstat`       | Shows active network connections, listening ports, and routing tables. | `netstat -ano` – List all connections with PID.<br>`netstat -r` – Display routing table.<br>`netstat -e` – Show Ethernet statistics. | Executable (`netstat.exe`)    |
-| `ping`          | Tests connectivity to a remote host by sending ICMP echo requests. | `ping 8.8.8.8` – Ping Google DNS.<br>`ping -t hostname` – Ping continuously.      | Executable (`ping.exe`)       |
-| `tracert`       | Traces the route packets take to a destination host.             | `tracert www.microsoft.com` – Trace route to Microsoft.                          | Executable (`tracert.exe`)    |
-| `nslookup`      | Queries DNS servers for domain name or IP address information.   | `nslookup example.com` – Get IP for a domain.<br>`nslookup` – Enter interactive mode. | Executable (`nslookup.exe`)   |
-| `arp`           | Displays and modifies the ARP cache (IP-to-MAC address mapping). | `arp -a` – Show ARP table.<br>`arp -d *` – Clear ARP cache.                      | Executable (`arp.exe`)        |
-| `route`         | Views and modifies the local IP routing table.                   | `route print` – Show routing table.<br>`route add 10.0.0.0 mask 255.0.0.0 192.168.1.1` – Add a route. | Executable (`route.exe`)      |
-| `net use`       | Connects to, removes, and displays shared network resources.     | `net use Z: \\server\share` – Map a network drive.<br>`net use Z: /delete` – Remove mapped drive. | Executable (`net.exe`)        |
-| `net share`     | Creates, deletes, and manages shared folders.                    | `net share myshare=C:\Data` – Share a folder.<br>`net share myshare /delete` – Remove share. | Executable (`net.exe`)        |
-| `net view`      | Lists computers and shared resources on the network.             | `net view` – List computers.<br>`net view \\server` – List shares on a server.   | Executable (`net.exe`)        |
-| `nbtstat`       | Displays NetBIOS over TCP/IP statistics and name tables.         | `nbtstat -n` – Show local NetBIOS names.<br>`nbtstat -A <ip>` – Query remote NetBIOS info. | Executable (`nbtstat.exe`)    |
-| `hostname`      | Displays the local computer's network name.                      | `hostname` – Show the system's hostname.                                         | Executable (`hostname.exe`)   |
-
-**Common Use Cases:**
-- **Check IP configuration:** `ipconfig /all`
-- **Test network connectivity:** `ping <hostname or IP>`
-- **View open network connections:** `netstat -ano`
-- **Trace network path:** `tracert <destination>`
-- **Query DNS records:** `nslookup <domain>`
-- **Map/unmap network drives:** `net use Z: \\server\share` / `net use Z: /delete`
-- **List network shares:** `net share` or `net view \\server`
-
-**Note:** For advanced network monitoring and troubleshooting, consider using Sysinternals tools like [TCPView](https://learn.microsoft.com/en-us/sysinternals/downloads/tcpview) or third-party utilities such as Wireshark.
-
-
-### The 'Net' Commands
-
-The Windows **`net`** commands are a set of command-line tools that allow administrators and users to perform a variety of tasks related to system configurations, network services, and security. The main executable, **`net.exe`**, is typically located in the `C:\Windows\System32\` directory. On modern Windows systems, `net.exe` may also invoke **`net1.exe`** (also in `System32`) for certain operations, especially when running in environments where legacy compatibility or specific command parsing is required. This fallback helps ensure consistent behavior across different Windows versions and scenarios.
-
-##### Common Use Cases for `net` Commands
-
-The many use cases make knowing the `net` commands essential for system administrators and power users managing Windows environments.
-
-- **User and Group Management**
-  - Create, modify, or delete local user accounts (`net user`)
-  - Add or remove users from local groups (`net localgroup`)
-  - Reset user passwords or unlock accounts
-
-- **Network Resource Management**
-  - Map or disconnect network drives (`net use`)
-  - List available network shares and computers (`net view`)
-  - Create or remove shared folders (`net share`)
-  - Manage and monitor open files on a server (`net file`)
-
-- **Service Control**
-  - Start or stop Windows services (`net start`, `net stop`)
-  - List all running services
-
-- **Session and Connection Management**
-  - View or disconnect active sessions on a server (`net session`)
-  - Monitor who is connected to a shared resource
-
-- **Account and Security Policy Management**
-  - Set password and logon policies (`net accounts`)
-  - Enforce password complexity or expiration rules
-
-- **Network Diagnostics and Statistics**
-  - View network statistics for the workstation or server (`net statistics`)
-  - Check print jobs on network printers (`net print`)
-
-- **Time Synchronization**
-  - Synchronize the system clock with a network time server (`net time`)
-  - Check system uptime `net statistics workstation`
-
-- **Domain and Group Management (on domain-joined systems)**
-  - Manage global groups in Active Directory (`net group`)
-  - Execute user or group commands on a domain controller (`/domain` flag)
-
-Here’s a **brief overview** of some of the key `net` commands:
-
-| Command | Description | Example Use Case | Common Options |
-|---------|------------|------------------|----------------|
-| **net user** | Manages user accounts on a computer. You can add, remove, and modify users. | `net user tester /add` – Adds a new user named `tester`. | `/delete` – Remove a user, `/domain` – Execute on a domain controller. |
-| **net localgroup** | Manages local groups on the computer. You can add, remove, and list members. | `net localgroup Administrators tester /add` – Adds `tester` to the Administrators group. | `/delete` – Remove a group, `/add` – Create a new group. |
-| **net share** | Creates, deletes, and manages shared resources on the network. | `net share myshare=C:\MyFolder /grant:tester,full` – Creates a share named `myshare` with full access for user `tester`. | `/delete` – Stop sharing a resource, `/grant` – Assign access permissions. |
-| **net start / stop** | Starts or stops network services. | `net start "Web Client"` – Starts the Web Client service. | Specify service names to start or stop. |
-| **net session** | Displays all current sessions or disconnects them. | `net session \\RemotePC /delete` – Disconnects the session with `RemotePC`. | `/delete` – End a session. |
-| **net use** | Connects, disconnects, and displays shared network resources. | `net use Z: \\Server\Share` – Maps the network share at `\\Server\Share` to the `Z:` drive. | `/delete` – Disconnect a network drive, `/persistent` – Make the connection persistent across reboots. |
-| **net view** | Displays a list of computers or network resources. | `net view \\Server` – Shows shared resources on the server named `Server`. | `/domain` – List domains or computers in a domain. |
-| **net accounts** | Displays or modifies password and logon policies for user accounts. | `net accounts /maxpwage:90` – Set maximum password age to 90 days. | `/forcelogoff` – Force logoff after inactivity, `/minpwlen` – Set minimum password length. |
-| **net statistics** | Displays statistics for network services like Workstation or Server. | `net statistics workstation` – View workstation statistics. | Specify `workstation` or `server` for different stats. |
-| **net print** | Displays or manages print jobs on a network printer. | `net print \\Server\Printer` – View print jobs on a shared printer. | `/delete` – Remove a print job. |
-| **net file** | Displays open files on a network and allows closing them. | `net file` – View open files. | `/close` – Close an open file. |
-| **net group** | Manages global groups on a domain. | `net group "IT Admins" /add` – Creates a new global group named "IT Admins". | `/delete` – Remove a group, `/add` – Create a new group. |
-| **net time** | Synchronizes the system clock with a network time server. | `net time \\Server /set /yes` – Sync time with `Server`. | `/querysntp` – Query the SNTP time server. |
-
-### Sysinternals
-
-If you don't know about Mark Russinovich's amazing tools then you should go and check them out. There are many, many use cases for these tools: from enumeration, persistence, threat-hunting, to ordinary system administration. While they are not built into the operating system (though they should be!), these tools are maintained and offered directly from Microsoft at [https://docs.microsoft.com/en-us/sysinternals/](https://docs.microsoft.com/en-us/sysinternals/).
-
-Red-teamers and penetration testers can leverage Sysinternals tools for enumeration, privilege escalation, and lateral movement. This table includes a few of the Sysinternals tools useful for offensive security:
-
-| Tool | Description | Example Use Case | Cyber Kill Chain Phase |
-|------|------------|------------------|------------------------|
-| **PsExec** | Executes processes remotely on another system. | Used for lateral movement by executing commands on remote hosts. | **Lateral Movement** |
-| **AccessChk** | Checks user permissions for files, registry keys, and objects. | Identify privilege escalation opportunities by analyzing access control settings. | **Privilege Escalation** |
-| **ProcMon (Process Monitor)** | Captures real-time system activity, including file, registry, and network events. | Monitor security controls and detect potential weaknesses in endpoint defenses. | **Exploitation** |
-| **TCPView** | Monitors active TCP/UDP connections in real time. | Identify open ports and active connections for reconnaissance. | **Reconnaissance** |
-| **Autoruns & Autorunsc** | Displays all auto-start programs, services, and registry entries. | Find persistence mechanisms used by malware or adversaries. | **Persistence** |
-| **Handle** | Lists open handles to files, registry keys, and other system objects. | Investigate (i.e. unlock) locked files that may contain sensitive data or credentials. | **Credential Access** |
-| **ListDLLs** | Displays loaded DLLs for running processes. | Identify DLL injection opportunities for stealthy code execution (i.e. Running malware) | **Defense Evasion** |
-| **SigCheck** | Verifies digital signatures of files. | Detect unsigned or tampered executables that may be malicious. | **Execution** |
-| **Strings** | Extracts readable text from binary files. | Analyze malware binaries for embedded commands or indicators of compromise. | **Reconnaissance** |
-| **PsSuspend** | Suspends processes without terminating them. | Disable security tools temporarily during red-team operations. | **Defense Evasion** |
-
-- A full list of the current tools can be found [here](https://learn.microsoft.com/en-us/sysinternals/downloads/).
-- Sysinternals tools can be linked to directly and run in-memory from [https://live.sysinternals.com/](https://live.sysinternals.com/)
-    - This command maps the current full list of Sysinternals tools to the first available drive letter as a network share, ready for use!
-    ```powershell
-    net use * //live.sysinternals.com
-    ```
+These utilities complement command‑line tools by offering quick, user‑friendly ways to maintain system health. Windows maintains both classic and modern utilities so users can choose the right tool for the task. Command‑line tools excel at automation and repeatable workflows, while graphical tools simplify diagnostics and configuration. Power users often combine both—running scripts for routine tasks and launching built‑in utilities for deeper troubleshooting.
 
 ---
 
@@ -1377,9 +765,9 @@ By understanding the different filesystems tools available in Windows, users can
 
 ### NTFS File Attributes
 
-Windows **file attributes** are metadata properties assigned to files and folders that define their **visibility, accessibility, and behavior**. These attributes help control **read/write access, security settings, and system file classifications**.
+Windows **file attributes** are metadata properties assigned to files and folders that define their visibility, accessibility, and behavior. These attributes help control read/write access, security settings, and system file classifications.
 
-File attributes can be **modified using built-in commands** like `attrib` in `cmd.exe` or PowerShell. Some attributes, such as **Read-Only and Hidden**, are commonly used for **file protection and organizational purposes**, while system attributes ensure that essential files are safeguarded from accidental modifications.
+File attributes can be **modified using built-in commands** like `attrib` in **cmd.exe** or `Set-ItemProperty` in **PowerShell**. Some attributes, such as **Read-Only and Hidden**, are commonly used for file protection and organizational purposes, while system attributes ensure that essential files are safeguarded from accidental modifications.
 
 Here is a list of the most common Windows file attributes: 
 
@@ -1680,9 +1068,36 @@ $acl | Set-Acl -Path $path
 
 ### Windows Rights 
 
-TODO: finish this: Add explanation of what Rights are and how they differ from Permissions
+Rights (also called user rights or privileges) define what actions a user can perform on the system, not on individual files. These include abilities such as logging on locally, shutting down the system, backing up files, or changing the system time. Rights are managed through Local Security Policy and Group Policy, and they apply at the OS level rather than the object level.
 
-Valid settings for Rights are as follows:
+Examples of rights include:
+- Log on locally
+- Shut down the system
+- Back up files and directories
+- Change the system time
+
+Rights determine the level of authority a user has when interacting with the operating system itself. They are distinct from permissions and can override or limit what permissions allow. Rights determine the level of authority when working in the system, while permissions govern access to specific resources.
+
+#### How rights differ from permissions
+
+Although both are part of Windows access control, they operate at different layers:
+
+- Scope
+  - Permissions apply to objects (files, folders, registry keys).
+  - Rights apply to system‑level actions (logon, shutdown, backup).
+- Where they are configured
+  - Permissions are set on the object itself through ACLs.
+  - Rights are assigned through Local Security Policy or Group Policy.
+- Who controls them
+  - Permissions are granted by the object’s owner.
+  - Rights are granted by administrators and apply to users or groups.
+- Effect on access
+  - Permissions determine whether a user can read, write, or modify a resource.
+  - Rights determine whether a user can perform privileged system operations.
+- Interaction
+  - Rights can take precedence over permissions. For example, the “Back up files and directories” right allows reading files regardless of their permissions, because backup operations bypass normal ACL checks.
+
+### Common settings for Rights:
 
 | Setting                      | Description                                                                                                                                                                                                                                                                          |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -1710,7 +1125,7 @@ Valid settings for Rights are as follows:
 | WriteData                    | Specifies the right to open and write to a file or folder. This does not include the right to open and write file system attributes, extended file system attributes, or access and audit rules.                                                                                     |
 | WriteExtendedAttributes      | Specifies the right to open and write extended file system attributes to a folder or file. This does not include the ability to write data, attributes, or access and audit rules.                                                                                                   |
 
-#### Valid Inherit settings:
+#### Inherit settings:
 
 | Setting          | Description                                      |
 | ---------------- | ------------------------------------------------ |
@@ -1722,7 +1137,7 @@ Valid settings for Rights are as follows:
 Set the **`$InheritSettings`** to **`None`** if targeting a file instead of a folder.
 {% endhint %}
 
-#### Valid Propagation Settings: 
+#### Propagation Settings: 
 
 | Setting            | Description                                                                                                      |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- |
@@ -1730,42 +1145,164 @@ Set the **`$InheritSettings`** to **`None`** if targeting a file instead of a fo
 | None               | Specifies that no inheritance flags are set.                                                                     |
 | NoPropagateInherit | Specifies that the ACE is not propagated to child objects.                                                       |
 
-
+---
 
 ## Shared Folders/SMB
 
-TODO: add descriptions, to include short description of how permissions differ from standard NTFS, and link to above section
+Windows shared folders rely on the **SMB/CIFS** family of protocols to let users access files, printers, and other resources over a network. Understanding how SMB works, and how **share permissions** differ from **NTFS permissions**, is essential for anyone managing Windows environments.
 
-TODO: add powershell examples of these
+### How Windows shared folders work
+
+A Windows shared folder is any local directory that has been published to the network so other users can access it. When a folder is shared, Windows exposes it through the **Server Message Block (SMB)** protocol, which handles authentication, file access, and communication between clients and servers.
+
+Shared folders are commonly used for:
+
+- Centralized file storage  
+- Departmental shares  
+- Home directories  
+- Application data shares  
+- Printer and device sharing  
+
+Windows manages these shares through the **Server service**, and clients connect using SMB.
+
+### SMB and CIFS
+
+**SMB (Server Message Block)** is the core network file‑sharing protocol used by Windows. **CIFS (Common Internet File System)** is an older dialect of SMB, essentially **SMB 1.0**, that Microsoft introduced in the 1990s. Modern Windows systems use SMB 2.x and SMB 3.x, which offer major improvements in performance, security, and reliability.
+
+Protocol overview:
+- SMB is a **client–server** protocol used for file access, directory operations, printing, and network browsing.  
+- CIFS is a **specific dialect** of SMB, now considered obsolete.  
+- SMB supports features such as dialect negotiation, authentication, file locking, change notifications, and opportunistic locks. 
+
+Modern security guidance strongly discourages CIFS/SMBv1 because it lacks encryption, integrity protection, and is vulnerable to downgrade and man‑in‑the‑middle attacks. 
+
+### How permissions work on shared folders
+
+Windows uses **two layers of permissions** for shared folders:
+
+#### 1. Share permissions
+
+These apply only when accessing a folder **over the network** (via SMB). They are simple and coarse‑grained:
+- Read  
+- Change  
+- Full Control  
+
+Share permissions are evaluated first and act as a **gatekeeper** for network access.
+
+### 2. NTFS permissions
+
+These apply to both **local** and **network** access. They are far more granular, supporting:
+- Read  
+- Write  
+- Modify  
+- Full Control  
+- Special permissions (delete, traverse, read attributes, etc.)
+
+See [NTFS Permissions section](#ntfs-permissions) above for more details.
+
+NTFS permissions are evaluated **after** share permissions.
+
+### How share permissions differ from NTFS permissions
+
+The two permission systems combine to determine the final effective access. Their differences matter for both administration and security.
+
+### Scope
+- **Share permissions**: Only apply to SMB network access.  
+- **NTFS permissions**: Apply everywhere—local and remote.
+
+### Granularity
+- **Share permissions**: Simple, three‑level model.  
+- **NTFS permissions**: Highly granular and hierarchical.
+
+### Evaluation order
+
+1. Share permissions  
+2. NTFS permissions  
+
+The **most restrictive** permission always wins.
+
+### Common best practice
+
+Administrators often set share permissions to **Everyone: Full Control** and rely entirely on NTFS permissions for fine‑grained control. This avoids confusion and ensures consistent access rules.
 
 {% tabs %}
 {% tab title="cmd.exe" %}
 
 ### Mount a remote CIFS/SMB share
 
-```cmd
+```bat
 net use z: \\$ip\$sharename
 #Adding /persistent:yes will make this survive reboots.
 ```
 
 A great example is to mount the Sysinternals Live drive to use the tools directly from Microsoft:
 
-```cmd
+```bat
 net use z: \live.sysinternals.com\tools\ /persistent:yes
 ```
 
-The `/persistent:yes` argument makes the system add this permanently to the registry and reconnect to the same drive letter each time the comper boots.
+The `/persistent:yes` argument makes the system add this permanently to the registry and reconnect to the same drive letter each time the computer boots.
+
+### Map drive with credentials
+
+```bat
+net use z: \\server\share /user:DOMAIN\User
+```
+
+### List all current SMB mappings
+
+```bat
+net use
+```
 
 ### To remove a previously mounted share:
 
-```cmd
+```bat
 net use z: /delete
 ```
 
 {% endtab %}
 {% tab title="PowerShell" %}
 
-TODO: Powershell shares commands
+### Mount a remote CIFS/SMB share
+
+```powershell
+New-SmbMapping -LocalPath "Z:" -RemotePath "\\$ip\$sharename"
+```
+
+Adding `-Persistent $true` will make this survive reboots.
+
+```powershell
+New-SmbMapping -LocalPath "Z:" -RemotePath "\\server\share" -Persistent $true
+```
+
+A great example is to mount the Sysinternals Live drive to use the tools directly from Microsoft:
+
+```powershell
+New-SmbMapping -LocalPath "Z:" -RemotePath "\\live.sysinternals.com\tools" -Persistent $true
+```
+
+The `/persistent:yes` argument makes the system add this permanently to the registry and reconnect to the same drive letter each time the computer boots.
+
+### Map drive with credentials
+
+```powershell
+New-SmbMapping -UserName $user -Password $pass
+```
+
+### To remove a previously mounted share:
+
+```powershell
+Remove-SmbMapping -LocalPath "Z:" -Force
+```
+
+`-Force` suppresses confirmation prompts.
+
+### List all current SMB mappings
+
+```powershell
+Get-SmbMapping
+```
 
 {% endtab %}
 {% endtabs %}
@@ -1776,52 +1313,75 @@ TODO: Powershell shares commands
 
 The command `set` will display all current environment variables and their values in cmd.exe. In PowerShell use `Get-ChildItem env:` (or one of its aliases!) to list environment variables.
 
-Many of the environment variables in the cmd.exe column can be used in other places inside Windows as well, such as the Address Bar of a browser or Explorer window.
+Many of the environment variables in the cmd.exe column can be used in other places inside Windows as well, such as the **Address Bar** of a browser or **Explorer** window.
 
 You can find more about Windows environment variables on the [PowerShell page](powershell.md#environment-variables).
 
 Below is a comparison between the environment variables used in PowerShell versus those used in the classic cmd.exe environment (which are also used in many other places throughout Windows, such as Task Scheduler, Event logs, and more).
 
-| Meaning                                           | PowerShell                      | cmd.exe                      |
-| ------------------------------------------------- | ------------------------------- | ---------------------------- |
-| C:\ProgramData                                    | $env:ALLUSERSPROFILE            | %ALLUSERSPROFILE%            |
-| Current User's AppData\Roaming Folder             | $env:APPDATA                    | %APPDATA%                    |
-| C:\Program Files\Common Files                     | $env:CommonProgramFiles         | %CommonProgramFiles%         |
-| C:\Program Files (x86)\Common Files               | $env:CommonProgramFiles(x86)    | %CommonProgramFiles(x86)%    |
-| C:\Program Files\Common Files                     | $env:CommonProgramW6432         | %CommonProgramW6432%         |
-| Computer Name                                     | $env:COMPUTERNAME               | %COMPUTERNAME%               |
-| C:\WINDOWS\system32\cmd.exe                       | $env:ComSpec                    | %ComSpec%                    |
-| C:\Windows\System32\Drivers\DriverData            | $env:DriverData                 | %DriverData%                 |
-| C:                                                | $env:HOMEDRIVE                  | %HOMEDRIVE%                  |
-| Current User's home folder                        | $env:HOMEPATH                   | %HOMEPATH%                   |
-| Current User's AppData\Local folder               | $env:LOCALAPPDATA               | %LOCALAPPDATA%               |
-| UNC Path of Logon Server                          | $env:LOGONSERVER                | %LOGONSERVER%                |
-| Number of Processor (cores)                       | $env:NUMBER\_OF\_PROCESSORS     | %NUMBER\_OF\_PROCESSORS%     |
-| Current User's Onedrive folder                    | $env:OneDrive                   | %OneDrive%                   |
-| Current User's Onedrive folder                    | $env:OneDriveConsumer           | %OneDriveConsumer%           |
-| Operating System Family                           | $env:OS                         | %OS%                         |
-| PATH to search when unspecified                   | $env:Path                       | %Path%                       |
-| File Extensions that Windows will search PATH for | $env:PATHEXT                    | %PATHEXT%                    |
-| Processor Architecture                            | $env:PROCESSOR\_ARCHITECTURE    | %PROCESSOR\_ARCHITECTURE%    |
-| Processor ID                                      | $env:PROCESSOR\_IDENTIFIER      | %PROCESSOR\_IDENTIFIER%      |
-| Processor Level                                   | $env:PROCESSOR\_LEVEL           | %PROCESSOR\_LEVEL%           |
-| Processor Revision                                | $env:PROCESSOR\_REVISION        | %PROCESSOR\_REVISION%        |
-| C:\ProgramData                                    | $env:ProgramData                | %ProgramData%                |
-| C:\Program Files                                  | $env:ProgramFiles               | %ProgramFiles%               |
-| C:\Program Files (x86)                            | $env:ProgramFiles(x86)          | %ProgramFiles(x86)%          |
-| C:\Program Files                                  | $env:ProgramW6432               | %ProgramW6432%               |
-| PATH for PowerShell Modules                       | $env:PSModulePath               | %PSModulePath%               |
-| C:\Users\Public                                   | $env:PUBLIC                     | %PUBLIC%                     |
-| Console                                           | $env:SESSIONNAME                | %SESSIONNAME%                |
-| C:                                                | $env:SystemDrive                | %SystemDrive%                |
-| C:\WINDOWS                                        | $env:SystemRoot                 | %SystemRoot%                 |
-| Current User's AppData\Local\Temp Folder          | $env:TEMP                       | %TEMP%                       |
-| Current User's AppData\Local\Temp Folder          | $env:TMP                        | %TMP%                        |
-| Domain Name                                       | $env:USERDOMAIN                 | %USERDOMAIN%                 |
-| Roaming Profile Domain                            | $env:USERDOMAIN\_ROAMINGPROFILE | %USERDOMAIN\_ROAMINGPROFILE% |
-| User Name                                         | $env:USERNAME                   | %USERNAME%                   |
-| User Home Folder                                  | $env:USERPROFILE                | %USERPROFILE%                |
-| C:\WINDOWS                                        | $env:windir                     | %windir%                     |
+### User & Identity Variables
+
+| Meaning | PowerShell | cmd.exe |
+|--------|------------|---------|
+| User Name | `$env:USERNAME` | `%USERNAME%` |
+| Domain Name | `$env:USERDOMAIN` | `%USERDOMAIN%` |
+| Roaming Profile Domain | `$env:USERDOMAIN_ROAMINGPROFILE` | `%USERDOMAIN_ROAMINGPROFILE%` |
+| User Home Folder | `$env:USERPROFILE` | `%USERPROFILE%` |
+| Current User's home folder (path only) | `$env:HOMEPATH` | `%HOMEPATH%` |
+| Current User's AppData\Roaming Folder | `$env:APPDATA` | `%APPDATA%` |
+| Current User's AppData\Local Folder | `$env:LOCALAPPDATA` | `%LOCALAPPDATA%` |
+| Current User's AppData\Local\Temp Folder | `$env:TEMP` | `%TEMP%` |
+| Current User's AppData\Local\Temp Folder | `$env:TMP` | `%TMP%` |
+| Current User's OneDrive folder | `$env:OneDrive` | `%OneDrive%` |
+| Current User's OneDrive Consumer folder | `$env:OneDriveConsumer` | `%OneDriveConsumer%` |
+| UNC Path of Logon Server | `$env:LOGONSERVER` | `%LOGONSERVER%` |
+
+### Directories & File System Locations
+
+| Meaning | PowerShell | cmd.exe |
+|--------|------------|---------|
+| C:\ProgramData | `$env:ALLUSERSPROFILE` | `%ALLUSERSPROFILE%` |
+| C:\ProgramData | `$env:ProgramData` | `%ProgramData%` |
+| C:\Users\Public | `$env:PUBLIC` | `%PUBLIC%` |
+| C:\Program Files | `$env:ProgramFiles` | `%ProgramFiles%` |
+| C:\Program Files (x86) | `$env:ProgramFiles(x86)` | `%ProgramFiles(x86)%` |
+| C:\Program Files | `$env:ProgramW6432` | `%ProgramW6432%` |
+| C:\Program Files\Common Files | `$env:CommonProgramFiles` | `%CommonProgramFiles%` |
+| C:\Program Files (x86)\Common Files | `$env:CommonProgramFiles(x86)` | `%CommonProgramFiles(x86)%` |
+| C:\Program Files\Common Files | `$env:CommonProgramW6432` | `%CommonProgramW6432%` |
+| C:\Windows | `$env:windir` | `%windir%` |
+| C:\Windows | `$env:SystemRoot` | `%SystemRoot%` |
+| C:\Windows\System32\Drivers\DriverData | `$env:DriverData` | `%DriverData%` |
+| C:\ (system drive) | `$env:SystemDrive` | `%SystemDrive%` |
+| C:\ (home drive) | `$env:HOMEDRIVE` | `%HOMEDRIVE%` |
+
+### System Properties & OS Information
+
+| Meaning | PowerShell | cmd.exe |
+|--------|------------|---------|
+| Operating System Family | `$env:OS` | `%OS%` |
+| Computer Name | `$env:COMPUTERNAME` | `%COMPUTERNAME%` |
+| Console Session Name | `$env:SESSIONNAME` | `%SESSIONNAME%` |
+| C:\WINDOWS\system32\cmd.exe | `$env:ComSpec` | `%ComSpec%` |
+
+### Processor & Hardware Information
+
+| Meaning | PowerShell | cmd.exe |
+|--------|------------|---------|
+| Number of Processor Cores | `$env:NUMBER_OF_PROCESSORS` | `%NUMBER_OF_PROCESSORS%` |
+| Processor Architecture | `$env:PROCESSOR_ARCHITECTURE` | `%PROCESSOR_ARCHITECTURE%` |
+| Processor ID | `$env:PROCESSOR_IDENTIFIER` | `%PROCESSOR_IDENTIFIER%` |
+| Processor Level | `$env:PROCESSOR_LEVEL` | `%PROCESSOR_LEVEL%` |
+| Processor Revision | `$env:PROCESSOR_REVISION` | `%PROCESSOR_REVISION%` |
+
+### Execution, PATH, and Module Search Paths
+
+| Meaning | PowerShell | cmd.exe |
+|--------|------------|---------|
+| PATH to search when unspecified | `$env:Path` | `%Path%` |
+| File Extensions Windows searches for | `$env:PATHEXT` | `%PATHEXT%` |
+| PATH for PowerShell Modules | `$env:PSModulePath` | `%PSModulePath%` |
+
 
 ---
 
