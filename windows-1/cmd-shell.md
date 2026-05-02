@@ -72,32 +72,34 @@ Command chaining allows you to execute multiple commands in sequence, controllin
 - Parentheses require careful quoting and spacing, especially in batch files.
 - Some commands may not set `ERRORLEVEL` as expected; always test your chains for reliability.
 
-- **Wildcards and Pattern Matching**: Wildcards are special characters used in `cmd.exe` to match multiple files or directories based on patterns. They are essential for batch operations and flexible file management.
+#### Wildcards and Pattern Matching
 
-  - `*` (asterisk): Matches zero or more characters in a file or directory name.
-    - Example: `del *.txt` deletes all files ending with `.txt` in the current directory.
-    - Example: `copy project*.* D:\Backup\` copies all files starting with "project" to the backup folder.
-  - `?` (question mark): Matches exactly one character in a file or directory name.
-    - Example: `dir file?.log` lists files like `file1.log`, `fileA.log`, but not `file10.log`.
-    - Example: `del report??.docx` deletes files like `report01.docx`, `reportAB.docx`, but not `report1.docx`.
+Wildcards are special characters used in `cmd.exe` to match multiple files or directories based on patterns. They are essential for batch operations and flexible file management.
 
-  **Usage Tips:**
-  - Wildcards can be used with most file management commands: `dir`, `del`, `copy`, `move`, `ren`, etc.
-  - You can combine wildcards for more complex patterns, e.g., `*.b??` matches files with a `.b` extension followed by any two characters.
-  - Wildcards do not match directory separators (`\`), so patterns only apply within a single directory level.
-  - In batch scripts, wildcards can be used with `for` loops:
-    ```bat
-    for %f in (*.log) do echo %f
-    ```
-    This echoes the name of each `.log` file in the current directory.
+- `*` (asterisk): Matches zero or more characters in a file or directory name.
+  - Example: `del *.txt` deletes all files ending with `.txt` in the current directory.
+  - Example: `copy project*.* D:\Backup\` copies all files starting with "project" to the backup folder.
+- `?` (question mark): Matches exactly one character in a file or directory name.
+  - Example: `dir file?.log` lists files like `file1.log`, `fileA.log`, but not `file10.log`.
+  - Example: `del report??.docx` deletes files like `report01.docx`, `reportAB.docx`, but not `report1.docx`.
 
-  **Limitations:**
-  - Wildcards do not match hidden or system files unless the command explicitly includes them (e.g., `dir /a`).
-  - Pattern matching is case-insensitive by default in Windows.
+**Usage Tips:**
+- Wildcards can be used with most file management commands: `dir`, `del`, `copy`, `move`, `ren`, etc.
+- You can combine wildcards for more complex patterns, e.g., `*.b??` matches files with a `.b` extension followed by any two characters.
+- Wildcards do not match directory separators (`\`), so patterns only apply within a single directory level.
+- In batch scripts, wildcards can be used with `for` loops:
+  ```bat
+  for %f in (*.log) do echo %f
+  ```
+  This echoes the name of each `.log` file in the current directory.
 
-  For more advanced pattern matching (including regular expressions), use the `findstr` command.
+**Limitations:**
+- Wildcards do not match hidden or system files unless the command explicitly includes them (e.g., `dir /a`).
+- Pattern matching is case-insensitive by default in Windows.
 
-##### **Input/Output Streams and Redirection**
+For more advanced pattern matching (including regular expressions), use the `findstr` command.
+
+#### **Input/Output Streams and Redirection**
 
 Input/output (I/O) streams in `cmd.exe` allow you to control how commands receive input and where their output goes. This is essential for automation, scripting, and error handling.
 
@@ -356,23 +358,23 @@ Windows **cmd.exe built-in commands** provide essential functionality for managi
 
 Unlike Unix-based systems, Windows `cmd.exe` does not have traditional **`man` pages** for commands. Instead, Windows provides several methods to get help with command-line tools.
 
-1. **Using the `help` command**  
-   - Simply type `help` in the Command Prompt to see a **list of built-in commands**.  
-   - To get help on a specific command:  
-     ```bat
-     help dir
-     ```
-     This will display basic information about the `dir` command.
+#### Using the `help` command
+- Simply type `help` in the Command Prompt to see a **list of built-in commands**.  
+- To get help on a specific command:  
+  ```bat
+  help dir
+  ```
+  This will display basic information about the `dir` command.
 
-2. **Using `command /?` for detailed help**  
-   - Many commands support the `/?` flag, which provides more detailed usage instructions and available options.  
-     ```bat
-     dir /?
-     ```
-     This will list **all available parameters** for the `dir` command.
-   - Some commands will even support this with `-?` in addition.  Windows commands do not all follow POSIX standardization.
+#### Using `command /?` for detailed help
+- Many commands support the `/?` flag, which provides more detailed usage instructions and available options.  
+  ```bat
+  dir /?
+  ```
+  This will list **all available parameters** for the `dir` command.
+- Some commands will even support this with `-?` in addition.  Windows commands do not all follow POSIX standardization.
 
-3. **Checking Microsoft Docs (Online Documentation)**  
-   - Microsoft provides extensive official documentation on Windows commands via **Microsoft Learn**.  
-   - For example, the `dir` command documentation can be found at:  
-     [https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir)
+#### Checking Microsoft Docs (Online Documentation)
+- Microsoft provides extensive official documentation on Windows commands via **Microsoft Learn**.  
+- For example, the `dir` command documentation can be found at:  
+  [https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir)
