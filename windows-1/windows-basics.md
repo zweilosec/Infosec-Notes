@@ -1387,18 +1387,38 @@ Below is a comparison between the environment variables used in PowerShell versu
 
 ## **Explorer Navigation**
 
-TODO: add description about how to navigate using the gui more efficiently
+You can move around the Windows interface much more efficiently by combining a few habits: mastering core keyboard shortcuts, organizing your workspace, and using built‑in navigation tools. 
+
+| Category | Key Techniques | Description |
+| --- | --- | --- |
+| **Core Keyboard Shortcuts** | Alt + Tab | Quickly switches between open applications without using the mouse. |
+|  | Windows + D | Shows or hides the desktop, minimizing all open windows. |
+|  | Ctrl + Shift + Esc | Opens Task Manager directly for performance monitoring or terminating processes. |
+|  | Windows + L | Locks the workstation immediately for security. |
+| **File Explorer Efficiency** | Quick Access Pinning | Allows frequently used folders to be pinned to the sidebar for fast access. |
+|  | Windows + E | Opens File Explorer instantly, reducing navigation time. |
+|  | Direct Path Entry | Users can type file paths or environment variables directly into the address bar. |
+|  | Search Filters | Supports queries such as ``*.pdf``, ``date:today``, or ``kind:music`` to locate files quickly. |
+| **Start Menu & Taskbar Optimization** | Pinning Applications | Frequently used applications can be pinned to the Start Menu or Taskbar for one‑click access. |
+|  | Start Menu Search | Pressing the Windows key enables immediate search for apps, files, or settings. |
+|  | Jump Lists | Right‑clicking a Taskbar icon reveals recent files and app‑specific shortcuts. |
+| **Desktop Organization** | Minimalist Layout | Reducing desktop clutter improves visibility and navigation efficiency. |
+|  | Folder Categorization | Grouping related shortcuts or files into folders keeps the workspace structured. |
+|  | Auto‑Arrange Options | Desktop icons can be auto‑aligned or sorted for consistency. |
+| **Multitasking Tools** | Snap Assist | Enables fast window tiling by dragging windows to screen edges or using Windows + Arrow keys. |
+|  | Task View | Displays all open windows and supports virtual desktop management. |
+|  | Virtual Desktops | Allows separation of workspaces using Windows + Ctrl + D to create and Windows + Ctrl + Arrow to switch. |
 
 ### Shortcuts
 
-TODO: Description of explorer shortcuts
+Keyboard shortcuts provide the fastest way to navigate Windows without relying on the mouse. They streamline common actions such as switching applications, accessing the desktop, opening Task Manager, and locking the workstation. Mastering these shortcuts significantly reduces navigation time and improves overall workflow efficiency, especially in environments where rapid context switching is required.
 
 | **Shortcut**            | **Action**                                   |
 |--------------------------|---------------------------------------------|
+| **Windows+E**           | Open File Explorer.                         |
 | **CTRL+N**              | Open a new Explorer window.                 |
 | **CTRL+R**              | Refresh the current Explorer window.        |
 | **CTRL+SHIFT+ESC**      | Open Task Manager.                          |
-| **Windows+E**           | Open File Explorer.                         |
 | **CTRL+L**              | Focus on the address bar.                   |
 | **CTRL+O**              | Open the File/Open dialog.                  |
 | **CTRL+P**              | Open the Print dialog.                      |
@@ -1425,30 +1445,87 @@ TODO: Description of explorer shortcuts
 
 For a full list, check out the official Microsoft documentation [here](https://support.microsoft.com/en-us/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec)
 
+### Start Menu & Taskbar Optimization
+
+The Start Menu and Taskbar serve as central access points for applications, settings, and system tools. Customizing these areas by pinning frequently used applications, organizing Start Menu tiles, and leveraging search functionality reduces the time required to launch programs. Taskbar jump lists further enhance efficiency by providing quick access to recent files and contextual shortcuts.
+
+| Feature | Action |
+| --- | --- |
+| **Pin to Start/Taskbar** | Right‑click an app -> *Pin*. |
+| **Windows Key Search** | Press <Windows Key> -> type app, file, or setting name. |
+| **Taskbar Jump Lists** | Right‑click a Taskbar icon for recent items. |
+| **Start Menu Folders** | Drag tiles together to group them. |
+
+### Multitasking Tools
+
+Windows includes several built‑in multitasking features that improve workflow efficiency by simplifying window management. **Snap Assist** enables quick tiling of windows, **Task View** provides an overview of all open applications, and **virtual desktops** allow users to separate workspaces by task or project. These tools help maintain focus and reduce screen clutter during complex workflows.
+
+| Feature | Action |
+| --- | --- |
+| **Snap Assist** | Drag window to screen edge or use [Windows + Arrow keys]. |
+| **Maximize/Restore** | [Windows + Up] / [Windows + Down]. |
+| **Task View** | [Windows + Tab] to view all open windows. |
+| **New Virtual Desktop** | Windows + Ctrl + D. |
+| **Switch Desktops** | Windows + Ctrl + Left/Right. |
+| **Close Desktop** | Windows + Ctrl + F4. |
+
 ### **Shell URIs**
 
-TODO: add Description of shell uri's
+Windows Shell URIs (also known as Shell Commands or Shell Namespace Extensions) provide direct access to system locations, configuration panels, and administrative tools without navigating through the graphical interface. These URIs can be executed from the Run dialog, File Explorer, shortcuts, scripts, or command-line environments to streamline system management tasks. One notable example is the "God Mode" folder, a special Shell Namespace view that exposes hundreds of Control Panel items in a single, consolidated interface. Shell URIs are especially useful for administrators and power users who require rapid access to deep system settings.
 
-* `shell:Administrative Tools`
-* `shell:DocumentsLibrary`
-* `shell:Libraries`
-* `shell:UserProfiles`
-* `shell:Personal`
-* `shell:SearchHomeFolder`
-* `shell:NetworkPlacesFolder`
-* `shell:SendTo`
-* `shell:UserProfiles`
-* `shell:Common Administrative Tools`
-* `shell:MyComputerFolder`
-* `shell:InternetFolder`
-* `Shell:Profile`
-* `Shell:ProgramFiles`
-* `Shell:System`
-* `Shell:ControlPanelFolder`
-* `Shell:Windows`
-* `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Control Panel
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> This PC/My Computer
-* `shell:::{208D2C60-3AEA-1069-A2D7-08002B30309D}` --> Network Places
+| Category | Shell URI / Feature | Description |
+| --- | --- | --- |
+| **User & Profile Locations** | **shell:Profile** | Opens the current user's profile directory. |
+|  | **shell:UserProfiles** | Opens the User Profiles directory (`C:\\Users`). |
+|  | **shell:Personal** | Opens the user's Documents folder. |
+|  | **shell:DocumentsLibrary** | Opens the Documents library view. |
+|  | **shell:Libraries** | Opens the Libraries root folder. |
+|  | **shell:Downloads** | Opens the Downloads folder. |
+|  | **shell:Recent** | Opens the Recent Items folder. |
+| **Administrative & System Tools** | **shell:Administrative Tools** | Opens the user‑specific Administrative Tools folder. |
+|  | **shell:Common Administrative Tools** | Opens the system‑wide Administrative Tools folder. |
+|  | **shell:ControlPanelFolder** | Opens the classic Control Panel interface. |
+|  | **shell:PrintersFolder** | Opens the Printers & Scanners management interface. |
+|  | **shell:SearchHomeFolder** | Opens the Windows Search home interface. |
+| **System Directories** | **shell:Windows** | Opens the Windows directory. |
+|  | **shell:System** | Opens the System32 directory. |
+|  | **shell:ProgramFiles** | Opens the Program Files directory. |
+|  | **shell:ProgramFilesX86** | Opens the 32‑bit Program Files directory. |
+| **System Root Objects / Virtual Folders** | **shell:MyComputerFolder** | Opens "This PC" with drives and system locations. |
+|  | **shell:AppsFolder** | Displays all installed applications (UWP + Win32). |
+|  | **shell:InternetFolder** | Opens the Internet Explorer folder (legacy). |
+| **Network & Sharing** | **shell:NetworkPlacesFolder** | Opens the Network view for browsing network devices and shares. |
+| **Startup & Automation** | **shell:Startup** | Opens the user's Startup folder. |
+|  | **shell:Common Startup** | Opens the system‑wide Startup folder. |
+| **Customization & Context Menu** | **shell:SendTo** | Opens the Send To folder for customizing right‑click menu destinations. |
+
+#### CLSID Folders
+
+CLSID folders (also known as GUID shell folders) are special type of Shell URI identified by globally unique identifiers (GUIDs). These folders provide direct access to system components, virtual folders, and administrative interfaces that may not exist as traditional file system paths. CLSID folders can be invoked using the shell:::{GUID} syntax in the Run dialog, File Explorer, or shortcuts. They are commonly used by administrators and power users to access deep system functionality quickly, automate workflows, or create custom management consoles. CLSIDs also power features like the "God Mode" folder, which aggregates hundreds of Control Panel items into a single view.
+
+| CLSID / Shell Command | Description |
+| --- | --- |
+| **shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}** | Opens the classic Control Panel. |
+| **shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}** | Opens This PC / My Computer. |
+| **shell:::{208D2C60-3AEA-1069-A2D7-08002B30309D}** | Opens Network Places. |
+| **shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}** | Opens the Network Connections panel. |
+| **shell:::{645FF040-5081-101B-9F08-00AA002F954E}** | Opens the Recycle Bin. |
+| **shell:::{D20EA4E1-3957-11D2-A40B-0C5020524153}** | Administrative Tools (system). |
+| **shell:::{1F4DE370-D627-11D1-BA4F-00A0C91EEDBA}** | Opens the Recent Documents folder. |
+| **shell:::{59031A47-3F72-44A7-89C5-5595FE6B30EE}** | Opens the current user profile folder. |
+| **shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}** | Opens the Devices and Printers panel. |
+| **shell:::{BB06C0E4-D293-4f75-8A90-CB05B6477EEE}** | Opens the System Properties window. |
+| **shell:::{ED7BA470-8E54-465E-825C-99712043E01C}** | "God Mode" - All Control Panel items in one view. |
+
+##### The "God Mode" Folder
+
+The Windows "God Mode" folder is a special Shell Namespace extension that aggregates a comprehensive list of Control Panel items and administrative tools into a single, searchable interface. It does not provide additional privileges or hidden features but significantly improves accessibility by centralizing system configuration options. To use, create a new folder then name it anything followed by `.{ED7BA470-8E54-465E-825C-99712043E01C}`.
+
+- **Folder Name** - The folder can actually be any name ending with the GUID `{ED7BA470-8E54-465E-825C-99712043E01C}`
+  - **Example** - `AdminToolFolder.{ED7BA470-8E54-465E-825C-99712043E01C}`
+- **Purpose** - Exposes 200+ Control Panel and administrative tools in a single unified view.
+- **Usage** - Create a new folder on the desktop or in File Explorer and rename it using the above syntax.
+- **Notes** - Does not elevate privileges; it only consolidates existing Control Panel items.
 
 ---
 
