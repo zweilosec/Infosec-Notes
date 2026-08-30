@@ -36,6 +36,7 @@
 * [cmd.exe](windows-1/cmd-shell.md)
 * [PowerShell](windows-1/powershell.md)
 * [Hardening & Setup](windows-1/windows-hardening.md)
+* [Windows Resources](windows-1/windows-resources.md)
 * [Red Team Notes](windows-1/windows-redteam/README.md)
   * [Enumeration](windows-1/windows-redteam/enumeration.md)
   * [Getting Access](windows-1/windows-redteam/getting-access.md)
