@@ -21,6 +21,7 @@
 * [Unix Fundamentals](linux-1/unix-fundamentals.md)
 * [Hardening & Setup](linux-1/linux-hardening/README.md)
   * [TMUX/Screen Cheatsheet](linux-1/linux-hardening/tmux-screen-cheatsheet.md)
+* [Unix Resources](linux-1/linux-resources.md)
 * [Red Team Notes](linux-1/linux-redteam/README.md)
   * [Enumeration](linux-1/linux-redteam/enumeration.md)
   * [Getting Access](linux-1/linux-redteam/getting-access.md)
