@@ -1,6 +1,6 @@
 # Useful resources for Windows
 
-## 
+## Windows Forensic Artifacts
 
 | Resource | Best for | Why useful |
 |---|---|---|
@@ -8,54 +8,48 @@
 
 ## Process Identification
 
-The resources in this section can be very useful for identifying suspicious processes and services on a Windows machine.
-
-| Resource | Best for | Why useful |
-|---|---|---|
-| [Winbindex](https://winbindex.m417z.com/) | Windows binaries | Excellent for determining whether a Windows executable is legitimate and which Windows versions contain it |
-| [File.net](https://www.file.net/) | EXEs/DLLs/processes | Good quick lookup for filename, expected path, vendor, description and community information |
-| [ProcessLibrary](https://www.processlibrary.com/) | Processes/DLLs | Large process/DLL database; May help find persistence |
-| [SystemLookup](https://www.systemlookup.com/) | Startup entries | Older-looking, but surprisingly useful for researching startup entries and suspicious filenames |
-| [LOLBAS](https://lolbas-project.github.io/) | Windows built-ins | Extremely useful for determining whether a binary is a legitimate Microsoft utility that can perform unusual/suspicious actions |
-| [Microsoft Learn – Windows Internals/Sysinternals](https://learn.microsoft.com/en-us/sysinternals/) | Windows internals | Primary-source information about what Microsoft's own processes and utilities actually do |
-| [Virustotal](https://www.virustotal.com/) | EXEs/DLLs/processes | Filehash lookup service. Identify whether an executable is known good/bad |
+The resources in this section can be very useful for identifying processes on a Windows machine.
 
 
 ## Services
+
+The resources in this section can be very useful for identifying services on a Windows machine.
+
 | Resource | Best for | Why useful |
 |---|---|---|
-| https://learn.microsoft.com/en-us/windows/win32/services/database-of-installed-services | | |
+| [Windows Default Services (GitHub)](https://github.com/mentebinaria/win-default-services) | Services | Baseline of legitimate Windows services across Windows versions. |
+| [Microsoft Service Documentation](https://learn.microsoft.com/en-us/windows/win32/services/database-of-installed-services) | | |
 
 
-| **[Resource](ca://s?q=Tell_me_more_about_this_resource)** | **Useful For** | **Why It’s Useful** |
+## Scheduled Tasks
+| Resource | Best for | Why useful |
+|---|---|---|
+| [Windows Default Scheduled Tasks (GitHub)](https://github.com/mentebinaria/win-default-scheduled-tasks) | Scheduled tasks | Catalog of default tasks per Windows version; excellent for spotting malicious additions. |
+| [Microsoft Task Scheduler Reference](https://learn.microsoft.com/windows/win32/taskschd) | Scheduled tasks | Official schema + documentation for legitimate system tasks. |
+
+## Malware Triage
+
+| **Resource** | **Useful For** | **Why It’s Useful** |
 | --- | --- | --- |
-| **Winbindex** — [https://winbindex.m417z.com](https://winbindex.m417z.com) | Processes, DLLs | Lets you look up official Microsoft‑signed Windows binaries, versions, hashes, and metadata. Great for verifying legitimacy. |
-| **File.net** — [https://www.file.net](https://www.file.net) | Processes | Large catalog of common Windows processes with descriptions and legitimacy indicators. |
-| **ProcessLibrary.com** — [https://www.processlibrary.com](https://www.processlibrary.com) | Processes | Community database of Windows processes; helpful for quick “is this normal?” checks. |
-| **Should I Block It?** — [https://www.shouldiblockit.com](https://www.shouldiblockit.com) | Processes | Reputation‑based process lookup with behavioral notes and prevalence. |
-| **WinTasks Online** — ``https://www.liutilities.com/processlibrary`` [(liutilities.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fwww.liutilities.com%2Fprocesslibrary") | Processes | Older but still useful catalog of Windows processes and services. |
-| **Hybrid Analysis** — [https://www.hybrid-analysis.com](https://www.hybrid-analysis.com) | Binaries | Search any binary name or hash to see sandbox behavior, signatures, and prevalence. |
-| **Any.Run** — [https://any.run](https://any.run) | Binaries, malware behavior | Interactive sandbox results; searching a process name shows how malware families use it. |
-| **VirusTotal** — [https://www.virustotal.com](https://www.virustotal.com) | Binaries | Hash reputation, signer info, prevalence, and sandbox behavior. |
-| **Malpedia** — ``https://malpedia.caad.fkie.fraunhofer.de`` [(malpedia.caad.fkie.fraunhofer.de in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fmalpedia.caad.fkie.fraunhofer.de%2F") | Malware families | Helps map suspicious binaries to known malware families. |
-| **Microsoft Windows Services Reference** — ``https://learn.microsoft.com/windows/win32/services`` [(learn.microsoft.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Flearn.microsoft.com%2Fwindows%2Fwin32%2Fservices") | Services | Official documentation describing legitimate Windows services and expected behavior. |
-| **Microsoft Task Scheduler Reference** — ``https://learn.microsoft.com/windows/win32/taskschd`` [(learn.microsoft.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Flearn.microsoft.com%2Fwindows%2Fwin32%2Ftaskschd") | Scheduled tasks | Official schema + documentation for legitimate system tasks. |
-| **Windows Default Processes (GitHub)** — ``https://github.com/mentebinaria/win-default-processes`` [(github.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fgithub.com%2Fmentebinaria%2Fwin-default-processes") | Processes | Community‑maintained list of default Windows processes across versions. |
-| **Windows Default Services (GitHub)** — ``https://github.com/mentebinaria/win-default-services`` [(github.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fgithub.com%2Fmentebinaria%2Fwin-default-services") | Services | Baseline of legitimate Windows services across Windows versions. |
-| **Windows Default Scheduled Tasks (GitHub)** — ``https://github.com/mentebinaria/win-default-scheduled-tasks`` [(github.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fgithub.com%2Fmentebinaria%2Fwin-default-scheduled-tasks") | Scheduled tasks | Catalog of default tasks per Windows version; excellent for spotting malicious additions. |
-| **LOLBAS (Living Off The Land Binaries)** — ``https://github.com/LOLBAS-Project/LOLBAS`` [(github.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fgithub.com%2FLOLBAS-Project%2FLOLBAS") | Processes, binaries | Catalog of legitimate Windows binaries often abused by malware; helps determine if a binary is normal *and* if its usage is suspicious. |
-| **GTFOBins (Windows subset)** — [https://gtfobins.github.io](https://gtfobins.github.io) | Processes | Shows which legitimate binaries can be abused for privilege escalation or persistence. |
-| **Windows Event Log Baselines (GitHub)** — ``https://github.com/0x6d69636b/windows-event-log-baselines`` [(github.com in Bing)](https://www.bing.com/search?q="https%3A%2F%2Fgithub.com%2F0x6d69636b%2Fwindows-event-log-baselines") | Event logs | Baseline of normal Windows event logs; deviations often correlate with abnormal processes/services. |
+| [Winbindex](https://winbindex.m417z.com) | Processes, DLLs | Lets you look up official Microsoft‑signed Windows binaries, versions, hashes, and metadata. Great for verifying legitimacy. |
+| [File.net](https://www.file.net) | Processes | Large catalog of common Windows processes with descriptions and legitimacy indicators. |
+| [ProcessLibrary.com](https://www.processlibrary.com) | Processes | Community database of Windows processes; helpful for quick “is this normal?” checks. |
+| [Should I Block It?](https://www.shouldiblockit.com) | Processes | Reputation‑based process lookup with behavioral notes and prevalence. |
+| [WinTasks Online](https://www.liutilities.com/processlibrary) | Processes | Older but still useful catalog of Windows processes and services. |
+| [SystemLookup](https://www.systemlookup.com/) | Startup entries | Older-looking, but surprisingly useful for researching startup entries and suspicious filenames |
+| [Hybrid Analysis](https://www.hybrid-analysis.com) | Binaries | Search any binary name or hash to see sandbox behavior, signatures, and prevalence. |
+| [Any.Run](https://any.run) | Binaries, malware behavior | Interactive sandbox results; searching a process name shows how malware families use it. |
+| [VirusTotal](https://www.virustotal.com) | Binaries | Hash reputation, signer info, prevalence, and sandbox behavior. |
+| [Malpedia](https://malpedia.caad.fkie.fraunhofer.de) | Malware families | Helps map suspicious binaries to known malware families. |
+| [Windows Default Processes (GitHub)](https://github.com/mentebinaria/win-default-processes) | Processes | Community‑maintained list of default Windows processes across versions. |
+| [LOLBAS (Living Off The Land Binaries)](https://github.com/LOLBAS-Project/LOLBAS) | Processes, binaries | Catalog of legitimate Windows binaries often abused by malware; helps determine if a binary is normal *and* if its usage is suspicious. |
+| [GTFOBins (Windows subset)](https://gtfobins.github.io) | Processes | Shows which legitimate binaries can be abused for privilege escalation or persistence. |
+| [Windows Event Log Baselines (GitHub)](https://github.com/0x6d69636b/windows-event-log-baselines) | Event logs | Baseline of normal Windows event logs; deviations often correlate with abnormal processes/services. |
+|  [wikidll.com](https://wikidll.com) | dlls | Lists some native dlls on Windows - may be incomplete (Use an add blocker!) |
 
+# Windows Malware Triage Flowchart (Lookup‑Only)
 
-Here’s a **clean, visual, lookup‑focused triage flowchart** you can use when investigating a suspicious Windows process, service, scheduled task, or binary — **without running anything on the machine**.
-
-I’m giving you a **flowchart-style decision tree**, optimized for fast malware triage.  
-Every step includes **Guided Links** so you can jump deeper into any part of the workflow.
-
----
-
-# 🔍 Windows Malware Triage Flowchart (Lookup‑Only)
+Below is a **triage flowchart** you can use when investigating a suspicious Windows process, service, scheduled task, or binary - **without running anything on the machine**.
 
 ---
 

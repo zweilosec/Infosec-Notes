@@ -155,9 +155,6 @@ Look for:
 - Network C2 behavior  
 
 ---
-
-
-
 -----
 
 {% hint style="danger" %}
