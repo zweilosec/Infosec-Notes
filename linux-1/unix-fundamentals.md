@@ -624,6 +624,13 @@ chmod ug+rw,o=r $file
 
 ### **Directory Permissions**
 
+#### What each permission means on a directory
+
+- **r (read)** - allows listing names in the directory.
+- **w (write)** - allows creating, deleting, or renaming entries inside the directory.
+- **x (execute / search)** - allows entering the directory and accessing items by name.
+- You need **x** to do almost anything inside a directory.
+
 | Permission | List directory (ls) | Enter directory (cd) | Create files | Delete/rename files | Access file by name |
 | :---: | :---: | :---: | :---: | :---: | :---: |
 | **❌** | ❌ | ❌ | ❌ | ❌ | ❌ |
