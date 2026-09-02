@@ -1,7 +1,6 @@
 ---
 description: >-
-  A collection of useful programs and configurations for getting your home box
-  set up for pre-engagement use.
+  An overview of Unix security tools and hardening steps taken on Unix systems.
 ---
 
 # Hardening & Setup
@@ -120,7 +119,9 @@ The boot directory contains important files related to the Linux kernel, so you 
       1. `sed -i "/SINGLE/s/sushell/sulogin/" /etc/sysconfig/init`
       2. `sed -i "/PROMPT/s/yes/no/" /etc/sysconfig/init`
 
-## Monitoring and Logging
+# Monitoring and Logging
+
+The following are common monitoring and logging tools and configurations you will encounter on Unix systems.
 
 [https://kali.training/topic/monitoring-and-logging/](https://kali.training/topic/monitoring-and-logging/) TODO: add more info tripwire [https://kali.training/topic/exercise-7-3-securing-the-kali-file-system/](https://kali.training/topic/exercise-7-3-securing-the-kali-file-system/) checksecurity chkrootkit/rkhunter
 
