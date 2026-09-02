@@ -563,16 +563,16 @@ chmod [permissions] $file
 
 In octal notation, the permissions are assigned using triple octal (base8) digits. The first digit is the cumulative permissions for the owner, the second for the group, and the third for everyone else.
 
-| Permissions | Binary notation | Octal notation | Description                 |
-| ----------- | --------------- | -------------- | --------------------------- |
-| `---`       | 000             | 0              | No permissions              |
-| `--x`       | 001             | 1              | Execute permission only     |
-| `-w-`       | 010             | 2              | Write permission only       |
-| `-wx`       | 011             | 3              | Write and execute           |
-| `r--`       | 100             | 4              | Read permission only        |
-| `r-x`       | 101             | 5              | Read and execute permission |
-| `rw-`       | 110             | 6              | Read and write permission   |
-| `rwx`       | 111             | 7              | Read, write and execute     |
+| Permissions | Binary notation | Octal notation | Meaning | Description |
+| :---: | :---: | :---: | :---: | :--- |
+| `---` | 000 | 0 | No permissions | Cannot read, write, or execute |
+| `--x` | 001 | 1 | Execute only | Can run file or enter directory |
+| `-w-` | 010 | 2 | Write only | Can modify file or directory contents |
+| `-wx` | 011 | 3 | Write + execute | Modify and run file / enter directory |
+| `r--` | 100 | 4 | Read only | Can view file contents or list directory |
+| `r-x` | 101 | 5 | Read + execute | View and run file / list + enter directory |
+| `rw-` | 110 | 6 | Read + write | View and modify file or directory |
+| `rwx` | 111 | 7 | Full access | Read, write, and execute |
 
 From the above table we can easily derive :
 
@@ -621,6 +621,45 @@ To add read/write permissions for the file owner and group, while making it read
 ```bash
 chmod ug+rw,o=r $file
 ```
+
+### **Directory Permissions**
+
+| Permission | List directory (ls) | Enter directory (cd) | Create files | Delete/rename files | Access file by name |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **❌** | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **`--x`** | ❌ | ✅ | ❌ | ❌ | ✅ (if file perms allow) |
+| **`-w-`** | ❌ | ❌ | ❌* | ❌* | ❌ |
+| **`-wx`** | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **`r--`** | ✅ (names only) | ❌ | ❌ | ❌ | ❌ |
+| **`r-x`** | ✅ | ✅ | ❌ | ❌ | ✅ |
+| **`rw-`** | ✅ | ❌ | ❌* | ❌* | ❌ |
+| **`rwx`** | ✅ | ✅ | ✅ | ✅ | ✅ |
+*You cannot create/delete without x, even if w is present.
+
+Directories, despite being a file in unix, require some special considerations when regarding permissions.
+
+- Directories require `x` for almost everything.
+- Deleting files depends on directory permissions, not file permissions.
+- Reading or writing file contents depends on file permissions.
+- Listing vs accessing are separate: `r` lists, `x` accesses.
+
+#### How Directory and File Permissions Interact
+
+To read a file inside a directory you need both:
+- Directory: x (to access the file by name)
+- File: r (to read contents)
+
+To modify a file:
+- Directory: x
+- File: w
+
+To delete a file:
+- Directory: w + x
+- File permissions do not matter for deletion.
+
+To list filenames:
+- Directory: r
+- To `ls -l` (show metadata), you also need x.
 
 ### **Advanced Permissions in Linux**
 
