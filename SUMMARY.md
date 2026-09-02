@@ -19,9 +19,7 @@
 ## Unix <a href="#linux-1" id="linux-1"></a>
 
 * [Unix Fundamentals](linux-1/unix-fundamentals.md)
-* [Hardening & Setup](linux-1/linux-hardening/README.md)
-  * [TMUX/Screen Cheatsheet](linux-1/linux-hardening/tmux-screen-cheatsheet.md)
-* [Unix Resources](linux-1/linux-resources.md)
+* [Bash/Python Scripting](os-agnostic/scripting/script-language-comparison.md)
 * [Red Team Notes](linux-1/linux-redteam/README.md)
   * [Enumeration](linux-1/linux-redteam/enumeration.md)
   * [Getting Access](linux-1/linux-redteam/getting-access.md)
@@ -29,7 +27,11 @@
   * [Pivoting/Lateral Movement](linux-1/linux-redteam/pivoting-lateral-movement.md)
   * [Data Exfiltration](linux-1/linux-redteam/exfiltration.md)
   * [Persistence](linux-1/linux-redteam/persistance.md)
-* [Vim](linux-1/vim.md)
+* [Unix Security Tools](linux-1/linux-hardening/README.md)
+* [Malware Triage](linux-1/linux-hardening/linux-triage.md)
+* [Vim/Tmux](linux-1/tools-and-setup/README.md)
+  * [TMUX/Screen Cheatsheet](linux-1/tools-and-setup/tmux-screen-cheatsheet.md)
+  * [Vim](linux-1/tools-and-setup/vim.md)
 
 ## Windows <a href="#windows-1" id="windows-1"></a>
 

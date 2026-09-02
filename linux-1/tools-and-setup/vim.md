@@ -17,9 +17,9 @@ Not much here yet...please feel free to contribute at [my GitHub page](https://g
 lulz
 {% endembed %}
 
-First, the most important thing to learn about vim...how to get out of it:
+First off, the most important thing to learn about vim...is how to get out of it:
 
-Exiting vi, vim, and similar editors is actually quite simple. Press `[ESC]` and type `:q`— if that does not work try adding a bang (`!`) to it, that should work nearly every time. _Understanding why it might not... well, that’s a whole different story._  
+Exiting vi, vim, and similar editors is actually quite simple. Press `[ESC]` and type `:q`. If that does not work try adding a bang (`!`) to it, that should work nearly every time. _Understanding why it might not... well, that’s a whole different story._  
 
 If you need to save any changes you made to a file use `[esc] :w` or `[esc] :wq` to save changes and exit.
 

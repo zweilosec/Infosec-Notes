@@ -1,9 +1,8 @@
-# UNIX Resources
+# Malware Triage 
 
-## Malware Triage 
+Below is a **Unix/Linux triage resource table** followed by a **triage flowchart** tailored for **Debian/Ubuntu**, **CentOS/Red Hat**, and **Solaris**.  
 
-Below is a **Unix/Linux triage resource table** (lookup‑only, no tools that require execution) followed by a **cross‑platform triage flowchart** tailored for **Debian/Ubuntu**, **CentOS/Red Hat**, and **Solaris**.  
-Everything is structured for malware triage where you **cannot run commands on the target system** and must rely on external references.
+## Useful resources
 
 | **Resource** | **Distros** | **Useful For** | **Why It’s Useful** |
 | --- | --- | --- | --- |
@@ -25,14 +24,13 @@ Everything is structured for malware triage where you **cannot run commands on t
 | [Linux Standard Base (LSB)](https://refspecs.linuxfoundation.org/lsb.shtml) | All | Expected system binaries | Defines standard system paths and binaries across distros. |
 | [Filesystem Hierarchy Standard (FHS)](https://refspecs.linuxfoundation.org/fhs.shtml) | All | Expected file locations | Helps determine whether a binary is in a suspicious path. |
 
+## Unix/Linux Malware Triage Flowchart
 
-
-
-### **Unix/Linux Malware Triage Flowchart (Lookup‑Only)**
+Below is a high-level overview of the steps to take when triaging unknown software found on a Unix system.
 
 ---
 
-## **1. Identify the Item**
+### **1. Identify the Item**
 What are you triaging?
 
 - A **process name**  
@@ -49,16 +47,16 @@ Collect:
 
 ---
 
-## **2. Check if it’s a Default System Component**
-### **Debian/Ubuntu**
+### **2. Check if it’s a Default System Component**
+#### **Debian/Ubuntu**
 - **Debian Package Tracker**  
 - **Ubuntu Packages**  
 
-### **CentOS/Red Hat**
+#### **CentOS/Red Hat**
 - **Red Hat Package Browser**  
 - **RPMFind**  
 
-### **Solaris**
+#### **Solaris**
 - **Solaris Man Pages**  
 - **Solaris Package Index**  
 
@@ -71,7 +69,7 @@ If it’s **not** part of any package → suspicious. (see persistence hunt func
 
 ---
 
-## **3. Check Reputation & Prevalence**
+### **3. Check Reputation & Prevalence**
 Use external reputation databases:
 
 - **VirusTotal**  
@@ -87,7 +85,7 @@ Look for:
 
 ---
 
-## **4. Check Community Knowledge**
+### **4. Check Community Knowledge**
 If still unknown:
 
 - **Unix StackExchange**  
@@ -103,7 +101,7 @@ If nobody recognizes it → suspicious.
 
 ---
 
-## **5. Check for Abuse Potential**
+### **5. Check for Abuse Potential**
 Use exploitation catalogs:
 
 - **GTFOBins**  
@@ -120,7 +118,7 @@ Examples:
 
 ---
 
-## **6. Check for Abnormal Behavior Patterns**
+### **6. Check for Abnormal Behavior Patterns**
 Use behavior references:
 
 - **MITRE ATT&CK Linux**  
@@ -134,20 +132,20 @@ Look for:
 
 ---
 
-## **7. Final Decision**
-### **Legitimate**
+### **7. Final Decision**
+#### **Legitimate**
 - Part of a known package  
 - Expected path  
 - Expected permissions  
 - Normal behavior  
 
-### **Suspicious**
+#### **Suspicious**
 - Not part of any package  
 - Wrong path (e.g., `/usr/local/bin/ssh`)  
 - Cron jobs pointing to temp directories  
 - Unusual interpreters (e.g., Perl on a system that doesn’t use it)  
 
-### **Malicious**
+#### **Malicious**
 - Known malware hash  
 - Reverse shell behavior  
 - Persistence via cron/systemd  
@@ -158,21 +156,37 @@ Look for:
 
 ## Unix suspicious process/service hunt commands
 
-Unix malware triage pivot commands. Use when you have found a process/service that is suspicious
+Unix malware triage pivot commands. Use when you have already found a process/service/file that is suspicious
 
 ```bash
+# Check the current status of a systemd service. Useful to see if a service is active, failed, or loaded
 systemctl status <service-name> 2>/dev/null
+
+# List the services that depend on the given service. 
 systemctl list-dependencies --reverse <service-name> 2>/dev/null
+
+# Show detailed unit file information for a service. This helps determine how and when the service is intended to start.
 systemctl show <service-name> 2>/dev/null | grep -E 'WantedBy|RequiredBy|FragmentPath|UnitFileState'
+
+# Find symbolic links pointing to a specific service unit file within systemd directories.
+# Useful to trace back from a known endpoint (the link) to its source configuration file.
 find /etc/systemd/system -type l -lname '<service>' -ls 2>/dev/null
+
+# Recursively search for a name across all systemd unit directories.
+# This is a broad sweep to ensure the malware or its indicators aren't hidden in unusual unit files.
 grep -Rni "<name>" /etc/systemd/system /lib/systemd/system /usr/lib/systemd 2>/dev/null
+
+# Recursively search for a name across common traditional init/startup scripts.
+# This checks for persistence mechanisms in older or complementary startup environments (e.g., /etc/init.d).
 grep -Rni "<name>" /etc/init.d /etc/rc.d /etc/init/.conf /etc/xinetd.d 2>/dev/null
+
+# Recursively search for a name across common cron job locations. Useful for finding scheduled task persistence.
 grep -Rni "<name>" /etc/crontab /etc/cron.d /etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly /etc/anacrontab 2>/dev/null
+
+# Recursively search for a name in user profile configuration files.
+# This checks for persistence via shell profiles (e.g., .bashrc, .profile) or global environment settings.
 grep -Rni "<name>" /etc/profile /etc/profile.d /root /home 2>/dev/null
 ```
-
-TODO: add descriptions for each command
-
 
 ## Unix persistence hunting function
 
