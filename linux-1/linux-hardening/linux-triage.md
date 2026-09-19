@@ -190,7 +190,7 @@ grep -Rni "<name>" /etc/profile /etc/profile.d /root /home 2>/dev/null
 
 ## Unix persistence hunting function
 
-This function is a Linux persistence‑hunting script. Paste this function into your shell, and voila! Many of the common peristence locations will be searched for anything that is not an installed package for the system you are on. 
+This function is a Linux persistence‑hunting script. Paste this function into your (`bash`) shell, and voila! Many of the common peristence locations will be searched for anything that is not an installed package for the system you are on. 
 
 It scans common persistence locations (cron, systemd, shell profiles, at‑jobs, etc.), extracts every referenced file path, and reports any executable or Python file not belonging to an installed package, which is a potential indicator of malicious persistence.
 
@@ -203,7 +203,7 @@ persistenum() { PKG_MGR_CMD='';hash yum &>/dev/null && PKG_MGR_CMD='rpm -qf';has
 Below is an updated version that changes up the script search to include any scripts, not just python.  These have both seen limited testing, so please let me know your results and if tweaks need to be made to make them better!
 
 ```bash
-persistenum(){PKG_MGR_CMD='';hash yum &>/dev/null&&PKG_MGR_CMD='rpm -qf';hash dpkg &>/dev/null&&PKG_MGR_CMD='dpkg -S';test -z "$PKG_MGR_CMD"&&echo "[*] Could not find package manager to use for verification"&&return 1;shopt -s nullglob;for match in $(egrep -o '(/\w+.).+\b' /etc/crontab /etc/anacrontab /etc/cron.*/* /var/spool/cron/crontab/* /var/spool/anacron/* /var/spool/at/spool/* /home/*/{.profile,.bashrc,.bash_profile,.bash_login} /root/{.profile,.bashrc,.bash_profile,.bash_login} /usr/lib/systemd/scripts/* /usr/lib/systemd/system/* /etc/init.d/* 2>/dev/null);do location=$(echo "$match"|cut -f1 -d:);fname=$(echo "$match"|cut -f2- -d:);test -f "$fname"||continue;test -h "$fname"&&continue;readelf -h "$fname" &>/dev/null&&($PKG_MGR_CMD "$fname" &>/dev/null||printf "%s:\t%s\n" "$location" "$fname")&&continue;if echo "$(file -bi "$fname")"|grep -qi script||head -n1 "$fname"|grep -Eq '^#!';then $PKG_MGR_CMD "$fname" &>/dev/null||printf "%s:\t%s\n" "$location" "$fname";fi;done;};persistenum
+persistenum() { PKG_MGR_CMD='';hash yum &>/dev/null&&PKG_MGR_CMD='rpm -qf';hash dpkg &>/dev/null&&PKG_MGR_CMD='dpkg -S';test -z "$PKG_MGR_CMD"&&echo "[*] Could not find package manager to use for verification"&&return 1;shopt -s nullglob;for match in $(egrep -o '(/\w+.).+\b' /etc/crontab /etc/anacrontab /etc/cron.*/* /var/spool/cron/crontab/* /var/spool/anacron/* /var/spool/at/spool/* /home/*/{.profile,.bashrc,.bash_profile,.bash_login} /root/{.profile,.bashrc,.bash_profile,.bash_login} /usr/lib/systemd/scripts/* /usr/lib/systemd/system/* /etc/init.d/* 2>/dev/null);do location=$(echo "$match"|cut -f1 -d:);fname=$(echo "$match"|cut -f2- -d:);test -f "$fname"||continue;test -h "$fname"&&continue;readelf -h "$fname" &>/dev/null&&($PKG_MGR_CMD "$fname" &>/dev/null||printf "%s:\t%s\n" "$location" "$fname")&&continue;if echo "$(file -bi "$fname")"|grep -qi script||head -n1 "$fname"|grep -Eq '^#!';then $PKG_MGR_CMD "$fname" &>/dev/null||printf "%s:\t%s\n" "$location" "$fname";fi;done; };persistenum
 ```
 
 -----
