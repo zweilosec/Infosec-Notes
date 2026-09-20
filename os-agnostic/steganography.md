@@ -24,6 +24,7 @@ TODO: clean up steganography CTF checklist \(issue [\#17](https://github.com/zwe
   2. Alternatively, you can view strings on [this site](https://georgeom.net/StegOnline/upload) once an image has been uploaded.
 * Exif
   1. Check all image metadata. I would recommend [Jeffrey's Image Metadata Viewer](http://exif.regex.info/exif.cgi) for in-depth analysis. `Exiftool` is another common one.
+  2. For a browser-local second look at EXIF/IPTC/XMP fields, use [Metadata Remover Viewer](https://metadataremover.ai/metadata-viewer); corroborate important findings with another parser or source.
 * Binwalk
   1. Next you can use `binwalk` to check images for hidden embedded files.
   2. My preferred syntax is `binwalk -Me <filename>`. `-Me` is used to recursively extract any files.
