@@ -155,6 +155,11 @@ TODO: is this enumeration, access, or privesc?
 * [https://github.com/byt3bl33d3r/CrackMapExec/](https://github.com/byt3bl33d3r/CrackMapExec/)
 * [https://mpgn.gitbook.io/crackmapexec/](https://mpgn.gitbook.io/crackmapexec/)
 
+CrackMapExec is no longer maintained. Its successor is NetExec (`nxc`), which keeps the same syntax (`nxc smb $target -u $user -p $password`):
+
+* [https://github.com/Pennyw0rth/NetExec](https://github.com/Pennyw0rth/NetExec)
+* [https://en.hackita.it/articoli/netexec/](https://en.hackita.it/articoli/netexec/)
+
 To use against a specific protocol run `cme $protocol $options`
 
 ```
