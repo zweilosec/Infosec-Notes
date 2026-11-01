@@ -12,6 +12,8 @@ Always ensure you have **explicit** permission to access any computer system **b
 
 living off the land binaries: [LOLBAS](https://lolbas-project.github.io/)
 
+LOLBins guide (execution, download and bypass with native Windows binaries): [https://en.hackita.it/articoli/lolbins/](https://en.hackita.it/articoli/lolbins/)
+
 ## Enumeration
 
 Windows Privilege Escalation Enumeration Script: [WinPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
